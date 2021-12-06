@@ -2,7 +2,7 @@
 
 - `금액 충전` 및 `상품 구매`, `잔돈 반환`을 하기 위한 메뉴 id는 `product-purchase-menu`이다.
 - 자판기에 `잔돈 충전`을 위한 메뉴 id는 `vending-machine-manage-menu`이다.
-- 자판기에 `상품 추가`를 위한 메뉴 id는 `product-manage-menu`이다.
+- 자판기에 `상품 관리`를 위한 메뉴 id는 `product-manage-menu`이다.
 
 ## 상품 구매 및 금액 충전 메뉴
 
@@ -37,12 +37,12 @@
   - 50원: `vending-machine-coin-50-quantity`
   - 10원: `vending-machine-coin-10-quantity`
 
-## 상품 추가 메뉴
+## 상품 관리 메뉴
 
-- 상품 추가 입력 폼의 상품명 입력 요소의 id는 `product-name-input`이다.
-- 상품 추가 입력 폼의 상품 가격 입력 요소의 id는 `product-price-input`이다.
-- 상품 추가 입력 폼의 수량 입력 요소의 id는 `product-quantity-input`이다.
-- 상품 추가를 위한 추가 버튼 요소의 id는 `product-add-button`이다.
-- 추가한 상품 목록의 이름에 해당하는 요소의 class명은 `product-manage-name`이다.
-- 추가한 상품 목록의 가격에 해당하는 요소의 class명은 `product-manage-price`이다.
-- 추가한 상품 목록의 수량에 해당하는 요소의 class명은 `product-manage-quantity`이다.
+- 상품 관리 입력 폼의 상품명 입력 요소의 id는 `product-name-input`이다.
+- 상품 관리 입력 폼의 상품 가격 입력 요소의 id는 `product-price-input`이다.
+- 상품 관리 입력 폼의 수량 입력 요소의 id는 `product-quantity-input`이다.
+- 상품 관리를 위한 관리 버튼 요소의 id는 `product-add-button`이다.
+- 관리한 상품 목록의 이름에 해당하는 요소의 class명은 `product-manage-name`이다.
+- 관리한 상품 목록의 가격에 해당하는 요소의 class명은 `product-manage-price`이다.
+- 관리한 상품 목록의 수량에 해당하는 요소의 class명은 `product-manage-quantity`이다.
