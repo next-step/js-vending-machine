@@ -41,7 +41,7 @@
   - 상품의 이름, 가격, 수량 순으로 상품 목록이 보여진다. (이미지 첨부)
 - 상품 목록은 탭을 이동하여도 기존의 상품 목록이 유지되어야 한다.
 
-![상품추가](https://user-images.githubusercontent.com/42544600/132991085-e0f65993-73b6-4f1c-8fa9-65cdd9f61914.gif)
+![상품추가](https://nextstep-storage.s3.ap-northeast-2.amazonaws.com/89574309abd2470c9d3d91f6e6666f0d)
 
 ### **잔돈 충전** (자판기 보유 동전)
 
@@ -59,7 +59,7 @@
   - 예) 1개 (o) / 1 개 (x) / 1 (x)
 - 다른 탭을 클릭하여도 자판기가 보유한 금액은 유지되어야 한다.
 
-![잔돈충전](https://user-images.githubusercontent.com/42544600/132991088-00be61d2-a5ed-4f96-b372-5cffdb7a1e3e.gif)
+![잔돈충전](https://nextstep-storage.s3.ap-northeast-2.amazonaws.com/6dbde20df59b4467b7a6843505ece3b4)
 
 ### **상품 구매**
 
@@ -79,7 +79,7 @@
 - 사용자는 `반환하기` 버튼을 통해 잔돈을 반환 받을 수 있다.
   - 잔돈 반환 규칙은 `잔돈 계산 모듈` 요구사항의 규칙을 따른다.
 
-![상품구매-구매](https://user-images.githubusercontent.com/42544600/132991094-0bd51f9e-9883-43af-b9cd-3e9bb2e30ddd.gif)
+![상품구매-구매](https://nextstep-storage.s3.ap-northeast-2.amazonaws.com/1818db7098814c48acf18e1e37fd067a)
 
 ### **상품 구매 / 잔돈 계산 모듈**
 
@@ -96,5 +96,3 @@
 - 반환한 동전만큼 사용자가 충전한 금액이 차감된다.
 - 반환한 동전만큼 자판기가 보유하고 있는 동전도 차감된다.
 - 반환한 동전의 결과는 누적되지 않는다.
-
-![상품구매-반환](https://user-images.githubusercontent.com/42544600/132991108-4f1f69e5-de06-45c8-8caa-2e58353a64b3.gif)
