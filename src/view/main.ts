@@ -4,7 +4,7 @@ import { State, StateKey, Route } from '../types.js'
 
 type WatchState = Pick<State, StateKey.route>
 
-export default class App extends View {
+export default class Main extends View {
   static #template = /* html */ `
     <fragment>
       <h1>🥤 자판기 미션</h1>
@@ -29,7 +29,7 @@ export default class App extends View {
 
   constructor() {
     super()
-    const $content = el(App.#template)
+    const $content = el(Main.#template)
     this.$gnb = $content.querySelector('#gnb') as HTMLTableElement
     this.$page = $content.querySelector('#page') as HTMLDivElement
     this.$buttons = Array.from(this.$gnb.querySelectorAll('button'))
@@ -41,7 +41,7 @@ export default class App extends View {
   watch = ({ route }: State): WatchState => ({ route })
 
   onStoreUpdated({ route }: WatchState) {
-    el(this.$page, [App.#components[route]])
+    el(this.$page, [Main.#components[route]])
     this.$buttons.forEach($btn => {
       $btn.classList.toggle('current', $btn.dataset.routeTarget === route)
     })
@@ -54,4 +54,4 @@ export default class App extends View {
   }
 }
 
-customElements.define('vending-machine-app', App)
+customElements.define('vending-machine-app', Main)

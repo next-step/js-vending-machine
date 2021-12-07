@@ -1,6 +1,5 @@
 import { AnyObj, DispatchEvent, Worker, State, PartialState, StateKey } from '../types.js'
 import ViewStore from './viewStore.js'
-import Container from '../container.js'
 import storage from './storage.js'
 import { Actions } from './actions.js'
 
@@ -9,7 +8,7 @@ export default class Store {
   #state: State
   #worker: Worker
 
-  constructor(container: Container, worker: Worker) {
+  constructor(container: HTMLElement, worker: Worker) {
     this.#worker = worker
     container.addEventListener('dispatch', ({ detail: { actionType, data } }: DispatchEvent) => {
       this.dispatch(actionType, data)
@@ -57,7 +56,7 @@ export default class Store {
 
 export const connectStore = (() => {
   let closureStore: Store
-  return (elem?: Container, worker?: Worker) => {
+  return (elem?: HTMLElement, worker?: Worker) => {
     if (!closureStore) {
       if (!elem || !worker) throw Error('unable to initialize store')
       closureStore = new Store(elem, worker)
