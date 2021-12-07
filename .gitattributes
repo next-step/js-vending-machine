@@ -1,0 +1,3 @@
+dist/**/* linguist-generated=true
+cypress/fixtures/**/* linguist-generated=true
+cypress/plugins/**/* linguist-generated=true
