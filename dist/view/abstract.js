@@ -1,7 +1,7 @@
 import ViewStore from '../store/viewStore.js';
 import el from '../util/dom.js';
 import errorHandler from '../util/errorHandler.js';
-const eventErrorCatcher = (handler) => (e) => {
+const eventHandlerWithValidation = (handler) => (e) => {
     try {
         handler(e);
     }
@@ -16,7 +16,7 @@ export default class View extends HTMLElement {
     on(eventType, handler) {
         let cb = this.events.get(handler);
         if (!cb) {
-            cb = eventErrorCatcher(handler);
+            cb = eventHandlerWithValidation(handler);
             this.events.set(handler, cb);
         }
         this.addEventListener(eventType, cb);
@@ -55,4 +55,4 @@ export default class View extends HTMLElement {
         }
     }
 }
-//# sourceMappingURL=view.js.map
+//# sourceMappingURL=abstract.js.map

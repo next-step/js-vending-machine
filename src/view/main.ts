@@ -1,6 +1,6 @@
-import View from '../core/view.js'
+import View from './abstract.js'
 import el from '../util/dom.js'
-import { State, StateKey, Route } from '../types.js'
+import { State, StateKey, Route } from '../constants.js'
 
 type WatchState = Pick<State, StateKey.route>
 

@@ -1,4 +1,4 @@
-import { Elem, InventoryItem } from '../../types.js'
+import { Elem, InventoryItem } from '../../constants.js'
 import el from '../../util/dom.js'
 
 export default class InventoryItems {

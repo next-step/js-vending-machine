@@ -1,9 +1,9 @@
-import { AnyObj, Elem, State } from '../types.js'
+import { AnyObj, Elem, State } from '../constants.js'
 import ViewStore from '../store/viewStore.js'
 import el from '../util/dom.js'
 import errorHandler from '../util/errorHandler.js'
 
-const eventErrorCatcher = (handler: any) => (e: CustomEvent) => {
+const eventHandlerWithValidation = (handler: any) => (e: CustomEvent) => {
   try {
     handler(e)
   } catch (err) {
@@ -20,7 +20,7 @@ export default abstract class View extends HTMLElement {
   on(eventType: string, handler: (e: CustomEvent) => any) {
     let cb = this.events.get(handler)
     if (!cb) {
-      cb = eventErrorCatcher(handler)
+      cb = eventHandlerWithValidation(handler)
       this.events.set(handler, cb)
     }
     this.addEventListener(eventType, cb)

@@ -1,7 +1,7 @@
-import View from '../../core/view.js'
+import View from '../abstract.js'
 import { Actions } from '../../store/actions.js'
 import el from '../../util/dom.js'
-import { State, StateKey } from '../../types.js'
+import { State, StateKey } from '../../constants.js'
 import InventoryItems from './inventoryItems.js'
 
 type WatchState = Pick<State, StateKey.inventory>

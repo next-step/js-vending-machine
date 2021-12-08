@@ -3,7 +3,7 @@ import errorHandler from '../util/errorHandler.js';
 import localStorageReducer from './localStorageReducer.js';
 import { Actions } from './actions.js';
 import { chargeCalculator } from '../service/coinCalculator.js';
-const worker = {
+const actionWorker = {
     [Actions.init]: store => {
         const storedState = (localStorageReducer.getAll() || {});
         store.setValue({ ...InitialState, ...storedState }, false);
@@ -12,7 +12,7 @@ const worker = {
         store.setValue({ route });
     },
     [Actions.inventory_addProduct]: (store, newProduct) => {
-        if (!validationChecker[Actions.inventory_addProduct](newProduct))
+        if (!validator[Actions.inventory_addProduct](newProduct))
             return;
         const inventoryMap = new Map((store.get(StateKey.inventory) || []).map(inventory => [inventory.name, inventory]));
         inventoryMap.set(newProduct.name, newProduct);
@@ -28,9 +28,9 @@ const worker = {
         store.setValue({ saving });
     },
 };
-const validationChecker = {
+const validator = {
     [Actions.inventory_addProduct]: ({ name, amount, price }) => {
-        let errorMsg;
+        let errorMsg = null;
         if (name.match(/\s/))
             errorMsg = ErrorMsgs.inventory_spaceBetween;
         if (price < 100)
@@ -39,23 +39,23 @@ const validationChecker = {
             errorMsg = ErrorMsgs.inventory_PriceLimit;
         if (amount <= 0)
             errorMsg = ErrorMsgs.inventory_AmountMinimum;
-        if (!errorMsg)
-            return true;
-        throw Error(errorMsg);
+        if (errorMsg)
+            throw Error(errorMsg);
+        return true;
     },
 };
-const workerWithErrorCatcher = (dispatcher, actionType) => (store, data) => {
+const actionWorkerWithValidation = (dispatcher, actionType) => (store, data) => {
     try {
         dispatcher(store, data);
     }
     catch (err) {
-        errorHandler(`worker@${actionType}`, err);
+        errorHandler(`actionWorker@${actionType}`, err);
     }
 };
 export default (actionType) => {
-    const workerItem = worker[actionType];
+    const workerItem = actionWorker[actionType];
     if (!workerItem)
         return () => { };
-    return workerWithErrorCatcher(workerItem, actionType);
+    return actionWorkerWithValidation(workerItem, actionType);
 };
-//# sourceMappingURL=worker.js.map
+//# sourceMappingURL=actionWorker.js.map

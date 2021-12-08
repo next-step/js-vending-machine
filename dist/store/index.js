@@ -1,4 +1,6 @@
-import storage from './storage.js';
+import { ErrorMsgs } from '../constants.js';
+import localStorageReducer from './localStorageReducer.js';
+import errorHandler from '../util/errorHandler.js';
 export default class Store {
     #subscribers = new Set();
     #state;
@@ -33,7 +35,7 @@ export default class Store {
             this.#state = { ...this.#state, ...state };
             if (needUpdate) {
                 const newStorage = Object.entries(state);
-                newStorage.forEach(([k, v]) => storage.set(k, v));
+                newStorage.forEach(([k, v]) => localStorageReducer.set(k, v));
             }
             this.publish();
         });
@@ -45,10 +47,15 @@ export default class Store {
 export const connectStore = (() => {
     let closureStore;
     return (elem, worker) => {
-        if (!closureStore) {
-            if (!elem || !worker)
-                throw Error('unable to initialize store');
-            closureStore = new Store(elem, worker);
+        try {
+            if (!closureStore) {
+                if (!elem || !worker)
+                    throw Error(ErrorMsgs.store_initError);
+                closureStore = new Store(elem, worker);
+            }
+        }
+        catch (err) {
+            errorHandler('store', err);
         }
         return closureStore;
     };

@@ -1,4 +1,4 @@
-import View from '../../core/view.js'
+import View from '../abstract.js'
 
 export default class ChargeCoins extends View {
   static #template = /* html */ `

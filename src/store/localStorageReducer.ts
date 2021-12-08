@@ -1,7 +1,7 @@
-import LocalStorageService from '../core/localStorageService.js'
-import { PartialState, StateKey, StateKeys } from '../types.js'
+import LocalStorageService from '../service/localStorage.js'
+import { PartialState, StateKey, StateKeys } from '../constants.js'
 
-class Storage {
+class LocalStorageReducer {
   #list: Map<StateKey, LocalStorageService<JSON>>
   constructor(keys: StateKey[]) {
     this.#list = new Map(keys.map(key => [key, new LocalStorageService(key)]))
@@ -28,5 +28,4 @@ class Storage {
   }
 }
 
-export default new Storage(StateKeys)
-// export default new LocalStorageService('vm-state')
+export default new LocalStorageReducer(StateKeys)

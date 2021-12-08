@@ -1,6 +1,6 @@
-import View from '../core/view.js';
+import View from './abstract.js';
 import el from '../util/dom.js';
-import { Route } from '../types.js';
+import { Route } from '../constants.js';
 export default class Main extends View {
     static #template = /* html */ `
     <fragment>

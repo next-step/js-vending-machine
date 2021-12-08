@@ -1,6 +1,6 @@
-import { PartialState, State } from '../types.js'
+import { PartialState, State } from '../constants.js'
 import { connectStore } from './index.js'
-import View from '../core/view.js'
+import View from '../view/abstract.js'
 
 export default class ViewStore {
   #prevState: PartialState = {}

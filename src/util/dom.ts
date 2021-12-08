@@ -1,4 +1,4 @@
-import { Elem } from '../types.js'
+import { Elem } from '../constants.js'
 
 const template = document.createElement('template')
 

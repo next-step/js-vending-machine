@@ -24,4 +24,4 @@ export default class LocalStorageService {
         return JSON.stringify(data);
     }
 }
-//# sourceMappingURL=localStorageService.js.map
+//# sourceMappingURL=localStorage.js.map
