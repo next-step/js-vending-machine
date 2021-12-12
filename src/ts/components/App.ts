@@ -1,17 +1,34 @@
+import { Id } from "../common/constants";
 import Component from "../core/Component";
+import { $, id2Query } from "../core/dom";
+import Tap from "./Tap";
 
 export default class App extends Component {
+  private tapComp?: Tap;
+
   constructor($target: HTMLElement) {
     super($target);
   }
 
-  componentDidMount() {}
+  componentDidMount() {
+    this.tapComp = new Tap($(id2Query(Id.tapComp)), {
+      showProductManageTab: () => {
+        console.log("showProductManageTab");
+      },
+      showVendingMachineManageTab: () => {
+        console.log("showVendingMachineManageTab");
+      },
+      showPurchaseTab: () => {
+        console.log("showPurchaseTab");
+      },
+    });
+  }
 
   protected htmlTemplate(): string {
     return /*html*/ `
-      <button id="product-manage-menu">상품 관리</button>
-      <button id="vending-machine-manage-menu">잔돈충전</button>
-      <button id="product-purchase-menu">상품 구매</button>
+      <h1>🥤자판기🥤</h1>
+      <div id="${Id.tapComp}"></div>
+      <div id="${Id.productManageComp}"></div>
     `;
   }
 }
