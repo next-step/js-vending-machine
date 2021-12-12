@@ -5,9 +5,6 @@ const path = require('path')
 module.exports = {
   devServer: {
     open: true,
-    static: {
-      directory: path.join(__dirname, 'public'),
-    },
     compress: true,
     port: 3000,
   },

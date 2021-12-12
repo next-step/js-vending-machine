@@ -3,3 +3,7 @@ function sayHi() {
 }
 
 sayHi()
+
+if (module.hot) {
+  module.hot.accept()
+}
