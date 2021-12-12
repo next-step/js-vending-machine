@@ -7,8 +7,25 @@ export const Id = Object.freeze({
   current_tab: "current_tab",
   tapComp: "tap-component",
   productManageComp: "product-manage-component",
+  productNameInput: "product-name-input",
+  productPriceInput: "product-price-input",
+  productQuantityInput: "product-quantity-input",
+  productAddBtn: "product-add-button",
 });
 
-export const ClassName = Object.freeze({});
+export const ClassName = Object.freeze({
+  displayNone: "d-none",
+  table: "table",
+  tableCell: "table-cell",
+  productManageForm: "product-manage-form",
+  productManageItem: "product-manage-item",
+  productManageName: "product-manage-name",
+  productManagePrice: "product-manage-price",
+  productManageQuantity: "product-manage-quantity",
+});
+
+export const ActionType = Object.freeze({
+  addProduct: "ADD_PRODUCT",
+});
 
 export const AlertMsg = Object.freeze({});

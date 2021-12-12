@@ -1,10 +1,12 @@
 import { Id } from "../common/constants";
 import Component from "../core/Component";
 import { $, id2Query } from "../core/dom";
+import ProductManage from "./ProductManage";
 import Tap from "./Tap";
 
 export default class App extends Component {
   private tapComp?: Tap;
+  private productManageComp?: ProductManage;
 
   constructor($target: HTMLElement) {
     super($target);
@@ -22,6 +24,10 @@ export default class App extends Component {
         console.log("showPurchaseTab");
       },
     });
+
+    this.productManageComp = new ProductManage(
+      $(id2Query(Id.productManageComp))
+    );
   }
 
   protected htmlTemplate(): string {

@@ -25,7 +25,7 @@ export default abstract class Component<P = {}, S = {}> {
     this.render();
   }
 
-  private render(): void {
+  protected render(): void {
     this.$target.innerHTML = this.htmlTemplate();
     if (this.isMounted) {
       this.componentDidUpdate();
