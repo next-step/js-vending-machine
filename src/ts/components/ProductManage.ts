@@ -18,7 +18,14 @@ export default class ProductManage extends Component {
   protected componentDidMount(): void {
     globalStore.subscribe(this.render, this);
 
-    const onChange = (e: Event) => {
+    const onChange = () => {
+      const $nameInput = $(
+        id2Query(Id.productNameInput),
+        this.$target
+      ) as HTMLInputElement;
+
+      $nameInput.value = $nameInput.value.trim();
+
       const $priceInput = $(
         id2Query(Id.productPriceInput),
         this.$target
@@ -47,7 +54,7 @@ export default class ProductManage extends Component {
       ) as HTMLInputElement;
 
       const product: IProduct = {
-        name: $nameInput.value,
+        name: $nameInput.value.trim(),
         price: +$priceInput.value,
         quantity: +$quantityInput.value,
       };
