@@ -14,7 +14,7 @@ const chargeCalculator = (source) => {
         return remains;
     }, source);
     if (finalRemains > 0)
-        throw Error(ErrorMsgs.charge_calculateError);
+        throw Error(ErrorMsgs.machine_CalculateError);
     return res;
 };
 export { chargeCalculator };

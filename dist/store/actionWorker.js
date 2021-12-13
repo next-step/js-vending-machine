@@ -1,4 +1,4 @@
-import { InitialState, CoinKeys, ErrorMsgs, } from '../constants.js';
+import { InitialState, CoinKeys, ErrorMsgs, ErrorBoundaries, } from '../constants.js';
 import errorHandler from '../util/errorHandler.js';
 import localStorageReducer from './localStorageReducer.js';
 import { chargeCalculator } from '../service/coinCalculator.js';
@@ -27,6 +27,8 @@ const actionWorker = {
         store.setValue({ inventory });
     },
     ["machine_saveCoins" /* machine_saveCoins */]: (store, data) => {
+        if (!validator["machine_saveCoins" /* machine_saveCoins */](data.money))
+            return;
         const coins = saveCoinsToMachine(store, data);
         store.setValue({ coins });
     },
@@ -50,13 +52,23 @@ const validator = {
     ["inventory_setProduct" /* inventory_setProduct */]: ({ name, amount, price }) => {
         let errorMsg = null;
         if (name.match(/\s/))
-            errorMsg = ErrorMsgs.inventory_spaceBetween;
-        if (price < 100)
+            errorMsg = ErrorMsgs.inventory_SpaceBetween;
+        if (price < ErrorBoundaries.inventory_PriceMinimum)
             errorMsg = ErrorMsgs.inventory_PriceMinimum;
-        if (price % 10 > 0)
+        if (price % ErrorBoundaries.inventory_PriceLimit > 0)
             errorMsg = ErrorMsgs.inventory_PriceLimit;
-        if (amount <= 0)
+        if (amount < ErrorBoundaries.inventory_AmountMinimum)
             errorMsg = ErrorMsgs.inventory_AmountMinimum;
+        if (errorMsg)
+            throw Error(errorMsg);
+        return true;
+    },
+    ["machine_saveCoins" /* machine_saveCoins */]: (money) => {
+        let errorMsg = null;
+        if (money < ErrorBoundaries.machine_PriceMinimum)
+            errorMsg = ErrorMsgs.machine_PriceMinimum;
+        if (money % ErrorBoundaries.machine_PriceLimit > 0)
+            errorMsg = ErrorMsgs.machine_PriceLimit;
         if (errorMsg)
             throw Error(errorMsg);
         return true;

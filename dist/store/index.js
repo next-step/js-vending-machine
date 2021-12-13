@@ -46,7 +46,7 @@ export const connectStore = (() => {
         try {
             if (!closureStore) {
                 if (!elem || !worker)
-                    throw Error(ErrorMsgs.store_initError);
+                    throw Error(ErrorMsgs.store_InitError);
                 closureStore = new Store(elem, worker);
             }
         }

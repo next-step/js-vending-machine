@@ -16,6 +16,9 @@ class LocalStorageReducer {
     get(key) {
         return this.#list.get(key);
     }
+    getValue(key) {
+        return this.get(key).get();
+    }
     set(key, val) {
         const item = this.get(key);
         item.set(val);
