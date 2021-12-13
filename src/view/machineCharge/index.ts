@@ -55,10 +55,10 @@ export default class MachineCharge extends View {
 
   onStoreUpdated({ saving }: WatchState) {
     this.$total.textContent = saving.total + ''
-    this.$q500.textContent = saving.q500 + ''
-    this.$q100.textContent = saving.q100 + ''
-    this.$q50.textContent = saving.q50 + ''
-    this.$q10.textContent = saving.q10 + ''
+    this.$q500.textContent = saving.q500 + '개'
+    this.$q100.textContent = saving.q100 + '개'
+    this.$q50.textContent = saving.q50 + '개'
+    this.$q10.textContent = saving.q10 + '개'
     this.$form.reset()
     this.$input.focus()
   }
