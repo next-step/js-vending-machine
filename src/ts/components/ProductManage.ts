@@ -1,4 +1,4 @@
-import { ActionType, ClassName, Id } from "../common/constants";
+import { ActionType, ClassName, Config, Id } from "../common/constants";
 import { IProduct, globalStore } from "../common/globalStore";
 import Component from "../core/Component";
 import { $, class2Query, id2Query } from "../core/dom";
@@ -11,8 +11,23 @@ export default class ProductManage extends Component {
     this.$target.classList.add(class2Query(ClassName.displayNone));
   }
 
+  private isNeededToStepDown(price: number): boolean {
+    return price % Config.PriceStep !== 0;
+  }
+
   protected componentDidMount(): void {
     globalStore.subscribe(this.render, this);
+
+    const onChange = (e: Event) => {
+      const $priceInput = $(
+        id2Query(Id.productPriceInput),
+        this.$target
+      ) as HTMLInputElement;
+
+      if (this.isNeededToStepDown(+$priceInput.value)) {
+        $priceInput.stepDown();
+      }
+    };
 
     const onSubmit = (e: Event) => {
       e.preventDefault();
@@ -45,6 +60,7 @@ export default class ProductManage extends Component {
       $formTarget.reset();
     };
 
+    this.$target.addEventListener("change", onChange);
     this.$target.addEventListener("submit", onSubmit);
   }
 
@@ -66,7 +82,7 @@ export default class ProductManage extends Component {
 	<h2>상품 추가하기</h2>
 	<form class="${ClassName.productManageForm}">
 	  <input type="text" id="${Id.productNameInput}" maxlength="20" placeholder="상품명" required/>
-	  <input type="number" id="${Id.productPriceInput}" maxlength="20" placeholder="가격" min=100 required/>
+	  <input type="number" id="${Id.productPriceInput}" maxlength="20" placeholder="가격" min=${Config.MinPrice} step=${Config.PriceStep} required/>
 	  <input type="number" id="${Id.productQuantityInput}" maxlength="20" placeholder="수량" min=1 required/>
 	  <button id="${Id.productAddBtn}">추가하기</button>
 	</form>

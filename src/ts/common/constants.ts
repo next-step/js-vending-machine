@@ -24,6 +24,11 @@ export const ClassName = Object.freeze({
   productManageQuantity: "product-manage-quantity",
 });
 
+export const Config = Object.freeze({
+  MinPrice: 100,
+  PriceStep: 10,
+});
+
 export const ActionType = Object.freeze({
   addOrUpdateProduct: "ADD_OR_UPDATE_PRODUCT",
 });
