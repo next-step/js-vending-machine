@@ -1,5 +1,5 @@
 import { ActionType, ClassName, Id } from "../common/constants";
-import { IProduct, store } from "../common/store";
+import { IProduct, globalStore } from "../common/globalStore";
 import Component from "../core/Component";
 import { $, class2Query, id2Query } from "../core/dom";
 
@@ -12,7 +12,7 @@ export default class ProductManage extends Component {
   }
 
   protected componentDidMount(): void {
-    store.subscribe(this.render, this);
+    globalStore.subscribe(this.render, this);
 
     const onSubmit = (e: Event) => {
       e.preventDefault();
@@ -37,7 +37,10 @@ export default class ProductManage extends Component {
         quantity: +$quantityInput.value,
       };
 
-      store.dispatch({ type: ActionType.addProduct, payload: product });
+      globalStore.dispatch({
+        type: ActionType.addOrUpdateProduct,
+        payload: product,
+      });
 
       $formTarget.reset();
     };
@@ -46,15 +49,15 @@ export default class ProductManage extends Component {
   }
 
   protected htmlTemplate(): string {
-    const products = store.getState().products ?? [];
+    const products = globalStore.getState().products ?? [];
 
     const tableBodyHTML = products
       .map(
         ({ name, price, quantity }) => /*html*/ `
 	      <tr class="${ClassName.productManageItem}">
-		<td class="${ClassName.productManageName} ${ClassName.tableCell}">${name}</td>
-		<td class="${ClassName.productManagePrice} ${ClassName.tableCell}">${price}</td>
-		<td class="${ClassName.productManageQuantity} ${ClassName.tableCell}">${quantity}</td>
+          <td class="${ClassName.productManageName} ${ClassName.tableCell}">${name}</td>
+          <td class="${ClassName.productManagePrice} ${ClassName.tableCell}">${price}</td>
+          <td class="${ClassName.productManageQuantity} ${ClassName.tableCell}">${quantity}</td>
 	      </tr>`
       )
       .join("");

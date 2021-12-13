@@ -25,7 +25,7 @@ export const ClassName = Object.freeze({
 });
 
 export const ActionType = Object.freeze({
-  addProduct: "ADD_PRODUCT",
+  addOrUpdateProduct: "ADD_OR_UPDATE_PRODUCT",
 });
 
 export const AlertMsg = Object.freeze({});

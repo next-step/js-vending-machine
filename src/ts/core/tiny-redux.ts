@@ -1,8 +1,9 @@
 export function createStore<T = {}>(
   reducer: IReducer<T>,
+  initialState: T = {} as T,
   middlewareList: IMiddleware<T>[] = []
 ): IStore<T> {
-  let state: T;
+  let state: T = initialState;
   const listeners: IListener[] = [];
 
   const publish = () => {
