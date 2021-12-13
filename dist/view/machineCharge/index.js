@@ -23,6 +23,7 @@ export default class MachineCharge extends View {
       </table>
     </fragment>
   `;
+    watchState = ['coins'];
     $form;
     $input;
     $total;
@@ -43,9 +44,6 @@ export default class MachineCharge extends View {
         this.$form.addEventListener('submit', this.onSubmit);
         this.render($content);
     }
-    watch({ coins }) {
-        return { coins };
-    }
     onStoreUpdated({ coins }) {
         this.$total.textContent = coins.total + '';
         this.$q500.textContent = coins.q500 + '';
@@ -57,9 +55,7 @@ export default class MachineCharge extends View {
     }
     onSubmit = (e) => {
         e.preventDefault();
-        this.dispatch("machine_saveCoins" /* machine_saveCoins */, {
-            money: this.$input.valueAsNumber,
-        });
+        this.dispatch("machine_saveCoins" /* machine_saveCoins */, this.$input.valueAsNumber);
     };
 }
 customElements.define('machine-charge', MachineCharge);

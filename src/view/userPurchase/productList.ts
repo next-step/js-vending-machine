@@ -28,6 +28,8 @@ export default class ProductList extends View {
     </fragment>
   `
 
+  watchState = ['inventory'] as const
+
   $itemsContainer
   #itemList = new ProductItems()
 
@@ -37,10 +39,6 @@ export default class ProductList extends View {
     this.$itemsContainer = $content.querySelector('#product-items-container') as HTMLTableElement
     this.$itemsContainer.addEventListener('click', this.onPurchase)
     this.render($content)
-  }
-
-  watch({ inventory }: State) {
-    return { inventory }
   }
 
   onStoreUpdated({ inventory }: State) {
@@ -53,9 +51,7 @@ export default class ProductList extends View {
     const $target = e.target as HTMLElement
     if ($target.localName !== 'button') return
     const itemIndex = getIndex(getClosest($target, 'tr')!)
-    this.dispatch(Actions.purchase_buyItem, {
-      itemIndex,
-    })
+    this.dispatch(Actions.purchase_buyItem, itemIndex)
   }
 }
 

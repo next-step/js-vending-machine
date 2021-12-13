@@ -1,4 +1,6 @@
-import { CoinValues, ErrorMsgs } from '../constants.js';
+import { ErrorMsgs } from '../constants.js';
+const CoinKeys = ['total', 'q500', 'q100', 'q50', 'q10'];
+const CoinValues = Object.freeze([500, 100, 50, 10]);
 const singleCoinCalculator = (source, coin) => {
     const count = Math.floor(source / coin);
     const remains = source - count * coin;
@@ -17,5 +19,13 @@ const chargeCalculator = (source) => {
         throw Error(ErrorMsgs.machine_CalculateError);
     return res;
 };
-export { chargeCalculator };
+const saveCoinsCalculator = (store, money) => {
+    const coins = { ...store.get('coins') };
+    const res = chargeCalculator(money);
+    CoinKeys.forEach((key, i) => {
+        coins[key] += res[i];
+    });
+    return coins;
+};
+export { saveCoinsCalculator };
 //# sourceMappingURL=coinCalculator.js.map

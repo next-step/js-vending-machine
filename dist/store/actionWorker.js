@@ -1,43 +1,31 @@
-import { InitialState, CoinKeys, ErrorMsgs, ErrorBoundaries, } from '../constants.js';
+import { InitialState, ErrorMsgs, ErrorBoundaries, } from '../constants.js';
 import errorHandler from '../util/errorHandler.js';
 import localStorageReducer from './localStorageReducer.js';
-import { chargeCalculator } from '../service/coinCalculator.js';
-const saveCoinsToMachine = (store, { money }) => {
-    const coins = { ...store.get('coins') };
-    const res = chargeCalculator(money);
-    CoinKeys.forEach((key, i) => {
-        coins[key] += res[i];
-    });
-    return coins;
-};
-const actionWorker = {
-    ["init" /* init */]: store => {
+import { saveCoinsCalculator } from '../service/coinCalculator.js';
+const actionWorkers = (store) => ({
+    ["init" /* init */]: () => {
         const storedState = (localStorageReducer.getAll() || {});
         store.setValue({ ...InitialState, ...storedState }, false);
     },
-    ["route_change" /* route_change */]: (store, { route }) => {
+    ["route_change" /* route_change */]: (route) => {
         store.setValue({ route });
     },
-    ["inventory_setProduct" /* inventory_setProduct */]: (store, newProduct) => {
-        if (!validator["inventory_setProduct" /* inventory_setProduct */](newProduct))
-            return;
+    ["inventory_setProduct" /* inventory_setProduct */]: (newProduct) => {
         const inventoryMap = new Map((store.get('inventory') || []).map(inventory => [inventory.name, inventory]));
         inventoryMap.set(newProduct.name, newProduct);
         const inventory = [...inventoryMap.values()];
         store.setValue({ inventory });
     },
-    ["machine_saveCoins" /* machine_saveCoins */]: (store, data) => {
-        if (!validator["machine_saveCoins" /* machine_saveCoins */](data.money))
-            return;
-        const coins = saveCoinsToMachine(store, data);
+    ["machine_saveCoins" /* machine_saveCoins */]: (money) => {
+        const coins = saveCoinsCalculator(store, money);
         store.setValue({ coins });
     },
-    ["purchase_chargeCoins" /* purchase_chargeCoins */]: (store, data) => {
-        const charge = (store.get('charge') || 0) + data.money;
-        const coins = saveCoinsToMachine(store, data);
+    ["purchase_chargeCoins" /* purchase_chargeCoins */]: (money) => {
+        const charge = (store.get('charge') || 0) + money;
+        const coins = saveCoinsCalculator(store, money);
         store.setValue({ charge, coins });
     },
-    ["purchase_buyItem" /* purchase_buyItem */]: (store, { itemIndex }) => {
+    ["purchase_buyItem" /* purchase_buyItem */]: (itemIndex) => {
         const inventory = [...store.get('inventory')];
         const remains = (store.get('charge') || 0);
         const target = inventory[itemIndex];
@@ -47,7 +35,7 @@ const actionWorker = {
             store.setValue({ charge, inventory });
         }
     },
-};
+});
 const validator = {
     ["inventory_setProduct" /* inventory_setProduct */]: ({ name, amount, price }) => {
         let errorMsg = null;
@@ -74,18 +62,22 @@ const validator = {
         return true;
     },
 };
-const actionWorkerWithValidation = (dispatcher, actionType) => (store, data) => {
-    try {
-        dispatcher(store, data);
-    }
-    catch (err) {
-        errorHandler(`actionWorker@${actionType}`, err);
-    }
+const actionWorkersWithValidator = (store) => {
+    const worker = actionWorkers(store);
+    return (actionType) => {
+        const validChecker = validator[actionType];
+        const dispatcher = worker[actionType];
+        return (data) => {
+            try {
+                if (validChecker)
+                    validChecker(data);
+                dispatcher(data);
+            }
+            catch (err) {
+                errorHandler(`actionWorkers@${actionType}`, err);
+            }
+        };
+    };
 };
-export default (actionType) => {
-    const workerItem = actionWorker[actionType];
-    if (!workerItem)
-        return () => { };
-    return actionWorkerWithValidation(workerItem, actionType);
-};
+export default actionWorkersWithValidator;
 //# sourceMappingURL=actionWorker.js.map

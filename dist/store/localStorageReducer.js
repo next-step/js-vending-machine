@@ -1,5 +1,4 @@
 import LocalStorageService from '../service/localStorage.js';
-import { StateKeys } from '../constants.js';
 class LocalStorageReducer {
     #list;
     constructor(keys) {
@@ -30,5 +29,5 @@ class LocalStorageReducer {
         this.#list.set(key, item);
     }
 }
-export default new LocalStorageReducer(StateKeys);
+export default new LocalStorageReducer(['route', 'inventory', 'charge', 'coins']);
 //# sourceMappingURL=localStorageReducer.js.map

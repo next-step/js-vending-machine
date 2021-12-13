@@ -4,16 +4,16 @@ import errorHandler from '../util/errorHandler.js';
 export default class Store {
     #subscribers = new Set();
     #state;
-    #worker;
-    constructor(container, worker) {
-        this.#worker = worker;
+    #dispatcher;
+    constructor(container, actionWorker) {
+        this.#dispatcher = actionWorker(this);
         container.addEventListener('dispatch', ({ detail: { actionType, data } }) => {
             this.dispatch(actionType, data);
         });
     }
-    dispatch(actionType, data = {}) {
+    dispatch(actionType, data = null) {
         console.info(`%c[[%c${actionType}%c]]`, 'color: #ee8', 'color: #8ee', 'color: #ee8', data);
-        this.#worker(actionType)(this, data);
+        this.#dispatcher(actionType)(data);
     }
     register(viewStore) {
         this.#subscribers.add(viewStore);
@@ -42,12 +42,12 @@ export default class Store {
 }
 export const connectStore = (() => {
     let closureStore;
-    return (elem, worker) => {
+    return (elem, actionWorker) => {
         try {
             if (!closureStore) {
-                if (!elem || !worker)
+                if (!elem || !actionWorker)
                     throw Error(ErrorMsgs.store_InitError);
-                closureStore = new Store(elem, worker);
+                closureStore = new Store(elem, actionWorker);
             }
         }
         catch (err) {

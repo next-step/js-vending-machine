@@ -27,6 +27,8 @@ export default class MachineCharge extends View {
     </fragment>
   `
 
+  watchState = ['coins'] as const
+
   $form
   $input
   $total
@@ -50,10 +52,6 @@ export default class MachineCharge extends View {
     this.render($content)
   }
 
-  watch({ coins }: State) {
-    return { coins }
-  }
-
   onStoreUpdated({ coins }: State) {
     this.$total.textContent = coins.total + ''
     this.$q500.textContent = coins.q500 + ''
@@ -66,9 +64,7 @@ export default class MachineCharge extends View {
 
   onSubmit = (e: Event) => {
     e.preventDefault()
-    this.dispatch(Actions.machine_saveCoins, {
-      money: this.$input.valueAsNumber,
-    })
+    this.dispatch(Actions.machine_saveCoins, this.$input.valueAsNumber)
   }
 }
 

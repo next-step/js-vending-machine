@@ -17,6 +17,7 @@ export default class Main extends View {
         ["machineCharge" /* machineCharge */]: '<machine-charge></machine-charge>',
         ["userPurchase" /* userPurchase */]: '<user-purchase></user-purchase>',
     };
+    watchState = ['route'];
     $gnb;
     $buttons;
     $page;
@@ -29,9 +30,6 @@ export default class Main extends View {
         this.$gnb.addEventListener('click', this.routeChange);
         this.render($content);
     }
-    watch({ route }) {
-        return { route };
-    }
     onStoreUpdated({ route }) {
         el(this.$page, [Main.#components[route]]);
         this.$buttons.forEach($btn => {
@@ -42,7 +40,7 @@ export default class Main extends View {
         const $tg = e.target;
         if ($tg?.localName !== 'button')
             return;
-        this.dispatch('route_change', { route: $tg.dataset.routeTarget || '' });
+        this.dispatch('route_change', $tg.dataset.routeTarget || '');
     };
 }
 customElements.define('vending-machine-app', Main);

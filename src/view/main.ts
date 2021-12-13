@@ -21,6 +21,8 @@ export default class Main extends View {
     [Route.userPurchase]: '<user-purchase></user-purchase>',
   }
 
+  watchState = ['route'] as const
+
   $gnb
   $buttons
   $page
@@ -36,10 +38,6 @@ export default class Main extends View {
     this.render($content)
   }
 
-  watch({ route }: State) {
-    return { route }
-  }
-
   onStoreUpdated({ route }: State) {
     el(this.$page, [Main.#components[route]])
     this.$buttons.forEach($btn => {
@@ -50,7 +48,7 @@ export default class Main extends View {
   routeChange = (e: MouseEvent) => {
     const $tg = e.target as HTMLElement
     if ($tg?.localName !== 'button') return
-    this.dispatch('route_change', { route: $tg.dataset.routeTarget || '' })
+    this.dispatch('route_change', $tg.dataset.routeTarget || '')
   }
 }
 

@@ -34,6 +34,8 @@ export default class ProductInventory extends View {
     </fragment>
   `
 
+  watchState = ['inventory'] as const
+
   $form
   $inputs
   $inventoryContainer
@@ -47,10 +49,6 @@ export default class ProductInventory extends View {
     this.$inventoryContainer = $content.querySelector('#product-inventory-container') as HTMLTableElement
     this.$form?.addEventListener('submit', this.onSubmit)
     this.render($content)
-  }
-
-  watch({ inventory }: State) {
-    return { inventory }
   }
 
   onStoreUpdated({ inventory }: State) {

@@ -1,39 +1,30 @@
 import {
-  AnyObj,
   InventoryItem,
-  Dispatcher,
   ActionType,
   State,
   InitialState,
-  CoinKeys,
   ErrorMsgs,
   ErrorBoundaries,
+  Worker,
+  Route,
 } from '../constants.js'
 import errorHandler from '../util/errorHandler.js'
 import Store from './index.js'
 import localStorageReducer from './localStorageReducer.js'
 import Actions from './actions.js'
-import { chargeCalculator } from '../service/coinCalculator.js'
+import { saveCoinsCalculator } from '../service/coinCalculator.js'
 
-const saveCoinsToMachine = (store: Store, { money }: any) => {
-  const coins = { ...(store.get('coins') as any) }
-  const res = chargeCalculator(money)
-  CoinKeys.forEach((key, i) => {
-    coins[key] += res[i]
-  })
-  return coins
-}
+type ActionMapper = Record<ActionType, Worker>
 
-const actionWorker: { [key: string]: Dispatcher } = {
-  [Actions.init]: store => {
+const actionWorkers = (store: Store): ActionMapper => ({
+  [Actions.init]: () => {
     const storedState = (localStorageReducer.getAll() || {}) as State
     store.setValue({ ...InitialState, ...storedState }, false)
   },
-  [Actions.route_change]: (store, { route }) => {
+  [Actions.route_change]: (route: Route) => {
     store.setValue({ route })
   },
-  [Actions.inventory_setProduct]: (store, newProduct: InventoryItem) => {
-    if (!validator[Actions.inventory_setProduct](newProduct)) return
+  [Actions.inventory_setProduct]: (newProduct: InventoryItem) => {
     const inventoryMap = new Map(
       ((store.get('inventory') || []) as InventoryItem[]).map(inventory => [inventory.name, inventory]),
     )
@@ -41,17 +32,16 @@ const actionWorker: { [key: string]: Dispatcher } = {
     const inventory = [...inventoryMap.values()]
     store.setValue({ inventory })
   },
-  [Actions.machine_saveCoins]: (store, data) => {
-    if (!validator[Actions.machine_saveCoins](data.money)) return
-    const coins = saveCoinsToMachine(store, data)
+  [Actions.machine_saveCoins]: (money: number) => {
+    const coins = saveCoinsCalculator(store, money)
     store.setValue({ coins })
   },
-  [Actions.purchase_chargeCoins]: (store, data) => {
-    const charge = ((store.get('charge') || 0) as number) + data.money
-    const coins = saveCoinsToMachine(store, data)
+  [Actions.purchase_chargeCoins]: (money: number) => {
+    const charge = ((store.get('charge') || 0) as number) + money
+    const coins = saveCoinsCalculator(store, money)
     store.setValue({ charge, coins })
   },
-  [Actions.purchase_buyItem]: (store, { itemIndex }) => {
+  [Actions.purchase_buyItem]: (itemIndex: number) => {
     const inventory = [...(store.get('inventory') as InventoryItem[])]
     const remains = (store.get('charge') || 0) as number
     const target = inventory[itemIndex]
@@ -61,9 +51,9 @@ const actionWorker: { [key: string]: Dispatcher } = {
       store.setValue({ charge, inventory })
     }
   },
-}
+})
 
-const validator = {
+const validator: Partial<ActionMapper> = {
   [Actions.inventory_setProduct]: ({ name, amount, price }: InventoryItem) => {
     let errorMsg: string | null = null
     if (name.match(/\s/)) errorMsg = ErrorMsgs.inventory_SpaceBetween
@@ -82,16 +72,22 @@ const validator = {
   },
 }
 
-const actionWorkerWithValidation = (dispatcher: Dispatcher, actionType: ActionType) => (store: Store, data: AnyObj) => {
-  try {
-    dispatcher(store, data)
-  } catch (err) {
-    errorHandler(`actionWorker@${actionType}`, err)
+const actionWorkersWithValidator = (store: Store) => {
+  const worker = actionWorkers(store)
+
+  return (actionType: ActionType) => {
+    const validChecker = validator[actionType]
+    const dispatcher = worker[actionType]
+
+    return (data: unknown) => {
+      try {
+        if (validChecker) validChecker(data)
+        dispatcher(data)
+      } catch (err) {
+        errorHandler(`actionWorkers@${actionType}`, err)
+      }
+    }
   }
 }
 
-export default (actionType: ActionType) => {
-  const workerItem = actionWorker[actionType]
-  if (!workerItem) return () => {}
-  return actionWorkerWithValidation(workerItem, actionType)
-}
+export default actionWorkersWithValidator

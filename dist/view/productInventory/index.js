@@ -30,6 +30,7 @@ export default class ProductInventory extends View {
       </table>
     </fragment>
   `;
+    watchState = ['inventory'];
     $form;
     $inputs;
     $inventoryContainer;
@@ -42,9 +43,6 @@ export default class ProductInventory extends View {
         this.$inventoryContainer = $content.querySelector('#product-inventory-container');
         this.$form?.addEventListener('submit', this.onSubmit);
         this.render($content);
-    }
-    watch({ inventory }) {
-        return { inventory };
     }
     onStoreUpdated({ inventory }) {
         this.$form.reset();

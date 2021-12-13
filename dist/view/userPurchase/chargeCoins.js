@@ -13,6 +13,7 @@ export default class ChargeCoins extends View {
       </div>
     </fragment>
   `;
+    watchState = ['charge'];
     $form;
     $input;
     $remains;
@@ -25,9 +26,6 @@ export default class ChargeCoins extends View {
         this.$form.addEventListener('submit', this.onSubmit);
         this.render($content);
     }
-    watch({ charge }) {
-        return { charge };
-    }
     onStoreUpdated({ charge }) {
         this.$remains.textContent = charge + '';
         this.$form.reset();
@@ -35,9 +33,7 @@ export default class ChargeCoins extends View {
     }
     onSubmit = (e) => {
         e.preventDefault();
-        this.dispatch("purchase_chargeCoins" /* purchase_chargeCoins */, {
-            money: this.$input.valueAsNumber,
-        });
+        this.dispatch("purchase_chargeCoins" /* purchase_chargeCoins */, this.$input.valueAsNumber);
     };
 }
 customElements.define('charge-coins', ChargeCoins);

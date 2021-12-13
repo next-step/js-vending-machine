@@ -1,6 +1,35 @@
 import Actions from './store/actions.js'
 import Store from './store/index.js'
 
+export type InventoryItem = {
+  name: string
+  price: number
+  amount: number
+}
+export type CoinKey = 'total' | 'q500' | 'q100' | 'q50' | 'q10'
+export type Coins = { [key in CoinKey]: number }
+
+export type StateKey = 'route' | 'inventory' | 'coins' | 'charge'
+export type State = {
+  route: Route
+  inventory: InventoryItem[]
+  coins: Coins
+  charge: number
+}
+export type PartialState = Partial<State>
+
+export type ActionType = keyof typeof Actions
+export type Worker = (data: unknown) => void
+export type Dispatcher = (actionType: ActionType) => Worker
+export type ActionWorker = (store: Store) => Dispatcher
+export type Elem = HTMLElement | string
+export type DispatchEvent = CustomEvent & {
+  detail: {
+    actionType: ActionType
+    data: unknown
+  }
+}
+
 export const ErrorBoundaries = {
   inventory_PriceMinimum: 100,
   inventory_PriceLimit: 10,
@@ -8,7 +37,6 @@ export const ErrorBoundaries = {
   machine_PriceMinimum: 100,
   machine_PriceLimit: 10,
 }
-
 export const ErrorMsgs = {
   inventory_SpaceBetween: '공백 불가',
   inventory_PriceMinimum: `최소금액은 ${ErrorBoundaries.inventory_PriceMinimum}원`,
@@ -19,32 +47,11 @@ export const ErrorMsgs = {
   machine_CalculateError: '동전교환 후에도 잔액이 남은건 뭔가 문제가 있다는 뜻',
   store_InitError: 'unable to initialize store',
 }
-
 export const enum Route {
   machineCharge = 'machineCharge',
   productInventory = 'productInventory',
   userPurchase = 'userPurchase',
 }
-
-export type InventoryItem = {
-  name: string
-  price: number
-  amount: number
-}
-
-export type CoinKey = 'total' | 'q500' | 'q100' | 'q50' | 'q10'
-export type Coins = { [key in CoinKey]: number }
-export const CoinKeys: CoinKey[] = ['total', 'q500', 'q100', 'q50', 'q10']
-export const CoinValues = Object.freeze([500, 100, 50, 10])
-
-export type StateKey = 'route' | 'inventory' | 'coins' | 'charge'
-export type State = {
-  route: Route
-  inventory: InventoryItem[]
-  coins: Coins
-  charge: number
-}
-export const StateKeys: StateKey[] = ['route', 'inventory', 'coins', 'charge']
 export const InitialState: State = {
   route: Route.productInventory,
   inventory: [],
@@ -57,22 +64,3 @@ export const InitialState: State = {
   },
   charge: 0,
 }
-
-export type AnyObj = { [key: string]: any }
-export type StrObj = { [key: string]: string }
-export type Elem = HTMLElement | string
-
-export type PartialState = Partial<State>
-
-type Dispatch = {
-  actionType: Actions
-  data: AnyObj
-}
-
-export type DispatchEvent = CustomEvent & {
-  detail: Dispatch
-}
-
-export type Dispatcher = (store: Store, data: AnyObj) => void
-export type Worker = (actionType: keyof typeof Actions) => Dispatcher
-export type ActionType = keyof typeof Actions

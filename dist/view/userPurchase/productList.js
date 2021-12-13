@@ -24,6 +24,7 @@ export default class ProductList extends View {
       </table>
     </fragment>
   `;
+    watchState = ['inventory'];
     $itemsContainer;
     #itemList = new ProductItems();
     constructor() {
@@ -32,9 +33,6 @@ export default class ProductList extends View {
         this.$itemsContainer = $content.querySelector('#product-items-container');
         this.$itemsContainer.addEventListener('click', this.onPurchase);
         this.render($content);
-    }
-    watch({ inventory }) {
-        return { inventory };
     }
     onStoreUpdated({ inventory }) {
         const res = this.#itemList.update(inventory);
@@ -46,9 +44,7 @@ export default class ProductList extends View {
         if ($target.localName !== 'button')
             return;
         const itemIndex = getIndex(getClosest($target, 'tr'));
-        this.dispatch("purchase_buyItem" /* purchase_buyItem */, {
-            itemIndex,
-        });
+        this.dispatch("purchase_buyItem" /* purchase_buyItem */, itemIndex);
     };
 }
 customElements.define('product-list', ProductList);

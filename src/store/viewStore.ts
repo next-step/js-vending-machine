@@ -12,19 +12,19 @@ export default class ViewStore {
   }
 
   update(state: State) {
-    const newState = this.#view.watch!(state)
+    const watchStateKeys = this.#view.watchState || []
     const updatedKeys = new Set()
-    const updatedState = Object.keys(newState).reduce<PartialState>((p, k: keyof State) => {
-      if (newState[k] !== this.#prevState[k]) {
+    const updatedState = watchStateKeys.reduce<PartialState>((p, k: keyof State) => {
+      if (state[k] !== this.#prevState[k]) {
         updatedKeys.add(k)
-        p[k] = newState[k] as any
+        p[k] = state[k] as any
       }
       return p
     }, {})
 
     if (updatedKeys.size) {
       this.#prevState = state
-      this.#view.onStoreUpdated(updatedState, state)
+      this.#view.onStoreUpdated(updatedState)
     }
   }
 

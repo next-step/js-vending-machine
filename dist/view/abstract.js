@@ -12,7 +12,8 @@ const eventHandlerWithValidation = (handler) => (e) => {
 export default class View extends HTMLElement {
     events = new Map();
     viewStore;
-    onStoreUpdated(updatedState, totalState) { }
+    watchState;
+    onStoreUpdated(updatedState) { }
     on(eventType, handler) {
         let cb = this.events.get(handler);
         if (!cb) {
@@ -27,7 +28,7 @@ export default class View extends HTMLElement {
         this.removeEventListener(eventType, cb);
         return this;
     }
-    dispatch(actionType, data = {}) {
+    dispatch(actionType, data = null) {
         const event = new CustomEvent('dispatch', { detail: { actionType, data }, bubbles: true });
         this.dispatchEvent(event);
         return this;
@@ -45,12 +46,12 @@ export default class View extends HTMLElement {
         return this;
     }
     connectedCallback() {
-        if (this.watch) {
+        if (this.watchState) {
             this.viewStore = new ViewStore(this);
         }
     }
     disconnectedCallback() {
-        if (this.watch) {
+        if (this.watchState) {
             this.viewStore.deregister();
         }
     }

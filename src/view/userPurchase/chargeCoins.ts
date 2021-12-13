@@ -17,6 +17,8 @@ export default class ChargeCoins extends View {
     </fragment>
   `
 
+  watchState = ['charge'] as const
+
   $form
   $input
   $remains
@@ -32,10 +34,6 @@ export default class ChargeCoins extends View {
     this.render($content)
   }
 
-  watch({ charge }: State) {
-    return { charge }
-  }
-
   onStoreUpdated({ charge }: State) {
     this.$remains.textContent = charge + ''
     this.$form.reset()
@@ -44,9 +42,7 @@ export default class ChargeCoins extends View {
 
   onSubmit = (e: Event) => {
     e.preventDefault()
-    this.dispatch(Actions.purchase_chargeCoins, {
-      money: this.$input.valueAsNumber,
-    })
+    this.dispatch(Actions.purchase_chargeCoins, this.$input.valueAsNumber)
   }
 }
 

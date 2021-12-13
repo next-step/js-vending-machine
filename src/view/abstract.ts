@@ -1,9 +1,11 @@
-import { AnyObj, Elem, State } from '../constants.js'
+import { Elem, State, StateKey } from '../constants.js'
 import ViewStore from '../store/viewStore.js'
 import el from '../util/dom.js'
 import errorHandler from '../util/errorHandler.js'
 
-const eventHandlerWithValidation = (handler: any) => (e: CustomEvent) => {
+type Handler = (e: CustomEvent) => unknown
+
+const eventHandlerWithValidation = (handler: Handler) => (e: CustomEvent) => {
   try {
     handler(e)
   } catch (err) {
@@ -14,10 +16,10 @@ const eventHandlerWithValidation = (handler: any) => (e: CustomEvent) => {
 export default abstract class View extends HTMLElement {
   events = new Map()
   viewStore: ViewStore
-  watch?(state: State): AnyObj
-  onStoreUpdated(updatedState: Partial<State>, totalState: State): void {}
+  watchState?: readonly StateKey[]
+  onStoreUpdated(updatedState: Partial<State>): void {}
 
-  on(eventType: string, handler: (e: CustomEvent) => any) {
+  on(eventType: string, handler: Handler) {
     let cb = this.events.get(handler)
     if (!cb) {
       cb = eventHandlerWithValidation(handler)
@@ -26,12 +28,12 @@ export default abstract class View extends HTMLElement {
     this.addEventListener(eventType, cb)
     return this
   }
-  off(eventType: string, handler: (e: CustomEvent) => any) {
+  off(eventType: string, handler: Handler) {
     const cb = this.events.get(handler)
     this.removeEventListener(eventType, cb)
     return this
   }
-  dispatch(actionType: string, data: AnyObj = {}) {
+  dispatch(actionType: string, data: unknown = null) {
     const event = new CustomEvent('dispatch', { detail: { actionType, data }, bubbles: true })
     this.dispatchEvent(event)
     return this
@@ -50,13 +52,13 @@ export default abstract class View extends HTMLElement {
   }
 
   connectedCallback() {
-    if (this.watch) {
+    if (this.watchState) {
       this.viewStore = new ViewStore(this)
     }
   }
 
   disconnectedCallback() {
-    if (this.watch) {
+    if (this.watchState) {
       this.viewStore.deregister()
     }
   }

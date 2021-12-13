@@ -1,4 +1,8 @@
-import { CoinValues, ErrorMsgs } from '../constants.js'
+import { CoinKey, Coins, ErrorMsgs } from '../constants.js'
+import Store from '../store/index.js'
+
+const CoinKeys: readonly CoinKey[] = ['total', 'q500', 'q100', 'q50', 'q10']
+const CoinValues = Object.freeze([500, 100, 50, 10])
 
 const singleCoinCalculator = (source: number, coin: number) => {
   const count = Math.floor(source / coin)
@@ -19,4 +23,13 @@ const chargeCalculator = (source: number) => {
   return res
 }
 
-export { chargeCalculator }
+const saveCoinsCalculator = (store: Store, money: number) => {
+  const coins = { ...(store.get('coins') as Coins) }
+  const res = chargeCalculator(money)
+  CoinKeys.forEach((key, i) => {
+    coins[key] += res[i]
+  })
+  return coins
+}
+
+export { saveCoinsCalculator }

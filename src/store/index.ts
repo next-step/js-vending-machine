@@ -1,4 +1,4 @@
-import { AnyObj, DispatchEvent, Worker, State, PartialState, StateKey, ErrorMsgs } from '../constants.js'
+import { DispatchEvent, ActionWorker, State, PartialState, StateKey, ErrorMsgs, Dispatcher } from '../constants.js'
 import ViewStore from './viewStore.js'
 import localStorageReducer from './localStorageReducer.js'
 import Actions from './actions.js'
@@ -7,25 +7,25 @@ import errorHandler from '../util/errorHandler.js'
 export default class Store {
   #subscribers = new Set()
   #state: State
-  #worker: Worker
+  #dispatcher: Dispatcher
 
-  constructor(container: HTMLElement, worker: Worker) {
-    this.#worker = worker
+  constructor(container: HTMLElement, actionWorker: ActionWorker) {
+    this.#dispatcher = actionWorker(this)
     container.addEventListener('dispatch', ({ detail: { actionType, data } }: DispatchEvent) => {
       this.dispatch(actionType, data)
     })
   }
 
-  dispatch(actionType: keyof typeof Actions, data: AnyObj = {}) {
+  dispatch(actionType: keyof typeof Actions, data: unknown = null) {
     console.info(`%c[[%c${actionType}%c]]`, 'color: #ee8', 'color: #8ee', 'color: #ee8', data)
-    this.#worker(actionType)(this, data)
+    this.#dispatcher(actionType)(data)
   }
 
-  register(viewStore: any) {
+  register(viewStore: ViewStore) {
     this.#subscribers.add(viewStore)
   }
 
-  deregister(viewStore: any) {
+  deregister(viewStore: ViewStore) {
     this.#subscribers.delete(viewStore)
   }
 
@@ -53,11 +53,11 @@ export default class Store {
 
 export const connectStore = (() => {
   let closureStore: Store
-  return (elem?: HTMLElement, worker?: Worker) => {
+  return (elem?: HTMLElement, actionWorker?: ActionWorker) => {
     try {
       if (!closureStore) {
-        if (!elem || !worker) throw Error(ErrorMsgs.store_InitError)
-        closureStore = new Store(elem, worker)
+        if (!elem || !actionWorker) throw Error(ErrorMsgs.store_InitError)
+        closureStore = new Store(elem, actionWorker)
       }
     } catch (err) {
       errorHandler('store', err)
