@@ -15,7 +15,7 @@ export default abstract class View extends HTMLElement {
   events = new Map()
   viewStore: ViewStore
   watch?(state: State): AnyObj
-  onStoreUpdated(updatedState: any, totalState: State): void {}
+  onStoreUpdated(updatedState: Partial<State>, totalState: State): void {}
 
   on(eventType: string, handler: (e: CustomEvent) => any) {
     let cb = this.events.get(handler)

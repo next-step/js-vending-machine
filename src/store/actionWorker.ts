@@ -12,8 +12,17 @@ import {
 import errorHandler from '../util/errorHandler.js'
 import Store from './index.js'
 import localStorageReducer from './localStorageReducer.js'
-import { Actions } from './actions.js'
+import Actions from './actions.js'
 import { chargeCalculator } from '../service/coinCalculator.js'
+
+const saveCoinsToMachine = (store: Store, { money }: any) => {
+  const coins = { ...(store.get('coins') as any) }
+  const res = chargeCalculator(money)
+  CoinKeys.forEach((key, i) => {
+    coins[key] += res[i]
+  })
+  return coins
+}
 
 const actionWorker: { [key: string]: Dispatcher } = {
   [Actions.init]: store => {
@@ -23,28 +32,38 @@ const actionWorker: { [key: string]: Dispatcher } = {
   [Actions.route_change]: (store, { route }) => {
     store.setValue({ route })
   },
-  [Actions.inventory_addProduct]: (store, newProduct: InventoryItem) => {
-    if (!validator[Actions.inventory_addProduct](newProduct)) return
+  [Actions.inventory_setProduct]: (store, newProduct: InventoryItem) => {
+    if (!validator[Actions.inventory_setProduct](newProduct)) return
     const inventoryMap = new Map(
-      ((store.get(StateKey.inventory) || []) as InventoryItem[]).map(inventory => [inventory.name, inventory]),
+      ((store.get('inventory') || []) as InventoryItem[]).map(inventory => [inventory.name, inventory]),
     )
     inventoryMap.set(newProduct.name, newProduct)
     const inventory = [...inventoryMap.values()]
     store.setValue({ inventory })
   },
-  [Actions.machine_addSaving]: (store, { money }) => {
-    const saving = { ...(store.get(StateKey.saving) as any) }
-    const res = chargeCalculator(money)
-
-    CoinKeys.forEach((key, i) => {
-      saving[key] += res[i]
-    })
-    store.setValue({ saving })
+  [Actions.machine_saveCoins]: (store, data) => {
+    const coins = saveCoinsToMachine(store, data)
+    store.setValue({ coins })
+  },
+  [Actions.purchase_chargeCoins]: (store, data) => {
+    const charge = ((store.get('charge') || 0) as number) + data.money
+    const coins = saveCoinsToMachine(store, data)
+    store.setValue({ charge, coins })
+  },
+  [Actions.purchase_buyItem]: (store, { itemIndex }) => {
+    const inventory = [...(store.get('inventory') as InventoryItem[])]
+    const remains = (store.get('charge') || 0) as number
+    const target = inventory[itemIndex]
+    if (target.amount > 0 && target.price <= remains) {
+      const charge = remains - target.price
+      inventory[itemIndex] = { ...target, amount: target.amount - 1 }
+      store.setValue({ charge, inventory })
+    }
   },
 }
 
 const validator = {
-  [Actions.inventory_addProduct]: ({ name, amount, price }: InventoryItem) => {
+  [Actions.inventory_setProduct]: ({ name, amount, price }: InventoryItem) => {
     let errorMsg: string | null = null
     if (name.match(/\s/)) errorMsg = ErrorMsgs.inventory_spaceBetween
     if (price < 100) errorMsg = ErrorMsgs.inventory_PriceMinimum

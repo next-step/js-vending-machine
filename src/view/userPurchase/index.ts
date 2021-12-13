@@ -4,6 +4,7 @@ export default class userPurchase extends View {
   static #template = /* html */ `
     <fragment>
       <charge-coins></charge-coins>
+      <product-list></product-list>
       <return-changes></return-changes>
     </fragment>
   `

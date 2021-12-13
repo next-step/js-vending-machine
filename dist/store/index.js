@@ -12,10 +12,8 @@ export default class Store {
         });
     }
     dispatch(actionType, data = {}) {
-        window.requestAnimationFrame(() => {
-            console.info(`%c[[%c${actionType}%c]]`, 'color: #ee8', 'color: #8ee', 'color: #ee8', data);
-            this.#worker(actionType)(this, data);
-        });
+        console.info(`%c[[%c${actionType}%c]]`, 'color: #ee8', 'color: #8ee', 'color: #ee8', data);
+        this.#worker(actionType)(this, data);
     }
     register(viewStore) {
         this.#subscribers.add(viewStore);
@@ -24,10 +22,8 @@ export default class Store {
         this.#subscribers.delete(viewStore);
     }
     publish() {
-        window.requestAnimationFrame(() => {
-            this.#subscribers.forEach((subscriber) => {
-                subscriber.update(this.#state);
-            });
+        this.#subscribers.forEach((subscriber) => {
+            subscriber.update(this.#state);
         });
     }
     setValue(state, needUpdate = true) {

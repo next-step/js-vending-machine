@@ -1,7 +1,7 @@
 import { AnyObj, DispatchEvent, Worker, State, PartialState, StateKey, ErrorMsgs } from '../constants.js'
 import ViewStore from './viewStore.js'
 import localStorageReducer from './localStorageReducer.js'
-import { Actions } from './actions.js'
+import Actions from './actions.js'
 import errorHandler from '../util/errorHandler.js'
 
 export default class Store {
@@ -17,10 +17,8 @@ export default class Store {
   }
 
   dispatch(actionType: keyof typeof Actions, data: AnyObj = {}) {
-    window.requestAnimationFrame(() => {
-      console.info(`%c[[%c${actionType}%c]]`, 'color: #ee8', 'color: #8ee', 'color: #ee8', data)
-      this.#worker(actionType)(this, data)
-    })
+    console.info(`%c[[%c${actionType}%c]]`, 'color: #ee8', 'color: #8ee', 'color: #ee8', data)
+    this.#worker(actionType)(this, data)
   }
 
   register(viewStore: any) {
@@ -32,10 +30,8 @@ export default class Store {
   }
 
   publish() {
-    window.requestAnimationFrame(() => {
-      this.#subscribers.forEach((subscriber: ViewStore) => {
-        subscriber.update(this.#state)
-      })
+    this.#subscribers.forEach((subscriber: ViewStore) => {
+      subscriber.update(this.#state)
     })
   }
 

@@ -1,35 +1,53 @@
-import { StateKey, InitialState, CoinKeys, ErrorMsgs, } from '../constants.js';
+import { InitialState, CoinKeys, ErrorMsgs, } from '../constants.js';
 import errorHandler from '../util/errorHandler.js';
 import localStorageReducer from './localStorageReducer.js';
-import { Actions } from './actions.js';
 import { chargeCalculator } from '../service/coinCalculator.js';
+const saveCoinsToMachine = (store, { money }) => {
+    const coins = { ...store.get('coins') };
+    const res = chargeCalculator(money);
+    CoinKeys.forEach((key, i) => {
+        coins[key] += res[i];
+    });
+    return coins;
+};
 const actionWorker = {
-    [Actions.init]: store => {
+    ["init" /* init */]: store => {
         const storedState = (localStorageReducer.getAll() || {});
         store.setValue({ ...InitialState, ...storedState }, false);
     },
-    [Actions.route_change]: (store, { route }) => {
+    ["route_change" /* route_change */]: (store, { route }) => {
         store.setValue({ route });
     },
-    [Actions.inventory_addProduct]: (store, newProduct) => {
-        if (!validator[Actions.inventory_addProduct](newProduct))
+    ["inventory_setProduct" /* inventory_setProduct */]: (store, newProduct) => {
+        if (!validator["inventory_setProduct" /* inventory_setProduct */](newProduct))
             return;
-        const inventoryMap = new Map((store.get(StateKey.inventory) || []).map(inventory => [inventory.name, inventory]));
+        const inventoryMap = new Map((store.get('inventory') || []).map(inventory => [inventory.name, inventory]));
         inventoryMap.set(newProduct.name, newProduct);
         const inventory = [...inventoryMap.values()];
         store.setValue({ inventory });
     },
-    [Actions.machine_addSaving]: (store, { money }) => {
-        const saving = { ...store.get(StateKey.saving) };
-        const res = chargeCalculator(money);
-        CoinKeys.forEach((key, i) => {
-            saving[key] += res[i];
-        });
-        store.setValue({ saving });
+    ["machine_saveCoins" /* machine_saveCoins */]: (store, data) => {
+        const coins = saveCoinsToMachine(store, data);
+        store.setValue({ coins });
+    },
+    ["purchase_chargeCoins" /* purchase_chargeCoins */]: (store, data) => {
+        const charge = (store.get('charge') || 0) + data.money;
+        const coins = saveCoinsToMachine(store, data);
+        store.setValue({ charge, coins });
+    },
+    ["purchase_buyItem" /* purchase_buyItem */]: (store, { itemIndex }) => {
+        const inventory = [...store.get('inventory')];
+        const remains = (store.get('charge') || 0);
+        const target = inventory[itemIndex];
+        if (target.amount > 0 && target.price <= remains) {
+            const charge = remains - target.price;
+            inventory[itemIndex] = { ...target, amount: target.amount - 1 };
+            store.setValue({ charge, inventory });
+        }
     },
 };
 const validator = {
-    [Actions.inventory_addProduct]: ({ name, amount, price }) => {
+    ["inventory_setProduct" /* inventory_setProduct */]: ({ name, amount, price }) => {
         let errorMsg = null;
         if (name.match(/\s/))
             errorMsg = ErrorMsgs.inventory_spaceBetween;

@@ -1,4 +1,4 @@
-import { Actions } from './store/actions.js'
+import Actions from './store/actions.js'
 import Store from './store/index.js'
 
 export const ErrorMsgs = {
@@ -10,7 +10,7 @@ export const ErrorMsgs = {
   store_initError: 'unable to initialize store',
 }
 
-export enum Route {
+export const enum Route {
   machineCharge = 'machineCharge',
   productInventory = 'productInventory',
   userPurchase = 'userPurchase',
@@ -22,49 +22,30 @@ export type InventoryItem = {
   amount: number
 }
 
-export enum CoinKey {
-  total = 'total',
-  q500 = 'q500',
-  q100 = 'q100',
-  q50 = 'q50',
-  q10 = 'q10',
-}
-
-export type Coins = {
-  [CoinKey.total]: number
-  [CoinKey.q500]: number
-  [CoinKey.q100]: number
-  [CoinKey.q50]: number
-  [CoinKey.q10]: number
-}
-
-export const CoinKeys = [CoinKey.total, CoinKey.q500, CoinKey.q100, CoinKey.q50, CoinKey.q10]
+export type CoinKey = 'total' | 'q500' | 'q100' | 'q50' | 'q10'
+export type Coins = { [key in CoinKey]: number }
+export const CoinKeys: CoinKey[] = ['total', 'q500', 'q100', 'q50', 'q10']
 export const CoinValues = Object.freeze([500, 100, 50, 10])
 
-export enum StateKey {
-  route = 'route',
-  inventory = 'inventory',
-  saving = 'saving',
-}
-
+export type StateKey = 'route' | 'inventory' | 'coins' | 'charge'
 export type State = {
-  [StateKey.route]: Route
-  [StateKey.inventory]: InventoryItem[]
-  [StateKey.saving]: Coins
+  route: Route
+  inventory: InventoryItem[]
+  coins: Coins
+  charge: number
 }
-
-export const StateKeys = [StateKey.route, StateKey.inventory, StateKey.saving]
-
-export const InitialState = {
-  [StateKey.route]: Route.productInventory,
-  [StateKey.inventory]: [],
-  [StateKey.saving]: {
-    [CoinKey.total]: 0,
-    [CoinKey.q500]: 0,
-    [CoinKey.q100]: 0,
-    [CoinKey.q50]: 0,
-    [CoinKey.q10]: 0,
+export const StateKeys: StateKey[] = ['route', 'inventory', 'coins', 'charge']
+export const InitialState: State = {
+  route: Route.productInventory,
+  inventory: [],
+  coins: {
+    total: 0,
+    q500: 0,
+    q100: 0,
+    q50: 0,
+    q10: 0,
   },
+  charge: 0,
 }
 
 export type AnyObj = { [key: string]: any }
@@ -74,7 +55,7 @@ export type Elem = HTMLElement | string
 export type PartialState = Partial<State>
 
 type Dispatch = {
-  actionType: typeof Actions
+  actionType: Actions
   data: AnyObj
 }
 

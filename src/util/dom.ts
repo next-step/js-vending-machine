@@ -22,4 +22,20 @@ const el = (parent: Elem, children?: Elem[]): HTMLElement => {
   return parentElem
 }
 
+export const getClosest = (source: HTMLElement, ancestor: string) => {
+  let current = source
+  while (current.parentElement) {
+    const isMatch = current.parentElement.querySelector(ancestor) || null
+    const isEqual = current.matches(ancestor)
+    if (isMatch && isEqual) return current
+    current = current.parentElement
+  }
+  return null
+}
+
+export const getIndex = (elem: HTMLElement) => {
+  if (!elem.parentElement) return -1
+  return Array.prototype.indexOf.call(elem.parentElement.children, elem)
+}
+
 export default el

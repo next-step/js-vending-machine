@@ -1,6 +1,6 @@
 import el from './util/dom.js'
 import { connectStore } from './store/index.js'
-import { Actions } from './store/actions.js'
+import Actions from './store/actions.js'
 import actionWorker from './store/actionWorker.js'
 import './view/index.js'
 

@@ -1,5 +1,4 @@
 import View from '../abstract.js';
-import { Actions } from '../../store/actions.js';
 import el from '../../util/dom.js';
 export default class MachineCharge extends View {
     static #template = /* html */ `
@@ -44,19 +43,21 @@ export default class MachineCharge extends View {
         this.$form.addEventListener('submit', this.onSubmit);
         this.render($content);
     }
-    watch = ({ saving }) => ({ saving });
-    onStoreUpdated({ saving }) {
-        this.$total.textContent = saving.total + '';
-        this.$q500.textContent = saving.q500 + '';
-        this.$q100.textContent = saving.q100 + '';
-        this.$q50.textContent = saving.q50 + '';
-        this.$q10.textContent = saving.q10 + '';
+    watch({ coins }) {
+        return { coins };
+    }
+    onStoreUpdated({ coins }) {
+        this.$total.textContent = coins.total + '';
+        this.$q500.textContent = coins.q500 + '';
+        this.$q100.textContent = coins.q100 + '';
+        this.$q50.textContent = coins.q50 + '';
+        this.$q10.textContent = coins.q10 + '';
         this.$form.reset();
         this.$input.focus();
     }
     onSubmit = (e) => {
         e.preventDefault();
-        this.dispatch(Actions.machine_addSaving, {
+        this.dispatch("machine_saveCoins" /* machine_saveCoins */, {
             money: this.$input.valueAsNumber,
         });
     };

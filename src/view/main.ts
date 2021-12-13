@@ -1,8 +1,6 @@
 import View from './abstract.js'
 import el from '../util/dom.js'
-import { State, StateKey, Route } from '../constants.js'
-
-type WatchState = Pick<State, StateKey.route>
+import { State, Route } from '../constants.js'
 
 export default class Main extends View {
   static #template = /* html */ `
@@ -38,9 +36,11 @@ export default class Main extends View {
     this.render($content)
   }
 
-  watch = ({ route }: State): WatchState => ({ route })
+  watch({ route }: State) {
+    return { route }
+  }
 
-  onStoreUpdated({ route }: WatchState) {
+  onStoreUpdated({ route }: State) {
     el(this.$page, [Main.#components[route]])
     this.$buttons.forEach($btn => {
       $btn.classList.toggle('current', $btn.dataset.routeTarget === route)

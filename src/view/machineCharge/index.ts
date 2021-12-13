@@ -1,9 +1,8 @@
 import View from '../abstract.js'
-import { Actions } from '../../store/actions.js'
-import { State, StateKey } from '../../constants.js'
+import Actions from '../../store/actions.js'
+import { State } from '../../constants.js'
 import el from '../../util/dom.js'
 
-type WatchState = Pick<State, StateKey.saving>
 export default class MachineCharge extends View {
   static #template = /* html */ `
     <fragment>
@@ -51,21 +50,23 @@ export default class MachineCharge extends View {
     this.render($content)
   }
 
-  watch = ({ saving }: State): WatchState => ({ saving })
+  watch({ coins }: State) {
+    return { coins }
+  }
 
-  onStoreUpdated({ saving }: WatchState) {
-    this.$total.textContent = saving.total + ''
-    this.$q500.textContent = saving.q500 + ''
-    this.$q100.textContent = saving.q100 + ''
-    this.$q50.textContent = saving.q50 + ''
-    this.$q10.textContent = saving.q10 + ''
+  onStoreUpdated({ coins }: State) {
+    this.$total.textContent = coins.total + ''
+    this.$q500.textContent = coins.q500 + ''
+    this.$q100.textContent = coins.q100 + ''
+    this.$q50.textContent = coins.q50 + ''
+    this.$q10.textContent = coins.q10 + ''
     this.$form.reset()
     this.$input.focus()
   }
 
   onSubmit = (e: Event) => {
     e.preventDefault()
-    this.dispatch(Actions.machine_addSaving, {
+    this.dispatch(Actions.machine_saveCoins, {
       money: this.$input.valueAsNumber,
     })
   }
