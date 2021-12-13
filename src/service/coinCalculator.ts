@@ -15,7 +15,7 @@ const chargeCalculator = (source: number) => {
       res[CoinValues.indexOf(c) + 1] = count
       return remains
     }, source)
-  if (finalRemains > 0) throw Error(ErrorMsgs.charge_calculateError)
+  if (finalRemains > 0) throw Error(ErrorMsgs.machine_CalculateError)
   return res
 }
 

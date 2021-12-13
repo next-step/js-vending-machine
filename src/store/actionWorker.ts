@@ -8,6 +8,7 @@ import {
   InitialState,
   CoinKeys,
   ErrorMsgs,
+  ErrorBoundaries,
 } from '../constants.js'
 import errorHandler from '../util/errorHandler.js'
 import Store from './index.js'
@@ -33,6 +34,7 @@ const actionWorker: { [key: string]: Dispatcher } = {
     store.setValue({ inventory })
   },
   [Actions.machine_addSaving]: (store, { money }) => {
+    if (!validator[Actions.machine_addSaving](money)) return
     const saving = { ...(store.get(StateKey.saving) as any) }
     const res = chargeCalculator(money)
 
@@ -47,9 +49,16 @@ const validator = {
   [Actions.inventory_addProduct]: ({ name, amount, price }: InventoryItem) => {
     let errorMsg: string | null = null
     if (name.match(/\s/)) errorMsg = ErrorMsgs.inventory_spaceBetween
-    if (price < 100) errorMsg = ErrorMsgs.inventory_PriceMinimum
-    if (price % 10 > 0) errorMsg = ErrorMsgs.inventory_PriceLimit
-    if (amount <= 0) errorMsg = ErrorMsgs.inventory_AmountMinimum
+    if (price < ErrorBoundaries.inventory_PriceMinimum) errorMsg = ErrorMsgs.inventory_PriceMinimum
+    if (price % ErrorBoundaries.inventory_PriceLimit > 0) errorMsg = ErrorMsgs.inventory_PriceLimit
+    if (amount < ErrorBoundaries.inventory_AmountMinimum) errorMsg = ErrorMsgs.inventory_AmountMinimum
+    if (errorMsg) throw Error(errorMsg)
+    return true
+  },
+  [Actions.machine_addSaving]: (money: number) => {
+    let errorMsg: string | null = null
+    if (money < ErrorBoundaries.machine_PriceMinimum) errorMsg = ErrorMsgs.machine_PriceMinimum
+    if (money % ErrorBoundaries.machine_PriceLimit > 0) errorMsg = ErrorMsgs.machine_PriceLimit
     if (errorMsg) throw Error(errorMsg)
     return true
   },

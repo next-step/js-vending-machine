@@ -16,6 +16,9 @@ class LocalStorageReducer {
   get(key: StateKey) {
     return this.#list.get(key)!
   }
+  getValue(key: StateKey) {
+    return this.get(key).get()
+  }
   set(key: StateKey, val: JSON) {
     const item = this.get(key)
     item.set(val)

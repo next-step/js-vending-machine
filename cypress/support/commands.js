@@ -14,8 +14,8 @@ Cypress.Commands.add('restoreLocalStorage', () => {
   })
 })
 
-Cypress.Commands.add('gnb', () => {
-  return cy.get('vending-machine-app #gnb')
+Cypress.Commands.add('gnbClick', index => {
+  return cy.get('vending-machine-app #gnb').children().eq(index).click()
 })
 Cypress.Commands.add('machineCharge', () => {
   return cy.get('machine-charge')
@@ -30,7 +30,6 @@ Cypress.Commands.add('userPurchase', () => {
 Cypress.Commands.add('inventoryInputs', () => {
   return cy.get('product-inventory input')
 })
-
 Cypress.Commands.add('inventoryAdd', (name, price, amount) => {
   return cy
     .inventoryInputs()
@@ -48,4 +47,11 @@ Cypress.Commands.add('inventoryAdd', (name, price, amount) => {
 })
 Cypress.Commands.add('inventoryList', () => {
   return cy.get('#product-inventory-container tr')
+})
+
+Cypress.Commands.add('chargeAdd', price => {
+  cy.get('#vending-machine-charge-input').type(price).parent().submit()
+})
+Cypress.Commands.add('machineCharged', () => {
+  return cy.get('#vending-machine-charge-amount')
 })

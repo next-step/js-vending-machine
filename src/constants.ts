@@ -1,12 +1,22 @@
 import { Actions } from './store/actions.js'
 import Store from './store/index.js'
 
+export const ErrorBoundaries = {
+  inventory_PriceMinimum: 100,
+  inventory_PriceLimit: 10,
+  inventory_AmountMinimum: 1,
+  machine_PriceMinimum: 100,
+  machine_PriceLimit: 10,
+}
+
 export const ErrorMsgs = {
   inventory_spaceBetween: '공백 불가',
-  inventory_PriceMinimum: '최소금액은 100원',
-  inventory_PriceLimit: '10원 이하 입력 불가',
-  inventory_AmountMinimum: '수량은 1개 이상',
-  charge_calculateError: '동전교환 후에도 잔액이 남은건 뭔가 문제가 있다는 뜻',
+  inventory_PriceMinimum: `최소금액은 ${ErrorBoundaries.inventory_PriceMinimum}원`,
+  inventory_PriceLimit: `${ErrorBoundaries.inventory_PriceLimit}원 이하 입력 불가`,
+  inventory_AmountMinimum: `수량은 ${ErrorBoundaries.inventory_AmountMinimum}개 이상`,
+  machine_PriceMinimum: `충전금액은 최소 ${ErrorBoundaries.machine_PriceMinimum}원 이상`,
+  machine_PriceLimit: `${ErrorBoundaries.machine_PriceLimit}원 이하 입력 불가`,
+  machine_CalculateError: '동전교환 후에도 잔액이 남은건 뭔가 문제가 있다는 뜻',
   store_initError: 'unable to initialize store',
 }
 
