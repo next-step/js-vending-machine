@@ -12,7 +12,7 @@ export function createStore<T = {}>(
     });
   };
 
-  const dispatch = (action: IAction) => {
+  const dispatch: IDispatch = (action: IAction) => {
     state = reducer(state, action);
     publish();
   };
@@ -29,8 +29,8 @@ export function createStore<T = {}>(
     dispatch,
   };
 
-  let lastDispatch = dispatch;
-  middlewareList.reverse().forEach((middleware) => {
+  let lastDispatch: IDispatch = dispatch;
+  middlewareList.reverse().forEach((middleware: IMiddleware<T>) => {
     lastDispatch = middleware(store)(lastDispatch);
   });
 
@@ -52,9 +52,12 @@ export interface IStore<T> {
 }
 
 export interface IMiddleware<T = {}> {
-  (store: IStore<T>): (next: Function) => (action: IAction) => void;
+  (store: IStore<T>): (next: Function) => IDispatch;
 }
 
+export interface IDispatch {
+  (action: IAction): void;
+}
 export interface IAction {
   type: string;
   payload?: any;
