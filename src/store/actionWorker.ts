@@ -14,9 +14,7 @@ import localStorageReducer from './localStorageReducer.js'
 import Actions from './actions.js'
 import { saveCoinsCalculator } from '../service/coinCalculator.js'
 
-type ActionMapper = Record<ActionType, Worker>
-
-const actionWorkers = (store: Store): ActionMapper => ({
+const actionWorkers = (store: Store): Record<ActionType, Worker> => ({
   [Actions.init]: () => {
     const storedState = (localStorageReducer.getAll() || {}) as State
     store.setValue({ ...InitialState, ...storedState }, false)
@@ -36,12 +34,12 @@ const actionWorkers = (store: Store): ActionMapper => ({
     const coins = saveCoinsCalculator(store, money)
     store.setValue({ coins })
   },
-  [Actions.purchase_chargeCoins]: (money: number) => {
+  [Actions.user_chargeCoins]: (money: number) => {
     const charge = ((store.get('charge') || 0) as number) + money
     const coins = saveCoinsCalculator(store, money)
     store.setValue({ charge, coins })
   },
-  [Actions.purchase_buyItem]: (itemIndex: number) => {
+  [Actions.user_buyItem]: (itemIndex: number) => {
     const inventory = [...(store.get('inventory') as InventoryItem[])]
     const remains = (store.get('charge') || 0) as number
     const target = inventory[itemIndex]
@@ -53,22 +51,22 @@ const actionWorkers = (store: Store): ActionMapper => ({
   },
 })
 
-const validator: Partial<ActionMapper> = {
+const validator: Partial<Record<ActionType, (data: unknown) => string | null>> = {
   [Actions.inventory_setProduct]: ({ name, amount, price }: InventoryItem) => {
-    let errorMsg: string | null = null
-    if (name.match(/\s/)) errorMsg = ErrorMsgs.inventory_SpaceBetween
-    if (price < ErrorBoundaries.inventory_PriceMinimum) errorMsg = ErrorMsgs.inventory_PriceMinimum
-    if (price % ErrorBoundaries.inventory_PriceLimit > 0) errorMsg = ErrorMsgs.inventory_PriceLimit
-    if (amount < ErrorBoundaries.inventory_AmountMinimum) errorMsg = ErrorMsgs.inventory_AmountMinimum
-    if (errorMsg) throw Error(errorMsg)
-    return true
+    if (name.match(/\s/)) return ErrorMsgs.inventory_SpaceBetween
+    if (price < ErrorBoundaries.inventory_PriceMinimum) return ErrorMsgs.inventory_PriceMinimum
+    if (price % ErrorBoundaries.inventory_PriceLimit > 0) return ErrorMsgs.inventory_PriceLimit
+    if (amount < ErrorBoundaries.inventory_AmountMinimum) return ErrorMsgs.inventory_AmountMinimum
+    return null
   },
   [Actions.machine_saveCoins]: (money: number) => {
-    let errorMsg: string | null = null
-    if (money < ErrorBoundaries.machine_PriceMinimum) errorMsg = ErrorMsgs.machine_PriceMinimum
-    if (money % ErrorBoundaries.machine_PriceLimit > 0) errorMsg = ErrorMsgs.machine_PriceLimit
-    if (errorMsg) throw Error(errorMsg)
-    return true
+    if (money < ErrorBoundaries.machine_PriceMinimum) return ErrorMsgs.machine_PriceMinimum
+    if (money % ErrorBoundaries.machine_PriceLimit > 0) return ErrorMsgs.machine_PriceLimit
+    return null
+  },
+  [Actions.user_chargeCoins]: (money: number) => {
+    if (money < ErrorBoundaries.user_PriceMinimum) return ErrorMsgs.user_PriceMinimum
+    return null
   },
 }
 
@@ -76,12 +74,13 @@ const actionWorkersWithValidator = (store: Store) => {
   const worker = actionWorkers(store)
 
   return (actionType: ActionType) => {
-    const validChecker = validator[actionType]
+    const validChecker = validator[actionType] || (() => null)
     const dispatcher = worker[actionType]
 
     return (data: unknown) => {
       try {
-        if (validChecker) validChecker(data)
+        const errorMsg = validChecker(data)
+        if (errorMsg) throw new Error(errorMsg)
         dispatcher(data)
       } catch (err) {
         errorHandler(`actionWorkers@${actionType}`, err)

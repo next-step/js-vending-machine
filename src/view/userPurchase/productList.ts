@@ -1,5 +1,5 @@
 import View from '../abstract.js'
-import el, { getClosest, getIndex } from '../../util/dom.js'
+import el, { getIndex } from '../../util/dom.js'
 import Actions from '../../store/actions.js'
 import { State } from '../../constants.js'
 import ProductItems from './productItems.js'
@@ -37,7 +37,7 @@ export default class ProductList extends View {
     super()
     const $content = el(ProductList.#template)
     this.$itemsContainer = $content.querySelector('#product-items-container') as HTMLTableElement
-    this.$itemsContainer.addEventListener('click', this.onPurchase)
+    this.handlers = [['click', this.onPurchase]]
     this.render($content)
   }
 
@@ -48,10 +48,10 @@ export default class ProductList extends View {
 
   onPurchase = (e: MouseEvent) => {
     e.preventDefault()
-    const $target = e.target as HTMLElement
-    if ($target.localName !== 'button') return
-    const itemIndex = getIndex(getClosest($target, 'tr')!)
-    this.dispatch(Actions.purchase_buyItem, itemIndex)
+    const $tg = e.target as HTMLElement
+    if ($tg.closest('tbody')?.id !== 'product-items-container' || $tg.localName !== 'button') return
+    const itemIndex = getIndex($tg.closest('tr')!)
+    this.dispatch(Actions.user_buyItem, itemIndex)
   }
 }
 

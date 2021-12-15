@@ -48,16 +48,16 @@ export default class MachineCharge extends View {
     this.$q50 = $content.querySelector('#vending-machine-coin-50-quantity') as HTMLTableCellElement
     this.$q10 = $content.querySelector('#vending-machine-coin-10-quantity') as HTMLTableCellElement
 
-    this.$form.addEventListener('submit', this.onSubmit)
+    this.handlers = [['submit', this.onSubmit]]
     this.render($content)
   }
 
   onStoreUpdated({ coins }: State) {
-    this.$total.textContent = coins.total + ''
-    this.$q500.textContent = coins.q500 + ''
-    this.$q100.textContent = coins.q100 + ''
-    this.$q50.textContent = coins.q50 + ''
-    this.$q10.textContent = coins.q10 + ''
+    this.$total.textContent = coins.total.toLocaleString('ko-KR')
+    this.$q500.textContent = coins.q500 + '개'
+    this.$q100.textContent = coins.q100 + '개'
+    this.$q50.textContent = coins.q50 + '개'
+    this.$q10.textContent = coins.q10 + '개'
     this.$form.reset()
     this.$input.focus()
   }

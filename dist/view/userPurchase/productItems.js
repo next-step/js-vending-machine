@@ -6,9 +6,9 @@ export default class ProductItems {
         return el(`
       <tr>
         <td>${item.name}</td>
-        <td>${item.price}</td>
-        <td>${item.amount}</td>
-        <td><button type="button">구매하기</button></td>
+        <td>${item.price.toLocaleString('ko-KR')}원</td>
+        <td>${item.amount.toLocaleString('ko-KR')}개</td>
+        <td><button data-event-target="purchase" type="button">구매하기</button></td>
       </tr>
     `);
     }

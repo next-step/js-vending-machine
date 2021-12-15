@@ -33,8 +33,7 @@ export default class Main extends View {
     this.$gnb = $content.querySelector('#gnb') as HTMLTableElement
     this.$page = $content.querySelector('#page') as HTMLDivElement
     this.$buttons = Array.from(this.$gnb.querySelectorAll('button'))
-    this.$gnb.addEventListener('click', this.routeChange)
-
+    this.handlers = [['click', this.routeChange]]
     this.render($content)
   }
 
@@ -47,7 +46,7 @@ export default class Main extends View {
 
   routeChange = (e: MouseEvent) => {
     const $tg = e.target as HTMLElement
-    if ($tg?.localName !== 'button') return
+    if ($tg?.closest('div')?.id !== 'gnb' || $tg?.localName !== 'button') return
     this.dispatch('route_change', $tg.dataset.routeTarget || '')
   }
 }

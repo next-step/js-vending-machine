@@ -23,17 +23,17 @@ export default class ChargeCoins extends View {
         this.$form = $content.querySelector('form');
         this.$input = this.$form.querySelector('input');
         this.$remains = $content.querySelector('#charge-amount');
-        this.$form.addEventListener('submit', this.onSubmit);
+        this.handlers = [['submit', this.onSubmit]];
         this.render($content);
     }
     onStoreUpdated({ charge }) {
-        this.$remains.textContent = charge + '';
+        this.$remains.textContent = charge.toLocaleString('ko-KR');
         this.$form.reset();
         this.$input.focus();
     }
     onSubmit = (e) => {
         e.preventDefault();
-        this.dispatch("purchase_chargeCoins" /* purchase_chargeCoins */, this.$input.valueAsNumber);
+        this.dispatch("user_chargeCoins" /* user_chargeCoins */, this.$input.valueAsNumber);
     };
 }
 customElements.define('charge-coins', ChargeCoins);

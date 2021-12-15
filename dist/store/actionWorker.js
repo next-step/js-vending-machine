@@ -20,12 +20,12 @@ const actionWorkers = (store) => ({
         const coins = saveCoinsCalculator(store, money);
         store.setValue({ coins });
     },
-    ["purchase_chargeCoins" /* purchase_chargeCoins */]: (money) => {
+    ["user_chargeCoins" /* user_chargeCoins */]: (money) => {
         const charge = (store.get('charge') || 0) + money;
         const coins = saveCoinsCalculator(store, money);
         store.setValue({ charge, coins });
     },
-    ["purchase_buyItem" /* purchase_buyItem */]: (itemIndex) => {
+    ["user_buyItem" /* user_buyItem */]: (itemIndex) => {
         const inventory = [...store.get('inventory')];
         const remains = (store.get('charge') || 0);
         const target = inventory[itemIndex];
@@ -38,39 +38,39 @@ const actionWorkers = (store) => ({
 });
 const validator = {
     ["inventory_setProduct" /* inventory_setProduct */]: ({ name, amount, price }) => {
-        let errorMsg = null;
         if (name.match(/\s/))
-            errorMsg = ErrorMsgs.inventory_SpaceBetween;
+            return ErrorMsgs.inventory_SpaceBetween;
         if (price < ErrorBoundaries.inventory_PriceMinimum)
-            errorMsg = ErrorMsgs.inventory_PriceMinimum;
+            return ErrorMsgs.inventory_PriceMinimum;
         if (price % ErrorBoundaries.inventory_PriceLimit > 0)
-            errorMsg = ErrorMsgs.inventory_PriceLimit;
+            return ErrorMsgs.inventory_PriceLimit;
         if (amount < ErrorBoundaries.inventory_AmountMinimum)
-            errorMsg = ErrorMsgs.inventory_AmountMinimum;
-        if (errorMsg)
-            throw Error(errorMsg);
-        return true;
+            return ErrorMsgs.inventory_AmountMinimum;
+        return null;
     },
     ["machine_saveCoins" /* machine_saveCoins */]: (money) => {
-        let errorMsg = null;
         if (money < ErrorBoundaries.machine_PriceMinimum)
-            errorMsg = ErrorMsgs.machine_PriceMinimum;
+            return ErrorMsgs.machine_PriceMinimum;
         if (money % ErrorBoundaries.machine_PriceLimit > 0)
-            errorMsg = ErrorMsgs.machine_PriceLimit;
-        if (errorMsg)
-            throw Error(errorMsg);
-        return true;
+            return ErrorMsgs.machine_PriceLimit;
+        return null;
+    },
+    ["user_chargeCoins" /* user_chargeCoins */]: (money) => {
+        if (money < ErrorBoundaries.user_PriceMinimum)
+            return ErrorMsgs.user_PriceMinimum;
+        return null;
     },
 };
 const actionWorkersWithValidator = (store) => {
     const worker = actionWorkers(store);
     return (actionType) => {
-        const validChecker = validator[actionType];
+        const validChecker = validator[actionType] || (() => null);
         const dispatcher = worker[actionType];
         return (data) => {
             try {
-                if (validChecker)
-                    validChecker(data);
+                const errorMsg = validChecker(data);
+                if (errorMsg)
+                    throw new Error(errorMsg);
                 dispatcher(data);
             }
             catch (err) {

@@ -47,7 +47,7 @@ export default class ProductInventory extends View {
     this.$form = $content.querySelector('#product-form') as HTMLFormElement
     this.$inputs = Array.from(this.$form.querySelectorAll('input')) as HTMLInputElement[]
     this.$inventoryContainer = $content.querySelector('#product-inventory-container') as HTMLTableElement
-    this.$form?.addEventListener('submit', this.onSubmit)
+    this.handlers = [['submit', this.onSubmit]]
     this.render($content)
   }
 

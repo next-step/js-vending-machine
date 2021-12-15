@@ -3,7 +3,7 @@ import ViewStore from '../store/viewStore.js'
 import el from '../util/dom.js'
 import errorHandler from '../util/errorHandler.js'
 
-type Handler = (e: CustomEvent) => unknown
+type Handler = (e: Event | CustomEvent) => unknown
 
 const eventHandlerWithValidation = (handler: Handler) => (e: CustomEvent) => {
   try {
@@ -18,6 +18,12 @@ export default abstract class View extends HTMLElement {
   viewStore: ViewStore
   watchState?: readonly StateKey[]
   onStoreUpdated(updatedState: Partial<State>): void {}
+  handlers?: [string, Handler][]
+
+  constructor() {
+    super()
+    this.#addHandlers()
+  }
 
   on(eventType: string, handler: Handler) {
     let cb = this.events.get(handler)
@@ -30,7 +36,7 @@ export default abstract class View extends HTMLElement {
   }
   off(eventType: string, handler: Handler) {
     const cb = this.events.get(handler)
-    this.removeEventListener(eventType, cb)
+    if (cb) this.removeEventListener(eventType, cb)
     return this
   }
   dispatch(actionType: string, data: unknown = null) {
@@ -42,24 +48,30 @@ export default abstract class View extends HTMLElement {
     el(this, children instanceof Array ? children : [children])
     return this
   }
-  hide() {
-    this.style.display = 'none'
-    return this
-  }
-  show() {
-    this.style.display = ''
-    return this
+
+  #addHandlers() {
+    if (this.handlers?.length) {
+      this.handlers.forEach(([eventType, handler]) => {
+        this.on(eventType, handler)
+      })
+    }
   }
 
   connectedCallback() {
     if (this.watchState) {
       this.viewStore = new ViewStore(this)
     }
+    this.#addHandlers()
   }
 
   disconnectedCallback() {
     if (this.watchState) {
       this.viewStore.deregister()
+    }
+    if (this.handlers?.length) {
+      this.handlers.forEach(([eventType, handler]) => {
+        this.off(eventType, handler)
+      })
     }
   }
 }

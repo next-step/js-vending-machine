@@ -29,20 +29,19 @@ export default class ChargeCoins extends View {
     this.$form = $content.querySelector('form') as HTMLFormElement
     this.$input = this.$form.querySelector('input') as HTMLInputElement
     this.$remains = $content.querySelector('#charge-amount') as HTMLParagraphElement
-
-    this.$form.addEventListener('submit', this.onSubmit)
+    this.handlers = [['submit', this.onSubmit]]
     this.render($content)
   }
 
   onStoreUpdated({ charge }: State) {
-    this.$remains.textContent = charge + ''
+    this.$remains.textContent = charge.toLocaleString('ko-KR')
     this.$form.reset()
     this.$input.focus()
   }
 
   onSubmit = (e: Event) => {
     e.preventDefault()
-    this.dispatch(Actions.purchase_chargeCoins, this.$input.valueAsNumber)
+    this.dispatch(Actions.user_chargeCoins, this.$input.valueAsNumber)
   }
 }
 

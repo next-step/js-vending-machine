@@ -41,7 +41,7 @@ export default class ProductInventory extends View {
         this.$form = $content.querySelector('#product-form');
         this.$inputs = Array.from(this.$form.querySelectorAll('input'));
         this.$inventoryContainer = $content.querySelector('#product-inventory-container');
-        this.$form?.addEventListener('submit', this.onSubmit);
+        this.handlers = [['submit', this.onSubmit]];
         this.render($content);
     }
     onStoreUpdated({ inventory }) {

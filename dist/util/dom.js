@@ -20,17 +20,6 @@ const el = (parent, children) => {
     }
     return parentElem;
 };
-export const getClosest = (source, ancestor) => {
-    let current = source;
-    while (current.parentElement) {
-        const isMatch = current.parentElement.querySelector(ancestor) || null;
-        const isEqual = current.matches(ancestor);
-        if (isMatch && isEqual)
-            return current;
-        current = current.parentElement;
-    }
-    return null;
-};
 export const getIndex = (elem) => {
     if (!elem.parentElement)
         return -1;

@@ -1,5 +1,5 @@
 import View from '../abstract.js';
-import el, { getClosest, getIndex } from '../../util/dom.js';
+import el, { getIndex } from '../../util/dom.js';
 import ProductItems from './productItems.js';
 export default class ProductList extends View {
     static #template = /* html */ `
@@ -31,7 +31,7 @@ export default class ProductList extends View {
         super();
         const $content = el(ProductList.#template);
         this.$itemsContainer = $content.querySelector('#product-items-container');
-        this.$itemsContainer.addEventListener('click', this.onPurchase);
+        this.handlers = [['click', this.onPurchase]];
         this.render($content);
     }
     onStoreUpdated({ inventory }) {
@@ -40,11 +40,11 @@ export default class ProductList extends View {
     }
     onPurchase = (e) => {
         e.preventDefault();
-        const $target = e.target;
-        if ($target.localName !== 'button')
+        const $tg = e.target;
+        if ($tg.closest('tbody')?.id !== 'product-items-container' || $tg.localName !== 'button')
             return;
-        const itemIndex = getIndex(getClosest($target, 'tr'));
-        this.dispatch("purchase_buyItem" /* purchase_buyItem */, itemIndex);
+        const itemIndex = getIndex($tg.closest('tr'));
+        this.dispatch("user_buyItem" /* user_buyItem */, itemIndex);
     };
 }
 customElements.define('product-list', ProductList);

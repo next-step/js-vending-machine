@@ -14,6 +14,11 @@ export default class View extends HTMLElement {
     viewStore;
     watchState;
     onStoreUpdated(updatedState) { }
+    handlers;
+    constructor() {
+        super();
+        this.#addHandlers();
+    }
     on(eventType, handler) {
         let cb = this.events.get(handler);
         if (!cb) {
@@ -25,7 +30,8 @@ export default class View extends HTMLElement {
     }
     off(eventType, handler) {
         const cb = this.events.get(handler);
-        this.removeEventListener(eventType, cb);
+        if (cb)
+            this.removeEventListener(eventType, cb);
         return this;
     }
     dispatch(actionType, data = null) {
@@ -37,22 +43,27 @@ export default class View extends HTMLElement {
         el(this, children instanceof Array ? children : [children]);
         return this;
     }
-    hide() {
-        this.style.display = 'none';
-        return this;
-    }
-    show() {
-        this.style.display = '';
-        return this;
+    #addHandlers() {
+        if (this.handlers?.length) {
+            this.handlers.forEach(([eventType, handler]) => {
+                this.on(eventType, handler);
+            });
+        }
     }
     connectedCallback() {
         if (this.watchState) {
             this.viewStore = new ViewStore(this);
         }
+        this.#addHandlers();
     }
     disconnectedCallback() {
         if (this.watchState) {
             this.viewStore.deregister();
+        }
+        if (this.handlers?.length) {
+            this.handlers.forEach(([eventType, handler]) => {
+                this.off(eventType, handler);
+            });
         }
     }
 }

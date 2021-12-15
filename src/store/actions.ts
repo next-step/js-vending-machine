@@ -3,8 +3,8 @@ const enum Actions {
   route_change = 'route_change',
   inventory_setProduct = 'inventory_setProduct',
   machine_saveCoins = 'machine_saveCoins',
-  purchase_chargeCoins = 'purchase_chargeCoins',
-  purchase_buyItem = 'purchase_buyItem',
+  user_chargeCoins = 'user_chargeCoins',
+  user_buyItem = 'user_buyItem',
 }
 
 export default Actions
