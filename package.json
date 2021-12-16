@@ -1,0 +1,37 @@
+{
+  "name": "js-vending-machine",
+  "version": "1.0.0",
+  "description": "<p align=\"middle\" >   <img src=\"https://nextstep-storage.s3.ap-northeast-2.amazonaws.com/536baaa17ed346bb851cc9f663edb069\" width=\"400\"> </p>   <h1 align=\"middle\">자바스크립트와 Cypress로 구현하는 자판기</h1>   <p align=\"middle\">     <img src=\"https://img.shields.io/badge/version-1.0.0-blue?style=flat-square\" alt=\"template version\"/>     <img src=\"https://img.shields.io/badge/language-html-red.svg?style=flat-square\"/>     <img src=\"https://img.shields.io/badge/language-css-blue.svg?style=flat-square\"/>     <img src=\"https://img.shields.io/badge/language-js-yellow.svg?style=flat-square\"/>     <img src=\"https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square\"/>   </p> </p>",
+  "main": "index.js",
+  "scripts": {
+    "test": "cypress open",
+    "build": "webpack --mode production",
+    "start": "webpack-dev-server --progress --mode development --open"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lsw1164/js-vending-machine.git"
+  },
+  "author": "lsw1164",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/lsw1164/js-vending-machine/issues"
+  },
+  "homepage": "https://github.com/lsw1164/js-vending-machine#readme",
+  "devDependencies": {
+    "@babel/cli": "^7.16.0",
+    "@babel/core": "^7.16.0",
+    "@babel/preset-env": "^7.16.4",
+    "@babel/preset-typescript": "^7.16.0",
+    "babel-loader": "^8.2.3",
+    "clean-webpack-plugin": "^4.0.0",
+    "css-loader": "^6.5.1",
+    "cypress": "^9.1.1",
+    "html-webpack-plugin": "^5.5.0",
+    "style-loader": "^3.3.1",
+    "typescript": "^4.5.3",
+    "webpack": "^5.65.0",
+    "webpack-cli": "^4.9.1",
+    "webpack-dev-server": "^4.6.0"
+  }
+}
