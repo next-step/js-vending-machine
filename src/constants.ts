@@ -1,23 +1,31 @@
 import Actions from './store/actions.js'
 import Store from './store/index.js'
 
+export type StateKey = 'route' | 'inventory' | 'ownedCoins' | 'charge' | 'changeCoins'
+
+export type CoinKey = 'q500' | 'q100' | 'q50' | 'q10'
+export type Coins = { [key in CoinKey]: number }
+export const CoinKeyValues: [CoinKey, number][] = [
+  ['q500', 500],
+  ['q100', 100],
+  ['q50', 50],
+  ['q10', 10],
+]
 export type InventoryItem = {
   name: string
   price: number
   amount: number
 }
-export type CoinKey = 'total' | 'q500' | 'q100' | 'q50' | 'q10'
-export type Coins = { [key in CoinKey]: number }
 
-export type StateKey = 'route' | 'inventory' | 'coins' | 'charge'
 export type State = {
   route: Route
   inventory: InventoryItem[]
-  coins: Coins
+  ownedCoins: Coins
+  changeCoins: Coins
   charge: number
 }
-export type PartialState = Partial<State>
 
+export type PartialState = Partial<State>
 export type ActionType = keyof typeof Actions
 export type Worker = (data: unknown) => void
 export type Dispatcher = (actionType: ActionType) => Worker
@@ -54,15 +62,18 @@ export const ErrorMsgs = {
   machine_CalculateError: '동전교환 후에도 잔액이 남은건 뭔가 문제가 있다는 뜻',
   store_InitError: 'unable to initialize store',
 }
+
+export const InitialCoins: Coins = {
+  q500: 0,
+  q100: 0,
+  q50: 0,
+  q10: 0,
+}
+
 export const InitialState: State = {
   route: Route.productInventory,
   inventory: [],
-  coins: {
-    total: 0,
-    q500: 0,
-    q100: 0,
-    q50: 0,
-    q10: 0,
-  },
+  ownedCoins: InitialCoins,
   charge: 0,
+  changeCoins: InitialCoins,
 }

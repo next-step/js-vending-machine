@@ -2,6 +2,7 @@ import View from '../abstract.js'
 import Actions from '../../store/actions.js'
 import { State } from '../../constants.js'
 import el from '../../util/dom.js'
+import { getTotalMoney } from '../../service/coinCalculator.js'
 
 export default class MachineCharge extends View {
   static #template = /* html */ `
@@ -27,7 +28,7 @@ export default class MachineCharge extends View {
     </fragment>
   `
 
-  watchState = ['coins'] as const
+  watchState = ['ownedCoins'] as const
 
   $form
   $input
@@ -52,12 +53,12 @@ export default class MachineCharge extends View {
     this.render($content)
   }
 
-  onStoreUpdated({ coins }: State) {
-    this.$total.textContent = coins.total.toLocaleString('ko-KR')
-    this.$q500.textContent = coins.q500 + '개'
-    this.$q100.textContent = coins.q100 + '개'
-    this.$q50.textContent = coins.q50 + '개'
-    this.$q10.textContent = coins.q10 + '개'
+  onStoreUpdated({ ownedCoins }: State) {
+    this.$total.textContent = getTotalMoney(ownedCoins).toLocaleString('ko-KR')
+    this.$q500.textContent = ownedCoins.q500 + '개'
+    this.$q100.textContent = ownedCoins.q100 + '개'
+    this.$q50.textContent = ownedCoins.q50 + '개'
+    this.$q10.textContent = ownedCoins.q10 + '개'
     this.$form.reset()
     this.$input.focus()
   }

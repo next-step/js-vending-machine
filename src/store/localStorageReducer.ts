@@ -14,7 +14,7 @@ class LocalStorageReducer {
     }, {} as any)
   }
   get(key: StateKey) {
-    return this.#list.get(key)!
+    return this.#list.get(key) || new LocalStorageService(key)
   }
   getValue(key: StateKey) {
     return this.get(key).get()
@@ -31,4 +31,4 @@ class LocalStorageReducer {
   }
 }
 
-export default new LocalStorageReducer(['route', 'inventory', 'charge', 'coins'])
+export default new LocalStorageReducer(['route', 'inventory', 'charge', 'ownedCoins'])

@@ -1,7 +1,7 @@
 import { CoinKeyValues } from '../../constants.js';
 import el from '../../util/dom.js';
 import View from '../abstract.js';
-export default class ReturnChanges extends View {
+export default class ChangeCoins extends View {
     static #template = /* html */ `
     <fragment>
       <h3>잔돈</h3>
@@ -43,7 +43,7 @@ export default class ReturnChanges extends View {
     $coins;
     constructor() {
         super();
-        const $content = el(ReturnChanges.#template);
+        const $content = el(ChangeCoins.#template);
         this.$button = $content.querySelector('#coin-return-button');
         this.$coins = {
             q500: $content.querySelector('#coin-500-quantity'),
@@ -70,5 +70,5 @@ export default class ReturnChanges extends View {
         this.dispatch("user_returnCoins" /* user_returnCoins */);
     };
 }
-customElements.define('return-changes', ReturnChanges);
-//# sourceMappingURL=returnChange.js.map
+customElements.define('change-coins', ChangeCoins);
+//# sourceMappingURL=changeCoins.js.map

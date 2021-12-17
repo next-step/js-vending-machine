@@ -13,7 +13,7 @@ class LocalStorageReducer {
         }, {});
     }
     get(key) {
-        return this.#list.get(key);
+        return this.#list.get(key) || new LocalStorageService(key);
     }
     getValue(key) {
         return this.get(key).get();
@@ -29,5 +29,5 @@ class LocalStorageReducer {
         this.#list.set(key, item);
     }
 }
-export default new LocalStorageReducer(['route', 'inventory', 'charge', 'coins']);
+export default new LocalStorageReducer(['route', 'inventory', 'charge', 'ownedCoins']);
 //# sourceMappingURL=localStorageReducer.js.map

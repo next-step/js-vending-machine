@@ -1,35 +1,49 @@
-import { CoinKey, Coins, ErrorMsgs } from '../constants.js'
+import { CoinKeyValues, Coins, ErrorMsgs, InitialCoins } from '../constants.js'
 import Store from '../store/index.js'
 
-const CoinKeys: readonly CoinKey[] = ['total', 'q500', 'q100', 'q50', 'q10']
-const CoinValues = Object.freeze([500, 100, 50, 10])
+export const getTotalMoney = (coins: Coins) => {
+  return CoinKeyValues.reduce((acc, [key, val], i) => {
+    acc += coins[key] * val
+    return acc
+  }, 0)
+}
 
-const singleCoinCalculator = (source: number, coin: number) => {
-  const count = Math.floor(source / coin)
-  const remains = source - count * coin
+const countSingleCoinValue = (sourceMoney: number, coinValue: number, ownedCoins: number = Number.MAX_SAFE_INTEGER) => {
+  const count = Math.min(Math.floor(sourceMoney / coinValue), ownedCoins)
+  const remains = sourceMoney - count * coinValue
   return { count, remains }
 }
 
-const chargeCalculator = (source: number) => {
-  const res: number[] = [source]
-  const finalRemains = [...CoinValues]
+export const saveCoinsCalculator = (store: Store, money: number) => {
+  const newOwnedCoins: Coins = { ...(store.get('ownedCoins') as Coins) }
+
+  const finalRemains = [...CoinKeyValues]
     .sort(() => Math.random() - 0.5)
-    .reduce((prevSource, c) => {
-      const { count, remains } = singleCoinCalculator(prevSource, c)
-      res[CoinValues.indexOf(c) + 1] = count
+    .reduce((prevSource, [key, val]) => {
+      const { count, remains } = countSingleCoinValue(prevSource, val)
+      newOwnedCoins[key] += count
       return remains
-    }, source)
+    }, money)
   if (finalRemains > 0) throw Error(ErrorMsgs.machine_CalculateError)
-  return res
+
+  return newOwnedCoins
 }
 
-const saveCoinsCalculator = (store: Store, money: number) => {
-  const coins = { ...(store.get('coins') as Coins) }
-  const res = chargeCalculator(money)
-  CoinKeys.forEach((key, i) => {
-    coins[key] += res[i]
-  })
-  return coins
-}
+export const changeCoinsCalculator = (store: Store) => {
+  const prevCharge = store.get('charge') as number
+  const ownedCoins: Coins = { ...(store.get('ownedCoins') as Coins) }
+  const changeCoins: Coins = { ...InitialCoins }
 
-export { saveCoinsCalculator }
+  const charge = CoinKeyValues.reduce((prevRemains, [key, val]) => {
+    const { count, remains } = countSingleCoinValue(prevRemains, val, ownedCoins[key])
+    changeCoins[key] = count
+    ownedCoins[key] -= count
+    return remains
+  }, prevCharge)
+
+  return {
+    changeCoins,
+    charge,
+    ownedCoins,
+  }
+}

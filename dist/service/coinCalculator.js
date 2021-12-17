@@ -1,31 +1,59 @@
-import { ErrorMsgs } from '../constants.js';
-const CoinKeys = ['total', 'q500', 'q100', 'q50', 'q10'];
-const CoinValues = Object.freeze([500, 100, 50, 10]);
-const singleCoinCalculator = (source, coin) => {
-    const count = Math.floor(source / coin);
-    const remains = source - count * coin;
+import { CoinKeyValues, ErrorMsgs, InitialCoins } from '../constants.js';
+export const getTotalMoney = (coins) => {
+    return CoinKeyValues.reduce((acc, [key, val], i) => {
+        acc += coins[key] * val;
+        return acc;
+    }, 0);
+};
+const countSingleCoinValue = (sourceMoney, coinValue, ownedCoins = Number.MAX_SAFE_INTEGER) => {
+    const count = Math.min(Math.floor(sourceMoney / coinValue), ownedCoins);
+    const remains = sourceMoney - count * coinValue;
     return { count, remains };
 };
-const chargeCalculator = (source) => {
-    const res = [source];
-    const finalRemains = [...CoinValues]
+const getCharges = (sourceMoney) => {
+    const res = { ...InitialCoins };
+    const finalRemains = [...CoinKeyValues]
         .sort(() => Math.random() - 0.5)
-        .reduce((prevSource, c) => {
-        const { count, remains } = singleCoinCalculator(prevSource, c);
-        res[CoinValues.indexOf(c) + 1] = count;
+        .reduce((prevSource, [key, val]) => {
+        const { count, remains } = countSingleCoinValue(prevSource, val);
+        res[key] = count;
         return remains;
-    }, source);
+    }, sourceMoney);
     if (finalRemains > 0)
         throw Error(ErrorMsgs.machine_CalculateError);
     return res;
 };
-const saveCoinsCalculator = (store, money) => {
-    const coins = { ...store.get('coins') };
-    const res = chargeCalculator(money);
-    CoinKeys.forEach((key, i) => {
-        coins[key] += res[i];
+export const saveCoinsCalculator = (store, money) => {
+    const newCoinState = { ...store.get('ownedCoins') };
+    const res = getCharges(money);
+    CoinKeyValues.forEach(([key]) => {
+        newCoinState[key] += res[key];
     });
-    return coins;
+    return newCoinState;
 };
-export { saveCoinsCalculator };
+const getReturns = (chargedMoney, savedCoins) => {
+    const newOwnedCoins = { ...savedCoins };
+    const changeCoins = { ...InitialCoins };
+    const finalRemains = CoinKeyValues.reduce((prevRemains, [key, val]) => {
+        const { count, remains } = countSingleCoinValue(prevRemains, val, newOwnedCoins[key]);
+        changeCoins[key] = count;
+        newOwnedCoins[key] -= count;
+        return remains;
+    }, chargedMoney);
+    return {
+        changeCoins,
+        charge: finalRemains,
+        newOwnedCoins,
+    };
+};
+export const changeCoinsCalculator = (store) => {
+    const ownedCoins = store.get('ownedCoins');
+    const chargedMoney = store.get('charge');
+    const { changeCoins, charge, newOwnedCoins } = getReturns(chargedMoney, ownedCoins);
+    return {
+        charge,
+        ownedCoins: newOwnedCoins,
+        changeCoins,
+    };
+};
 //# sourceMappingURL=coinCalculator.js.map
