@@ -39,25 +39,7 @@ export default class ProductManage extends Component {
     const onSubmit = (e: Event) => {
       e.preventDefault();
       const $formTarget = e.target as HTMLFormElement;
-
-      const $nameInput = $(
-        id2Query(Id.productNameInput),
-        $formTarget
-      ) as HTMLInputElement;
-      const $priceInput = $(
-        id2Query(Id.productPriceInput),
-        $formTarget
-      ) as HTMLInputElement;
-      const $quantityInput = $(
-        id2Query(Id.productQuantityInput),
-        $formTarget
-      ) as HTMLInputElement;
-
-      const product: IProduct = {
-        name: $nameInput.value.trim(),
-        price: +$priceInput.value,
-        quantity: +$quantityInput.value,
-      };
+      const product = this.getProductFromForm($formTarget);
 
       globalStore.dispatch({
         type: ActionType.addOrUpdateProduct,
@@ -69,6 +51,28 @@ export default class ProductManage extends Component {
 
     this.$target.addEventListener("change", onChange);
     this.$target.addEventListener("submit", onSubmit);
+  }
+
+  private getProductFromForm($formTarget: HTMLFormElement): IProduct {
+    const $nameInput = $(
+      id2Query(Id.productNameInput),
+      $formTarget
+    ) as HTMLInputElement;
+    const $priceInput = $(
+      id2Query(Id.productPriceInput),
+      $formTarget
+    ) as HTMLInputElement;
+    const $quantityInput = $(
+      id2Query(Id.productQuantityInput),
+      $formTarget
+    ) as HTMLInputElement;
+
+    const product: IProduct = {
+      name: $nameInput.value.trim(),
+      price: +$priceInput.value,
+      quantity: +$quantityInput.value,
+    };
+    return product;
   }
 
   protected htmlTemplate(): string {
