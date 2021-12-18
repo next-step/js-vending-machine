@@ -1,14 +1,15 @@
 import { ActionType, ClassName, Config, Id } from "../common/constants";
 import { IProduct, globalStore } from "../common/globalStore";
 import Component from "../core/Component";
-import { $, class2Query, id2Query } from "../core/dom";
+import { $, id2Query } from "../core/dom";
 
 export default class ProductManage extends Component {
   show() {
-    this.$target.classList.remove(class2Query(ClassName.displayNone));
+    this.$target.classList.remove(ClassName.displayNone);
   }
+
   hide() {
-    this.$target.classList.add(class2Query(ClassName.displayNone));
+    this.$target.classList.add(ClassName.displayNone);
   }
 
   private isNeededToStepDown(price: number): boolean {
