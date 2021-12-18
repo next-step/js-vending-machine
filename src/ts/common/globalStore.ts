@@ -5,16 +5,25 @@ import {
   IReducer,
   IStore,
 } from "../core/tiny-redux";
-import { ActionType } from "./constants";
+import { ActionType, Config } from "./constants";
 
 interface IGlobalState {
   products: IProduct[];
-  cash: number;
+  changes: IChanges;
 }
 
 const defaultGlobalState: IGlobalState = {
   products: [],
-  cash: 0,
+  changes: {
+    10: 0,
+    50: 0,
+    100: 0,
+    500: 0,
+  },
+};
+
+export type IChanges = {
+  [key: string]: number;
 };
 
 export interface IProduct {
@@ -34,10 +43,17 @@ const reducer: IReducer<IGlobalState> = (
       const idx = products.findIndex((p) => p.name === product.name);
       idx === -1 ? products.push(product) : (products[idx] = product);
       return { ...state, products: [...products] };
-    case ActionType.chargeCash:
-      const prevCash: number = state.cash ?? 0;
-      const cash = (prevCash + action.payload) as number;
-      return { ...state, cash: isNaN(cash) ? 0 : cash };
+    case ActionType.chargeChanges:
+      const prevChanges = state.changes ?? [];
+      const changes: IChanges = {};
+      let leftCash: number = action.payload;
+      Config.ChangeTypes.forEach((changeType) => {
+        const prevChange = prevChanges[changeType] ?? 0;
+        const change = Math.floor(leftCash / +changeType);
+        leftCash -= change * +changeType;
+        changes[changeType] = prevChange + change;
+      });
+      return { ...state, changes };
     default:
       return state;
   }

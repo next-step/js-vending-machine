@@ -7,7 +7,7 @@ export const Id = Object.freeze({
   current_tab: "current_tab",
   tapComp: "tap-component",
   productManageComp: "product-manage-component",
-  cashChargeComp: "cash-charge-component",
+  changesChargeComp: "changes-charge-component",
   productNameInput: "product-name-input",
   productPriceInput: "product-price-input",
   productQuantityInput: "product-quantity-input",
@@ -35,12 +35,12 @@ export const ClassName = Object.freeze({
 export const Config = Object.freeze({
   MinPrice: 100,
   PriceStep: 10,
-  Changes: [500, 100, 50, 10],
+  ChangeTypes: [500, 100, 50, 10],
 });
 
 export const ActionType = Object.freeze({
   addOrUpdateProduct: "ADD_OR_UPDATE_PRODUCT",
-  chargeCash: "CHARGE_CASH",
+  chargeChanges: "CHARGE_CHANGES",
 });
 
 export const AlertMsg = Object.freeze({});

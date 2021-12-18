@@ -3,7 +3,7 @@ import { globalStore } from "../common/globalStore";
 import Component from "../core/Component";
 import { $, id2Query } from "../core/dom";
 
-export default class CashCharge extends Component {
+export default class ChangesCharge extends Component {
   show() {
     this.$target.classList.remove(ClassName.displayNone);
   }
@@ -33,7 +33,7 @@ export default class CashCharge extends Component {
         const cash = +$cashInput.value;
         if (cash >= Config.MinPrice) {
           globalStore.dispatch({
-            type: ActionType.chargeCash,
+            type: ActionType.chargeChanges,
             payload: cash,
           });
         }
@@ -56,18 +56,25 @@ export default class CashCharge extends Component {
   }
 
   protected htmlTemplate(): string {
-    const cash = globalStore.getState().cash ?? 0;
+    const changes = globalStore.getState().changes ?? [];
 
-    let remain = cash;
-    const tableRowsHTML = Config.Changes.map((change: number) => /*html*/ {
-      const number = Math.floor(remain / change);
-      remain -= change * number;
-      return /*html*/ `
+    const tableRowsHTML = Config.ChangeTypes.map(
+      (changeType: number) => /*html*/ {
+        return /*html*/ `
       <tr>
-				<td>${change}원</td>
-				<td id="${Id.vendingMachineCoinQuantity(change)}">${number}개</td>
+				<td>${changeType}원</td>
+				<td id="${Id.vendingMachineCoinQuantity(changeType)}">${
+          changes[changeType] ?? 0
+        }개</td>
 			</tr>`;
-    }).join("");
+      }
+    ).join("");
+
+    const totalChanges = Config.ChangeTypes.reduce((acc, changeType) => {
+      const prev = acc ?? 0;
+      const cur = (changes[changeType] ?? 0) * +changeType;
+      return prev + cur;
+    }, 0);
 
     return /*html*/ `
 	<h3>자판기 돈통 충전하기</h3>
@@ -79,7 +86,7 @@ export default class CashCharge extends Component {
 		/>
 		<button id="${Id.vendingMachineChargeButton}">충전하기</button>
 	</div>
-	<p>보유 금액: <span id="${Id.vendingMachineChargeAmount}">${cash}</span>원</p>
+	<p>보유 금액: <span id="${Id.vendingMachineChargeAmount}">${totalChanges}</span>원</p>
 	<h3>동전 보유 현황</h3>
 	<table class="${ClassName.cashboxRemaining}">
 		<colgroup>

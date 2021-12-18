@@ -1,14 +1,14 @@
 import { Id } from "../common/constants";
 import Component from "../core/Component";
 import { $, id2Query } from "../core/dom";
-import CashCharge from "./CashCharge";
+import ChangesCharge from "./ChangesCharge";
 import ProductManage from "./ProductManage";
 import Tap from "./Tap";
 
 export default class App extends Component {
   private tapComp?: Tap;
   private productManageComp?: ProductManage;
-  private cashChargeComp?: CashCharge;
+  private cashChargeComp?: ChangesCharge;
 
   constructor($target: HTMLElement) {
     super($target);
@@ -22,7 +22,7 @@ export default class App extends Component {
   private initComponents() {
     this.tapComp = new Tap($(id2Query(Id.tapComp)), {
       showProductManageTab: () => this.showProductManageTab(),
-      showChargeCashTab: () => this.showChargeCashTab(),
+      showChargeChangesTab: () => this.showChargeChangesTab(),
       showPurchaseTab: () => this.showPurchaseTab(),
     });
 
@@ -30,7 +30,7 @@ export default class App extends Component {
       $(id2Query(Id.productManageComp))
     );
 
-    this.cashChargeComp = new CashCharge($(id2Query(Id.cashChargeComp)));
+    this.cashChargeComp = new ChangesCharge($(id2Query(Id.changesChargeComp)));
   }
 
   private hideAllTabs() {
@@ -44,7 +44,7 @@ export default class App extends Component {
     console.log("showProductManageTab");
   }
 
-  private showChargeCashTab() {
+  private showChargeChangesTab() {
     this.hideAllTabs();
     this.cashChargeComp?.show();
     console.log("showChargeCashTab");
@@ -60,7 +60,7 @@ export default class App extends Component {
       <h1>🥤자판기🥤</h1>
       <div id="${Id.tapComp}"></div>
       <div id="${Id.productManageComp}"></div>
-      <div id="${Id.cashChargeComp}"></div>
+      <div id="${Id.changesChargeComp}"></div>
     `;
   }
 }
