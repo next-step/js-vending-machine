@@ -7,10 +7,18 @@ export const Id = Object.freeze({
   current_tab: "current_tab",
   tapComp: "tap-component",
   productManageComp: "product-manage-component",
+  cashChargeComp: "cash-charge-component",
   productNameInput: "product-name-input",
   productPriceInput: "product-price-input",
   productQuantityInput: "product-quantity-input",
   productAddBtn: "product-add-button",
+  vendingMachineChargeInput: "vending-machine-charge-input",
+  vendingMachineChargeButton: "vending-machine-charge-button",
+  vendingMachineChargeAmount: "vending-machine-charge-amount",
+  vendingMachineCoin500Quantity: "vending-machine-coin-500-quantity",
+  vendingMachineCoin100Quantity: "vending-machine-coin-100-quantity",
+  vendingMachineCoin50Quantity: "vending-machine-coin-50-quantity",
+  vendingMachineCoin10Quantity: "vending-machine-coin-10-quantity",
 });
 
 export const ClassName = Object.freeze({
@@ -22,6 +30,8 @@ export const ClassName = Object.freeze({
   productManageName: "product-manage-name",
   productManagePrice: "product-manage-price",
   productManageQuantity: "product-manage-quantity",
+  vendingMachineWrapper: "vending-machine-wrapper",
+  cashboxRemaining: "cashbox-remaining",
 });
 
 export const Config = Object.freeze({
