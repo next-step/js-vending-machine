@@ -9,10 +9,12 @@ import { ActionType } from "./constants";
 
 interface IGlobalState {
   products: IProduct[];
+  cash: number;
 }
 
 const defaultGlobalState: IGlobalState = {
   products: [],
+  cash: 0,
 };
 
 export interface IProduct {
@@ -32,6 +34,10 @@ const reducer: IReducer<IGlobalState> = (
       const idx = products.findIndex((p) => p.name === product.name);
       idx === -1 ? products.push(product) : (products[idx] = product);
       return { ...state, products: [...products] };
+    case ActionType.chargeCash:
+      const prevCash: number = state.cash ?? 0;
+      const cash = (prevCash + action.payload) as number;
+      return { ...state, cash: isNaN(cash) ? 0 : cash };
     default:
       return state;
   }

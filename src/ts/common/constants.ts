@@ -15,10 +15,8 @@ export const Id = Object.freeze({
   vendingMachineChargeInput: "vending-machine-charge-input",
   vendingMachineChargeButton: "vending-machine-charge-button",
   vendingMachineChargeAmount: "vending-machine-charge-amount",
-  vendingMachineCoin500Quantity: "vending-machine-coin-500-quantity",
-  vendingMachineCoin100Quantity: "vending-machine-coin-100-quantity",
-  vendingMachineCoin50Quantity: "vending-machine-coin-50-quantity",
-  vendingMachineCoin10Quantity: "vending-machine-coin-10-quantity",
+  vendingMachineCoinQuantity: (change: number) =>
+    `vending-machine-coin-${change}-quantity`,
 });
 
 export const ClassName = Object.freeze({
@@ -37,10 +35,12 @@ export const ClassName = Object.freeze({
 export const Config = Object.freeze({
   MinPrice: 100,
   PriceStep: 10,
+  Changes: [500, 100, 50, 10],
 });
 
 export const ActionType = Object.freeze({
   addOrUpdateProduct: "ADD_OR_UPDATE_PRODUCT",
+  chargeCash: "CHARGE_CASH",
 });
 
 export const AlertMsg = Object.freeze({});
