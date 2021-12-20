@@ -39,13 +39,16 @@ const reducer: IReducer<IGlobalState> = (
   action: IAction
 ) => {
   switch (action.type) {
-    case ActionType.addOrUpdateProduct:
+    case ActionType.addOrUpdateProduct: {
       const products = state.products ?? [];
       const product = action.payload as IProduct;
       const idx = products.findIndex((p) => p.name === product.name);
-      idx === -1 ? products.push(product) : (products[idx] = product);
+      if (idx === -1) products.push(product);
+      else products[idx] = product;
+
       return { ...state, products: [...products] };
-    case ActionType.chargeChanges:
+    }
+    case ActionType.chargeChanges: {
       const prevChanges = state.changes ?? [];
       const changes: IChanges = {};
       let leftCash: number = action.payload;
@@ -56,10 +59,20 @@ const reducer: IReducer<IGlobalState> = (
         changes[changeType] = prevChange + change;
       });
       return { ...state, changes };
-    case ActionType.chargeAmount:
+    }
+    case ActionType.chargeAmount: {
       const prevAmount = state.amount ?? 0;
       const amount = prevAmount + action.payload;
       return { ...state, amount };
+    }
+    case ActionType.purchaseProduct: {
+      const { products, amount: prevAmount } = state;
+      const productName = action.payload as string;
+      const product = products.find((p) => p.name === productName);
+      product!.quantity--;
+      const amount = prevAmount - product!.price;
+      return { ...state, amount, products: [...products] };
+    }
     default:
       return state;
   }
