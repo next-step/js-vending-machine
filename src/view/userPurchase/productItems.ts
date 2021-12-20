@@ -1,7 +1,7 @@
 import { Elem, InventoryItem } from '../../constants.js'
 import el from '../../util/dom.js'
 
-export default class InventoryItems {
+export default class ProductItems {
   #prevItems: InventoryItem[] = []
   #res: Elem[] = []
 
@@ -11,6 +11,7 @@ export default class InventoryItems {
         <td>${item.name}</td>
         <td>${item.price.toLocaleString('ko-KR')}원</td>
         <td>${item.amount.toLocaleString('ko-KR')}개</td>
+        <td><button data-event-target="purchase" type="button">구매하기</button></td>
       </tr>
     `)
   }

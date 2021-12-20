@@ -1,7 +1,7 @@
 import ViewStore from '../store/viewStore.js';
 import el from '../util/dom.js';
 import errorHandler from '../util/errorHandler.js';
-const eventErrorCatcher = (handler) => (e) => {
+const eventHandlerWithValidation = (handler) => (e) => {
     try {
         handler(e);
     }
@@ -12,11 +12,17 @@ const eventErrorCatcher = (handler) => (e) => {
 export default class View extends HTMLElement {
     events = new Map();
     viewStore;
-    onStoreUpdated(updatedState, totalState) { }
+    watchState;
+    onStoreUpdated(updatedState) { }
+    handlers;
+    constructor() {
+        super();
+        this.#addHandlers();
+    }
     on(eventType, handler) {
         let cb = this.events.get(handler);
         if (!cb) {
-            cb = eventErrorCatcher(handler);
+            cb = eventHandlerWithValidation(handler);
             this.events.set(handler, cb);
         }
         this.addEventListener(eventType, cb);
@@ -24,10 +30,11 @@ export default class View extends HTMLElement {
     }
     off(eventType, handler) {
         const cb = this.events.get(handler);
-        this.removeEventListener(eventType, cb);
+        if (cb)
+            this.removeEventListener(eventType, cb);
         return this;
     }
-    dispatch(actionType, data = {}) {
+    dispatch(actionType, data = null) {
         const event = new CustomEvent('dispatch', { detail: { actionType, data }, bubbles: true });
         this.dispatchEvent(event);
         return this;
@@ -36,23 +43,28 @@ export default class View extends HTMLElement {
         el(this, children instanceof Array ? children : [children]);
         return this;
     }
-    hide() {
-        this.style.display = 'none';
-        return this;
-    }
-    show() {
-        this.style.display = '';
-        return this;
-    }
-    connectedCallback() {
-        if (this.watch) {
-            this.viewStore = new ViewStore(this);
+    #addHandlers() {
+        if (this.handlers?.length) {
+            this.handlers.forEach(([eventType, handler]) => {
+                this.on(eventType, handler);
+            });
         }
     }
+    connectedCallback() {
+        if (this.watchState) {
+            this.viewStore = new ViewStore(this);
+        }
+        this.#addHandlers();
+    }
     disconnectedCallback() {
-        if (this.watch) {
+        if (this.watchState) {
             this.viewStore.deregister();
+        }
+        if (this.handlers?.length) {
+            this.handlers.forEach(([eventType, handler]) => {
+                this.off(eventType, handler);
+            });
         }
     }
 }
-//# sourceMappingURL=view.js.map
+//# sourceMappingURL=abstract.js.map

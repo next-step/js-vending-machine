@@ -1,13 +1,13 @@
-import LocalStorageService from '../core/localStorageService.js'
-import { PartialState, StateKey, StateKeys } from '../types.js'
+import LocalStorageService from '../service/localStorage.js'
+import { PartialState, StateKey } from '../constants.js'
 
-class Storage {
+class LocalStorageReducer {
   #list: Map<StateKey, LocalStorageService<JSON>>
   constructor(keys: StateKey[]) {
     this.#list = new Map(keys.map(key => [key, new LocalStorageService(key)]))
   }
   getAll(): PartialState {
-    return [...this.#list].reduce<{ [k in StateKey]: any }>((res, [key, storage]) => {
+    return [...this.#list].reduce((res, [key, storage]) => {
       const val = storage.get()
       if (val) res[key] = val
       return res
@@ -15,6 +15,9 @@ class Storage {
   }
   get(key: StateKey) {
     return this.#list.get(key)!
+  }
+  getValue(key: StateKey) {
+    return this.get(key).get()
   }
   set(key: StateKey, val: JSON) {
     const item = this.get(key)
@@ -28,5 +31,4 @@ class Storage {
   }
 }
 
-export default new Storage(StateKeys)
-// export default new LocalStorageService('vm-state')
+export default new LocalStorageReducer(['route', 'inventory', 'charge', 'coins'])

@@ -7,18 +7,18 @@ export default class ViewStore {
         connectStore().register(this);
     }
     update(state) {
-        const newState = this.#view.watch(state);
+        const watchStateKeys = this.#view.watchState || [];
         const updatedKeys = new Set();
-        const updatedState = Object.keys(newState).reduce((p, k) => {
-            if (newState[k] !== this.#prevState[k]) {
+        const updatedState = watchStateKeys.reduce((p, k) => {
+            if (state[k] !== this.#prevState[k]) {
                 updatedKeys.add(k);
-                p[k] = newState[k];
+                p[k] = state[k];
             }
             return p;
         }, {});
         if (updatedKeys.size) {
             this.#prevState = state;
-            this.#view.onStoreUpdated(updatedState, state);
+            this.#view.onStoreUpdated(updatedState);
         }
     }
     deregister() {

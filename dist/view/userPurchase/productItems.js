@@ -1,5 +1,5 @@
 import el from '../../util/dom.js';
-export default class InventoryItems {
+export default class ProductItems {
     #prevItems = [];
     #res = [];
     buildItem(item) {
@@ -8,6 +8,7 @@ export default class InventoryItems {
         <td>${item.name}</td>
         <td>${item.price.toLocaleString('ko-KR')}원</td>
         <td>${item.amount.toLocaleString('ko-KR')}개</td>
+        <td><button data-event-target="purchase" type="button">구매하기</button></td>
       </tr>
     `);
     }
@@ -22,4 +23,4 @@ export default class InventoryItems {
         return this.#res;
     }
 }
-//# sourceMappingURL=inventoryItems.js.map
+//# sourceMappingURL=productItems.js.map

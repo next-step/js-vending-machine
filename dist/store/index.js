@@ -1,19 +1,19 @@
-import storage from './storage.js';
+import { ErrorMsgs } from '../constants.js';
+import localStorageReducer from './localStorageReducer.js';
+import errorHandler from '../util/errorHandler.js';
 export default class Store {
     #subscribers = new Set();
     #state;
-    #worker;
-    constructor(container, worker) {
-        this.#worker = worker;
+    #dispatcher;
+    constructor(container, actionWorker) {
+        this.#dispatcher = actionWorker(this);
         container.addEventListener('dispatch', ({ detail: { actionType, data } }) => {
             this.dispatch(actionType, data);
         });
     }
-    dispatch(actionType, data = {}) {
-        window.requestAnimationFrame(() => {
-            console.info(`%c[[%c${actionType}%c]]`, 'color: #ee8', 'color: #8ee', 'color: #ee8', data);
-            this.#worker(actionType)(this, data);
-        });
+    dispatch(actionType, data = null) {
+        console.info(`%c[[%c${actionType}%c]]`, 'color: #ee8', 'color: #8ee', 'color: #ee8', data);
+        this.#dispatcher(actionType)(data);
     }
     register(viewStore) {
         this.#subscribers.add(viewStore);
@@ -22,10 +22,8 @@ export default class Store {
         this.#subscribers.delete(viewStore);
     }
     publish() {
-        window.requestAnimationFrame(() => {
-            this.#subscribers.forEach((subscriber) => {
-                subscriber.update(this.#state);
-            });
+        this.#subscribers.forEach((subscriber) => {
+            subscriber.update(this.#state);
         });
     }
     setValue(state, needUpdate = true) {
@@ -33,7 +31,7 @@ export default class Store {
             this.#state = { ...this.#state, ...state };
             if (needUpdate) {
                 const newStorage = Object.entries(state);
-                newStorage.forEach(([k, v]) => storage.set(k, v));
+                newStorage.forEach(([k, v]) => localStorageReducer.set(k, v));
             }
             this.publish();
         });
@@ -44,11 +42,16 @@ export default class Store {
 }
 export const connectStore = (() => {
     let closureStore;
-    return (elem, worker) => {
-        if (!closureStore) {
-            if (!elem || !worker)
-                throw Error('unable to initialize store');
-            closureStore = new Store(elem, worker);
+    return (elem, actionWorker) => {
+        try {
+            if (!closureStore) {
+                if (!elem || !actionWorker)
+                    throw Error(ErrorMsgs.store_InitError);
+                closureStore = new Store(elem, actionWorker);
+            }
+        }
+        catch (err) {
+            errorHandler('store', err);
         }
         return closureStore;
     };

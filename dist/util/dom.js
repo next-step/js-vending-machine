@@ -20,5 +20,10 @@ const el = (parent, children) => {
     }
     return parentElem;
 };
+export const getIndex = (elem) => {
+    if (!elem.parentElement)
+        return -1;
+    return Array.prototype.indexOf.call(elem.parentElement.children, elem);
+};
 export default el;
 //# sourceMappingURL=dom.js.map

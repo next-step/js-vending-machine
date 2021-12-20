@@ -1,5 +1,4 @@
-import View from '../../core/view.js';
-import { Actions } from '../../store/actions.js';
+import View from '../abstract.js';
 import el from '../../util/dom.js';
 import InventoryItems from './inventoryItems.js';
 export default class ProductInventory extends View {
@@ -10,7 +9,7 @@ export default class ProductInventory extends View {
         <input type="text" name="name" id="product-name-input" placeholder="상품명" autofocus required />
         <input type="number" name="price" id="product-price-input" min="100"  placeholder="가격" required step="10" />
         <input type="number" name="quantity" id="product-quantity-input" min="1" placeholder="수량" required />
-        <button type="submit" id="product-add-button">추가하기</button>
+        <button type="submit" id="product-add-button">추가/수정하기</button>
       </form>
       
       <h3>상품 현황</h3>
@@ -31,6 +30,7 @@ export default class ProductInventory extends View {
       </table>
     </fragment>
   `;
+    watchState = ['inventory'];
     $form;
     $inputs;
     $inventoryContainer;
@@ -41,10 +41,9 @@ export default class ProductInventory extends View {
         this.$form = $content.querySelector('#product-form');
         this.$inputs = Array.from(this.$form.querySelectorAll('input'));
         this.$inventoryContainer = $content.querySelector('#product-inventory-container');
-        this.$form?.addEventListener('submit', this.onSubmit);
+        this.handlers = [['submit', this.onSubmit]];
         this.render($content);
     }
-    watch = ({ inventory }) => ({ inventory });
     onStoreUpdated({ inventory }) {
         this.$form.reset();
         this.$inputs[0].focus();
@@ -54,7 +53,7 @@ export default class ProductInventory extends View {
     onSubmit = (e) => {
         e.preventDefault();
         const formDataEntries = new FormData(this.$form).values();
-        this.dispatch(Actions.inventory_addProduct, {
+        this.dispatch("inventory_setProduct" /* inventory_setProduct */, {
             name: formDataEntries.next().value,
             price: parseInt(formDataEntries.next().value),
             amount: parseInt(formDataEntries.next().value),

@@ -1,8 +1,6 @@
-import View from '../core/view.js'
+import View from './abstract.js'
 import el from '../util/dom.js'
-import { State, StateKey, Route } from '../types.js'
-
-type WatchState = Pick<State, StateKey.route>
+import { State, Route } from '../constants.js'
 
 export default class Main extends View {
   static #template = /* html */ `
@@ -23,6 +21,8 @@ export default class Main extends View {
     [Route.userPurchase]: '<user-purchase></user-purchase>',
   }
 
+  watchState = ['route'] as const
+
   $gnb
   $buttons
   $page
@@ -33,14 +33,11 @@ export default class Main extends View {
     this.$gnb = $content.querySelector('#gnb') as HTMLTableElement
     this.$page = $content.querySelector('#page') as HTMLDivElement
     this.$buttons = Array.from(this.$gnb.querySelectorAll('button'))
-    this.$gnb.addEventListener('click', this.routeChange)
-
+    this.handlers = [['click', this.routeChange]]
     this.render($content)
   }
 
-  watch = ({ route }: State): WatchState => ({ route })
-
-  onStoreUpdated({ route }: WatchState) {
+  onStoreUpdated({ route }: State) {
     el(this.$page, [Main.#components[route]])
     this.$buttons.forEach($btn => {
       $btn.classList.toggle('current', $btn.dataset.routeTarget === route)
@@ -49,8 +46,8 @@ export default class Main extends View {
 
   routeChange = (e: MouseEvent) => {
     const $tg = e.target as HTMLElement
-    if ($tg?.localName !== 'button') return
-    this.dispatch('route_change', { route: $tg.dataset.routeTarget || '' })
+    if ($tg?.closest('div')?.id !== 'gnb' || $tg?.localName !== 'button') return
+    this.dispatch('route_change', $tg.dataset.routeTarget || '')
   }
 }
 

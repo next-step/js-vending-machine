@@ -1,4 +1,4 @@
-import { Elem } from '../types.js'
+import { Elem } from '../constants.js'
 
 const template = document.createElement('template')
 
@@ -20,6 +20,11 @@ const el = (parent: Elem, children?: Elem[]): HTMLElement => {
     parentElem.replaceChildren(frag)
   }
   return parentElem
+}
+
+export const getIndex = (elem: HTMLElement) => {
+  if (!elem.parentElement) return -1
+  return Array.prototype.indexOf.call(elem.parentElement.children, elem)
 }
 
 export default el

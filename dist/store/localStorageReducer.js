@@ -1,6 +1,5 @@
-import LocalStorageService from '../core/localStorageService.js';
-import { StateKeys } from '../types.js';
-class Storage {
+import LocalStorageService from '../service/localStorage.js';
+class LocalStorageReducer {
     #list;
     constructor(keys) {
         this.#list = new Map(keys.map(key => [key, new LocalStorageService(key)]));
@@ -16,6 +15,9 @@ class Storage {
     get(key) {
         return this.#list.get(key);
     }
+    getValue(key) {
+        return this.get(key).get();
+    }
     set(key, val) {
         const item = this.get(key);
         item.set(val);
@@ -27,6 +29,5 @@ class Storage {
         this.#list.set(key, item);
     }
 }
-export default new Storage(StateKeys);
-// export default new LocalStorageService('vm-state')
-//# sourceMappingURL=storage.js.map
+export default new LocalStorageReducer(['route', 'inventory', 'charge', 'coins']);
+//# sourceMappingURL=localStorageReducer.js.map

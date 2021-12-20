@@ -9,19 +9,13 @@ export default class LocalStorageService {
         const value = this.#storage.getItem(this.#key);
         if (value === undefined || value === null || value === '')
             return null;
-        return this.toTargetType(value);
+        return JSON.parse(value);
     }
     set(newValue) {
-        this.#storage.setItem(this.#key, this.toString(newValue));
+        this.#storage.setItem(this.#key, JSON.stringify(newValue));
     }
     clean() {
         this.#storage.removeItem(this.#key);
     }
-    toTargetType(data) {
-        return JSON.parse(data);
-    }
-    toString(data) {
-        return JSON.stringify(data);
-    }
 }
-//# sourceMappingURL=localStorageService.js.map
+//# sourceMappingURL=localStorage.js.map

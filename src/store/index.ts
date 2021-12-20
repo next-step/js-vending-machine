@@ -1,40 +1,37 @@
-import { AnyObj, DispatchEvent, Worker, State, PartialState, StateKey } from '../types.js'
+import { DispatchEvent, ActionWorker, State, PartialState, StateKey, ErrorMsgs, Dispatcher } from '../constants.js'
 import ViewStore from './viewStore.js'
-import storage from './storage.js'
-import { Actions } from './actions.js'
+import localStorageReducer from './localStorageReducer.js'
+import Actions from './actions.js'
+import errorHandler from '../util/errorHandler.js'
 
 export default class Store {
   #subscribers = new Set()
   #state: State
-  #worker: Worker
+  #dispatcher: Dispatcher
 
-  constructor(container: HTMLElement, worker: Worker) {
-    this.#worker = worker
+  constructor(container: HTMLElement, actionWorker: ActionWorker) {
+    this.#dispatcher = actionWorker(this)
     container.addEventListener('dispatch', ({ detail: { actionType, data } }: DispatchEvent) => {
       this.dispatch(actionType, data)
     })
   }
 
-  dispatch(actionType: keyof typeof Actions, data: AnyObj = {}) {
-    window.requestAnimationFrame(() => {
-      console.info(`%c[[%c${actionType}%c]]`, 'color: #ee8', 'color: #8ee', 'color: #ee8', data)
-      this.#worker(actionType)(this, data)
-    })
+  dispatch(actionType: keyof typeof Actions, data: unknown = null) {
+    console.info(`%c[[%c${actionType}%c]]`, 'color: #ee8', 'color: #8ee', 'color: #ee8', data)
+    this.#dispatcher(actionType)(data)
   }
 
-  register(viewStore: any) {
+  register(viewStore: ViewStore) {
     this.#subscribers.add(viewStore)
   }
 
-  deregister(viewStore: any) {
+  deregister(viewStore: ViewStore) {
     this.#subscribers.delete(viewStore)
   }
 
   publish() {
-    window.requestAnimationFrame(() => {
-      this.#subscribers.forEach((subscriber: ViewStore) => {
-        subscriber.update(this.#state)
-      })
+    this.#subscribers.forEach((subscriber: ViewStore) => {
+      subscriber.update(this.#state)
     })
   }
 
@@ -43,7 +40,7 @@ export default class Store {
       this.#state = { ...this.#state, ...state }
       if (needUpdate) {
         const newStorage = Object.entries(state) as [StateKey, any][]
-        newStorage.forEach(([k, v]) => storage.set(k, v))
+        newStorage.forEach(([k, v]) => localStorageReducer.set(k, v))
       }
       this.publish()
     })
@@ -56,10 +53,14 @@ export default class Store {
 
 export const connectStore = (() => {
   let closureStore: Store
-  return (elem?: HTMLElement, worker?: Worker) => {
-    if (!closureStore) {
-      if (!elem || !worker) throw Error('unable to initialize store')
-      closureStore = new Store(elem, worker)
+  return (elem?: HTMLElement, actionWorker?: ActionWorker) => {
+    try {
+      if (!closureStore) {
+        if (!elem || !actionWorker) throw Error(ErrorMsgs.store_InitError)
+        closureStore = new Store(elem, actionWorker)
+      }
+    } catch (err) {
+      errorHandler('store', err)
     }
     return closureStore
   }

@@ -1,6 +1,6 @@
-import View from '../core/view.js';
+import View from './abstract.js';
 import el from '../util/dom.js';
-import { Route } from '../types.js';
+import { Route } from '../constants.js';
 export default class Main extends View {
     static #template = /* html */ `
     <fragment>
@@ -18,6 +18,7 @@ export default class Main extends View {
         [Route.machineCharge]: '<machine-charge></machine-charge>',
         [Route.userPurchase]: '<user-purchase></user-purchase>',
     };
+    watchState = ['route'];
     $gnb;
     $buttons;
     $page;
@@ -27,10 +28,9 @@ export default class Main extends View {
         this.$gnb = $content.querySelector('#gnb');
         this.$page = $content.querySelector('#page');
         this.$buttons = Array.from(this.$gnb.querySelectorAll('button'));
-        this.$gnb.addEventListener('click', this.routeChange);
+        this.handlers = [['click', this.routeChange]];
         this.render($content);
     }
-    watch = ({ route }) => ({ route });
     onStoreUpdated({ route }) {
         el(this.$page, [Main.#components[route]]);
         this.$buttons.forEach($btn => {
@@ -39,9 +39,9 @@ export default class Main extends View {
     }
     routeChange = (e) => {
         const $tg = e.target;
-        if ($tg?.localName !== 'button')
+        if ($tg?.closest('div')?.id !== 'gnb' || $tg?.localName !== 'button')
             return;
-        this.dispatch('route_change', { route: $tg.dataset.routeTarget || '' });
+        this.dispatch('route_change', $tg.dataset.routeTarget || '');
     };
 }
 customElements.define('vending-machine-app', Main);
