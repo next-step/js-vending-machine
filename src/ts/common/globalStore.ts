@@ -10,6 +10,7 @@ import { ActionType, Config } from "./constants";
 interface IGlobalState {
   products: IProduct[];
   changes: IChanges;
+  amount: number;
 }
 
 const defaultGlobalState: IGlobalState = {
@@ -20,6 +21,7 @@ const defaultGlobalState: IGlobalState = {
     100: 0,
     500: 0,
   },
+  amount: 0,
 };
 
 export type IChanges = {
@@ -54,6 +56,10 @@ const reducer: IReducer<IGlobalState> = (
         changes[changeType] = prevChange + change;
       });
       return { ...state, changes };
+    case ActionType.chargeAmount:
+      const prevAmount = state.amount ?? 0;
+      const amount = prevAmount + action.payload;
+      return { ...state, amount };
     default:
       return state;
   }

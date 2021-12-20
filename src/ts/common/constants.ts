@@ -8,6 +8,7 @@ export const Id = Object.freeze({
   tapComp: "tap-component",
   productManageComp: "product-manage-component",
   changesChargeComp: "changes-charge-component",
+  productPurchaseComp: "product-purchase-component",
   productNameInput: "product-name-input",
   productPriceInput: "product-price-input",
   productQuantityInput: "product-quantity-input",
@@ -17,6 +18,9 @@ export const Id = Object.freeze({
   vendingMachineChargeAmount: "vending-machine-charge-amount",
   vendingMachineCoinQuantity: (change: number) =>
     `vending-machine-coin-${change}-quantity`,
+  chargeInput: "charge-input",
+  chargeAmount: "charge-amount",
+  chargeBtn: "charge-button",
 });
 
 export const ClassName = Object.freeze({
@@ -30,6 +34,7 @@ export const ClassName = Object.freeze({
   productManageQuantity: "product-manage-quantity",
   vendingMachineWrapper: "vending-machine-wrapper",
   cashboxRemaining: "cashbox-remaining",
+  purchaseContainer: "purchase-container",
 });
 
 export const Config = Object.freeze({
@@ -41,6 +46,7 @@ export const Config = Object.freeze({
 export const ActionType = Object.freeze({
   addOrUpdateProduct: "ADD_OR_UPDATE_PRODUCT",
   chargeChanges: "CHARGE_CHANGES",
+  chargeAmount: "CHARGE_AMOUNT",
 });
 
 export const AlertMsg = Object.freeze({});
