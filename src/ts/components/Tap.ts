@@ -9,7 +9,7 @@ export default class Tap extends Component<ITapProps> {
       if ($evtTarget.closest(id2Query(Id.productManageMenuBtn))) {
         this.props?.showProductManageTab();
       } else if ($evtTarget.closest(id2Query(Id.vendingMachineManageMenuBtn))) {
-        this.props?.showVendingMachineManageTab();
+        this.props?.showChargeChangesTab();
       } else if ($evtTarget.closest(id2Query(Id.purchaseMenuBtn))) {
         this.props?.showPurchaseTab();
       }
@@ -28,6 +28,6 @@ export default class Tap extends Component<ITapProps> {
 
 interface ITapProps {
   showProductManageTab: () => void;
-  showVendingMachineManageTab: () => void;
+  showChargeChangesTab: () => void;
   showPurchaseTab: () => void;
 }

@@ -199,3 +199,10 @@ button:active {
   justify-content: center;
   align-items: center;
 }
+
+.vending-machine-wrapper {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
