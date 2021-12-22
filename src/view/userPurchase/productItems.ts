@@ -7,7 +7,7 @@ export default class ProductItems {
   #res: Elem[] = []
 
   buildItem(item: InventoryItem) {
-    return el(`
+    return el(/* html */ `
       <tr>
         <td>${item.name}</td>
         <td><span>${lnKo(item.price)}<span>원</td>

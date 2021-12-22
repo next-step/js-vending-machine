@@ -4,7 +4,7 @@ export default class ProductItems {
     #prevItems = [];
     #res = [];
     buildItem(item) {
-        return el(`
+        return el(/* html */ `
       <tr>
         <td>${item.name}</td>
         <td><span>${lnKo(item.price)}<span>원</td>
