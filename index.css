@@ -96,7 +96,8 @@ input[type='text'] {
 	text-align: left;
 	border: 1px solid #afafaf;
 	border-radius: 6px;
-	width: calc(100% - 6.125rem);
+	width: 100%;
+	box-sizing: border-box;
 }
 
 #charge-button,
@@ -110,9 +111,10 @@ button {
 	all: unset;
 	font-size: 0.825rem;
 	cursor: pointer;
-	border: 1px solid #afafaf;
+	border: 1px solid #d4b19d;
 	border-radius: 6px;
 	padding: 0.3rem 0.45rem;
+	background-color: #FAF1EC;
 }
 
 section p {
@@ -122,6 +124,10 @@ section p {
 	border-radius: 6px;
 	width: 65%;
 	font-size: 14px;
+}
+
+.nav {
+	padding-bottom: 0.5rem;
 }
 
 .purchase-container {
@@ -137,6 +143,11 @@ section p {
 
 .product-container input:not(:first-child) {
 	margin-top: 0.5rem;
+}
+.product-container label {
+	display: block;
+	margin-bottom: 0.5rem;
+	text-align: left;
 }
 
 .vending-machine-wrapper {
@@ -154,17 +165,27 @@ section p {
 }
 
 button:active {
-	box-shadow: 1px 1px 2px 1px #d8d8d8 inset;
+	box-shadow: 1px 1px 2px 1px #e6cfc1 inset;
+}
+button.on {
+	background-color: #FFB58B;
+	border: 1px solid #FD7326;
+	color: #5a2d15;
+}
+button.on:active {
+	box-shadow: 1px 1px 2px 1px #fa945d inset;
 }
 
 .cashbox-remaining,
 .purchase-available,
 .cashbox-change,
 .product-inventory {
+	margin: 1rem auto;
 	border-radius: 10px;
 	border-collapse: collapse;
 	border-style: hidden;
 	box-shadow: 0 0 0 1px rgb(66, 66, 66);
+	background-color: #fff;
 }
 
 .purchase-available td,
@@ -176,4 +197,29 @@ button:active {
 .cashbox-change th,
 .cashbox-remaining th {
 	border: 1px solid rgb(66, 66, 66);
+}
+
+.fieldset {
+	border: 0 none;
+	padding: 0;
+	margin: 0;
+}
+
+.error-message {
+	display: none;
+	margin-top: 0.25rem;
+	color: red;
+	font-size: 0.825rem;
+}
+
+.is-error input {
+	border-color: red;
+}
+
+.is-error .error-message {
+	display: inline-block;
+}
+
+.hide {
+	display: none;
 }
