@@ -3,12 +3,14 @@ import Component from "../core/Component";
 import { $, id2Query } from "../core/dom";
 import ChangesCharge from "./ChangesCharge";
 import ProductManage from "./ProductManage";
+import ProductPurchase from "./ProductPurchase";
 import Tap from "./Tap";
 
 export default class App extends Component {
   private tapComp?: Tap;
   private productManageComp?: ProductManage;
-  private cashChargeComp?: ChangesCharge;
+  private changesChargeComp?: ChangesCharge;
+  private productPurchaseComp?: ProductPurchase;
 
   constructor($target: HTMLElement) {
     super($target);
@@ -30,12 +32,19 @@ export default class App extends Component {
       $(id2Query(Id.productManageComp))
     );
 
-    this.cashChargeComp = new ChangesCharge($(id2Query(Id.changesChargeComp)));
+    this.changesChargeComp = new ChangesCharge(
+      $(id2Query(Id.changesChargeComp))
+    );
+
+    this.productPurchaseComp = new ProductPurchase(
+      $(id2Query(Id.productPurchaseComp))
+    );
   }
 
   private hideAllTabs() {
     this.productManageComp?.hide();
-    this.cashChargeComp?.hide();
+    this.changesChargeComp?.hide();
+    this.productPurchaseComp?.hide();
   }
 
   private showProductManageTab() {
@@ -46,12 +55,13 @@ export default class App extends Component {
 
   private showChargeChangesTab() {
     this.hideAllTabs();
-    this.cashChargeComp?.show();
+    this.changesChargeComp?.show();
     console.log("showChargeCashTab");
   }
 
   private showPurchaseTab() {
     this.hideAllTabs();
+    this.productPurchaseComp?.show();
     console.log("showPurchaseTab");
   }
 
@@ -61,6 +71,7 @@ export default class App extends Component {
       <div id="${Id.tapComp}"></div>
       <div id="${Id.productManageComp}"></div>
       <div id="${Id.changesChargeComp}"></div>
+      <div id="${Id.productPurchaseComp}"></div>
     `;
   }
 }
