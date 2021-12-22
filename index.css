@@ -151,7 +151,8 @@ section p {
 }
 
 .vending-machine-wrapper {
-	width: 65%;
+	display: flex;
+	align-items: baseline;
 }
 
 #product-add-button {
@@ -175,6 +176,12 @@ button.on {
 button.on:active {
 	box-shadow: 1px 1px 2px 1px #fa945d inset;
 }
+button:disabled, button.disabled {
+	background-color: #FAF1EC;
+	color: #b8aba4;
+	border-color: #cfc1b9;
+	cursor: not-allowed;
+}
 
 .cashbox-remaining,
 .purchase-available,
@@ -185,7 +192,7 @@ button.on:active {
 	border-collapse: collapse;
 	border-style: hidden;
 	box-shadow: 0 0 0 1px rgb(66, 66, 66);
-	background-color: #fff;
+	overflow: hidden;
 }
 
 .purchase-available td,
@@ -197,6 +204,16 @@ button.on:active {
 .cashbox-change th,
 .cashbox-remaining th {
 	border: 1px solid rgb(66, 66, 66);
+	background-color: #fff;
+}
+
+#product-add-form,
+.vending-machine-wrapper {
+	max-width: 340px;
+}
+
+.vending-machine-wrapper label {
+	flex: auto;
 }
 
 .fieldset {
@@ -218,6 +235,7 @@ button.on:active {
 
 .is-error .error-message {
 	display: inline-block;
+	text-align: left;
 }
 
 .hide {
