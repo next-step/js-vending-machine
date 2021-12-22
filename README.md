@@ -1,14 +1,10 @@
-<p align="middle" >
-  <img src="https://nextstep-storage.s3.ap-northeast-2.amazonaws.com/536baaa17ed346bb851cc9f663edb069" width="400">
-</p>
-  <h1 align="middle">자바스크립트와 Cypress로 구현하는 자판기</h1>
-  <p align="middle">
-    <img src="https://img.shields.io/badge/version-1.0.0-blue?style=flat-square" alt="template version"/>
-    <img src="https://img.shields.io/badge/language-html-red.svg?style=flat-square"/>
-    <img src="https://img.shields.io/badge/language-css-blue.svg?style=flat-square"/>
-    <img src="https://img.shields.io/badge/language-js-yellow.svg?style=flat-square"/>
-    <img src="https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square"/>
-  </p>
+<h1 align="middle">자바스크립트와 Cypress로 구현하는 자판기</h1>
+<p align="middle">
+  <img src="https://img.shields.io/badge/version-1.0.0-blue?style=flat-square" alt="template version"/>
+  <img src="https://img.shields.io/badge/language-html-red.svg?style=flat-square"/>
+  <img src="https://img.shields.io/badge/language-css-blue.svg?style=flat-square"/>
+  <img src="https://img.shields.io/badge/language-js-yellow.svg?style=flat-square"/>
+  <img src="https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square"/>
 </p>
 
 ## 📝 요구사항
@@ -24,24 +20,41 @@
 - 다른 탭으로 이동했다 돌아와도 기존 탭의 상태가 유지되어야 한다.
 - localStorage를 이용하여, 새로고침하더라도 가장 최근에 작업한 정보들을 불러올 수 있도록 한다.
 
-### **상품 관리**
+### **🎯 1단계 - 상품 관리**
 
-- `상품 관리`탭에서, 다음과 같은 규칙을 바탕으로 상품을 추가한다.
-- 최초 상품 목록은 비워진 상태이다. (이미지 첨부)
-- 상품명, 금액, 수량을 추가할 수 있다.
-  - 상품 추가 입력 폼에 상품명, 금액, 수량을 차례로 입력한다.
-  - 상품명, 금액, 수량은 공백이 불가능하다.
-  - 상품의 최소 수량은 1개여야 한다.
-  - 상품의 최소 가격은 100원이며, 10원으로 나누어 떨어져야 한다.
+- [ ] `상품 관리`탭에서, 다음과 같은 규칙을 바탕으로 상품을 추가한다.
+- [ ] 최초 상품 목록은 비워진 상태이다. (이미지 첨부)
+- [ ] 상품명, 금액, 수량을 추가할 수 있다.
+  - [ ] 상품 추가 입력 폼에 상품명, 금액, 수량을 차례로 입력한다.
+  - [ ] 상품명, 금액, 수량은 공백이 불가능하다.
+  - [ ] 상품의 최소 수량은 1개여야 한다.
+  - [ ] 상품의 최소 가격은 100원이며, 10원으로 나누어 떨어져야 한다.
     - 예) 콜라 / 110원 / 5개
     - 예) 사이다 / 100원 / 100개
-- 같은 상품명의 데이터를 추가하면 기존의 상품에 해당하는 데이터는 새로운 상품으로 대체된다.
+- [ ] 같은 상품명의 데이터를 추가하면 기존의 상품에 해당하는 데이터는 새로운 상품으로 대체된다.
   - 콜라 / 1000원 / 12개(전) -> 콜라 / 1500원 / 10개(후) => 콜라 / 1500원 / 10개(결과)
-- 사용자는 추가한 상품을 확인할 수 있다.
-  - 상품의 이름, 가격, 수량 순으로 상품 목록이 보여진다. (이미지 첨부)
-- 상품 목록은 탭을 이동하여도 기존의 상품 목록이 유지되어야 한다.
+- [ ] 사용자는 추가한 상품을 확인할 수 있다.
+  - [ ] 상품의 이름, 가격, 수량 순으로 상품 목록이 보여진다. (이미지 첨부)
+- [ ] 상품 목록은 탭을 이동하여도 기존의 상품 목록이 유지되어야 한다.
+
+### **🔖 기능 정의**
+
+- [ ] 상품명, 금액, 수량을 입력받는다. > 추가한다.
+  - [ ] 각 입력은 공백이면 에러 발생
+  - [ ] 수량은 1개 이상이어야한다.
+  - [ ] 상품은 100원 이상이어야하며 10원으로 나누어 떨어져야 한다.
+- [ ] 같은 이름의 상품을 입력하면 기존 상품을 교체한다. (새로 입력된 정보로)
+- [ ] 추가한 상품은 ?? 순서대로 보여야..
+- [ ] 탭을 이동해도 상품 목록이 유지되어야 한다.
+
+<details>
+  <summary>상품추가 그림</summary>
 
 ![상품추가](https://nextstep-storage.s3.ap-northeast-2.amazonaws.com/89574309abd2470c9d3d91f6e6666f0d)
+
+</details>
+
+<br>
 
 ### **잔돈 충전** (자판기 보유 동전)
 
