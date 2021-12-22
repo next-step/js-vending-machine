@@ -1,6 +1,7 @@
 import { State } from '../../constants.js'
 import Actions from '../../store/actions.js'
 import el from '../../util/dom.js'
+import lnKo from '../../util/lnKo.js'
 import View from '../abstract.js'
 
 export default class ChargeCoins extends View {
@@ -34,7 +35,7 @@ export default class ChargeCoins extends View {
   }
 
   onStoreUpdated({ charge }: State) {
-    this.$remains.textContent = charge.toLocaleString('ko-KR')
+    this.$remains.textContent = lnKo(charge)
     this.$form.reset()
     this.$input.focus()
   }

@@ -1,6 +1,8 @@
 import View from '../abstract.js';
+import { CoinKeyValues } from '../../constants.js';
 import el from '../../util/dom.js';
-import { getTotalMoney } from '../../service/coinCalculator.js';
+import { getTotalFromCoins } from '../../service/coinCalculator.js';
+import lnKo from '../../util/lnKo.js';
 export default class MachineCharge extends View {
     static #template = /* html */ `
     <fragment>
@@ -12,14 +14,12 @@ export default class MachineCharge extends View {
       <p>보유 금액: <span id="vending-machine-charge-amount">0</span>원</p>
       <h3>동전 보유 현황</h3>
       <table class="cashbox-remaining margin-auto">
-        <thead>
-          <tr><th>동전</th><th>개수</th></tr>
-        </thead>
+        <thead><tr><th>동전</th><th>개수</th></tr></thead>
         <tbody>
-          <tr><td>500원</td><td id="vending-machine-coin-500-quantity"></td></tr>
-          <tr><td>100원</td><td id="vending-machine-coin-100-quantity"></td></tr>
-          <tr><td>50원</td><td id="vending-machine-coin-50-quantity"></td></tr>
-          <tr><td>10원</td><td id="vending-machine-coin-10-quantity"></td></tr>
+          ${CoinKeyValues.map(([, val]) => `<tr>
+              <td>${val}원</td>
+              <td><span id="vending-machine-coin-${val}-quantity"></span>개</td>
+            </tr>`).join('')}
         </tbody>
       </table>
     </fragment>
@@ -28,29 +28,23 @@ export default class MachineCharge extends View {
     $form;
     $input;
     $total;
-    $q500;
-    $q100;
-    $q50;
-    $q10;
+    $coins;
     constructor() {
         super();
         const $content = el(MachineCharge.#template);
         this.$form = $content.querySelector('form');
         this.$input = this.$form.querySelector('input');
         this.$total = $content.querySelector('#vending-machine-charge-amount');
-        this.$q500 = $content.querySelector('#vending-machine-coin-500-quantity');
-        this.$q100 = $content.querySelector('#vending-machine-coin-100-quantity');
-        this.$q50 = $content.querySelector('#vending-machine-coin-50-quantity');
-        this.$q10 = $content.querySelector('#vending-machine-coin-10-quantity');
+        this.$coins = CoinKeyValues.map(([, val]) => $content.querySelector(`#vending-machine-coin-${val}-quantity`));
         this.handlers = [['submit', this.onSubmit]];
         this.render($content);
     }
     onStoreUpdated({ ownedCoins }) {
-        this.$total.textContent = getTotalMoney(ownedCoins).toLocaleString('ko-KR');
-        this.$q500.textContent = ownedCoins.q500 + '개';
-        this.$q100.textContent = ownedCoins.q100 + '개';
-        this.$q50.textContent = ownedCoins.q50 + '개';
-        this.$q10.textContent = ownedCoins.q10 + '개';
+        if (ownedCoins)
+            this.$total.textContent = lnKo(getTotalFromCoins(ownedCoins));
+        CoinKeyValues.forEach(([key], i) => {
+            this.$coins[i].textContent = lnKo(ownedCoins[key]);
+        });
         this.$form.reset();
         this.$input.focus();
     }

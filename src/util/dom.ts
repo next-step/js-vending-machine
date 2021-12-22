@@ -21,10 +21,9 @@ const el = (parent: Elem, children?: Elem[]): HTMLElement => {
   }
   return parentElem
 }
+export default el
 
 export const getIndex = (elem: HTMLElement) => {
   if (!elem.parentElement) return -1
   return Array.prototype.indexOf.call(elem.parentElement.children, elem)
 }
-
-export default el

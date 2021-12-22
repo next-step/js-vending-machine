@@ -1,6 +1,7 @@
 import { CoinKeyValues, State } from '../../constants.js'
 import Actions from '../../store/actions.js'
 import el from '../../util/dom.js'
+import lnKo from '../../util/lnKo.js'
 import View from '../abstract.js'
 
 export default class ChangeCoins extends View {
@@ -9,33 +10,15 @@ export default class ChangeCoins extends View {
       <h3>잔돈</h3>
       <button id="coin-return-button">반환하기</button>
       <table class="cashbox-change margin-auto">
-        <colgroup>
-          <col />
-          <col />
-        </colgroup>
-        <thead>
-          <tr>
-            <th>동전</th>
-            <th>개수</th>
-          </tr>
-        </thead>
+        <thead><tr><th>동전</th><th>개수</th></tr></thead>
         <tbody>
-          <tr>
-            <td>500원</td>
-            <td id="coin-500-quantity"></td>
-          </tr>
-          <tr>
-            <td>100원</td>
-            <td id="coin-100-quantity"></td>
-          </tr>
-          <tr>
-            <td>50원</td>
-            <td id="coin-50-quantity"></td>
-          </tr>
-          <tr>
-            <td>10원</td>
-            <td id="coin-10-quantity"></td>
-          </tr>
+          ${CoinKeyValues.map(
+            ([, val]) => `
+              <tr>
+                <td>${val}원</td>
+                <td><span id="coin-${val}-quantity"></span>개</td>
+              </tr>`,
+          ).join('')}
         </tbody>
       </table>
     </fragment>
@@ -50,24 +33,15 @@ export default class ChangeCoins extends View {
     super()
     const $content = el(ChangeCoins.#template)
     this.$button = $content.querySelector('#coin-return-button')
-    this.$coins = {
-      q500: $content.querySelector('#coin-500-quantity'),
-      q100: $content.querySelector('#coin-100-quantity'),
-      q50: $content.querySelector('#coin-50-quantity'),
-      q10: $content.querySelector('#coin-10-quantity'),
-    }
+    this.$coins = CoinKeyValues.map(([, val]) => $content.querySelector(`#coin-${val}-quantity`)) as HTMLSpanElement[]
     this.handlers = [['click', this.onClickReturn]]
 
     this.render($content)
   }
 
   onStoreUpdated({ changeCoins }: State) {
-    CoinKeyValues.forEach(([key]) => {
-      const $el = this.$coins[key] as HTMLElement
-      if ($el) {
-        console.log(key, $el, changeCoins[key], changeCoins)
-        $el.textContent = changeCoins[key].toLocaleString('ko-KR')
-      }
+    CoinKeyValues.forEach(([key], i) => {
+      this.$coins[i].textContent = lnKo(changeCoins[key])
     })
   }
 

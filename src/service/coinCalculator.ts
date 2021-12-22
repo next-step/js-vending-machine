@@ -1,7 +1,7 @@
 import { CoinKeyValues, Coins, ErrorMsgs, InitialCoins } from '../constants.js'
 import Store from '../store/index.js'
 
-export const getTotalMoney = (coins: Coins) => {
+export const getTotalFromCoins = (coins: Coins) => {
   return CoinKeyValues.reduce((acc, [key, val], i) => {
     acc += coins[key] * val
     return acc

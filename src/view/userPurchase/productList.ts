@@ -15,14 +15,7 @@ export default class ProductList extends View {
           <col style="width: 100px" />
           <col style="width: 100px" />
         </colgroup>
-        <thead>
-          <tr>
-            <th>상품명</th>
-            <th>가격</th>
-            <th>수량</th>
-            <th>구매</th>
-          </tr>
-        </thead>
+        <thead><tr><th>상품명</th><th>가격</th><th>수량</th><th>구매</th></tr></thead>
         <tbody id="product-items-container"></tbody>
       </table>
     </fragment>
