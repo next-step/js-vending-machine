@@ -8,8 +8,10 @@ import {
 import { globalStore } from "../common/globalStore";
 import Component from "../core/Component";
 import { $, class2Query, id2Query } from "../core/dom";
+import CoinChanger from "./CoinChanger";
 
 export default class ProductPurchase extends Component {
+  private coinChangerComp?: CoinChanger;
   show() {
     this.$target.classList.remove(ClassName.displayNone);
   }
@@ -22,6 +24,15 @@ export default class ProductPurchase extends Component {
     globalStore.subscribe(this.render, this);
     this.$target.addEventListener("change", (e: Event) => this.onChange(e));
     this.$target.addEventListener("click", (e: Event) => this.onClick(e));
+    this.coinChangerComp = new CoinChanger(
+      $(id2Query(Id.coinChanger), this.$target)
+    );
+  }
+
+  protected componentDidUpdate(): void {
+    this.coinChangerComp = new CoinChanger(
+      $(id2Query(Id.coinChanger), this.$target)
+    );
   }
 
   private onClick(e: Event) {
@@ -130,6 +141,7 @@ export default class ProductPurchase extends Component {
       ${tableBodyHTML}
     </tbody>
     </table>
+    <div id="${Id.coinChanger}"></div>
     `;
   }
 }
