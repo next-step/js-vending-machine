@@ -1,0 +1,12 @@
+{
+  "name": "js-vending-machine",
+  "version": "1.0.0",
+  "description": "자판기 미션",
+  "main": "index.js",
+  "repository": "https://github.com/limhizy15/js-vending-machine.git",
+  "author": "limhizy15 <limhizy15@ajou.ac.kr>",
+  "license": "MIT",
+  "devDependencies": {
+    "cypress": "^9.2.0"
+  }
+}
