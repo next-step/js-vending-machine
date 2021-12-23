@@ -1,6 +1,6 @@
 import Component from "../core/Component.js";
 
-export default class App extends Component {
+export default class ProductPurchaser extends Component {
   setup() {}
 
   template() {

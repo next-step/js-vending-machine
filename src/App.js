@@ -22,7 +22,6 @@ export default class App extends Component {
   }
 
   mounted() {
-    console.log(this.$state.currentTap);
     const $container = this.$target.querySelector("#vending-machine-container");
 
     if (this.$state.currentTap === "product-manage-menu") {
@@ -38,6 +37,7 @@ export default class App extends Component {
 
   setEvent() {
     this.addEvent("click", "#tab-list", (e) => {
+      if (e.target.id === "tab-list") return;
       this.setState({
         currentTap: e.target.id,
       });
