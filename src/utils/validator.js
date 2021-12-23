@@ -1,6 +1,8 @@
+import { ErrorMsgs } from "./constants.js";
+
 export const isNameAvailable = (name) => {
   if (name === "") {
-    alert("이름을 입력해주세요");
+    alert(ErrorMsgs.EMPTY_NAME);
     return false;
   }
 
@@ -9,17 +11,17 @@ export const isNameAvailable = (name) => {
 
 export const isPriceAvailable = (price) => {
   if (price === "") {
-    alert("가격을 입력해주세요");
+    alert(ErrorMsgs.EMPTY_PRICE);
     return false;
   }
 
   if (Number(price) < 100) {
-    alert("가격은 100원 이상이어야 합니다");
+    alert(ErrorMsgs.OUT_OF_RANGE_PRICE);
     return false;
   }
 
   if (Number(price) % 10 !== 0) {
-    alert("가격은 10원으로 나누어 떨어져야 합니다");
+    alert(ErrorMsgs.NOT_DIVIDED_PRICE);
     return false;
   }
 
@@ -28,12 +30,12 @@ export const isPriceAvailable = (price) => {
 
 export const isQuantityAvailable = (quantity) => {
   if (quantity === "") {
-    alert("수량을 입력해주세요");
+    alert(ErrorMsgs.EMPTY_QUANTITY);
     return false;
   }
 
   if (Number(quantity) < 1) {
-    alert("수량은 1개 이상이어야 합니다");
+    alert(ErrorMsgs.OUT_OF_RANGE_QUANTITY);
     return false;
   }
 
