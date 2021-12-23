@@ -1,4 +1,5 @@
 import { ERROR_MESSAGES, PRODUCT_PRICE, PRODUCT_QUANTITY } from '../constants/index.js';
+import { hasBlankString } from '../util/index.js';
 
 const isMinValue = value => value < PRODUCT_PRICE.MIN || value % PRODUCT_PRICE.MIN_UNIT;
 

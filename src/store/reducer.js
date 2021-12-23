@@ -1,14 +1,20 @@
 import { initState } from "./initState.js";
 import {
+  CHANGE_VIEW,
   ADD_PRODUCT,
   UPDATE_PRODUCT,
   ADD_MACHINE_CHARGE
 } from "./actions.js"
+import { sumValuesOfObjects } from "../util/index.js"
 
 const reducer = (state = initState, action = {}) => {
   const { type, payload } = action;
 
   switch (type) {
+    case CHANGE_VIEW:
+      const { currentMachineView } = payload;
+      return { ...state, currentMachineView };
+    
     case ADD_PRODUCT:
       return { ...state, products: [...state.products, payload.product] };
     
@@ -22,21 +28,13 @@ const reducer = (state = initState, action = {}) => {
       };
     
     case ADD_MACHINE_CHARGE:
-      // payload.machineCharge
-      console.log("payload.charge", payload.charge);
-      console.log("payload.coins", payload.coins);
-      const { charge, coins } = state.machine;
+      const { totalAmount, coins } = state.machineCharge;
 
       return {
         ...state,
-        machine: {
-          charge: Number(charge) + Number(payload.charge),
-          coins: Object.entries(payload.coins).reduce((newObj, [key, value]) => {
-            console.log(key, value);
-            newObj[key] = Number(coins[key]) + Number(value);
-            console.log(Number(coins[key]))
-            return newObj;
-          }, {})
+        machineCharge: {
+          totalAmount: Number(totalAmount) + Number(payload.totalAmount),
+          coins: sumValuesOfObjects(coins, payload.coins)
         }
       }
     default:

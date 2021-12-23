@@ -8,8 +8,6 @@ const changeChargeToCoin = (machineCharge) => {
     if (currentCharge >= coin) {
       currentCharge = currentCharge % coin;
     }
-    // console.dir(prevObj);
-    // console.log(currentCharge);
     return prevObj;
   }, {});
 }

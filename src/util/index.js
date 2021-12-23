@@ -9,3 +9,10 @@ export const hasBlankString = (str) => {
 }
 
 export const numberWithCommas = (number) => number.toLocaleString();
+
+export const sumValuesOfObjects = (prevObj, nextObj) => (
+  Object.entries(nextObj).reduce((newObj, [key, value]) => {
+    newObj[key] = Number(prevObj[key]) + Number(value);
+    return newObj;
+  }, {})
+)

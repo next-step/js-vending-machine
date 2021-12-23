@@ -1,25 +1,26 @@
-import View from "./View.js"
-import Navigation from "./Navigation.js";
-import ProductManage from "./ProductManage.js";
-import ChargeAmountManage from "./ChargeAmountManage.js";
-import ProductPurchase from "./ProductPurchase.js";
+import store from '../store/index.js';
+import { observe } from '../core/observer.js';
 import { $ } from "../util/index.js";
+import View from "./View.js"
+import "./Navigation.js";
+import "./ProductManage.js";
+import "./ChargeAmountManage.js";
+import "./ProductPurchase.js";
 
 export default class VendingMachineApp extends View {
-  currentView;
+  prevMachineView;
   init() {
-    this.setCurrentView("product-manage");
-
-    $("nav-tab").on("change-tab", ({detail: {currentView}}) => {
-      this.setCurrentView(currentView);
+    observe(() => {
+      this.setCurrentView();
     })
   }
-  setCurrentView(currentView) {
-    if(this.currentView) $(this.currentView).hide();
-    $(currentView).show();
+  setCurrentView() {
+    const { currentMachineView } = store.getState();
+    if(this.prevMachineView) $(this.prevMachineView).hide();
+    $(currentMachineView).show();
 
-    this.currentView = currentView;
-    $("nav-tab").setAttribute("data-tab", currentView);
+    this.prevMachineView = currentMachineView;
+    $("nav-tab").setAttribute("data-tab", currentMachineView);
   }
   render() {
     /* html */

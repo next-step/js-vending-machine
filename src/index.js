@@ -1,5 +1,5 @@
 import { $ } from "./util/index.js"
-import VendingMachineApp from "./views/VendingMachineApp.js";
+import "./views/VendingMachineApp.js";
 
 document.addEventListener('DOMContentLoaded', function () {
   const $elem = $("#app");

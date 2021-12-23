@@ -1,10 +1,10 @@
+import store from '../store/index.js';
+import { observe } from '../core/observer.js';
+import { addMachineCharge } from '../store/actions.js';
 import { $, numberWithCommas } from "../util/index.js";
 import { COINS } from '../constants/index.js';
 import getErrorMessage from "../common/getErrorMessage.js";
 import changeChargeToCoin from "../common/changeChargeToCoin.js";
-import store from '../store/index.js';
-import { observe } from '../core/observer.js';
-import { addMachineCharge } from '../store/actions.js';
 import View from "./View.js"
 
 export default class ChargeAmountManage extends View {
@@ -13,25 +13,28 @@ export default class ChargeAmountManage extends View {
   init() {
     this.$input = $("#vending-machine-charge-input");
     this.$chargeAmount = $("#vending-machine-charge-amount");
-    this.setEvent();
+    this.bindEvent();
 
     observe(() => {
       this.renderCurrentMachineCharge();
     })
   }
 
-  setEvent() {
+  bindEvent() {
     this.on("submit", (e) => {
       e.preventDefault();
 
       const { name: key, value } = this.$input;
       const errorMessage = getErrorMessage(key, value);
-      this.showErrorMessage(errorMessage);
-
-      if (!errorMessage) {
-        this.addCharge(value);
-        this.resetInputValue();
+      
+      if (errorMessage) { 
+        this.showErrorMessage(errorMessage);
+        return;
       }
+
+      this.addCharge(value);
+      this.removeErrorMessage();
+      this.resetInputValue();
     });
   }
 
@@ -39,13 +42,20 @@ export default class ChargeAmountManage extends View {
     const $errorEl = this.$input.nextElementSibling;
 
     if($errorEl.innerText !== errorMessage) $errorEl.innerText = errorMessage;
-    this.$input.parentNode.classList[errorMessage ? "add" : "remove"]('is-error');
+    this.$input.parentNode.classList.add('is-error');
   }
 
-  addCharge(charge) {
+  removeErrorMessage() {
+    const $errorEl = this.$input.nextElementSibling;
+
+    if($errorEl.innerText !== "") $errorEl.innerText = "";
+    this.$input.parentNode.classList.remove('is-error');
+  }
+
+  addCharge(totalAmount) {
     store.dispatch(addMachineCharge({
-      charge,
-      coins: changeChargeToCoin(charge)
+      totalAmount,
+      coins: changeChargeToCoin(totalAmount)
     }))
   }
 
@@ -54,10 +64,10 @@ export default class ChargeAmountManage extends View {
   }
 
   renderCurrentMachineCharge() {
-    const { machine } = store.getState();
-    this.$chargeAmount.innerText = numberWithCommas(machine.charge);
+    const { machineCharge: {totalAmount, coins} } = store.getState();
+    this.$chargeAmount.innerText = numberWithCommas(totalAmount);
     COINS.forEach(([coin]) => {
-      $(`#vending-machine-coin-${coin}-quantity`).innerText = `${machine.coins[coin]}개`;
+      $(`#vending-machine-coin-${coin}-quantity`).innerText = `${coins[coin]}개`;
     });
   }
 

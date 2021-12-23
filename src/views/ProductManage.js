@@ -12,28 +12,32 @@ export default class ProductManage extends View {
 
   init() {
     this.$inputs = $$("#product-add-form input");
-    this.setEvent();
+    this.bindEvent();
 
     observe(() => {
       this.renderProductItem()
     })
   }
 
-  setEvent() {
+  bindEvent() {
     this.on("submit", (e) => {
       e.preventDefault();
       this.setStates();
-      this.showErrorMessage();
       
-      if (this.isValidInputsAll()) {
-        const itemIndex = this.getStoreProductIndex();
-        if (itemIndex >= 0) {
-          this.updateProduct(itemIndex);
-        } else {
-          this.addProduct();
-        }
-        this.resetInputValue();
+      if (!this.isValidInputsAll()) {
+        this.showErrorMessage();
+        return;
       }
+
+      const itemIndex = this.getStoreProductIndex();
+      if (itemIndex >= 0) {
+        this.updateProduct(itemIndex);
+      } else {
+        this.addProduct();
+      }
+
+      this.removeErrorMessage();
+      this.resetInputValue();
     });
   }
 
@@ -49,7 +53,7 @@ export default class ProductManage extends View {
   }
 
   setErrorMessages(key, value) {
-    if(this.errorMessages[key] !== value) this.errorMessages = { ...this.errorMessages, [key]: value };
+    if (this.errorMessages[key] !== value) this.errorMessages = { ...this.errorMessages, [key]: value };
   }
 
   addProduct() {
@@ -82,7 +86,16 @@ export default class ProductManage extends View {
       const errorMessage = this.errorMessages[key];
 
       if($errorEl.innerText !== errorMessage) $errorEl.innerText = errorMessage;
-      $input.parentNode.classList[errorMessage ? "add" : "remove"]('is-error');
+      $input.parentNode.classList.add('is-error');
+    });
+  }
+
+  removeErrorMessage() {
+    this.$inputs.forEach($input => {
+      const $errorEl = $input.nextElementSibling;
+
+      if($errorEl.innerText !== "") $errorEl.innerText = "";
+      $input.parentNode.classList.remove('is-error');
     });
   }
 
