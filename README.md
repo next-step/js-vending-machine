@@ -1,28 +1,15 @@
-<h1 align="middle">자바스크립트와 Cypress로 구현하는 자판기</h1>
-<p align="middle">
-  <img src="https://img.shields.io/badge/version-1.0.0-blue?style=flat-square" alt="template version"/>
-  <img src="https://img.shields.io/badge/language-html-red.svg?style=flat-square"/>
-  <img src="https://img.shields.io/badge/language-css-blue.svg?style=flat-square"/>
-  <img src="https://img.shields.io/badge/language-js-yellow.svg?style=flat-square"/>
-  <img src="https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square"/>
+<p align="middle" >
+  <img src="https://nextstep-storage.s3.ap-northeast-2.amazonaws.com/536baaa17ed346bb851cc9f663edb069" width="400">
 </p>
-
-## 📝 설계 및 구현내용
-
-### **🎯 1단계 - 상품 관리**
-
-- [x] 탭 별로 그에 맞는 UI를 출력한다.
-- [x] 상품정보 (이름, 가격, 수량)을 입력할 수 있다.
-  - [x] 모든 입력은 공백이어서는 안된다.
-  - [x] 수량은 1개 이상이어야 한다.
-  - [x] 가격은 100원 이상이어야 한다.
-  - [x] 가격은 10원으로 나누어 떨어저야 한다.
-- [x] 추가하기를 누르면 상품정보가 로컬스토리지 Products에 추가된다.
-- [x] 추가하기를 눌렀을 때 이미 동일한 이름의 상품정보가 있으면 새로 입력된 정보로 수정한다.
-- [x] 상품 현황에 로컬스토리지에 저장된 Products를 표 형태로 출력한다. (아무것도 없으면 빈 표)
-
-![탭](./images/step1_001.jpeg)
-![상품관리](./images/step1_002.jpeg)
+  <h1 align="middle">자바스크립트와 Cypress로 구현하는 자판기</h1>
+  <p align="middle">
+    <img src="https://img.shields.io/badge/version-1.0.0-blue?style=flat-square" alt="template version"/>
+    <img src="https://img.shields.io/badge/language-html-red.svg?style=flat-square"/>
+    <img src="https://img.shields.io/badge/language-css-blue.svg?style=flat-square"/>
+    <img src="https://img.shields.io/badge/language-js-yellow.svg?style=flat-square"/>
+    <img src="https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square"/>
+  </p>
+</p>
 
 ## 📝 요구사항
 
@@ -37,12 +24,12 @@
 - 다른 탭으로 이동했다 돌아와도 기존 탭의 상태가 유지되어야 한다.
 - localStorage를 이용하여, 새로고침하더라도 가장 최근에 작업한 정보들을 불러올 수 있도록 한다.
 
-### **🎯 1단계 - 상품 관리**
+### **상품 관리**
 
 - `상품 관리`탭에서, 다음과 같은 규칙을 바탕으로 상품을 추가한다.
 - 최초 상품 목록은 비워진 상태이다. (이미지 첨부)
 - 상품명, 금액, 수량을 추가할 수 있다.
-- 상품 추가 입력 폼에 상품명, 금액, 수량을 차례로 입력한다.
+  - 상품 추가 입력 폼에 상품명, 금액, 수량을 차례로 입력한다.
   - 상품명, 금액, 수량은 공백이 불가능하다.
   - 상품의 최소 수량은 1개여야 한다.
   - 상품의 최소 가격은 100원이며, 10원으로 나누어 떨어져야 한다.
@@ -54,16 +41,9 @@
   - 상품의 이름, 가격, 수량 순으로 상품 목록이 보여진다. (이미지 첨부)
 - 상품 목록은 탭을 이동하여도 기존의 상품 목록이 유지되어야 한다.
 
-<details>
-  <summary>상품추가 그림</summary>
-
 ![상품추가](https://nextstep-storage.s3.ap-northeast-2.amazonaws.com/89574309abd2470c9d3d91f6e6666f0d)
 
-</details>
-
-<br>
-
-### **🎯 2단계 - 잔돈 충전**
+### **잔돈 충전** (자판기 보유 동전)
 
 - `잔돈 충전` 탭에서, 다음과 같은 규칙으로 자판기 보유 금액을 충전한다.
 - `잔돈 충전` 페이지에서 최초 자판기가 보유한 금액은 0원이며, 각 동전의 개수는 0개이다.
@@ -78,16 +58,10 @@
 - 동전의 개수를 나타내는 정보는 `{개수}개` 형식으로 나타낸다.
   - 예) 1개 (o) / 1 개 (x) / 1 (x)
 - 다른 탭을 클릭하여도 자판기가 보유한 금액은 유지되어야 한다.
-<details>
-  <summary>잔돈충전 그림</summary>
 
 ![잔돈충전](https://nextstep-storage.s3.ap-northeast-2.amazonaws.com/6dbde20df59b4467b7a6843505ece3b4)
 
-</details>
-
-<br>
-
-### **🎯 3단계 - 상품 구매**
+### **상품 구매**
 
 - `상품 구매`탭에서, 다음과 같은 규칙을 바탕으로 금액을 충전하고, 상품을 구매하며, 잔돈을 반환한다.
 - `상품 구매` 페이지 에서 최초 충전 금액은 0원이며, 반환된 각 동전의 개수는 0개이다.
@@ -105,16 +79,9 @@
 - 사용자는 `반환하기` 버튼을 통해 잔돈을 반환 받을 수 있다.
   - 잔돈 반환 규칙은 `잔돈 계산 모듈` 요구사항의 규칙을 따른다.
 
-<details>
-  <summary>상품구매 그림</summary>
-
 ![상품구매-구매](https://nextstep-storage.s3.ap-northeast-2.amazonaws.com/1818db7098814c48acf18e1e37fd067a)
 
-</details>
-
-<br>
-
-### **🎯 4단계 - 잔돈 계산 모듈**
+### **상품 구매 / 잔돈 계산 모듈**
 
 - `상품 구매` 탭에서, 잔돈 반환 시 다음과 같은 규칙을 통해 잔돈을 반환한다.
 - 최소 개수의 동전으로 잔돈을 돌려준다.
