@@ -3,6 +3,12 @@ import ProductAppender from "./ProductAppender.js";
 import ProductList from "./ProductList.js";
 import { $ } from "../utils/dom.js";
 import { setLocalStorage, getLocalStorage } from "../utils/localStorage.js";
+import {
+  isNameAvailable,
+  findDuplicatedIdx,
+  isPriceAvailable,
+  isQuantityAvailable,
+} from "../utils/validator.js";
 
 export default class ProductManager extends Component {
   setup() {
@@ -35,10 +41,11 @@ export default class ProductManager extends Component {
   }
 
   addNewProduct({ name, price, quantity }) {
-    // 이름이 중복되면 상품정보 교체
-    const duplicatedIdx = this.$state.products.findIndex(
-      (i) => i.name === name
-    );
+    if (!isNameAvailable(name)) return;
+    if (!isPriceAvailable(price)) return;
+    if (!isQuantityAvailable(quantity)) return;
+
+    const duplicatedIdx = findDuplicatedIdx(this.$state.products, name);
 
     if (duplicatedIdx > -1) {
       this.$state.products.splice(duplicatedIdx, 1, {
