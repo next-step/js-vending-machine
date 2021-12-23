@@ -1,4 +1,3 @@
-import { $ } from '../../src/util/index.js';
 import { ERROR_MESSAGES, PRODUCT_PRICE, PRODUCT_QUANTITY } from '../../src/constants/index.js';
 
 describe("자판기 상품관리 Tab 테스트", () => {
@@ -72,7 +71,7 @@ describe("자판기 상품관리 Tab 테스트", () => {
         const invalidValues = ["  ", " 사이 다"];
 
         invalidValues.forEach(value => {
-          cy.submitAfterInputType("@ip-name", value);
+          cy.submitAfterInputType("@ip-name", value, "@form-add");
           cy.get("@ip-name").next(".error-message").should('have.text', ERROR_MESSAGES.INVALID_PRODUCT_NAME);
         })
         cy.get("@ip-name").clear();
@@ -84,7 +83,7 @@ describe("자판기 상품관리 Tab 테스트", () => {
         const invalidValues = ["90", "101"];
 
         invalidValues.forEach(value => {
-          cy.submitAfterInputType("@ip-price", value);
+          cy.submitAfterInputType("@ip-price", value, "@form-add");
           cy.get("@ip-price").next(".error-message").should('have.text', ERROR_MESSAGES.INVALID_PRICE);
         })
         cy.get("@ip-price").clear();
@@ -96,7 +95,7 @@ describe("자판기 상품관리 Tab 테스트", () => {
         const invalidValues = ["0", "-10"];
         
         invalidValues.forEach(value => {
-          cy.submitAfterInputType("@ip-quantity", value);
+          cy.submitAfterInputType("@ip-quantity", value, "@form-add");
           cy.get("@ip-quantity").next(".error-message").should('have.text', ERROR_MESSAGES.INVALID_QUANTITY);
         })
         cy.get("@ip-quantity").clear();
@@ -107,7 +106,7 @@ describe("자판기 상품관리 Tab 테스트", () => {
   context("3. 상품을 추가했을 때", () => {
     it("상품 현황 테이블에 상품이 보여야 하고 입력 폼에 입력한 값과 동일해야 한다.", () => {
       mockProducts.forEach(product => {
-        cy.submitAfterInputTypeAll(product);
+        cy.submitAfterInputTypeAll(product, "@form-add");
   
         const values = Object.values(product);
   
@@ -127,7 +126,7 @@ describe("자판기 상품관리 Tab 테스트", () => {
       const foundIndex = mockProducts.findIndex(v => v.name === willUpdateProduct.name);
       mockProducts.splice(foundIndex, 1, willUpdateProduct);
 
-      cy.submitAfterInputTypeAll(willUpdateProduct);
+      cy.submitAfterInputTypeAll(willUpdateProduct, "@form-add");
   
       const values = Object.values(willUpdateProduct);
   
