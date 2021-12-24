@@ -1,8 +1,6 @@
-function sayHi() {
-  console.log('hi')
-}
+import { Router } from './routes/router'
 
-sayHi()
+new Router()
 
 if (module.hot) {
   module.hot.accept()
