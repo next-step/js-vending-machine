@@ -6,6 +6,7 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 		<link rel="stylesheet" href="src/css/index.css" />
 		<title>NEXTSTEP JavaScript Vending machine</title>
+		<script type="module" src="./src/js/index.js" defer></script>
 	</head>
 
 	<body>
@@ -13,6 +14,35 @@
 		<button id="vending-machine-manage-menu">잔돈충전</button>
 		<button id="product-purchase-menu">상품 구매</button>
 
-		<div id="app"></div>
+		<div id="app">
+			<h3>상품 추가하기</h3>
+			<form class="product-container">
+				<input type="text" id="product-name-input" placeholder="상품명" data-testid="productNameInput" />
+				<input type="number" id="product-price-input" placeholder="가격" data-testid="productPriceInput" />
+				<input type="number" id="product-quantity-input" placeholder="수량" data-testid="productQuantityInput" />
+				<button type="submit" id="product-add-button" data-testid="productAddButton">추가하기</button>
+			</form>
+			<table class="product-inventory" data-testid="productInventory">
+				<colgroup>
+					<col style="width: 140px" />
+					<col style="width: 100px" />
+					<col style="width: 100px" />
+				</colgroup>
+				<thead id="productTable" data-testid="productTable">
+				<tr>
+					<th>상품명</th>
+					<th>가격</th>
+					<th>수량</th>
+				</tr>
+				</thead>
+				<tbody id="product-inventory-container" data-testid="productInventoryContainer">
+<!--				<tr>-->
+<!--					<th>상품명</th>-->
+<!--					<th>가격</th>-->
+<!--					<th>수량</th>-->
+<!--				</tr>-->
+				</tbody>
+			</table>
+		</div>
 	</body>
 </html>
