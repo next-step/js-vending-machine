@@ -1,6 +1,7 @@
 import { DOM } from '../constants/constants.js';
 import { $ } from '../utils/utils.js';
 import el from '../utils/dom.js';
+import { getLocalStorageValueByKey } from '../service/localStorageService.js';
 
 export class NewProductForm {
   constructor() {
@@ -9,6 +10,8 @@ export class NewProductForm {
     this.$quantityInput = $(DOM.PRODUCT_QUANTITY_INPUT);
     this.$addProductButton = $(DOM.PRODUCT_ADD_BUTTON);
     this.$inventoryContainer = $(DOM.PRODUCT_INVENTORY_CONTAINER);
+
+    this.renderNewProductForm();
   }
 
   bindOnClickAddProductButton(handler) {
@@ -17,7 +20,7 @@ export class NewProductForm {
     });
   }
 
-  updateNewProduct(newProduct, productId) {
+  addNewProduct(newProduct, productId) {
     this.$inventoryContainer.appendChild(
       el(
         `<tr id='product-${productId}'>`,
@@ -30,7 +33,7 @@ export class NewProductForm {
   replaceExistProduct(newProduct, productId) {
     this.$inventoryContainer.querySelector(`#product-${productId}`).replaceWith(
       el(
-        `<tr id='product-${productId}'>`,
+        `<tr id='product-${productId}' data-testid="product">`,
         Object.values(newProduct).map((item) => `<th>${item}</th>`),
       ),
     );
@@ -40,5 +43,11 @@ export class NewProductForm {
 
   updateInventoryContainer() {
     this.$inventoryContainer = $(DOM.PRODUCT_INVENTORY_CONTAINER);
+  }
+
+  renderNewProductForm() {
+    const products = getLocalStorageValueByKey('products');
+    if (!products) return;
+    products.map((product, idx) => this.addNewProduct(product, idx));
   }
 }
