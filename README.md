@@ -25,6 +25,7 @@
 [바로가기](https://github.dev/guymoon/js-vending-machine)
 
 # 테스트 내역
+테스트한 내역은 아래와 같습니다!
 ![Screen Shot 2021-12-26 at 2 02 53 AM](https://user-images.githubusercontent.com/44131043/147390083-51d9e8c9-0f63-4d90-80d1-ed7c9e18a57d.jpg)
 
 ## 📝 요구사항
