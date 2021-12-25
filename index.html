@@ -16,13 +16,13 @@
 
 		<div id="app">
 			<h3>상품 추가하기</h3>
-			<form class="product-container">
+			<form class="product-container" data-testid="newProductForm">
 				<input type="text" id="product-name-input" placeholder="상품명" data-testid="productNameInput" />
 				<input type="number" id="product-price-input" placeholder="가격" data-testid="productPriceInput" />
 				<input type="number" id="product-quantity-input" placeholder="수량" data-testid="productQuantityInput" />
 				<button type="submit" id="product-add-button" data-testid="productAddButton">추가하기</button>
 			</form>
-			<table class="product-inventory" data-testid="productInventory">
+			<table class="product-inventory" data-testid="products">
 				<colgroup>
 					<col style="width: 140px" />
 					<col style="width: 100px" />
