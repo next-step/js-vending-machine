@@ -1,7 +1,7 @@
 <p align="middle" >
   <img src="https://nextstep-storage.s3.ap-northeast-2.amazonaws.com/536baaa17ed346bb851cc9f663edb069" width="400">
 </p>
-  <h1 align="middle">자바스크립트와 Cypress로 구현하는 자판기</h1>
+  <h1 align="middle">자바스크립트와 Cypress로 구현하는 자판기 - 조기문</h1>
   <p align="middle">
     <img src="https://img.shields.io/badge/version-1.0.0-blue?style=flat-square" alt="template version"/>
     <img src="https://img.shields.io/badge/language-html-red.svg?style=flat-square"/>
@@ -10,6 +10,22 @@
     <img src="https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square"/>
   </p>
 </p>
+
+# 주안점 
+- MVC 패턴을 적용해 보았습니다.
+- 지금은 하나의 컨트롤러인데 너무 비대해질 것 같아 미션 진행하면서 컨트롤러를 분리해야 될 것 같습니다!
+- Cypress로 TDD를 해봤습니다.
+- test 관련 dom을 먼저 잡아주고, test를 작성했습니다. Cypress로 TDD를 한 소감을 말씀드리자면 많이 미흡하지만 너무 좋았습니다. 이전 미션까지는 __input에 입력 -> 클릭 -> 결과 확인 -> 에러 수정 -> input에 입력 ...... 무한 루프.......__였는데 Cypress를 이용하니까 이 입력하고, 클릭하는 등의 작업이 자동화가 되니까 정말 좋더라고요. 너무 편안하게 작업할 수 있었습니다. 개발 전에 테스트 케이스를 깐깐하게 작성하지 않더라도 처음에 어느 정도 작성해두고 개발하면 정말 좋은 것 같아요! 개인적으로 너무 기분 좋은 발견이었습니다!
+- service 로직을 분리시키려고 노력했는데 아직 많이 부족한 것 같습니다. 다음 미션에 보완해 보겠습니다.
+
+# 데모 페이지
+[바로가기](https://guymoon.github.io/js-vending-machine/)
+
+# 웹 vscode 환경
+[바로가기](https://github.dev/guymoon/js-vending-machine)
+
+# 테스트 내역
+![Screen Shot 2021-12-26 at 2 02 53 AM](https://user-images.githubusercontent.com/44131043/147390083-51d9e8c9-0f63-4d90-80d1-ed7c9e18a57d.jpg)
 
 ## 📝 요구사항
 
