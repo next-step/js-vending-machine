@@ -1,4 +1,4 @@
-import { ACTIONS, VIEWS } from '../constants.js'
+import { ACTIONS, ERROR_MESSAGES, VIEWS } from '../constants.js'
 import { $ } from '../utils/selector.js'
 
 export default class ProductInventory {
@@ -12,9 +12,9 @@ export default class ProductInventory {
     this.$app.innerHTML = this.template()
   }
   bindEvent = () => {
-    this.$app.addEventListener('submit', ({ target: { id } }) => {
+    this.$app.addEventListener('submit', (e) => {
       e.preventDefault()
-      if (id !== 'product-form') return
+      if (e.target.id !== 'product-form') return
 
       const formData = new FormData($('#product-form'))
       const name = formData.get('name')
@@ -22,7 +22,7 @@ export default class ProductInventory {
       const quantity = parseInt(formData.get('quantity'))
 
       if (price % 10 !== 0) {
-        alert('상품 가격은 10원으로 나누어 떨어져야 합니다.')
+        alert(ERROR_MESSAGES.INVALID_PRODUCT_PRICE)
         return
       }
       this.props.setState({ type: ACTIONS.ADD_PRODUCT, payload: { name, price, quantity } })

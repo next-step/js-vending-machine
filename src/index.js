@@ -5,4 +5,4 @@ import { localStorages, storageKey } from './storage/index.js'
 const storageItem = localStorages.get(storageKey)
 const vendingMachineItems = storageItem ? storageItem : { products: [] }
 
-new App(new Store(), vendingMachineItems)
+new App(new Store(), vendingMachineItems, localStorages)

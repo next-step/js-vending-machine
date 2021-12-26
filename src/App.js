@@ -2,14 +2,16 @@ import ProductInventory from './components/ProductInventory.js'
 import ProductPurchase from './components/ProductPurchase.js'
 import Change from './components/Change.js'
 import { ACTIONS, VIEWS } from './constants.js'
-import { localStorages } from './storage/index.js'
+import { storageKey } from './storage/index.js'
 
 export default class App {
   #store
   #state
-  constructor(store, state) {
+  #storage
+  constructor(store, state, storage) {
     this.#store = store
     this.#state = state
+    this.#storage = storage
     this.init()
   }
   init = () => {
@@ -41,7 +43,7 @@ export default class App {
   setState = (action) => {
     const [nextRoute, newState] = this.reducer(this.#state, action)
     this.#state = newState
-    localStorages.set(storageKey, newState)
+    this.#storage.set(storageKey, newState)
     this.#store.notifyObservers([nextRoute])
   }
   setRoute = ({ route }) => {
