@@ -6,8 +6,7 @@ export default class View {
     this.props = props
   }
   template = () => {}
-  mount = () => {}
-  addEvent = () => {}
+  bindEvent = () => {}
   render = () => {
     this.$app.innerHTML = this.template()
   }

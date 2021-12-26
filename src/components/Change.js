@@ -1,9 +1,9 @@
 import { $ } from '../utils/selector.js'
+import View from './View.js'
 
-export default class Change {
+export default class Change extends View{
   constructor(app, props) {
-    this.$app = $(app)
-    this.props = props
+    super(app, props)
     this.render()
     this.bindEvent()
   }

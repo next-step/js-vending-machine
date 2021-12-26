@@ -1,15 +1,12 @@
 import { ACTIONS, ERROR_MESSAGES, VIEWS } from '../constants.js'
 import { $ } from '../utils/selector.js'
+import View from './View.js'
 
-export default class ProductInventory {
+export default class ProductInventory extends View {
   constructor(app, props) {
-    this.$app = $(app)
-    this.props = props
+    super(app, props)
     this.render()
     this.bindEvent()
-  }
-  render = () => {
-    this.$app.innerHTML = this.template()
   }
   bindEvent = () => {
     this.$app.addEventListener('submit', (e) => {

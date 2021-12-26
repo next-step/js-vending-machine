@@ -1,14 +1,11 @@
 import { $ } from '../utils/selector.js'
+import View from './View.js'
 
-export default class ProductPurchase {
+export default class ProductPurchase extends View {
   constructor(app, props) {
-    this.$app = $(app)
-    this.props = props
+    super(app, props)
     this.render()
     this.bindEvent()
-  }
-  render = () => {
-    this.$app.innerHTML = this.template()
   }
   bindEvent = () => {}
 
