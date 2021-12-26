@@ -1,5 +1,5 @@
-import { ERROR_MESSAGES, PRODUCT_PRICE, PRODUCT_QUANTITY } from '../constants/index.js';
-import { $, $$, hasBlankString } from "../util/index.js";
+import { $, $$ } from "../util/index.js";
+import getErrorMessage from "../common/getErrorMessage.js";
 import store from '../store/index.js';
 import { observe } from '../core/observer.js';
 import { addProduct, updateProduct } from '../store/actions.js';
@@ -12,36 +12,39 @@ export default class ProductManage extends View {
 
   init() {
     this.$inputs = $$("#product-add-form input");
-    this.setEvent();
+    this.bindEvent();
 
     observe(() => {
       this.renderProductItem()
     })
   }
 
-  setEvent() {
+  bindEvent() {
     this.on("submit", (e) => {
       e.preventDefault();
       this.setStates();
-      this.showErrorMessage();
       
-      if (this.isValidInputsAll()) {
-        const itemIndex = this.getStoreProductIndex();
-        if (itemIndex >= 0) {
-          this.updateProduct(itemIndex);
-        } else {
-          this.addProduct();
-        }
-        this.resetInputValue();
+      if (!this.isValidInputsAll()) {
+        this.showErrorMessage();
+        return;
       }
+
+      const itemIndex = this.getStoreProductIndex();
+      if (itemIndex >= 0) {
+        this.updateProduct(itemIndex);
+      } else {
+        this.addProduct();
+      }
+
+      this.removeErrorMessage();
+      this.resetInputValue();
     });
   }
 
   setStates() {
-    this.$inputs.forEach(($input) => {
-      const { dataset: { key }, value } = $input;
+    this.$inputs.forEach(({ dataset: { key }, value }) => {
       this.setProductInfo(key, value);
-      this.setErrorMessages(key, this.getErrorMessage(key, value));
+      this.setErrorMessages(key, getErrorMessage(key, value));
     });
   }
 
@@ -50,7 +53,7 @@ export default class ProductManage extends View {
   }
 
   setErrorMessages(key, value) {
-    if(this.errorMessages[key] !== value) this.errorMessages = { ...this.errorMessages, [key]: value };
+    if (this.errorMessages[key] !== value) this.errorMessages = { ...this.errorMessages, [key]: value };
   }
 
   addProduct() {
@@ -76,20 +79,6 @@ export default class ProductManage extends View {
     return products.findIndex(v => v.name === this.productInfo.name);
   }
 
-  getErrorMessage(key, value) {
-    if (value === "") return ERROR_MESSAGES.NO_VALUE;
-
-    switch (key) {
-      case "name":
-        return hasBlankString(value) ? ERROR_MESSAGES.INVALID_PRODUCT_NAME : "";
-      case "price":
-        return value < PRODUCT_PRICE.MIN || value % PRODUCT_PRICE.MIN_UNIT ? ERROR_MESSAGES.INVALID_PRICE : "";
-      case "quantity":
-        return value < PRODUCT_QUANTITY.MIN ? ERROR_MESSAGES.INVALID_QUANTITY : "";
-      default: return "";
-    }
-  }
-
   showErrorMessage() {
     this.$inputs.forEach($input => {
       const { dataset: { key } } = $input;
@@ -97,7 +86,16 @@ export default class ProductManage extends View {
       const errorMessage = this.errorMessages[key];
 
       if($errorEl.innerText !== errorMessage) $errorEl.innerText = errorMessage;
-      $input.parentNode.classList[errorMessage ? "add" : "remove"]('is-error');
+      $input.parentNode.classList.add('is-error');
+    });
+  }
+
+  removeErrorMessage() {
+    this.$inputs.forEach($input => {
+      const $errorEl = $input.nextElementSibling;
+
+      if($errorEl.innerText !== "") $errorEl.innerText = "";
+      $input.parentNode.classList.remove('is-error');
     });
   }
 

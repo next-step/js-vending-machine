@@ -36,15 +36,15 @@ Cypress.Commands.add('restoreLocalStorage', () => {
   })
 })
 
-Cypress.Commands.add('submitAfterInputType', ($input, value) => {
+Cypress.Commands.add('submitAfterInputType', ($input, value, $form) => {
   cy.get($input).type(value);
-  cy.get("@form-add").submit();
+  cy.get($form).submit();
 })
 
-Cypress.Commands.add('submitAfterInputTypeAll', (obj) => {
+Cypress.Commands.add('submitAfterInputTypeAll', (obj, $form) => {
   Object.entries(obj).forEach(([key, value]) => {
     cy.get(`@ip-${key}`).type(value);
   });
 
-  cy.get("@form-add").submit();
+  cy.get($form).submit();
 })

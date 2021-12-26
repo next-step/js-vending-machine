@@ -1,5 +1,7 @@
-import View from "./View.js"
+import store from '../store/index.js';
+import { changeView } from '../store/actions.js';
 import { $ } from "../util/index.js";
+import View from "./View.js"
 
 export default class Navigation extends View {
   activeClassName;
@@ -9,9 +11,9 @@ export default class Navigation extends View {
   }
   setCurrentTab({ target }) {
     if (target.type === "button" && !target.classList.contains(this.activeClassName)) {
-      this.emit("change-tab", {
-        currentView: target.dataset.page
-      });
+      store.dispatch(changeView({
+        currentMachineView: target.dataset.page
+      }))
     }
   }
   render() {
