@@ -3,6 +3,7 @@ import { $Root } from '../../routes/router'
 import ProductStore, { ProductProps } from '../../store/ProductStore'
 import {
   PRODUCT_ADD_BUTTON,
+  PRODUCT_INVENTORY_CONTAINER,
   PRODUCT_NAME_INPUT,
   PRODUCT_PRICE_INPUT,
   PRODUCT_QUANTITY_INPUT,
@@ -71,9 +72,35 @@ export default class ProductManageView {
         payload: product,
       })
 
-      this.controller.dispatch({
-        type: 'RENDER_PRODUCT',
-      })
+      this.$productNameInput.value = ''
+      this.$productPriceInput.value = ''
+      this.$productQuantityInput.value = ''
+      this.renderProduct()
+    })
+  }
+
+  renderProduct() {
+    const products = this.#store.getProducts()
+
+    const $inventory = $({
+      selector: PRODUCT_INVENTORY_CONTAINER,
+    }) as HTMLTableSectionElement
+
+    if (!$inventory || !products.length) {
+      return
+    }
+
+    $inventory.innerHTML = ''
+
+    products.forEach(({ name, price, quantity }) => {
+      const row = $inventory.insertRow(0)
+      const nameCell = row.insertCell(0)
+      const priceCell = row.insertCell(1)
+      const quantityCell = row.insertCell(2)
+
+      nameCell.textContent = name
+      priceCell.textContent = price.toLocaleString()
+      quantityCell.textContent = quantity.toLocaleString()
     })
   }
 
@@ -98,10 +125,7 @@ export default class ProductManageView {
     $Root.replaceChildren($template)
     this.selectDomElement()
     this.bindEvent()
-
-    this.controller.dispatch({
-      type: 'RENDER_PRODUCT',
-    })
+    this.renderProduct()
   }
 
   bindEvent() {
