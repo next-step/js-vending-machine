@@ -3,6 +3,7 @@ import ProductPurchase from './components/ProductPurchase.js'
 import Change from './components/Change.js'
 import { ACTIONS, VIEWS } from './constants.js'
 import { storageKey } from './storage/index.js'
+import { getRandomInt } from './utils/index.js'
 
 export default class App {
   #store
@@ -54,6 +55,8 @@ export default class App {
     switch (type) {
       case ACTIONS.ADD_PRODUCT:
         return this.addProduct(prevState, payload)
+      case ACTIONS.UPDATE_CHANGE:
+        return this.updateChange(prevState, payload)
       default:
         prevState
     }
@@ -69,5 +72,30 @@ export default class App {
       VIEWS.PRODUCT_INVENTORY,
       { ...prevState, products: [...products, { name, price, quantity }] },
     ]
+  }
+  updateChange = (prevState, { change }) => {
+    const coins = this.getCoins(change, prevState.coins)
+    const money = this.getMoney(coins)
+    return [VIEWS.CHANGE, { ...prevState, coins, money }]
+  }
+  getCoins = (originChange, prevCoins) => {
+    let change = originChange
+    const baseCoins = [500, 100, 50, 10]
+    const coins = { ...prevCoins }
+    while (change >= 10) {
+      const i = getRandomInt(0, 4)
+      if (change > baseCoins[i]) {
+        const coin = baseCoins[i]
+        const coinNum = Math.floor(change / coin)
+        coins[coin] = coins[coin] + coinNum
+        change -= coin * coinNum
+      }
+    }
+    return coins
+  }
+  getMoney = (coins) => {
+    const nums = Object.values(coins)
+    const baseCoins = Object.keys(coins)
+    return baseCoins.reduce((p, c, i) => p + c * nums[i], 0)
   }
 }
