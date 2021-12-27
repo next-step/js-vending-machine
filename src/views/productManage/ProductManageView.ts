@@ -11,6 +11,7 @@ import {
 import {
   PRODUCT_ADD_INPUT_INVALID,
   PRODUCT_ADD_PRICE_INVALID,
+  PRODUCT_ADD_QUANTITY_INVALID,
 } from '../../utils/constants/errorMessage'
 import { $ } from '../../utils/dom/selector'
 
@@ -108,6 +109,10 @@ export default class ProductManageView {
     const name = this.$productNameInput.value
     const price = Number(this.$productPriceInput.value)
     const quantity = Number(this.$productQuantityInput.value)
+
+    if (quantity && quantity < 1) {
+      return { errorMessage: PRODUCT_ADD_QUANTITY_INVALID }
+    }
 
     if (!name || !price || !quantity) {
       return { errorMessage: PRODUCT_ADD_INPUT_INVALID }
