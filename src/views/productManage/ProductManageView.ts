@@ -51,7 +51,6 @@ export default class ProductManageView {
   constructor(productStore: ProductStore) {
     this.controller = new ProductManageController(productStore)
     this.#store = productStore
-    this.render()
   }
 
   onProductAddButtonClick() {
@@ -70,6 +69,10 @@ export default class ProductManageView {
       this.controller.dispatch({
         type: 'ADD_PRODUCT',
         payload: product,
+      })
+
+      this.controller.dispatch({
+        type: 'RENDER_PRODUCT',
       })
     })
   }
@@ -95,6 +98,10 @@ export default class ProductManageView {
     $Root.replaceChildren($template)
     this.selectDomElement()
     this.bindEvent()
+
+    this.controller.dispatch({
+      type: 'RENDER_PRODUCT',
+    })
   }
 
   bindEvent() {

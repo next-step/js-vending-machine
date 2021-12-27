@@ -1,5 +1,10 @@
 import ProductStore, { ProductProps } from '../store/ProductStore'
-import { PRODUCT_INVENTORY_CONTAINER } from '../utils/constants/element'
+import {
+  PRODUCT_INVENTORY_CONTAINER,
+  PRODUCT_NAME_INPUT,
+  PRODUCT_PRICE_INPUT,
+  PRODUCT_QUANTITY_INPUT,
+} from '../utils/constants/element'
 import { $ } from '../utils/dom/selector'
 
 export default class ProductManageModel {
@@ -7,22 +12,31 @@ export default class ProductManageModel {
 
   constructor(product: ProductStore) {
     this.#store = product
-    const products = this.#store.getProducts()
-    console.log('afdasfadsff first', products)
-    this.renderProduct(products)
   }
 
   addProduct(productProp: ProductProps) {
     this.#store.setProduct(productProp)
-    console.log(this.#store.getProducts())
-    const products = this.#store.getProducts()
 
-    console.log('addproducts ', products)
-    this.renderProduct(products)
-    // render product
+    const $productNameInput = $({
+      selector: PRODUCT_NAME_INPUT,
+    }) as HTMLInputElement
+
+    const $productPriceInput = $({
+      selector: PRODUCT_PRICE_INPUT,
+    }) as HTMLInputElement
+
+    const $productQuantityInput = $({
+      selector: PRODUCT_QUANTITY_INPUT,
+    }) as HTMLInputElement
+
+    $productNameInput.value = ''
+    $productPriceInput.value = ''
+    $productQuantityInput.value = ''
   }
 
-  renderProduct(products: ProductProps[]) {
+  renderProduct() {
+    const products = this.#store.getProducts()
+
     const $inventory = $({
       selector: PRODUCT_INVENTORY_CONTAINER,
     }) as HTMLTableSectionElement
@@ -30,6 +44,8 @@ export default class ProductManageModel {
     if (!$inventory || !products.length) {
       return
     }
+
+    $inventory.innerHTML = ''
 
     products.forEach(({ name, price, quantity }) => {
       const row = $inventory.insertRow(0)
