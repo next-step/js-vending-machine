@@ -17,10 +17,10 @@ import { $ } from '../../utils/dom/selector'
 const ProductPurchaseTemplate = `
   <h3>상품 추가하기</h3>
   <div class="product-container">
-    <input type="text" id="product-name-input" placeholder="상품명" />
-    <input type="number" id="product-price-input" placeholder="가격" />
-    <input type="number" id="product-quantity-input" placeholder="수량" />
-    <button id="product-add-button">추가하기</button>
+    <input type="text" id="product-name-input" data-cy="product-name-input" placeholder="상품명" />
+    <input type="number" id="product-price-input" data-cy="product-price-input" placeholder="가격" />
+    <input type="number" id="product-quantity-input" data-cy="product-quantity-input" placeholder="수량" />
+    <button id="product-add-button" data-cy="product-add-button">추가하기</button>
   </div>
   <table class="product-inventory">
     <colgroup>
@@ -35,7 +35,7 @@ const ProductPurchaseTemplate = `
         <th>수량</th>
       </tr>
     </thead>
-    <tbody id="product-inventory-container"></tbody>
+    <tbody id="product-inventory-container" data-cy="product-inventory-container"></tbody>
   </table>
 `
 
