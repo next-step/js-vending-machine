@@ -1,6 +1,8 @@
 // @ts-nocheck
 import storage from '../../dist/store/localStorageReducer.js'
 import { Route, ErrorBoundaries, ErrorMsgs } from '../../dist/constants.js'
+import { getTotalFromCoins } from '../../dist/service/coinCalculator.js'
+import lnKo from '../../dist/util/lnKo'
 
 const Routes = [Route.productInventory, Route.machineCharge, Route.userPurchase]
 
@@ -137,15 +139,14 @@ describe('vending-machine mission', () => {
     describe('동전 보충', () => {
       const coinChargeSuccessTest = (price, expectedTotal) => {
         cy.machineChargeAdd(price).then(() => {
-          const { total, q500, q100, q50, q10 } = storage.getValue('coins')
-          expect(total).to.equal(expectedTotal)
-          expect(q500 * 500 + q100 * 100 + q50 * 50 + q10 * 10).to.equal(expectedTotal)
-          cy.machineCharged().should('have.text', expectedTotal.toLocaleString('ko-KR'))
+          const ownedCoins = storage.getValue('ownedCoins')
+          if (ownedCoins) expect(getTotalFromCoins(ownedCoins)).to.equal(expectedTotal)
+          cy.machineCharged().should('have.text', lnKo(expectedTotal))
         })
       }
 
       it('최초상태는 모두 0', () => {
-        const storedValue = storage.getValue('coins')
+        const storedValue = storage.getValue('ownedCoins')
         expect(storedValue).to.be.null
         cy.machineCharged().should('have.text', 0)
       })
@@ -192,7 +193,7 @@ describe('vending-machine mission', () => {
         { name: '펩시콜라', price: 800, amount: 4 },
         { name: '코카콜라', price: 850, amount: 5 },
       ])
-      storage.set('coins', { total: 5000, q500: 7, q100: 9, q50: 10, q10: 10 })
+      storage.set('ownedCoins', { q500: 7, q100: 9, q50: 10, q10: 10 })
     })
 
     describe('금액 투입', () => {
@@ -203,9 +204,9 @@ describe('vending-machine mission', () => {
       const chargeTest = (chargeMoney, expectMoney, expectMachineMoney) => {
         cy.userChargeAdd(chargeMoney)
         cy.userCharged()
-          .should('have.text', expectMoney.toLocaleString('ko-KR'))
+          .should('have.text', lnKo(expectMoney))
           .then(() => {
-            expect(storage.getValue('coins').total).to.equal(expectMachineMoney)
+            expect(getTotalFromCoins(storage.getValue('ownedCoins'))).to.equal(expectMachineMoney)
           })
       }
 
@@ -228,7 +229,7 @@ describe('vending-machine mission', () => {
         it(`상품 #${itemIndex} 구매. 잔여수량 ${expectAmount} 예상. 잔액 ${expectMoney}원 예상`, () => {
           cy.userBuy(itemIndex)
           cy.getListItem(itemIndex).find('td').eq(2).should('have.text', `${expectAmount}개`)
-          cy.userCharged().should('have.text', expectMoney.toLocaleString('ko-KR'))
+          cy.userCharged().should('have.text', lnKo(expectMoney))
         })
       }
       purchaseTest(0, 1, 4800)
@@ -252,6 +253,155 @@ describe('vending-machine mission', () => {
         inventoryItemShould(2, '펩시콜라', '800원', '1개')
         cy.gnbClick(2)
         cy.userCharged().should('have.text', '200')
+      })
+    })
+  })
+
+  describe('step 4', () => {
+    const getChangesTest = ({ change, prevCharged }, expectedCharge) => {
+      cy.getChange().then(() => {
+        expect(storage.getValue('changeCoins')).to.deep.equal({
+          q500: change[0],
+          q100: change[1],
+          q50: change[2],
+          q10: change[3],
+        })
+        expect(storage.getValue('ownedCoins')).to.deep.equal({
+          q500: prevCharged[0] - change[0],
+          q100: prevCharged[1] - change[1],
+          q50: prevCharged[2] - change[2],
+          q10: prevCharged[3] - change[3],
+        })
+        if (expectedCharge) {
+          expect(storage.getValue('charge')).to.equal(expectedCharge)
+        }
+      })
+    }
+
+    describe('전액을 반환할 수 있는 경우 - 매번 기계 5000원(7, 9, 10, 10개) / 사용자 4000원 충전된 상태에서 테스트.', () => {
+      beforeEach(() => {
+        cy.visit('http://localhost:3000/')
+        storage.set('inventory', [
+          { name: '커피', price: 700, amount: 2 },
+          { name: '칠성사이다', price: 750, amount: 3 },
+          { name: '펩시콜라', price: 800, amount: 4 },
+          { name: '코카콜라', price: 850, amount: 5 },
+        ])
+        storage.set('ownedCoins', { q500: 7, q100: 9, q50: 10, q10: 10 })
+        storage.set('charge', 4000)
+        cy.gnbClick(2)
+      })
+      it('잔돈은 금액이 큰 동전부터 반환한다 (1) - 700원 구매 / 3300원 남음.', () => {
+        cy.userBuy(0)
+        getChangesTest({ change: [6, 3, 0, 0], prevCharged: [7, 9, 10, 10] })
+      })
+      it('잔돈은 금액이 큰 동전부터 반환한다 (2) - 1400원 구매 / 2600원 남음.', () => {
+        cy.userBuy(0)
+        cy.userBuy(0)
+        getChangesTest({ change: [5, 1, 0, 0], prevCharged: [7, 9, 10, 10] })
+      })
+      it('잔돈은 금액이 큰 동전부터 반환한다 (3) - 2150원 구매 / 1850원 남음.', () => {
+        cy.userBuy(0)
+        cy.userBuy(0)
+        cy.userBuy(1)
+        getChangesTest({ change: [3, 3, 1, 0], prevCharged: [7, 9, 10, 10] })
+      })
+      it('잔돈은 금액이 큰 동전부터 반환한다 (4) - 2950원 구매 / 1050원 남음.', () => {
+        cy.userBuy(0)
+        cy.userBuy(0)
+        cy.userBuy(1)
+        cy.userBuy(2)
+        getChangesTest({ change: [2, 0, 1, 0], prevCharged: [7, 9, 10, 10] })
+      })
+      it('잔돈은 금액이 큰 동전부터 반환한다 (5) - 3750원 구매 / 250원 남음.', () => {
+        cy.userBuy(0)
+        cy.userBuy(0)
+        cy.userBuy(1)
+        cy.userBuy(2)
+        cy.userBuy(2)
+        getChangesTest({ change: [0, 2, 1, 0], prevCharged: [7, 9, 10, 10] })
+      })
+    })
+
+    describe('전액을 반환할 수 없는 경우 (1) - 매번 기계 2030원(3, 0, 10, 3개) / 사용자 1090원 충전된 상태에서 테스트.', () => {
+      beforeEach(() => {
+        cy.visit('http://localhost:3000/')
+        storage.set('inventory', [
+          { name: '커피', price: 700, amount: 2 },
+          { name: '칠성사이다', price: 750, amount: 3 },
+          { name: '펩시콜라', price: 800, amount: 4 },
+          { name: '코카콜라', price: 850, amount: 5 },
+        ])
+        storage.set('ownedCoins', { q500: 3, q100: 0, q50: 10, q10: 3 })
+        storage.set('charge', 1090)
+        cy.gnbClick(2)
+      })
+      it('700원 구매 / 390원 남음. => 10원 반환불가', () => {
+        cy.userBuy(0)
+        getChangesTest({ change: [0, 0, 7, 3], prevCharged: [3, 0, 10, 3] }, 10)
+      })
+      it('850원 구매 / 240원 남음. => 10원 반환불가', () => {
+        cy.userBuy(3)
+        getChangesTest({ change: [0, 0, 4, 3], prevCharged: [3, 0, 10, 3] }, 10)
+      })
+    })
+
+    describe('전액을 반환할 수 없는 경우 (2) - 매번 기계 1070원(2, 0, 1, 2개) / 사용자 1500원 충전된 상태에서 테스트.', () => {
+      beforeEach(() => {
+        cy.visit('http://localhost:3000/')
+        storage.set('inventory', [
+          { name: '커피', price: 700, amount: 2 },
+          { name: '칠성사이다', price: 750, amount: 3 },
+          { name: '펩시콜라', price: 800, amount: 4 },
+          { name: '코카콜라', price: 850, amount: 5 },
+        ])
+        storage.set('ownedCoins', { q500: 2, q100: 0, q50: 1, q10: 2 })
+        storage.set('charge', 1500)
+        cy.gnbClick(2)
+      })
+      it('700원 구매 / 800원 남음. => 230원 반환불가', () => {
+        cy.userBuy(0)
+        getChangesTest({ change: [1, 0, 1, 2], prevCharged: [2, 0, 1, 2] }, 230)
+      })
+      it('구매X => 430원 반환불가', () => {
+        getChangesTest({ change: [2, 0, 1, 2], prevCharged: [2, 0, 1, 2] }, 430)
+      })
+    })
+
+    describe('반환액은 누적되지 않음 (1) - 기계 160원 (0, 1, 1, 1개) / 사용자 1000원 충전(500원 2개)', () => {
+      before(() => {
+        cy.visit('http://localhost:3000/')
+        storage.set('inventory', [
+          { name: '커피', price: 700, amount: 2 },
+          { name: '칠성사이다', price: 750, amount: 3 },
+          { name: '펩시콜라', price: 800, amount: 4 },
+          { name: '코카콜라', price: 850, amount: 5 },
+        ])
+        storage.set('charge', 1000)
+        storage.set('ownedCoins', { q500: 2, q100: 1, q50: 1, q10: 1 })
+        cy.gnbClick(2)
+      })
+      it('700원 구매 -> 160원 반환. 140원 남음.', () => {
+        cy.userBuy(0)
+        getChangesTest({ change: [0, 1, 1, 1], prevCharged: [2, 1, 1, 1] }, 140)
+      })
+    })
+    describe('반환액은 누적되지 않음 (2) - 기계 1000원 (2, 0, 0, 0개) / 사용자 1000원 충전(500원 2개)', () => {
+      before(() => {
+        cy.visit('http://localhost:3000/')
+        storage.set('inventory', [
+          { name: '커피', price: 700, amount: 2 },
+          { name: '칠성사이다', price: 750, amount: 3 },
+          { name: '펩시콜라', price: 800, amount: 4 },
+          { name: '코카콜라', price: 850, amount: 5 },
+        ])
+        storage.set('charge', 1140)
+        storage.set('ownedCoins', { q500: 4, q100: 0, q50: 0, q10: 0 })
+        cy.gnbClick(2)
+      })
+      it('1000원 입력(500원 2개 추가 강제) 후 850원 구매 -> 반환 X. 290원 남음.', () => {
+        cy.userBuy(3)
+        getChangesTest({ change: [0, 0, 0, 0], prevCharged: [4, 0, 0, 0] }, 290)
       })
     })
   })

@@ -5,7 +5,7 @@ export default class userPurchase extends View {
     <fragment>
       <charge-coins></charge-coins>
       <product-list></product-list>
-      <return-changes></return-changes>
+      <change-coins></change-coins>
     </fragment>
   `
 

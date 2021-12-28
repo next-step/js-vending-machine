@@ -7,12 +7,13 @@ import {
   ErrorBoundaries,
   Worker,
   Route,
+  InitialCoins,
 } from '../constants.js'
 import errorHandler from '../util/errorHandler.js'
 import Store from './index.js'
 import localStorageReducer from './localStorageReducer.js'
 import Actions from './actions.js'
-import { saveCoinsCalculator } from '../service/coinCalculator.js'
+import { saveCoinsCalculator, changeCoinsCalculator } from '../service/coinCalculator.js'
 
 const actionWorkers = (store: Store): Record<ActionType, Worker> => ({
   [Actions.init]: () => {
@@ -20,7 +21,7 @@ const actionWorkers = (store: Store): Record<ActionType, Worker> => ({
     store.setValue({ ...InitialState, ...storedState }, false)
   },
   [Actions.route_change]: (route: Route) => {
-    store.setValue({ route })
+    store.setValue({ route, changeCoins: InitialCoins })
   },
   [Actions.inventory_setProduct]: (newProduct: InventoryItem) => {
     const inventoryMap = new Map(
@@ -31,13 +32,13 @@ const actionWorkers = (store: Store): Record<ActionType, Worker> => ({
     store.setValue({ inventory })
   },
   [Actions.machine_saveCoins]: (money: number) => {
-    const coins = saveCoinsCalculator(store, money)
-    store.setValue({ coins })
+    const ownedCoins = saveCoinsCalculator(store, money)
+    store.setValue({ ownedCoins })
   },
   [Actions.user_chargeCoins]: (money: number) => {
     const charge = ((store.get('charge') || 0) as number) + money
-    const coins = saveCoinsCalculator(store, money)
-    store.setValue({ charge, coins })
+    const ownedCoins = saveCoinsCalculator(store, money)
+    store.setValue({ charge, ownedCoins, changeCoins: InitialCoins })
   },
   [Actions.user_buyItem]: (itemIndex: number) => {
     const inventory = [...(store.get('inventory') as InventoryItem[])]
@@ -48,6 +49,10 @@ const actionWorkers = (store: Store): Record<ActionType, Worker> => ({
       inventory[itemIndex] = { ...target, amount: target.amount - 1 }
       store.setValue({ charge, inventory })
     }
+  },
+  [Actions.user_returnCoins]: () => {
+    const { charge, ownedCoins, changeCoins } = changeCoinsCalculator(store)
+    store.setValue({ charge, ownedCoins, changeCoins })
   },
 })
 

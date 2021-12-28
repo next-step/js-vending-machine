@@ -1,4 +1,5 @@
 import el from '../../util/dom.js';
+import lnKo from '../../util/lnKo.js';
 import View from '../abstract.js';
 export default class ChargeCoins extends View {
     static #template = /* html */ `
@@ -27,7 +28,7 @@ export default class ChargeCoins extends View {
         this.render($content);
     }
     onStoreUpdated({ charge }) {
-        this.$remains.textContent = charge.toLocaleString('ko-KR');
+        this.$remains.textContent = lnKo(charge);
         this.$form.reset();
         this.$input.focus();
     }

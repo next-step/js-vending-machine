@@ -1,14 +1,14 @@
-import { InitialState, ErrorMsgs, ErrorBoundaries, } from '../constants.js';
+import { InitialState, ErrorMsgs, ErrorBoundaries, InitialCoins, } from '../constants.js';
 import errorHandler from '../util/errorHandler.js';
 import localStorageReducer from './localStorageReducer.js';
-import { saveCoinsCalculator } from '../service/coinCalculator.js';
+import { saveCoinsCalculator, changeCoinsCalculator } from '../service/coinCalculator.js';
 const actionWorkers = (store) => ({
     ["init" /* init */]: () => {
         const storedState = (localStorageReducer.getAll() || {});
         store.setValue({ ...InitialState, ...storedState }, false);
     },
     ["route_change" /* route_change */]: (route) => {
-        store.setValue({ route });
+        store.setValue({ route, changeCoins: InitialCoins });
     },
     ["inventory_setProduct" /* inventory_setProduct */]: (newProduct) => {
         const inventoryMap = new Map((store.get('inventory') || []).map(inventory => [inventory.name, inventory]));
@@ -17,13 +17,13 @@ const actionWorkers = (store) => ({
         store.setValue({ inventory });
     },
     ["machine_saveCoins" /* machine_saveCoins */]: (money) => {
-        const coins = saveCoinsCalculator(store, money);
-        store.setValue({ coins });
+        const ownedCoins = saveCoinsCalculator(store, money);
+        store.setValue({ ownedCoins });
     },
     ["user_chargeCoins" /* user_chargeCoins */]: (money) => {
         const charge = (store.get('charge') || 0) + money;
-        const coins = saveCoinsCalculator(store, money);
-        store.setValue({ charge, coins });
+        const ownedCoins = saveCoinsCalculator(store, money);
+        store.setValue({ charge, ownedCoins, changeCoins: InitialCoins });
     },
     ["user_buyItem" /* user_buyItem */]: (itemIndex) => {
         const inventory = [...store.get('inventory')];
@@ -34,6 +34,10 @@ const actionWorkers = (store) => ({
             inventory[itemIndex] = { ...target, amount: target.amount - 1 };
             store.setValue({ charge, inventory });
         }
+    },
+    ["user_returnCoins" /* user_returnCoins */]: () => {
+        const { charge, ownedCoins, changeCoins } = changeCoinsCalculator(store);
+        store.setValue({ charge, ownedCoins, changeCoins });
     },
 });
 const validator = {

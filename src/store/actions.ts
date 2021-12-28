@@ -5,6 +5,7 @@ const enum Actions {
   machine_saveCoins = 'machine_saveCoins',
   user_chargeCoins = 'user_chargeCoins',
   user_buyItem = 'user_buyItem',
+  user_returnCoins = 'user_returnCoins',
 }
 
 export default Actions

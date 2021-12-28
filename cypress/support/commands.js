@@ -70,3 +70,6 @@ Cypress.Commands.add('getListItem', index => {
 Cypress.Commands.add('userBuy', index => {
   cy.getListItem(index).find('button').click()
 })
+Cypress.Commands.add('getChange', () => {
+  cy.get('#coin-return-button').click()
+})

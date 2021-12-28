@@ -1,3 +1,9 @@
+export const CoinKeyValues = [
+    ['q500', 500],
+    ['q100', 100],
+    ['q50', 50],
+    ['q10', 10],
+];
 export var Route;
 (function (Route) {
     Route["machineCharge"] = "machineCharge";
@@ -23,16 +29,17 @@ export const ErrorMsgs = {
     machine_CalculateError: '동전교환 후에도 잔액이 남은건 뭔가 문제가 있다는 뜻',
     store_InitError: 'unable to initialize store',
 };
+export const InitialCoins = {
+    q500: 0,
+    q100: 0,
+    q50: 0,
+    q10: 0,
+};
 export const InitialState = {
     route: Route.productInventory,
     inventory: [],
-    coins: {
-        total: 0,
-        q500: 0,
-        q100: 0,
-        q50: 0,
-        q10: 0,
-    },
+    ownedCoins: InitialCoins,
     charge: 0,
+    changeCoins: InitialCoins,
 };
 //# sourceMappingURL=constants.js.map
