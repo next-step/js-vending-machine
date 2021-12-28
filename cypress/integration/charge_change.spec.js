@@ -1,7 +1,6 @@
 import { test$ } from '../../src/js/utils/utils.js';
 import { TEST_DOM } from '../../src/js/constants/test.js';
 import { ERROR_MESSAGE, LOCAL_STORAGE_KEY } from '../../src/js/constants/index.js';
-import 'cypress-localstorage-commands';
 
 before(() => {
   cy.visit('http://127.0.0.1:8080');
