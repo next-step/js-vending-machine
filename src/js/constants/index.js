@@ -21,6 +21,22 @@ export const DOM = {
   COIN_QUANTITY_100: '#vending-machine-coin-100-quantity',
   COIN_QUANTITY_50: '#vending-machine-coin-50-quantity',
   COIN_QUANTITY_10: '#vending-machine-coin-10-quantity',
+
+  INSERT_MONEY_FORM_CONTAINER: '#insert-money',
+  INSERT_MONEY_INPUT: '#charge-input',
+  INSERT_MONEY_BUTTON: '#charge-button',
+  INSERTED_AMOUNT: '#charge-amount',
+
+  PURCHASABLE_CONTAINER: '#purchasable-container',
+  PURCHASABLE_INVENTORY: '#purchasable-inventory',
+  PURCHASE_BUTTON: '#purchase-button',
+
+  COIN_RETURN_CONTAINER: '#coin-return-container',
+  COIN_RETURN_BUTTON: '#coin-return-button',
+  COIN_RETURN_QUANTITY_500: 'return-coin-500-quantity',
+  COIN_RETURN_QUANTITY_100: 'return-coin-100-quantity',
+  COIN_RETURN_QUANTITY_50: 'return-coin-50-quantity',
+  COIN_RETURN_QUANTITY_10: 'return-coin-10-quantity',
 };
 
 export const ERROR_MESSAGE = {
@@ -53,4 +69,5 @@ export const LOCAL_STORAGE_KEY = {
   MACHINE_MODE: 'currentTab',
   CHARGED_AMOUNT: 'chargedAmount',
   CHARGED_COINS: 'chargedCoins',
+  CHARGED_AMOUNT_BY_USER: 'chargedAmountByUser',
 };

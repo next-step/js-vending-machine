@@ -1,5 +1,6 @@
 .purchase-available,
 .product-inventory,
+.purchasable-inventory-table,
 .cashbox-change,
 .cashbox-remaining {
 	border-collapse: collapse;
@@ -15,6 +16,7 @@
 	max-width: 300px;
 }
 
+.purchasable-inventory-table,
 .product-inventory {
 	width: 340px;
 }
@@ -30,6 +32,7 @@
 
 .purchase-available td,
 .product-inventory td,
+.purchasable-inventory-table td,
 .cashbox-change td,
 .cashbox-remaining td {
 	border-color: black;
@@ -44,6 +47,7 @@
 
 .purchase-available th,
 .product-inventory th,
+.purchasable-inventory-table th,
 .cashbox-change th,
 .cashbox-remaining th {
 	border-color: black;
@@ -80,21 +84,12 @@ section:last-child {
 	margin-top: 1rem;
 }
 
-#app {
-	display: flex;
-	flex-direction: column;
-	justify-content: center;
-	align-items: center;
-}
-
-#new-product-form-container {
-	display: flex;
-	flex-direction: column;
-	justify-content: center;
-	align-items: center;
-}
-
-#charge-form-container {
+#app,
+#new-product-form-container,
+#charge-form-container,
+#purchase-product,
+#purchasable-container
+{
 	display: flex;
 	flex-direction: column;
 	justify-content: center;
@@ -145,7 +140,8 @@ section p {
 	flex-direction: column;
 }
 
-.product-inventory {
+.product-inventory,
+.purchasable-inventory-table {
 	margin-top: 1rem;
 }
 
@@ -181,6 +177,7 @@ button:active {
 .cashbox-remaining,
 .purchase-available,
 .cashbox-change,
+.purchasable-inventory-table,
 .product-inventory {
 	border-radius: 10px;
 	border-collapse: collapse;
@@ -188,12 +185,15 @@ button:active {
 	box-shadow: 0 0 0 1px rgb(66, 66, 66);
 }
 
+
 .purchase-available td,
 .product-inventory td,
+.purchasable-inventory-table td,
 .cashbox-change td,
 .cashbox-remaining td,
 .purchase-available th,
 .product-inventory th,
+.purchasable-inventory-table th,
 .cashbox-change th,
 .cashbox-remaining th {
 	border: 1px solid rgb(66, 66, 66);

@@ -18,4 +18,16 @@ export const TEST_DOM = {
   COIN_QUANTITY_100: 'coinQuantity100',
   COIN_QUANTITY_50: 'coinQuantity50',
   COIN_QUANTITY_10: 'coinQuantity10',
+
+  INSERT_MONEY_FORM_CONTAINER: 'insertMoneyForm',
+  INSERT_MONEY_BUTTON: 'chargeButton',
+  INSERT_MONEY_INPUT: 'chargeInput',
+  INSERTED_AMOUNT: 'insertedAmount',
+
+  PURCHASABLE_CONTAINER: 'purchasableContainer',
+  PURCHASABLE_INVENTORY: 'purchasableInventory',
+  PURCHASE_BUTTON: 'purchaseButton',
+
+  COIN_RETURN_CONTAINER: 'coinReturnContainer',
+  COIN_RETURN_BUTTON: 'coinReturnButton',
 };

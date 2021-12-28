@@ -2,6 +2,7 @@ import { newProductFormView, model } from '../index.js';
 import {
   addNewProductToInventory,
   findSameProductId,
+  getProductId,
   updateProduct,
   validateNewProduct,
 } from '../service/newProductService.js';
@@ -15,6 +16,7 @@ export class manageProductController {
     event.preventDefault();
 
     const newProduct = validateNewProduct({
+      id: getProductId(model.products),
       name: newProductFormView.$nameInput.value,
       price: newProductFormView.$priceInput.value,
       quantity: newProductFormView.$quantityInput.value,
@@ -29,5 +31,6 @@ export class manageProductController {
     }
 
     addNewProductToInventory(model, newProductFormView, newProduct);
+    console.log(model.products);
   };
 }

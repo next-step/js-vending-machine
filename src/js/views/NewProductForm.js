@@ -25,7 +25,9 @@ export class NewProductForm {
     this.$inventoryContainer.appendChild(
       el(
         `<tr id='product-${productId}'>`,
-        Object.values(newProduct).map((item) => `<th>${item}</th>`)
+        Object.values(newProduct)
+          .slice(1)
+          .map((item) => `<th>${item}</th>`)
       )
     );
     this.updateInventoryContainer();
@@ -35,7 +37,9 @@ export class NewProductForm {
     this.$inventoryContainer.querySelector(`#product-${productId}`).replaceWith(
       el(
         `<tr id='product-${productId}' data-testid="product">`,
-        Object.values(newProduct).map((item) => `<th>${item}</th>`)
+        Object.values(newProduct)
+          .slice(1)
+          .map((item) => `<th>${item}</th>`)
       )
     );
     this.updateInventoryContainer();

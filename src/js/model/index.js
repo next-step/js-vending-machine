@@ -4,13 +4,16 @@ import { MACHINE_MODE, LOCAL_STORAGE_KEY } from '../constants/index.js';
 export default class Model {
   constructor() {
     this.products = getLocalStorageValueByKey(LOCAL_STORAGE_KEY.PRODUCTS) || [];
-    this.machineMode = getLocalStorageValueByKey(LOCAL_STORAGE_KEY.MACHINE_MODE) || MACHINE_MODE.MANAGE_PRODUCT;
+    this.machineMode =
+      getLocalStorageValueByKey(LOCAL_STORAGE_KEY.MACHINE_MODE) || MACHINE_MODE.MANAGE_PRODUCT;
     this.chargedCoins = getLocalStorageValueByKey(LOCAL_STORAGE_KEY.CHARGED_COINS) || {
       10: 0,
       50: 0,
       100: 0,
       500: 0,
     };
+    this.chargedAmountByUser =
+      getLocalStorageValueByKey(LOCAL_STORAGE_KEY.CHARGED_AMOUNT_BY_USER) || 0;
   }
 
   addNewProduct(newProduct) {
@@ -36,5 +39,10 @@ export default class Model {
       this.chargedCoins[key] += value;
     });
     setLocalStorageValue(LOCAL_STORAGE_KEY.CHARGED_COINS, this.chargedCoins);
+  }
+
+  setChargedAmountByUser(newChargedAmountByUser) {
+    this.chargedAmountByUser += newChargedAmountByUser;
+    setLocalStorageValue(LOCAL_STORAGE_KEY.CHARGED_AMOUNT_BY_USER, this.chargedAmountByUser);
   }
 }
