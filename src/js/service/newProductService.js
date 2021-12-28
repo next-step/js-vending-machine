@@ -1,5 +1,5 @@
 import { NewProductForm } from '../views/NewProductForm.js';
-import { ERROR_MESSAGE } from '../constants/constants.js';
+import { ERROR_MESSAGE } from '../constants/index.js';
 
 export const validateNewProduct = (newProduct) => {
   const { name, price, quantity } = newProduct;
@@ -12,8 +12,6 @@ export const validateNewProduct = (newProduct) => {
   if (price > 10000000) throw Error(ERROR_MESSAGE.MAX_PRICE);
   if (price % 10 !== 0) throw Error(ERROR_MESSAGE.DIVISION_BY_TEN);
 
-  console.log(quantity);
-  console.log(quantity.length);
   if (quantity.length === 0) throw Error(ERROR_MESSAGE.NONE_QUANTITY);
   if (quantity < 1) throw Error(ERROR_MESSAGE.MIN_QUANTITY);
   if (quantity > 999) throw Error(ERROR_MESSAGE.MAX_QUANTITY);
