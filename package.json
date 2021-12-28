@@ -1,0 +1,30 @@
+{
+  "name": "js-vending-machine",
+  "version": "1.0.0",
+  "description": "vending-machine",
+  "main": "src/js/index.js",
+  "repository": "https://guymoon.github.io/js-vending-machine/",
+  "author": "guymoon <gmoon.cho@gmail.com>",
+  "license": "MIT",
+
+  "dependencies": {
+    "array": "^0.4.3",
+    "error": "^10.4.0",
+    "es5": "^1.0.0",
+    "es6": "0.0.7",
+    "javascript": "^1.0.0",
+    "number": "0.0.1"
+  },
+  "devDependencies": {
+    "cypress": "^9.1.1",
+    "eslint": "^8.3.0",
+    "eslint-config-airbnb-base": "^15.0.0",
+    "eslint-config-prettier": "^8.3.0",
+    "eslint-plugin-import": "^2.25.3",
+    "eslint-plugin-prettier": "^4.0.0",
+    "prettier": "^2.5.0"
+  },
+  "scripts": {
+    "lint": "eslint -c .eslintrc.js 'src/**/*.js*'"
+  }
+}
