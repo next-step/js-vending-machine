@@ -1,5 +1,5 @@
 const { test$ } = require('../../src/js/utils/utils.js');
-const { TEST_DOM, ERROR_MESSAGE } = require('../../src/js/constants/constants.js');
+const { ERROR_MESSAGE } = require('../../src/js/constants/index.js');
 
 before(() => {
   cy.visit('http://127.0.0.1:8080');
