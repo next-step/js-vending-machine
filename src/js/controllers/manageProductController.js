@@ -1,11 +1,5 @@
-import { newProductFormView, model } from '../index.js';
-import {
-  addNewProductToInventory,
-  findSameProductId,
-  getProductId,
-  updateProduct,
-  validateNewProduct,
-} from '../service/newProductService.js';
+import { newProductFormView, model, purchasableTableView } from '../index.js';
+import { getProductId, validateNewProduct } from '../service/newProductService.js';
 
 export class manageProductController {
   constructor() {
@@ -22,15 +16,8 @@ export class manageProductController {
       quantity: newProductFormView.$quantityInput.value,
     });
 
-    const sameProductId = findSameProductId(model.products, newProduct);
-    const existSameProduct = sameProductId >= 0;
-
-    if (existSameProduct) {
-      updateProduct(model, newProductFormView, newProduct, sameProductId);
-      return;
-    }
-
-    addNewProductToInventory(model, newProductFormView, newProduct);
-    console.log(model.products);
+    model.setProducts(newProduct);
+    newProductFormView.renderProducts();
+    purchasableTableView.renderPurchasableTable();
   };
 }

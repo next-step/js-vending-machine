@@ -11,3 +11,10 @@ export const hide = ($target) => {
 };
 
 export const createRandomNumber = (min, max) => Math.floor(Math.random() * (max + 1)) + min;
+
+export const pureSplice = (array, targetIndex, replacement) => {
+  const tmp = [...array];
+  tmp.splice(targetIndex, 1, replacement);
+
+  return tmp;
+};
