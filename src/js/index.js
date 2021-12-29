@@ -7,10 +7,10 @@ import { ReturnCoinTable } from './views/ReturnCoinTable.js';
 import { PurchasableTable } from './views/PurchasableTable.js';
 import { ChargeMoneyForm } from './views/ChargeMoneyForm.js';
 
-// window.onerror = function (msg) {
-//   alert(msg.replace('Uncaught Error: ', ''));
-//   return true;
-// };
+window.onerror = function (msg) {
+  alert(msg.replace('Uncaught Error: ', ''));
+  return true;
+};
 
 export const model = new Model();
 
