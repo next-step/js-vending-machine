@@ -11,8 +11,6 @@ export class NewProductForm {
     this.$quantityInput = $(DOM.PRODUCT_QUANTITY_INPUT);
     this.$addProductButton = $(DOM.PRODUCT_ADD_BUTTON);
     this.$inventoryContainer = $(DOM.PRODUCT_INVENTORY_CONTAINER);
-
-    this.renderProducts();
   }
 
   bindOnClickAddProductButton(handler) {
@@ -22,12 +20,14 @@ export class NewProductForm {
   }
 
   renderProducts() {
-    const productElementsArray = model.products.map((product, index) => el(
-      '<tr>',
-      Object.values(product)
-        .slice(1)
-        .map((item) => `<th>${item}</th>`),
-    ));
+    const productElementsArray = model.products.map((product) =>
+      el(
+        '<tr>',
+        Object.values(product)
+          .slice(1)
+          .map((item) => `<th>${item}</th>`)
+      )
+    );
     this.$inventoryContainer.replaceChildren();
     productElementsArray.forEach((i) => this.$inventoryContainer.appendChild(i));
   }

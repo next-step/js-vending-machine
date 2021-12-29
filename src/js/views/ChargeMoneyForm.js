@@ -8,8 +8,6 @@ export class ChargeMoneyForm {
     this.$chargedMoneyInput = $(DOM.INSERT_MONEY_INPUT);
     this.$chargedMoneyButton = $(DOM.INSERT_MONEY_BUTTON);
     this.$chargedAmount = $(DOM.INSERTED_AMOUNT);
-
-    this.renderChargedAmountByUser();
   }
 
   bindOnClickChargeButton(handler) {

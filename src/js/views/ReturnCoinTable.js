@@ -1,5 +1,6 @@
 import { DOM } from '../constants/index.js';
 import { $ } from '../utils/utils.js';
+import { model } from '../index.js';
 
 export class ReturnCoinTable {
   constructor() {
@@ -11,9 +12,16 @@ export class ReturnCoinTable {
     this.$returnCoinQuantity500 = $(DOM.COIN_RETURN_QUANTITY_500);
   }
 
-  // bindOnClickChargeButton(handler) {
-  //   this.$chargeButton.addEventListener('click', (event) => {
-  //     handler(event);
-  //   });
-  // }
+  bindOnClickReturnCoinButton(handler) {
+    this.$returnButton.addEventListener('click', () => {
+      handler();
+    });
+  }
+
+  renderReturnCoinTable() {
+    this.$returnCoinQuantity10.innerText = model.returnCoins[10];
+    this.$returnCoinQuantity50.innerText = model.returnCoins[50];
+    this.$returnCoinQuantity100.innerText = model.returnCoins[100];
+    this.$returnCoinQuantity500.innerText = model.returnCoins[500];
+  }
 }
