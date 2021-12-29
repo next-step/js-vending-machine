@@ -1,26 +1,28 @@
 import { getLocalStorageValueByKey, setLocalStorageValue } from '../service/localStorageService.js';
 import { MACHINE_MODE, LOCAL_STORAGE_KEY } from '../constants/index.js';
 import { pureSplice } from '../utils/utils.js';
+import { INITIAL_STATE } from './initialState.js';
 
 export default class Model {
   constructor() {
-    this.products = getLocalStorageValueByKey(LOCAL_STORAGE_KEY.PRODUCTS) || [];
-    this.machineMode = getLocalStorageValueByKey(LOCAL_STORAGE_KEY.MACHINE_MODE) || MACHINE_MODE.MANAGE_PRODUCT;
-    this.chargedCoins = getLocalStorageValueByKey(LOCAL_STORAGE_KEY.CHARGED_COINS) || {
-      10: 0,
-      50: 0,
-      100: 0,
-      500: 0,
-    };
-    this.chargedAmountByUser = getLocalStorageValueByKey(LOCAL_STORAGE_KEY.CHARGED_AMOUNT_BY_USER) || 0;
+    this.products = getLocalStorageValueByKey(LOCAL_STORAGE_KEY.PRODUCTS) || INITIAL_STATE.PRODUCTS;
+
+    this.machineMode = getLocalStorageValueByKey(LOCAL_STORAGE_KEY.MACHINE_MODE) || INITIAL_STATE.MACHINE_MODE;
+
+    this.chargedCoins = getLocalStorageValueByKey(LOCAL_STORAGE_KEY.CHARGED_COINS) || INITIAL_STATE.CHARGED_COINS;
+
+    this.chargedAmountByUser = getLocalStorageValueByKey(LOCAL_STORAGE_KEY.CHARGED_AMOUNT_BY_USER)
+      || INITIAL_STATE.CHARGED_AMOUNT_BY_USER;
+
+    this.returnCoins = getLocalStorageValueByKey(LOCAL_STORAGE_KEY.RETURNED_COINS) || INITIAL_STATE.RETURN_COINS;
   }
 
   setProducts(newProduct) {
     const targetIndex = this.products.findIndex((product) => product.name === newProduct.name);
-    const isSameProduct = targetIndex >= 0;
+    const existsSameProduct = targetIndex >= 0;
 
-    this.products = isSameProduct
-      ? pureSplice(this.products, targetIndex, newProduct)
+    this.products = existsSameProduct
+      ? pureSplice(this.products, targetIndex, { ...newProduct, id: this.products[targetIndex].id })
       : [...this.products, newProduct];
 
     setLocalStorageValue(LOCAL_STORAGE_KEY.PRODUCTS, this.products);
@@ -39,7 +41,12 @@ export default class Model {
   }
 
   setChargedAmountByUser(newChargedAmountByUser) {
-    this.chargedAmountByUser += newChargedAmountByUser;
+    this.chargedAmountByUser = newChargedAmountByUser;
     setLocalStorageValue(LOCAL_STORAGE_KEY.CHARGED_AMOUNT_BY_USER, this.chargedAmountByUser);
+  }
+
+  setReturnCoins(newReturnCoins) {
+    this.returnCoins = newReturnCoins;
+    setLocalStorageValue(LOCAL_STORAGE_KEY.RETURNED_COINS, this.returnCoins);
   }
 }
