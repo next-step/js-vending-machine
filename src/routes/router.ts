@@ -1,5 +1,4 @@
 import { $ } from '../utils/dom/selector'
-import ChargeMoneyView from '../views/chargeMoney/ChargeMoneyView'
 import ProductManageView from '../views/productManage/ProductManageView'
 
 export type RouteHashType =
@@ -11,17 +10,12 @@ const FIRST_ROUTE: RouteHashType = '#productManage'
 
 export const $Root = $({ selector: '#app' }) as HTMLDivElement
 
-type RouteView = {
-  productManageView: ProductManageView
-  chargeMoneyView: ChargeMoneyView
-}
+type RouteView = { productManageView: ProductManageView }
 export class Router {
   productManageView: ProductManageView
-  chargeMoneyView: ChargeMoneyView
 
-  constructor({ productManageView, chargeMoneyView }: RouteView) {
+  constructor({ productManageView }: RouteView) {
     this.productManageView = productManageView
-    this.chargeMoneyView = chargeMoneyView
     this.init()
   }
 
@@ -33,7 +27,8 @@ export class Router {
         this.productManageView.render()
         break
       case '#chargeMoney':
-        this.chargeMoneyView.render()
+        $Root.innerHTML = '<div>chargeMoney</div>'
+        // render charge money
         break
       case '#productPurchase':
         $Root.innerHTML = '<div>productPurchase</div>'
