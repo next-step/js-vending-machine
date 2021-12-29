@@ -87,6 +87,20 @@ section:last-child {
 	align-items: center;
 }
 
+#new-product-form-container {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+}
+
+#charge-form-container {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+}
+
 input[type='number'],
 input[type='text'] {
 	all: unset;
@@ -133,6 +147,13 @@ section p {
 
 .product-inventory {
 	margin-top: 1rem;
+}
+
+.new-product-form-container {
+	display: flex;
+	justify-content: center;
+	flex-direction: column;
+	align-items: center;
 }
 
 .product-container input:not(:first-child) {

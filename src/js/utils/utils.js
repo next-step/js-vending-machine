@@ -9,3 +9,5 @@ export const show = ($target) => {
 export const hide = ($target) => {
   $target.style.display = 'none';
 };
+
+export const createRandomNumber = (min, max) => Math.floor(Math.random() * (max + 1)) + min;

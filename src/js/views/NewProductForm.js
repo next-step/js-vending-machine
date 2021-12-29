@@ -1,10 +1,11 @@
-import { DOM } from '../constants/constants.js';
+import { DOM } from '../constants/index.js';
 import { $ } from '../utils/utils.js';
 import el from '../utils/dom.js';
 import { getLocalStorageValueByKey } from '../service/localStorageService.js';
 
 export class NewProductForm {
   constructor() {
+    this.$container = $(DOM.NEW_PRODUCT_FORM_CONTAINER);
     this.$nameInput = $(DOM.PRODUCT_NAME_INPUT);
     this.$priceInput = $(DOM.PRODUCT_PRICE_INPUT);
     this.$quantityInput = $(DOM.PRODUCT_QUANTITY_INPUT);
@@ -24,8 +25,8 @@ export class NewProductForm {
     this.$inventoryContainer.appendChild(
       el(
         `<tr id='product-${productId}'>`,
-        Object.values(newProduct).map((item) => `<th>${item}</th>`),
-      ),
+        Object.values(newProduct).map((item) => `<th>${item}</th>`)
+      )
     );
     this.updateInventoryContainer();
   }
@@ -34,10 +35,9 @@ export class NewProductForm {
     this.$inventoryContainer.querySelector(`#product-${productId}`).replaceWith(
       el(
         `<tr id='product-${productId}' data-testid="product">`,
-        Object.values(newProduct).map((item) => `<th>${item}</th>`),
-      ),
+        Object.values(newProduct).map((item) => `<th>${item}</th>`)
+      )
     );
-
     this.updateInventoryContainer();
   }
 
