@@ -4,6 +4,9 @@ import { createRandomCoins, validateTypedAmount } from '../service/chargeChangeS
 export class chargeChangeController {
   constructor() {
     chargeFormView.bindOnClickChargeButton(this.onClickChargeButton);
+
+    chargeFormView.renderChargedCoinTable();
+    chargeFormView.renderChargedAmount();
   }
 
   onClickChargeButton = (event) => {

@@ -4,6 +4,7 @@ import { getProductId, validateNewProduct } from '../service/newProductService.j
 export class manageProductController {
   constructor() {
     newProductFormView.bindOnClickAddProductButton(this.onClickAddNewProductButton);
+    newProductFormView.renderProducts();
   }
 
   onClickAddNewProductButton = (event) => {
