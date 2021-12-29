@@ -20,11 +20,12 @@ export const validateNewProduct = (newProduct) => {
   if (quantity > 999) throw Error(ERROR_MESSAGE.MAX_QUANTITY);
 
   return {
-    id, name, price: Number(price), quantity: Number(quantity),
+    id,
+    name,
+    price: Number(price),
+    quantity: Number(quantity),
   };
 };
-
-export const findSameProductId = (products, newProduct) => Object.values(products).findIndex((obj, idx) => obj.name === newProduct.name);
 
 export const getProductId = (products) => {
   if (products.length === 0) return 0;
