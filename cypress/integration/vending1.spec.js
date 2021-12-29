@@ -15,6 +15,7 @@ describe('자판기 미션 1단계', () => {
     cy.restoreLocalStorage()
     cy.visit('https://eungyucho.github.io/js-vending-machine/')
     cy.setupProductManageSelector()
+    cy.setupNaviSelector()
   })
 
   afterEach(() => {

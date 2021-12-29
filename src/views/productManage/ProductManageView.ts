@@ -110,12 +110,16 @@ export default class ProductManageView {
     const price = Number(this.$productPriceInput.value)
     const quantity = Number(this.$productQuantityInput.value)
 
-    if (quantity && quantity < 1) {
-      return { errorMessage: PRODUCT_ADD_QUANTITY_INVALID }
+    if (
+      this.$productNameInput.value === '' ||
+      this.$productQuantityInput.value === '' ||
+      this.$productQuantityInput.value === ''
+    ) {
+      return { errorMessage: PRODUCT_ADD_INPUT_INVALID }
     }
 
-    if (!name || !price || !quantity) {
-      return { errorMessage: PRODUCT_ADD_INPUT_INVALID }
+    if (quantity < 1) {
+      return { errorMessage: PRODUCT_ADD_QUANTITY_INVALID }
     }
 
     if (!this.#store.isPriceValid(price)) {
