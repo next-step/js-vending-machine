@@ -1,16 +1,10 @@
 const { test$ } = require('../../src/js/utils/utils.js');
 const { ERROR_MESSAGE } = require('../../src/js/constants/index.js');
+const { checkError } = require('../support/utils.js');
 
 before(() => {
   cy.visit('http://127.0.0.1:8080');
 });
-
-const checkError = (errorMessage) => {
-  cy.on('uncaught:exception', (err) => {
-    expect(err.message).to.include(errorMessage);
-    return false;
-  });
-};
 
 describe('새로운 제품 추가', () => {
   describe('...', () => {

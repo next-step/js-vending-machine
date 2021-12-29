@@ -1,17 +1,11 @@
 import { test$ } from '../../src/js/utils/utils.js';
 import { TEST_DOM } from '../../src/js/constants/test.js';
 import { ERROR_MESSAGE, LOCAL_STORAGE_KEY } from '../../src/js/constants/index.js';
+const { checkError } = require('../support/utils.js');
 
 before(() => {
   cy.visit('http://127.0.0.1:8080');
 });
-
-const checkError = (errorMessage) => {
-  cy.on('uncaught:exception', (err) => {
-    expect(err.message).to.include(errorMessage);
-    return false;
-  });
-};
 
 describe('동전 추가', () => {
   describe('...', () => {
@@ -56,20 +50,6 @@ describe('동전 추가', () => {
 
       cy.typeAmountAndSubmit(secondInput);
       cy.get(test$(TEST_DOM.CHARGED_AMOUNT)).should('have.text', Number(firstInput + secondInput));
-
-      // const amountArray = [10, 50, 100, 500];
-      // let result = 0;
-      // [
-      //   TEST_DOM.COIN_QUANTITY_10,
-      //   TEST_DOM.COIN_QUANTITY_50,
-      //   TEST_DOM.COIN_QUANTITY_100,
-      //   TEST_DOM.COIN_QUANTITY_500,
-      // ].forEach(($coinQuantity, index) => {
-      //   cy.get(test$($coinQuantity)).then((val) => {
-      //     console.log(val);
-      //     cy.wrap(val).should('have.text', 10);
-      //   });
-      // });
     });
   });
 });

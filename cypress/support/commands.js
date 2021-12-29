@@ -51,3 +51,19 @@ Cypress.Commands.add('typeAmountAndSubmit', (amountString) => {
   cy.get(test$(TEST_DOM.CHARGE_BUTTON)).click();
   cy.get(test$(TEST_DOM.CHARGE_AMOUNT)).clear();
 });
+
+Cypress.Commands.add('typeChargeAmountAndSubmit', (amountString) => {
+  if (amountString.length !== 0) {
+    cy.get(test$(TEST_DOM.INSERT_MONEY_INPUT)).type(amountString);
+  }
+  cy.get(test$(TEST_DOM.INSERT_MONEY_BUTTON)).click();
+  cy.get(test$(TEST_DOM.INSERT_MONEY_INPUT)).clear();
+});
+
+Cypress.Commands.add('clickMachineModeTab', (tab) => {
+  cy.get(test$(tab)).click();
+});
+
+Cypress.Commands.add('purchaseProduct', () => {
+  cy.get(test$(TEST_DOM.PURCHASE_BUTTON)).click();
+});
