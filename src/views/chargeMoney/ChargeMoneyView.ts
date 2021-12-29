@@ -3,15 +3,12 @@ import ProductManageController from '../../controller/productManage/productManag
 import { $Root } from '../../routes/router'
 import MoneyStore from '../../store/MoneyStore'
 import {
+  VENDING_MACHINE_CHARGE_AMOUNT,
   VENDING_MACHINE_CHARGE_BUTTON,
   VENDING_MACHINE_CHARGE_INPUT,
   VENDING_MACHINE_COIN_INVENTORY,
 } from '../../utils/constants/element'
-import {
-  PRODUCT_ADD_INPUT_INVALID,
-  PRODUCT_ADD_PRICE_INVALID,
-  PRODUCT_ADD_QUANTITY_INVALID,
-} from '../../utils/constants/errorMessage'
+
 import { $ } from '../../utils/dom/selector'
 
 const ChargeMoneyTemplate = `
@@ -110,7 +107,12 @@ export default class ChargeMoneyView {
       selector: VENDING_MACHINE_COIN_INVENTORY,
     }) as HTMLTableSectionElement
 
+    const $coinAmount = $({
+      selector: VENDING_MACHINE_CHARGE_AMOUNT,
+    }) as HTMLSpanElement
+
     $inventory.innerHTML = ''
+    $coinAmount.textContent = this.#store.getVendingMoney().toLocaleString()
 
     console.log(coin)
     Object.keys(coin).forEach((coinKey, index) => {
@@ -121,7 +123,7 @@ export default class ChargeMoneyView {
 
       coinUnit.textContent = key
 
-      count.textContent = (coin[key] ?? 0).toLocaleString()
+      count.textContent = (coin[key] ?? 0) + '개'
     })
   }
 
