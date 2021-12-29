@@ -9,9 +9,10 @@ before(() => {
 
 describe('사용자가 자판기에 돈을 충전', () => {
   before(() => {
-    cy.clearNewProductForm();
-    cy.typeNewProductFormAndSubmit(['hello', 1000, 10]);
     cy.clickMachineModeTab(TEST_DOM.MANAGE_PRODUCT_TAB);
+    cy.typeNewProductFormAndSubmit(['hello', 1000, 10]);
+    cy.clearNewProductForm();
+    cy.clickMachineModeTab(TEST_DOM.PURCHASE_PRODUCT_TAB);
   });
 
   beforeEach(() => {

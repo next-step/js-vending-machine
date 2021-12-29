@@ -6,7 +6,11 @@ before(() => {
   cy.visit('http://127.0.0.1:8080');
 });
 
-describe('사용자가 자판기에 금액을 충전', () => {
+describe('사용자가 제품을 구매', () => {
+  before(() => {
+    cy.clickMachineModeTab(TEST_DOM.PURCHASE_PRODUCT_TAB);
+  });
+
   beforeEach(() => {
     cy.restoreLocalStorage();
   });
@@ -22,6 +26,7 @@ describe('사용자가 자판기에 금액을 충전', () => {
     it('충전된 금액보다 상품 가격이 비싸면 구매 할 수 없다.', () => {
       checkError(ERROR_MESSAGE.LACK_MONEY);
 
+      cy.clickMachineModeTab(TEST_DOM.MANAGE_PRODUCT_TAB);
       cy.typeNewProductFormAndSubmit(['칠성사이다', expensivePrice, 1]);
       cy.clearNewProductForm();
       cy.clickMachineModeTab(TEST_DOM.PURCHASE_PRODUCT_TAB);
