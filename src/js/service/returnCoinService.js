@@ -8,6 +8,7 @@ export const createNewReturnCoinTable = (amount, returnCoins) => {
       amount -= coin;
     }
   });
+
   return {
     returnCoins: newReturnCoins,
     amount,

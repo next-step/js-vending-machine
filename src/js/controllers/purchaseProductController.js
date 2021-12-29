@@ -1,4 +1,6 @@
-import { chargeMoneyFormView, model, newProductFormView, purchasableTableView } from '../index.js';
+import {
+  chargeMoneyFormView, model, newProductFormView, purchasableTableView,
+} from '../index.js';
 import { validatePurchasable } from '../service/purchaseProductService.js';
 
 export class purchaseProductController {
