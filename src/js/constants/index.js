@@ -33,10 +33,10 @@ export const DOM = {
 
   COIN_RETURN_CONTAINER: '#coin-return-container',
   COIN_RETURN_BUTTON: '#coin-return-button',
-  COIN_RETURN_QUANTITY_500: 'return-coin-500-quantity',
-  COIN_RETURN_QUANTITY_100: 'return-coin-100-quantity',
-  COIN_RETURN_QUANTITY_50: 'return-coin-50-quantity',
-  COIN_RETURN_QUANTITY_10: 'return-coin-10-quantity',
+  COIN_RETURN_QUANTITY_500: '#return-coin-500-quantity',
+  COIN_RETURN_QUANTITY_100: '#return-coin-100-quantity',
+  COIN_RETURN_QUANTITY_50: '#return-coin-50-quantity',
+  COIN_RETURN_QUANTITY_10: '#return-coin-10-quantity',
 };
 
 export const ERROR_MESSAGE = {
@@ -56,6 +56,16 @@ export const ERROR_MESSAGE = {
   MIN_AMOUNT: '충전 금액은 100원 이상이어야 합니다.',
   MAX_AMOUNT: '충천 금액은 1억 이하여야 합니다.',
   AMOUNT_DIVISION_BY_TEN: '충전 금액은 10으로 나누어 떨어져야 합니다.',
+
+  LACK_MONEY: '돈이 부족합니다.',
+  LACK_PRODUCT_QUANTITY: '제품 수량이 부족합니다.',
+
+  NONE_CHARGE_AMOUNT: '금액을 입력하세요.',
+  MIN_CHARGE_AMOUNT: '금액이 100원 이상이어야 합니다.',
+  MAX_CHARGE_AMOUNT: '금액이 1억원 이하여야 합니다.',
+  DIVISION_BY_TEN_CHARGE_AMOUNT: '금액이 10으로 나누어 떨어져야 합니다.',
+
+  NONE_CHARGED_AMOUNT: '충전된 금액이 0원인 상태에서는 반환 할 수 없습니다.',
 };
 
 export const MACHINE_MODE = {
@@ -70,4 +80,5 @@ export const LOCAL_STORAGE_KEY = {
   CHARGED_AMOUNT: 'chargedAmount',
   CHARGED_COINS: 'chargedCoins',
   CHARGED_AMOUNT_BY_USER: 'chargedAmountByUser',
+  RETURNED_COINS: 'returnCoins',
 };
