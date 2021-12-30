@@ -11,6 +11,8 @@ export const reducer = (prevState, { type, payload }) => {
       return chargePurhcase(prevState, payload)
     case ACTIONS.BUY_PRODUCT:
       return buyProduct(prevState, payload)
+    case ACTIONS.RETURN_REMAIN:
+      return returnRemain(prevState)
     default:
       prevState
   }
@@ -71,4 +73,48 @@ const buyProduct = (prevState, { productName }) => {
     return [VIEWS.PRODUCT_PURCHASE, { ...prevState, purchase, products }]
   }
   return [VIEWS.NOT_RENDER, prevState]
+}
+
+const returnRemain = (prevState) => {
+  const { coins, purchase } = prevState
+  const remains = { 500: 0, 100: 0, 50: 0, 10: 0 }
+  let prevPurchase = purchase
+  let [COIN_10, COIN_50, COIN_100, COIN_500] = Object.keys(coins)
+  let [COIN_10_NUM, COIN_50_NUM, COIN_100_NUM, COIN_500_NUM] = Object.values(coins)
+
+  while (prevPurchase >= 10) {
+    if (prevPurchase >= COIN_500 && COIN_500_NUM > 0) {
+      prevPurchase -= COIN_500
+      COIN_500_NUM -= 1
+      remains[COIN_500] += 1
+      coins[COIN_500] -= 1
+      continue
+    }
+    if (prevPurchase >= COIN_100 && COIN_100_NUM > 0) {
+      prevPurchase -= COIN_100
+      COIN_100_NUM -= 1
+      remains[COIN_100] += 1
+      coins[COIN_100] -= 1
+      continue
+    }
+    if (prevPurchase >= COIN_50 && COIN_50_NUM > 0) {
+      prevPurchase -= COIN_50
+      COIN_50_NUM -= 1
+      remains[COIN_50] += 1
+      coins[COIN_50] -= 1
+      continue
+    }
+    if (prevPurchase >= COIN_10 && COIN_10_NUM > 0) {
+      prevPurchase -= COIN_10
+      COIN_10_NUM -= 1
+      remains[COIN_10] += 1
+      coins[COIN_10] -= 1
+      continue
+    }
+    break
+  }
+  return [
+    VIEWS.PRODUCT_PURCHASE,
+    { ...prevState, purchase: prevPurchase, remains, coins, money: getMoney(coins) },
+  ]
 }

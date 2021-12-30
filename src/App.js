@@ -3,6 +3,7 @@ import ProductPurchase from './components/ProductPurchase.js'
 import Change from './components/Change.js'
 import { storageKey } from './storage/index.js'
 import { reducer } from './reducer.js'
+import { VIEWS } from './constants.js'
 export default class App {
   #store
   #state
@@ -42,8 +43,12 @@ export default class App {
   setState = (action) => {
     const [nextRoute, newState] = reducer(this.#state, action)
     this.#state = newState
-    this.#storage.set(storageKey, newState)
     this.#store.notifyObservers([nextRoute])
+    if (nextRoute === VIEWS.PRODUCT_PURCHASE) {
+      this.#storage.set(storageKey, { ...newState, remains: { 500: 0, 100: 0, 50: 0, 10: 0 } })
+      return
+    }
+    this.#storage.set(storageKey, newState)
   }
   setRoute = ({ route }) => {
     this.#store.notifyObservers([route])

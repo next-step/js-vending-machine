@@ -3,6 +3,7 @@ export const ACTIONS = Object.freeze({
   UPDATE_CHANGE: 'UPDATE_CHANGE',
   CHARGE_PURCHASE: 'CHARGE_PURCHASE',
   BUY_PRODUCT: 'BUY_PRODUCT',
+  RETURN_REMAIN: 'RETURN_REMAIN'
 })
 
 export const VIEWS = Object.freeze({

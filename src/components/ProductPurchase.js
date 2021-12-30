@@ -22,18 +22,21 @@ export default class ProductPurchase extends View {
       this.props.setState({ type: ACTIONS.CHARGE_PURCHASE, payload: { purchase } })
     })
 
-    this.$app.addEventListener('click', ({ target: { className, dataset } }) => {
+    this.$app.addEventListener('click', ({ target: { id, className, dataset } }) => {
       if (className === 'purchase-product-button') {
         this.props.setState({
           type: ACTIONS.BUY_PRODUCT,
           payload: { productName: dataset.product },
         })
       }
+      if (id === 'coin-return-button') {
+        this.props.setState({ type: ACTIONS.RETURN_REMAIN })
+      }
     })
   }
 
   template = () => {
-    const { products, purchase } = this.props.getState()
+    const { products, purchase, remains } = this.props.getState()
     return `<h3>금액 투입</h3>
     <div class="purchase-container">
 	  <div class="purchase-wrapper">
@@ -94,19 +97,19 @@ export default class ProductPurchase extends View {
         	<tbody>
         		<tr>
         			<td>500원</td>
-        			<td id="coin-500-quantity"></td>
+        			<td id="coin-500-quantity">${remains[500]}</td>
         		</tr>
         		<tr>
         			<td>100원</td>
-        			<td id="coin-100-quantity"></td>
+        			<td id="coin-100-quantity">${remains[100]}</td>
         		</tr>
         		<tr>
         			<td>50원</td>
-        			<td id="coin-50-quantity"></td>
+        			<td id="coin-50-quantity">${remains[50]}</td>
         		</tr>
         		<tr>
         			<td>10원</td>
-        			<td id="coin-10-quantity"></td>
+        			<td id="coin-10-quantity">${remains[10]}</td>
         		</tr>
         	</tbody>
         </table>
