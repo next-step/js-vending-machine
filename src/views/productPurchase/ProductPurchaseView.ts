@@ -10,6 +10,11 @@ import {
   PRODUCT_PURCHASE_CHARGE_AMOUNT,
   PRODUCT_PURCHASE_COIN_RETURN_BUTTON,
 } from '../../utils/constants/element'
+import {
+  PURCHASE_PRODUCT_CHARGE_MONEY_INPUT_EMPTY,
+  PURCHASE_PRODUCT_CHARGE_MONEY_INPUT_SPLIT_INVALID,
+  PURCHASE_PRODUCT_CHARGE_MONEY_MINIMUM_INPUT_INVALID,
+} from '../../utils/constants/errorMessage'
 import { $ } from '../../utils/dom/selector'
 
 const ProductPurchaseTemplate = `
@@ -96,19 +101,6 @@ export default class ProductPurchaseView {
     }
 
     this.$productInputContainer.innerHTML = ''
-    this.$productInputContainer.addEventListener('click', (event) => {
-      const target = event.target
-
-      if (!target) {
-        return
-      }
-      if (target instanceof HTMLButtonElement) {
-        this.controller.dispatch({
-          type: 'PURCHASE_PRODUCT',
-          payload: { name: target.dataset.product ?? '' },
-        })
-      }
-    })
 
     products.forEach(({ name, price, quantity }) => {
       const row = this.$productInputContainer.insertRow(0)
@@ -122,6 +114,17 @@ export default class ProductPurchaseView {
       quantityCell.textContent = quantity.toLocaleString()
       purchaseCell.innerHTML = `<button data-product="${name}">구매하기</button>`
     })
+  }
+
+  renderMoneyData() {
+    this.$chargeAmount.textContent = this.#moneyStore
+      .getUserMoney()
+      .toLocaleString()
+  }
+
+  renderStoreData() {
+    this.renderProductList()
+    this.renderMoneyData()
   }
 
   // getProduct(): { product?: ProductProps; errorMessage?: string } {
@@ -153,11 +156,60 @@ export default class ProductPurchaseView {
     $Root.replaceChildren($template)
     this.selectDomElement()
     this.bindEvent()
-    this.renderProductList()
+    this.renderStoreData()
+  }
+
+  getMoney(): { money?: number; errorMessage?: string } {
+    const money = Number(this.$chargeInput.value)
+
+    if (this.$chargeInput.value === '') {
+      return { errorMessage: PURCHASE_PRODUCT_CHARGE_MONEY_INPUT_EMPTY }
+    }
+
+    if (money < 10) {
+      return {
+        errorMessage: PURCHASE_PRODUCT_CHARGE_MONEY_MINIMUM_INPUT_INVALID,
+      }
+    }
+
+    if (money % 10 !== 0) {
+      return { errorMessage: PURCHASE_PRODUCT_CHARGE_MONEY_INPUT_SPLIT_INVALID }
+    }
+
+    return { money }
   }
 
   bindEvent() {
-    // this.onProductAddButtonClick()
+    this.$productInputContainer.addEventListener('click', (event) => {
+      const target = event.target
+
+      if (!target) {
+        return
+      }
+      if (target instanceof HTMLButtonElement) {
+        this.controller.dispatch({
+          type: 'PURCHASE_PRODUCT',
+          payload: { name: target.dataset.product ?? '' },
+        })
+      }
+    })
+
+    this.$chargeButton.addEventListener('click', () => {
+      const moenyOutput = this.getMoney()
+
+      if (moenyOutput.errorMessage) {
+        alert(moenyOutput.errorMessage)
+        return
+      }
+
+      this.controller.dispatch({
+        type: 'ADD_USER_MONEY',
+        payload: { money: moenyOutput.money ?? 0 },
+      })
+
+      this.$chargeInput.value = ''
+      this.renderMoneyData()
+    })
   }
 
   createTemplate() {

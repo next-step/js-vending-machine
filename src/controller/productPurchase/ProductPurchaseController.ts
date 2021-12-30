@@ -12,6 +12,9 @@ export default class ProductPurchaseController {
 
   dispatch(action: ProductPurchaseReucerAction) {
     switch (action.type) {
+      case 'ADD_USER_MONEY':
+        this.#model.addUserMoney(action.payload.money)
+        break
       case 'PURCHASE_PRODUCT':
         this.#model.purchaseProduct(action.payload.name)
         break

@@ -6,14 +6,18 @@ import { getRandomValue } from '../utils/data/random'
 
 const VENDING_MONEY_KEY = 'vending_machine_moeny_key'
 const VENDING_COIN_KEY = 'vending_coin_key'
+const USER_MONEY_KEY = 'user_money_key'
 interface Coin {
   '500원': number
   '100원': number
   '50원': number
   '10원': number
 }
+
+type MoneyPayload = { money: number }
 export default class MoneyStore {
   #vendingMoney
+  #userMoney
   #vendingCoin: Coin
 
   constructor() {
@@ -27,9 +31,20 @@ export default class MoneyStore {
       '50원': 0,
       '10원': 0,
     }
+
+    this.#userMoney = Number(getLocalStorageItem({ key: USER_MONEY_KEY })) ?? 0
   }
 
-  addVendingMoney({ money }: { money: number }) {
+  addUserMoney({ money }: MoneyPayload) {
+    this.#userMoney += money
+
+    setLocalStorageItem({
+      key: USER_MONEY_KEY,
+      value: this.#userMoney.toString(),
+    })
+  }
+
+  addVendingMoney({ money }: MoneyPayload) {
     this.#vendingMoney += money
     this.setVendingCoin(money)
 
@@ -45,6 +60,10 @@ export default class MoneyStore {
 
   getVendingMoney(): number {
     return this.#vendingMoney
+  }
+
+  getUserMoney(): number {
+    return this.#userMoney
   }
 
   setVendingCoin(money: number) {

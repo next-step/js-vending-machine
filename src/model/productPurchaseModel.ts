@@ -11,6 +11,10 @@ export default class ProductPurchaseModel {
   }
 
   purchaseProduct(name: string) {
-    console.log(this.#productStore.getProduct({ name }))
+    const product = this.#productStore.getProduct({ name })
+  }
+
+  addUserMoney(money: number) {
+    this.#moneyStore.addUserMoney({ money })
   }
 }
