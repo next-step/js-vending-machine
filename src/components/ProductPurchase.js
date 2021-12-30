@@ -97,19 +97,19 @@ export default class ProductPurchase extends View {
         	<tbody>
         		<tr>
         			<td>500원</td>
-        			<td id="coin-500-quantity">${remains[500]}</td>
+        			<td id="coin-500-reamins">${remains[500]}</td>
         		</tr>
         		<tr>
         			<td>100원</td>
-        			<td id="coin-100-quantity">${remains[100]}</td>
+        			<td id="coin-100-reamins">${remains[100]}</td>
         		</tr>
         		<tr>
         			<td>50원</td>
-        			<td id="coin-50-quantity">${remains[50]}</td>
+        			<td id="coin-50-reamins">${remains[50]}</td>
         		</tr>
         		<tr>
         			<td>10원</td>
-        			<td id="coin-10-quantity">${remains[10]}</td>
+        			<td id="coin-10-reamins">${remains[10]}</td>
         		</tr>
         	</tbody>
         </table>

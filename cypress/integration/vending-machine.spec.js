@@ -169,3 +169,35 @@ describe('자판기 미션 3단계 요구 사항 ', () => {
     })
   })
 })
+
+describe('자판기 미션 4단계 요구 사항 ', () => {
+  beforeEach(() => {
+    cy.visit('/')
+    cy.get('#vending-machine-manage-menu').click()
+    cy.mockMathRandom()
+    cy.chargeChange(2000)
+    cy.chargeChange(2000)
+    cy.get('#product-purchase-menu').click()
+    cy.get('#purchase-amount').as('amount')
+  })
+  it('최소 개수의 동전으로 잔돈을 돌려준다.', () => {
+    cy.chargePurchase(1000)
+    cy.get('#coin-return-button').click()
+    cy.get('@amount').should('have.text', 0)
+    cy.remains(2, 0, 0, 0)
+  })
+  it('모든 금액에 대해 잔돈을 반환할 수 없는 경우 잔돈으로 반환할 수 있는 금액만 반환한다.', () => {
+    cy.chargePurchase(4500)
+    cy.get('#coin-return-button').click()
+    cy.get('@amount').should('have.text', 500)
+    cy.remains(4, 0, 40, 0)
+  })
+  it('반환한 동전의 결과는 누적되지 않는다.', () => {
+    cy.chargePurchase(2000)
+    cy.get('#coin-return-button').click()
+    cy.remains(4, 0, 0, 0)
+    cy.reload()
+    cy.get('#product-purchase-menu').click()
+    cy.remains(0, 0, 0, 0)
+  })
+})
