@@ -18,6 +18,14 @@ Cypress.Commands.add('callAlertWith', (selector, message) => {
     })
 })
 
+Cypress.Commands.add('callAlertWithElement', (element, message) => {
+  const stub = cy.stub()
+  cy.on('window:alert', stub)
+  element.click().then(() => {
+    expect(stub.getCall(0)).to.be.calledWith(message)
+  })
+})
+
 Cypress.Commands.add('saveLocalStorage', () => {
   Object.keys(localStorage).forEach((key) => {
     LOCAL_STORAGE_MEMORY[key] = localStorage[key]
@@ -80,4 +88,27 @@ Cypress.Commands.add('checkInventorySuffix', () => {
         )
       }
     })
+})
+
+// purchase product
+Cypress.Commands.add('setupProductPurchase', () => {
+  cy.get('[data-cy=charge-input]').as('chargeUserMoneyInput')
+  cy.get('[data-cy=charge-button]').as('chargeUserMoneyButton')
+  cy.get('[data-cy=charge-amount]').as('chargeMoneyAmount')
+  cy.get('[data-cy=product-items-container]').as('productItemContainer')
+  cy.get('[data-cy=return-coin-inventory]').as('returnCoinInventory')
+})
+
+Cypress.Commands.add('setupProductManage', () => {
+  cy.get('[data-cy=product-name-input]').as('productNameInput')
+  cy.get('[data-cy=product-price-input]').as('productPriceInput')
+  cy.get('[data-cy=product-quantity-input]').as('productQuantityInput')
+  cy.get('[data-cy=product-add-button]').as('productAddButton')
+  cy.get('[data-cy=product-inventory-container]').as('productManageInventory')
+})
+
+Cypress.Commands.add('addProductAtBefore', (product) => {
+  cy.get('@productNameInput').type(product[0])
+  cy.get('@productPriceInput').type(product[1])
+  cy.get('@productQuantityInput').type(product[2])
 })
