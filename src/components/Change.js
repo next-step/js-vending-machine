@@ -24,6 +24,7 @@ export default class Change extends View {
         return
       }
       this.props.setState({ type: ACTIONS.UPDATE_CHANGE, payload: { change } })
+
     })
   }
 

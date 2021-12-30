@@ -3,6 +3,7 @@ import ProductPurchase from './components/ProductPurchase.js'
 import Change from './components/Change.js'
 import { storageKey } from './storage/index.js'
 import { reducer } from './reducer.js'
+
 export default class App {
   #store
   #state
