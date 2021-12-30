@@ -1,9 +1,10 @@
-import { $, $$ } from "../util/index.js";
+import { $$ } from "../util/index.js";
 import getErrorMessage from "../common/getErrorMessage.js";
+import findProductIndex from "../common/findProductIndex.js";
 import store from '../store/index.js';
-import { observe } from '../core/observer.js';
 import { addProduct, updateProduct } from '../store/actions.js';
 import View from "./View.js"
+import "./ProductTable.js";
 
 export default class ProductManage extends View {
   $inputs;
@@ -13,10 +14,6 @@ export default class ProductManage extends View {
   init() {
     this.$inputs = $$("#product-add-form input");
     this.bindEvent();
-
-    observe(() => {
-      this.renderProductItem()
-    })
   }
 
   bindEvent() {
@@ -29,7 +26,7 @@ export default class ProductManage extends View {
         return;
       }
 
-      const itemIndex = this.getStoreProductIndex();
+      const itemIndex = findProductIndex(this.productInfo);
       if (itemIndex >= 0) {
         this.updateProduct(itemIndex);
       } else {
@@ -74,11 +71,6 @@ export default class ProductManage extends View {
     return errorValues.length > 0 && errorValues.filter((value) => value === "").length === errorValues.length;
   }
 
-  getStoreProductIndex() {
-    const { products } = store.getState();
-    return products.findIndex(v => v.name === this.productInfo.name);
-  }
-
   showErrorMessage() {
     this.$inputs.forEach($input => {
       const { dataset: { key } } = $input;
@@ -105,24 +97,6 @@ export default class ProductManage extends View {
     });
   }
 
-  renderProductItem() {
-    const $productInventoryContainer = $("#product-inventory-container");
-    const { products } = store.getState();
-
-    $productInventoryContainer.replaceChildren();
-
-    const html = `
-    ${products.map(({ name, price, quantity }) => (`
-      <tr>
-        <td>${name}</td>
-        <td>${price}</td>
-        <td>${quantity}</td>
-      </tr> 
-    `)).join("")}`;
-
-    $productInventoryContainer.insertAdjacentHTML("afterbegin", html);
-  }
-
   render() {
     /* html */
     return `
@@ -147,22 +121,7 @@ export default class ProductManage extends View {
       </form>
     </div>
     <h3>상품 현황</h3>
-    <table class="product-inventory">
-      <colgroup>
-        <col style="width: 140px" />
-        <col style="width: 100px" />
-        <col style="width: 100px" />
-      </colgroup>
-      <thead>
-        <tr>
-          <th>상품명</th>
-          <th>가격</th>
-          <th>수량</th>
-        </tr>
-      </thead>
-      <tbody id="product-inventory-container">
-      </tbody>
-    </table>
+    <product-table></product-table>
     `;
   }
 }

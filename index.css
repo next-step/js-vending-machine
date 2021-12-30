@@ -118,11 +118,12 @@ button {
 }
 
 section p {
+	margin: 1rem auto;
 	border: 1px dashed rgb(70, 70, 70);
 	border-radius: 6px;
 	padding: 8px 0;
 	border-radius: 6px;
-	width: 65%;
+	max-width: 340px;
 	font-size: 14px;
 }
 
@@ -208,8 +209,10 @@ button:disabled, button.disabled {
 }
 
 #product-add-form,
+#product-purchase-form,
 .vending-machine-wrapper {
 	max-width: 340px;
+	margin: 0 auto;
 }
 
 .vending-machine-wrapper label {

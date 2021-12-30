@@ -2,10 +2,10 @@ import store from '../store/index.js';
 import { observe } from '../core/observer.js';
 import { addMachineCharge } from '../store/actions.js';
 import { $, numberWithCommas } from "../util/index.js";
-import { COINS } from '../constants/index.js';
 import getErrorMessage from "../common/getErrorMessage.js";
 import changeChargeToCoin from "../common/changeChargeToCoin.js";
 import View from "./View.js"
+import './ChargeTable.js';
 
 export default class ChargeAmountManage extends View {
   $input;
@@ -66,54 +66,27 @@ export default class ChargeAmountManage extends View {
   renderCurrentMachineCharge() {
     const { machineCharge: {totalAmount, coins} } = store.getState();
     this.$chargeAmount.innerText = numberWithCommas(totalAmount);
-    COINS.forEach(([coin]) => {
-      $(`#vending-machine-coin-${coin}-quantity`).innerText = `${coins[coin]}개`;
-    });
+    $("charge-table.vending-machine-charge-table").renderTableData(coins);
   }
 
   render() {
     /* html */
     return `
-    <h3>자판기 동전 충전하기</h3>
-    <form class="vending-machine-wrapper">
-      <label for="vending-machine-charge-input">
-        <input type="number" name="vending-machine-charge-amount" id="vending-machine-charge-input" autofocus />
-        <span class="error-message"></span>
-      </label>
-      <button id="vending-machine-charge-button" type="submit">충전하기</button>
-    </form>
-    <p>보유 금액: <span id="vending-machine-charge-amount">0</span>원</p>
-    <h3>동전 보유 현황</h3>
-    <table class="cashbox-remaining">
-      <colgroup>
-        <col />
-        <col />
-      </colgroup>
-      <thead>
-        <tr>
-          <th>동전</th>
-          <th>개수</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td>500원</td>
-          <td id="vending-machine-coin-500-quantity"></td>
-        </tr>
-        <tr>
-          <td>100원</td>
-          <td id="vending-machine-coin-100-quantity"></td>
-        </tr>
-        <tr>
-          <td>50원</td>
-          <td id="vending-machine-coin-50-quantity"></td>
-        </tr>
-        <tr>
-          <td>10원</td>
-          <td id="vending-machine-coin-10-quantity"></td>
-        </tr>
-      </tbody>
-    </table>
+    <section>
+      <h3>자판기 동전 충전하기</h3>
+      <form id="vending-machine-charge-form" class="vending-machine-wrapper">
+        <label for="vending-machine-charge-input">
+          <input type="number" name="vending-machine-charge-amount" id="vending-machine-charge-input" autofocus />
+          <span class="error-message"></span>
+        </label>
+        <button id="vending-machine-charge-button" type="submit">충전하기</button>
+      </form>
+      <p>보유 금액: <span id="vending-machine-charge-amount">0</span>원</p>
+    </section>
+    <section>
+      <h3>동전 보유 현황</h3>
+      <charge-table class="vending-machine-charge-table" data-prefix="vending-machine"></charge-table>
+    </section>
     `;
   }
 }
