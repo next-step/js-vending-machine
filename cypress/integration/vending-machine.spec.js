@@ -76,3 +76,41 @@ describe('자판기 미션 1단계 요구 사항 ', () => {
     })
   })
 })
+
+describe('자판기 미션 2단계 요구 사항 ', () => {
+  beforeEach(() => {
+    cy.visit('/')
+    cy.get('#vending-machine-manage-menu').click()
+    cy.get('#charge-input').as('charge')
+    cy.get('#charge-amount').as('amount')
+  })
+  it('충전 금액을 입력 후, 자판기 동전 충전 버튼을 눌러 자판기가 보유한 금액을 충전할 수 있다', () => {
+    cy.chargeChange(5000)
+    cy.get('@amount').should('have.text', 5000)
+  })
+  it('관리자는 잔돈을 누적하여 충전할 수 있다.', () => {
+    cy.chargeChange(5000)
+    cy.chargeChange(2000)
+    cy.get('@amount').should('have.text', 7000)
+  })
+  it('다른 탭을 클릭하여도 자판기가 보유한 금액은 유지되어야 한다.', () => {
+    cy.chargeChange(5000)
+    cy.get('#product-manage-menu').click()
+    cy.get('#vending-machine-manage-menu').click()
+    cy.get('@amount').should('have.text', 5000)
+  })
+  describe('예외 케이스 테스트', () => {
+    it('최소 총전 금액은 100원이다.', () => {
+      cy.chargeChange(50)
+      cy.get('@charge').then(($input) => {
+        expect($input[0].validationMessage).to.eq('값은 100 이상이어야 합니다.')
+      })
+    })
+    it('충전 금액은 10원으로 나누어 떨어지는 금액만 충전이 가능하다', () => {
+      cy.chargeChange(50)
+      cy.on('window:alert', (text) => {
+        expect(text).to.contains(ERROR_MESSAGES.INVALID_CHANGE)
+      })
+    })
+  })
+})

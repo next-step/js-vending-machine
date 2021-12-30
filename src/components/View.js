@@ -8,6 +8,7 @@ export default class View {
   template = () => {}
   bindEvent = () => {}
   render = () => {
-    this.$app.innerHTML = this.template()
+    this.$app.replaceChildren()
+    this.$app.insertAdjacentHTML('afterbegin', this.template())
   }
 }
