@@ -1,11 +1,7 @@
-import { NewProductForm } from '../views/NewProductForm.js';
 import { ERROR_MESSAGE } from '../constants/index.js';
-import { model } from '../index.js';
 
 export const validateNewProduct = (newProduct) => {
-  const {
-    id, name, price, quantity,
-  } = newProduct;
+  const { id, name, price, quantity } = newProduct;
 
   if (name.length === 0) throw Error(ERROR_MESSAGE.NONE_NAME);
   if (name.length > 10) throw Error(ERROR_MESSAGE.MAX_LENGTH_NAME);

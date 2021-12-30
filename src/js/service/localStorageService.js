@@ -8,6 +8,7 @@ export const doesNotExistValue = (value) => {
 
 export const getLocalStorageValueByKey = (key) => {
   const value = window.localStorage.getItem(key);
+
   if (doesNotExistValue(value)) return null;
 
   return JSON.parse(value);

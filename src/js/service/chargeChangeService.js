@@ -29,13 +29,11 @@ export const createRandomCoins = (chargedAmount) => {
 
   while (true) {
     const createdCoin = createRandomCoin();
+
+    if (remainedAmount - createdCoin < 0) continue;
     if (remainedAmount - createdCoin === 0) {
       coins[createdCoin] += 1;
       return coins;
-    }
-
-    if (remainedAmount - createdCoin < 0) {
-      continue;
     }
 
     remainedAmount -= createdCoin;
