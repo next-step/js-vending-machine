@@ -96,6 +96,20 @@ section:last-child {
 	align-items: center;
 }
 
+#new-product-form-container {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+}
+
+#charge-form-container {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+}
+
 input[type='number'],
 input[type='text'] {
 	all: unset;
