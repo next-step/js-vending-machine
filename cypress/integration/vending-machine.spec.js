@@ -114,3 +114,90 @@ describe('자판기 미션 2단계 요구 사항 ', () => {
     })
   })
 })
+
+describe('자판기 미션 3단계 요구 사항 ', () => {
+  beforeEach(() => {
+    cy.visit('/')
+    cy.get('#product-purchase-menu').click()
+    cy.get('#purchase-input').as('purchase')
+    cy.get('#purchase-amount').as('amount')
+  })
+  it('사용자는 금액 충전 입력 요소에 충전할 금액을 입력한 후, 구매 금액 충전버튼을 이용하여 금액을 충전한다.', () => {
+    cy.chargePurchase(1000)
+    cy.get('@amount').should('have.text', 1000)
+  })
+  it('금액은 누적으로 충전이 가능하다.', () => {
+    cy.chargePurchase(1000)
+    cy.chargePurchase(2000)
+    cy.get('@amount').should('have.text', 3000)
+  })
+  it('사용자는 충전한 금액을 바탕으로 상품을 구매할 수 있다.', () => {
+    cy.get('#product-manage-menu').click()
+    cy.addProduct('오렌지', 1500, 2)
+    cy.addProduct('포도', 1200, 3)
+    cy.addProduct('딸기', 1000, 5)
+    cy.get('#product-purchase-menu').click()
+    cy.chargePurchase(5000)
+    cy.get('.purchase-product-button').eq(0).click()
+    cy.get('.purchase-product-button').eq(1).click()
+    cy.get('@amount').should('have.text', 2300)
+  })
+  describe('예외 케이스 테스트', () => {
+    it('최소 충전 금액은 10원이다.', () => {
+      cy.chargePurchase(5)
+      cy.get('@purchase').then(($input) => {
+        expect($input[0].validationMessage).to.eq('값은 10 이상이어야 합니다.')
+      })
+    })
+    it('수량이 0인 상품은 구매할 수 없다.', () => {
+      cy.get('#product-manage-menu').click()
+      cy.addProduct('오렌지', 1500, 1)
+      cy.get('#product-purchase-menu').click()
+      cy.chargePurchase(3000)
+      cy.get('.purchase-product-button').eq(0).click()
+      cy.get('@amount').should('have.text', 1500)
+      cy.get('.purchase-product-button').eq(0).click()
+      cy.get('@amount').should('have.text', 1500)
+    })
+    it('구매하려는 상품 가격이 보유하고 있는 금액보다 높은 경우 상품을 구매할 수 없다.', () => {
+      cy.get('#product-manage-menu').click()
+      cy.addProduct('오렌지', 1500, 1)
+      cy.get('#product-purchase-menu').click()
+      cy.chargePurchase(800)
+      cy.get('.purchase-product-button').eq(0).click()
+      cy.get('@amount').should('have.text', 800)
+    })
+  })
+})
+
+describe('자판기 미션 4단계 요구 사항 ', () => {
+  beforeEach(() => {
+    cy.visit('/')
+    cy.get('#vending-machine-manage-menu').click()
+    cy.mockMathRandom()
+    cy.chargeChange(2000)
+    cy.chargeChange(2000)
+    cy.get('#product-purchase-menu').click()
+    cy.get('#purchase-amount').as('amount')
+  })
+  it('최소 개수의 동전으로 잔돈을 돌려준다.', () => {
+    cy.chargePurchase(1000)
+    cy.get('#coin-return-button').click()
+    cy.get('@amount').should('have.text', 0)
+    cy.remains(2, 0, 0, 0)
+  })
+  it('모든 금액에 대해 잔돈을 반환할 수 없는 경우 잔돈으로 반환할 수 있는 금액만 반환한다.', () => {
+    cy.chargePurchase(4500)
+    cy.get('#coin-return-button').click()
+    cy.get('@amount').should('have.text', 500)
+    cy.remains(4, 0, 40, 0)
+  })
+  it('반환한 동전의 결과는 누적되지 않는다.', () => {
+    cy.chargePurchase(2000)
+    cy.get('#coin-return-button').click()
+    cy.remains(4, 0, 0, 0)
+    cy.reload()
+    cy.get('#product-purchase-menu').click()
+    cy.remains(0, 0, 0, 0)
+  })
+})

@@ -5,6 +5,12 @@ import { localStorages, storageKey } from './storage/index.js'
 const storageItem = localStorages.get(storageKey)
 const vendingMachineItems = storageItem
   ? storageItem
-  : { products: [], coins: { 500: 0, 100: 0, 50: 0, 10: 0 }, money: 0 }
+  : {
+      products: [],
+      coins: { 500: 0, 100: 0, 50: 0, 10: 0 },
+      money: 0,
+      purchase: 0,
+      remains: { 500: 0, 100: 0, 50: 0, 10: 0 },
+    }
 
 new App(new Store(), vendingMachineItems, localStorages)
