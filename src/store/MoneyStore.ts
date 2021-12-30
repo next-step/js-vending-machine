@@ -66,6 +66,15 @@ export default class MoneyStore {
     return this.#userMoney
   }
 
+  spendUserMoney({ money }: MoneyPayload) {
+    this.#userMoney -= money
+
+    setLocalStorageItem({
+      key: USER_MONEY_KEY,
+      value: this.#userMoney.toString(),
+    })
+  }
+
   setVendingCoin(money: number) {
     if (money === 0) {
       return

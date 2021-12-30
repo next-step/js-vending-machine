@@ -12,6 +12,11 @@ export default class ProductPurchaseModel {
 
   purchaseProduct(name: string) {
     const product = this.#productStore.getProduct({ name })
+    if (!product) {
+      return
+    }
+    this.#productStore.purchaseProduct({ name })
+    this.#moneyStore.spendUserMoney({ money: product.price })
   }
 
   addUserMoney(money: number) {

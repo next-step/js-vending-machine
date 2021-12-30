@@ -14,6 +14,8 @@ import {
   PURCHASE_PRODUCT_CHARGE_MONEY_INPUT_EMPTY,
   PURCHASE_PRODUCT_CHARGE_MONEY_INPUT_SPLIT_INVALID,
   PURCHASE_PRODUCT_CHARGE_MONEY_MINIMUM_INPUT_INVALID,
+  PURCHASE_PRODUCT_PURCHASE_NO_MONEY,
+  PURCHASE_PRODUCT_PURCHASE_PRODUCT_SOLD_OUT,
 } from '../../utils/constants/errorMessage'
 import { $ } from '../../utils/dom/selector'
 
@@ -96,6 +98,7 @@ export default class ProductPurchaseView {
   renderProductList() {
     const products = this.#productStore.getProducts()
 
+    console.log(products)
     if (!this.$productInputContainer || !products.length) {
       return
     }
@@ -180,20 +183,6 @@ export default class ProductPurchaseView {
   }
 
   bindEvent() {
-    this.$productInputContainer.addEventListener('click', (event) => {
-      const target = event.target
-
-      if (!target) {
-        return
-      }
-      if (target instanceof HTMLButtonElement) {
-        this.controller.dispatch({
-          type: 'PURCHASE_PRODUCT',
-          payload: { name: target.dataset.product ?? '' },
-        })
-      }
-    })
-
     this.$chargeButton.addEventListener('click', () => {
       const moenyOutput = this.getMoney()
 
@@ -209,6 +198,41 @@ export default class ProductPurchaseView {
 
       this.$chargeInput.value = ''
       this.renderMoneyData()
+    })
+
+    this.$productInputContainer.addEventListener('click', (event) => {
+      const target = event.target
+
+      if (!target) {
+        return
+      }
+      if (target instanceof HTMLButtonElement) {
+        const productName = target.dataset.product ?? ''
+        const product = this.#productStore.getProduct({ name: productName })
+        const money = this.#moneyStore.getUserMoney()
+
+        if (!product) {
+          return
+        }
+
+        if (product.quantity <= 0) {
+          alert(PURCHASE_PRODUCT_PURCHASE_PRODUCT_SOLD_OUT)
+          return
+        }
+
+        if (product.price > money) {
+          alert(PURCHASE_PRODUCT_PURCHASE_NO_MONEY)
+          return
+        }
+
+        this.controller.dispatch({
+          type: 'PURCHASE_PRODUCT',
+          payload: { name: productName },
+        })
+
+        this.renderMoneyData()
+        this.renderProductList()
+      }
     })
   }
 
