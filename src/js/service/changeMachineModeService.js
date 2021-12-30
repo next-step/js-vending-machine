@@ -1,25 +1,5 @@
 import { DOM, MACHINE_MODE } from '../constants/index.js';
-import { hide, show } from '../utils/utils.js';
-import { chargeFormView, newProductFormView, model } from '../index.js';
-
-export const renderViewByMachineMode = (machineMode) => {
-  switch (machineMode) {
-    case MACHINE_MODE.MANAGE_PRODUCT:
-      show(newProductFormView.$container);
-      hide(chargeFormView.$container);
-      break;
-
-    case MACHINE_MODE.CHARGE_CHANGE:
-      show(chargeFormView.$container);
-      hide(newProductFormView.$container);
-      break;
-
-    case MACHINE_MODE.PURCHASE_PRODUCT:
-      hide(newProductFormView.$container);
-      hide(chargeFormView.$container);
-      break;
-  }
-};
+import { model } from '../index.js';
 
 export const setMachineMode = (clickedElementId) => {
   switch (clickedElementId) {

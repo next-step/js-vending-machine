@@ -1,5 +1,4 @@
 export const $ = (selector) => document.querySelector(selector);
-export const $$ = (selector) => document.querySelectorAll(selector);
 export const test$ = (selector) => `[data-testid="${selector}"]`;
 
 export const show = ($target) => {
@@ -11,3 +10,9 @@ export const hide = ($target) => {
 };
 
 export const createRandomNumber = (min, max) => Math.floor(Math.random() * (max + 1)) + min;
+
+export const pureSplice = (array, targetIndex, replacement) => {
+  const newArray = [...array];
+  newArray.splice(targetIndex, 1, replacement);
+  return newArray;
+};

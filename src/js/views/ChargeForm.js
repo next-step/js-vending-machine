@@ -14,9 +14,6 @@ export class ChargeForm {
     this.$coinQuantity100 = $(DOM.COIN_QUANTITY_100);
     this.$coinQuantity50 = $(DOM.COIN_QUANTITY_50);
     this.$coinQuantity10 = $(DOM.COIN_QUANTITY_10);
-
-    this.renderChargedAmount();
-    this.renderChargedCoinTable();
   }
 
   bindOnClickChargeButton(handler) {
