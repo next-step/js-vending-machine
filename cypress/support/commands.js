@@ -9,3 +9,8 @@ Cypress.Commands.add('chargeChange', (change) => {
   cy.get('#charge-input').type(change)
   cy.get('#charge-button').click()
 })
+
+Cypress.Commands.add('chargePurchase', (purchase) => {
+  cy.get('#purchase-input').type(purchase)
+  cy.get('#purchase-button').click()
+})

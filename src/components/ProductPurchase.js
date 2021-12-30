@@ -22,8 +22,8 @@ export default class ProductPurchase extends View {
       this.props.setState({ type: ACTIONS.CHARGE_PURCHASE, payload: { purchase } })
     })
 
-    this.$app.addEventListener('click', ({ target: { id, dataset } }) => {
-      if (id === 'purchase-product-button') {
+    this.$app.addEventListener('click', ({ target: { className, dataset } }) => {
+      if (className === 'purchase-product-button') {
         this.props.setState({
           type: ACTIONS.BUY_PRODUCT,
           payload: { productName: dataset.product },
@@ -38,7 +38,7 @@ export default class ProductPurchase extends View {
     <div class="purchase-container">
 	  <div class="purchase-wrapper">
         <form id="product-purchase-form">
-	      <input type="number" name="purchase-amount" id="purchase-input" />
+	      <input type="number" name="purchase-amount" id="purchase-input" min="10"/>
 	      <button id="purchase-button">투입하기</button>
         </form>
 	  </div>
@@ -69,7 +69,7 @@ export default class ProductPurchase extends View {
                               <td>${name}</td>
                               <td>${price}</td>
                               <td>${quantity}</td>
-                              <td><button id="purchase-product-button" data-product="${name}">구매하기</button></td>
+                              <td><button class="purchase-product-button" data-product="${name}">구매하기</button></td>
                           </tr>`
                     })
                     .join('')
