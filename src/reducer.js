@@ -7,6 +7,10 @@ export const reducer = (prevState, { type, payload }) => {
       return addProduct(prevState, payload)
     case ACTIONS.UPDATE_CHANGE:
       return updateChange(prevState, payload)
+    case ACTIONS.CHARGE_PURCHASE:
+      return chargePurhcase(prevState, payload)
+    case ACTIONS.BUY_PRODUCT:
+      return buyProduct(prevState, payload)
     default:
       prevState
   }
@@ -47,4 +51,24 @@ const getMoney = (coins) => {
   const nums = Object.values(coins)
   const baseCoins = Object.keys(coins)
   return baseCoins.reduce((p, c, i) => p + c * nums[i], 0)
+}
+
+const chargePurhcase = (prevState, { purchase: userPurchase }) => {
+  const purchase = userPurchase + prevState.purchase
+  return [VIEWS.PRODUCT_PURCHASE, { ...prevState, purchase }]
+}
+
+const buyProduct = (prevState, { productName }) => {
+  const { products: prevProducts, purchase: prevPurchase } = prevState
+  const i = prevProducts.findIndex((product) => product.name === productName)
+  const quantity = prevProducts[i]['quantity']
+  if (quantity && prevPurchase >= prevProducts[i]['price']) {
+    const purchase = prevPurchase - prevProducts[i]['price']
+    const products = prevProducts.map((prevProduct, index) => {
+      if (index === i) return { ...prevProduct, quantity: prevProduct.quantity - 1 }
+      return prevProduct
+    })
+    return [VIEWS.PRODUCT_PURCHASE, { ...prevState, purchase, products }]
+  }
+  return [VIEWS.NOT_RENDER, prevState]
 }
