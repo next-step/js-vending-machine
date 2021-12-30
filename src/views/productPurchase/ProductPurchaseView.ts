@@ -54,22 +54,22 @@ const ProductPurchaseTemplate = `
         <th>개수</th>
       </tr>
     </thead>
-    <tbody data-cy="return-coin-inventory">
+    <tbody id="return-coin-inventory" data-cy="return-coin-inventory">
       <tr>
         <td>500원</td>
-        <td id="coin-500-quantity"></td>
+        <td></td>
       </tr>
       <tr>
         <td>100원</td>
-        <td id="coin-100-quantity"></td>
+        <td></td>
       </tr>
       <tr>
         <td>50원</td>
-        <td id="coin-50-quantity"></td>
+        <td></td>
       </tr>
       <tr>
         <td>10원</td>
-        <td id="coin-10-quantity"></td>
+        <td></td>
       </tr>
     </tbody>
   </table>
@@ -129,30 +129,6 @@ export default class ProductPurchaseView {
     this.renderProductList()
     this.renderMoneyData()
   }
-
-  // getProduct(): { product?: ProductProps; errorMessage?: string } {
-  //   const name = this.$productNameInput.value
-  //   const price = Number(this.$productPriceInput.value)
-  //   const quantity = Number(this.$productQuantityInput.value)
-
-  //   if (
-  //     this.$productNameInput.value === '' ||
-  //     this.$productQuantityInput.value === '' ||
-  //     this.$productQuantityInput.value === ''
-  //   ) {
-  //     return { errorMessage: PRODUCT_ADD_INPUT_INVALID }
-  //   }
-
-  //   if (quantity < 1) {
-  //     return { errorMessage: PRODUCT_ADD_QUANTITY_INVALID }
-  //   }
-
-  //   if (!this.#store.isPriceValid(price)) {
-  //     return { errorMessage: PRODUCT_ADD_PRICE_INVALID }
-  //   }
-
-  //   return { product: { name, price, quantity } }
-  // }
 
   render() {
     const $template = this.createTemplate()
@@ -233,6 +209,27 @@ export default class ProductPurchaseView {
         this.renderMoneyData()
         this.renderProductList()
       }
+    })
+
+    this.$returnCoinButton.addEventListener('click', () => {
+      const coin = this.#moneyStore.returnUserCoin()
+      const coinArray = [
+        coin['500원'],
+        coin['100원'],
+        coin['50원'],
+        coin['10원'],
+      ]
+
+      this.renderStoreData()
+      console.log(coin)
+      console.log(this.$coinInventory)
+
+      this.$coinInventory.querySelectorAll('td').forEach((element, index) => {
+        if (index % 2 === 1) {
+          element.textContent =
+            coinArray[Math.floor(index / 2)].toLocaleString() + '개'
+        }
+      })
     })
   }
 

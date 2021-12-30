@@ -52,6 +52,7 @@ export default class MoneyStore {
       key: VENDING_MONEY_KEY,
       value: this.#vendingMoney.toString(),
     })
+
     setLocalStorageItem({
       key: VENDING_COIN_KEY,
       value: this.#vendingCoin,
@@ -73,6 +74,63 @@ export default class MoneyStore {
       key: USER_MONEY_KEY,
       value: this.#userMoney.toString(),
     })
+  }
+
+  returnUserCoin(): Coin {
+    let money = this.#userMoney
+    let returnedMoney = 0
+
+    const coin = this.#vendingCoin
+
+    const coin500 = Math.min(Math.floor(money / 500), coin['500원'])
+    money -= coin500 * 500
+    returnedMoney += coin500 * 500
+
+    const coin100 = Math.min(Math.floor(money / 100), coin['100원'])
+    money -= coin100 * 100
+    returnedMoney += coin100 * 100
+
+    const coin50 = Math.min(Math.floor(money / 50), coin['50원'])
+    money -= coin50 * 50
+    returnedMoney += coin50 * 50
+
+    const coin10 = Math.min(Math.floor(money / 10), coin['10원'])
+    returnedMoney += coin10 * 10
+
+    this.#userMoney -= returnedMoney
+
+    const returnedCoin = {
+      '500원': coin500,
+      '100원': coin100,
+      '50원': coin50,
+      '10원': coin10,
+    }
+
+    this.#vendingCoin = {
+      '500원': coin['500원'] - returnedCoin['500원'],
+      '100원': coin['100원'] - returnedCoin['100원'],
+      '50원': coin['50원'] - returnedCoin['50원'],
+      '10원': coin['10원'] - returnedCoin['10원'],
+    }
+
+    this.#vendingMoney -= returnedMoney
+
+    setLocalStorageItem({
+      key: VENDING_MONEY_KEY,
+      value: this.#vendingMoney.toString(),
+    })
+
+    setLocalStorageItem({
+      key: USER_MONEY_KEY,
+      value: this.#userMoney.toString(),
+    })
+
+    setLocalStorageItem({
+      key: VENDING_COIN_KEY,
+      value: this.#vendingCoin,
+    })
+
+    return returnedCoin
   }
 
   setVendingCoin(money: number) {
