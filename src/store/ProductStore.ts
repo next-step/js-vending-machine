@@ -12,14 +12,14 @@ export default class ProductStore {
   #productList
 
   constructor() {
-    this.#productMap = new Map<string, Omit<ProductProps, 'name'>>()
+    this.#productMap = new Map<string, ProductProps>()
     const savedProducts: ProductProps[] =
       getLocalStorageItem({ key: VENDING_PRODUCT_KEY }) ?? []
 
     this.#productList = savedProducts
 
-    savedProducts.forEach(({ name, price, quantity }) => {
-      this.#productMap.set(name, { price, quantity })
+    savedProducts.forEach((product) => {
+      this.#productMap.set(product.name, product)
     })
   }
 
@@ -30,14 +30,16 @@ export default class ProductStore {
 
     const isDuplicated = !!this.#productMap.get(name)
 
+    const product = { name, price, quantity }
+
     if (isDuplicated) {
-      this.#productMap.set(name, { price, quantity })
+      this.#productMap.set(name, product)
       this.#productList = this.#productList.filter(
         (product) => product.name !== name
       )
     }
 
-    this.#productList.push({ name, price, quantity })
+    this.#productList.push(product)
     setLocalStorageItem({ key: VENDING_PRODUCT_KEY, value: this.#productList })
 
     return true
@@ -51,6 +53,17 @@ export default class ProductStore {
     }
 
     return { name, price: product.price, quantity: product.quantity }
+  }
+
+  purchaseProduct({ name }: { name: string }) {
+    const product = this.#productMap.get(name)
+
+    if (!product) {
+      return null
+    }
+
+    product.quantity -= 1
+    setLocalStorageItem({ key: VENDING_PRODUCT_KEY, value: this.#productList })
   }
 
   isValidProduct({ name, price, quantity }: ProductProps) {

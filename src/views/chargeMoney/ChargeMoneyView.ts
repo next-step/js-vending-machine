@@ -3,15 +3,17 @@ import ProductManageController from '../../controller/productManage/productManag
 import { $Root } from '../../routes/router'
 import MoneyStore from '../../store/MoneyStore'
 import {
+  VENDING_MACHINE_CHARGE_AMOUNT,
   VENDING_MACHINE_CHARGE_BUTTON,
   VENDING_MACHINE_CHARGE_INPUT,
   VENDING_MACHINE_COIN_INVENTORY,
 } from '../../utils/constants/element'
 import {
-  PRODUCT_ADD_INPUT_INVALID,
-  PRODUCT_ADD_PRICE_INVALID,
-  PRODUCT_ADD_QUANTITY_INVALID,
+  VENDING_MACHINE_CHARGE_COIN_INPUT_EMPTY,
+  VENDING_MACHINE_CHARGE_COIN_INPUT_SPLIT_INVALID,
+  VENDING_MACHINE_CHARGE_COIN_MINIMUM_INPUT_INVALID,
 } from '../../utils/constants/errorMessage'
+
 import { $ } from '../../utils/dom/selector'
 
 const ChargeMoneyTemplate = `
@@ -59,6 +61,8 @@ export default class ChargeMoneyView {
   $template: DocumentFragment
   $addButton: HTMLElement
   $vendingMoneyAddInput: HTMLInputElement
+  $inventory: HTMLTableSectionElement
+  $coinAmount: HTMLSpanElement
 
   #store: MoneyStore
 
@@ -72,18 +76,18 @@ export default class ChargeMoneyView {
       const money = Number(this.$vendingMoneyAddInput.value ?? 0)
 
       if (this.$vendingMoneyAddInput.value === '') {
-        alert('금액을 입력해주세요.')
+        alert(VENDING_MACHINE_CHARGE_COIN_INPUT_EMPTY)
         this.resetVendingMoneyInput()
       }
 
       if (money < 100) {
-        alert('금액을 100원 이상 입력해주세요.')
+        alert(VENDING_MACHINE_CHARGE_COIN_MINIMUM_INPUT_INVALID)
         this.resetVendingMoneyInput()
         return
       }
 
       if (money % 10 !== 0) {
-        alert('금액을 10원 단위로 나누어 떨어져야 합니다.')
+        alert(VENDING_MACHINE_CHARGE_COIN_INPUT_SPLIT_INVALID)
         this.resetVendingMoneyInput()
         return
       }
@@ -106,22 +110,20 @@ export default class ChargeMoneyView {
   renderCoin() {
     const coin = this.#store.getVendingMoneyCoin()
 
-    const $inventory = $({
-      selector: VENDING_MACHINE_COIN_INVENTORY,
-    }) as HTMLTableSectionElement
+    this.$inventory.innerHTML = ''
+    this.$coinAmount.textContent = this.#store
+      .getVendingMoney()
+      .toLocaleString()
 
-    $inventory.innerHTML = ''
-
-    console.log(coin)
     Object.keys(coin).forEach((coinKey, index) => {
       const key = coinKey as keyof typeof coin
-      const row = $inventory.insertRow(index)
+      const row = this.$inventory.insertRow(index)
       const coinUnit = row.insertCell(0)
       const count = row.insertCell(1)
 
       coinUnit.textContent = key
 
-      count.textContent = (coin[key] ?? 0).toLocaleString()
+      count.textContent = (coin[key] ?? 0) + '개'
     })
   }
 
@@ -154,5 +156,13 @@ export default class ChargeMoneyView {
       selector: VENDING_MACHINE_CHARGE_INPUT,
       target: this.$template,
     }) as HTMLInputElement
+
+    this.$inventory = $({
+      selector: VENDING_MACHINE_COIN_INVENTORY,
+    }) as HTMLTableSectionElement
+
+    this.$coinAmount = $({
+      selector: VENDING_MACHINE_CHARGE_AMOUNT,
+    }) as HTMLSpanElement
   }
 }
