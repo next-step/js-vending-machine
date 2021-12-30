@@ -38,33 +38,33 @@ export default class ProductPurchase extends View {
       this.resetInputValue();
     });
 
-    $("#coin-return-button").addEventListener("click", (e) => {
-      const {
-        machineCharge: {coins},
-        purchaseCharge: {totalAmount}
-      } = store.getState();
+    $("#coin-return-button").addEventListener("click", this.returnCoins.bind(this));
+  }
 
-      if (totalAmount === 0) {
-        this.error(ERROR_MESSAGES.NO_RETURN_COIN);
-        return;
-      }
-      
-      const returnCoins = returnChargeAmountToRestCoin(totalAmount, Object.entries(coins));
-      const returnAmount = Object.entries(returnCoins).reduce((prev, [coin, amount]) => (prev + coin * amount), 0);
-      console.log(returnCoins);
-      console.log(returnAmount);
+  returnCoins() {
+    const {
+      machineCharge: {coins},
+      purchaseCharge: {totalAmount}
+    } = store.getState();
 
-      $("charge-table.coin-return-table").renderTableData(returnCoins);
+    if (totalAmount === 0) {
+      this.error(ERROR_MESSAGES.NO_RETURN_COIN);
+      return;
+    }
+    
+    const returnCoins = returnChargeAmountToRestCoin(totalAmount, Object.entries(coins));
+    const returnAmount = Object.entries(returnCoins).reduce((prev, [coin, amount]) => (prev + coin * amount), 0);
 
-      store.dispatch(subtractPurchaseCharge({
-        amount: returnAmount
-      }));
+    $("charge-table.coin-return-table").renderTableData(returnCoins);
 
-      store.dispatch(subtractMachineCharge({
-        totalAmount: returnAmount,
-        coins: returnCoins
-      }));
-    })
+    store.dispatch(subtractPurchaseCharge({
+      amount: returnAmount
+    }));
+
+    store.dispatch(subtractMachineCharge({
+      totalAmount: returnAmount,
+      coins: returnCoins
+    }));
   }
 
   showErrorMessage(errorMessage) {

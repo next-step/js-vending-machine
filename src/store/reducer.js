@@ -40,7 +40,6 @@ const reducer = (state = initState, action = {}) => {
       };
     
     case SUBTRACT_MACHINE_CHARGE:
-      console.log("SUBTRACT_MACHINE_CHARGE coins:",subtractValuesOfObjects(state.machineCharge.coins, payload.coins));
       return {
         ...state,
         machineCharge: {

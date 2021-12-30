@@ -56,7 +56,7 @@ export default class ProductPurchaseTable extends View {
 
     const html = `
     ${products.map(({ name, price, quantity }) => (`
-      <tr>
+      <tr data-key=${name}>
         <td class="product-purchase-name">${name}</td>
         <td class="product-purchase-price">${numberWithCommas(price)}</td>
         <td class="product-purchase-quantity">${quantity}</td>

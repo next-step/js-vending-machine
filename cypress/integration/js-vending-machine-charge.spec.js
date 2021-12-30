@@ -15,7 +15,7 @@ describe("자판기 잔돈충전 Tab 테스트", () => {
 
     cy.get("#vending-machine-charge-input").as("ip-charge");
     cy.get("#vending-machine-charge-button").as("btn-add-charge");
-    cy.get(".vending-machine-wrapper").as("form-add-charge");
+    cy.get("#vending-machine-charge-form").as("form-add-charge");
     cy.get(".cashbox-remaining").as("cashbox-remaining");
     cy.get("#vending-machine-charge-amount").as("total-amount");
   });
@@ -47,7 +47,7 @@ describe("자판기 잔돈충전 Tab 테스트", () => {
     });
   })
 
-  context("2. 상품 추가하기 입력 Form에서 유효성 검사.", () => {
+  context("2. 자판기 동전 충전하기 입력 Form에서 유효성 검사.", () => {
     context("2-1. 충전 금액을 입력하지 않고 추가하기 버튼을 클릭했을 때,", () => {
       it(`충전 금액 input하단에 "${ERROR_MESSAGES.NO_VALUE}" 에러메세지가 보여야 한다.`, () => {
         cy.get("@form-add-charge").submit();
