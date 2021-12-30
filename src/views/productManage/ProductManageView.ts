@@ -15,7 +15,7 @@ import {
 } from '../../utils/constants/errorMessage'
 import { $ } from '../../utils/dom/selector'
 
-const ProductPurchaseTemplate = `
+const ProductManageTemplate = `
   <h3>상품 추가하기</h3>
   <div class="product-container">
     <input type="text" id="product-name-input" data-cy="product-name-input" placeholder="상품명" />
@@ -144,7 +144,7 @@ export default class ProductManageView {
   createTemplate() {
     const $template = document
       .createRange()
-      .createContextualFragment(ProductPurchaseTemplate)
+      .createContextualFragment(ProductManageTemplate)
 
     return $template
   }
