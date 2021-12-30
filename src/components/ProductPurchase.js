@@ -8,6 +8,7 @@ export default class ProductPurchase extends View {
     this.render()
     this.bindEvent()
   }
+  
   bindEvent = () => {
     this.$app.addEventListener('submit', (e) => {
       e.preventDefault()

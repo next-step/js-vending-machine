@@ -4,6 +4,7 @@ import Change from './components/Change.js'
 import { storageKey } from './storage/index.js'
 import { reducer } from './reducer.js'
 import { VIEWS } from './constants.js'
+
 export default class App {
   #store
   #state
