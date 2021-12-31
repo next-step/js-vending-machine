@@ -11,6 +11,7 @@ interface IGlobalState {
   products: IProduct[];
   changes: IChanges;
   amount: number;
+  returnedChanges: IChanges;
 }
 
 const defaultGlobalState: IGlobalState = {
@@ -22,6 +23,12 @@ const defaultGlobalState: IGlobalState = {
     500: 0,
   },
   amount: 0,
+  returnedChanges: {
+    10: 0,
+    50: 0,
+    100: 0,
+    500: 0,
+  },
 };
 
 export type IChanges = {
@@ -48,6 +55,7 @@ const reducer: IReducer<IGlobalState> = (
 
       return { ...state, products: [...products] };
     }
+
     case ActionType.chargeChanges: {
       const prevChanges = state.changes ?? [];
       const changes: IChanges = {};
@@ -60,11 +68,13 @@ const reducer: IReducer<IGlobalState> = (
       });
       return { ...state, changes };
     }
+
     case ActionType.chargeAmount: {
       const prevAmount = state.amount ?? 0;
       const amount = prevAmount + action.payload;
       return { ...state, amount };
     }
+
     case ActionType.purchaseProduct: {
       const { products, amount: prevAmount } = state;
       const productName = action.payload as string;
@@ -73,10 +83,40 @@ const reducer: IReducer<IGlobalState> = (
       const amount = prevAmount - product!.price;
       return { ...state, amount, products: [...products] };
     }
+
+    case ActionType.returnChanges: {
+      const { remainChanges, returnedChanges, amount } = changeCoin(
+        state.changes,
+        state.amount,
+        Config.ChangeTypes
+      );
+      return { ...state, changes: remainChanges, returnedChanges, amount };
+    }
+
     default:
       return state;
   }
 };
+
+function changeCoin(changes: IChanges, amount: number, changeTypes: number[]) {
+  const remainChanges: IChanges = {};
+  const returnedChanges: IChanges = {};
+  changeTypes
+    .sort((t1, t2) => t2 - t1)
+    .forEach((changeType) => {
+      const neededCount = Math.floor(amount / changeType);
+      const remainCount = changes[changeType];
+      const returnCount = Math.min(neededCount, remainCount);
+      amount -= returnCount * changeType;
+      returnedChanges[changeType] = returnCount;
+      remainChanges[changeType] = remainCount - returnCount;
+    });
+  return {
+    remainChanges,
+    returnedChanges,
+    amount,
+  };
+}
 
 const GLOBAL_STATE_KEY = "global_state_key";
 

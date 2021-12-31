@@ -21,6 +21,8 @@ export const Id = Object.freeze({
   chargeInput: "charge-input",
   chargeAmount: "charge-amount",
   chargeBtn: "charge-button",
+  coinChanger: "coin-changer",
+  coinReturnBtn: "coin-return-button",
 });
 
 export const ClassName = Object.freeze({
@@ -49,6 +51,7 @@ export const ActionType = Object.freeze({
   chargeChanges: "CHARGE_CHANGES",
   chargeAmount: "CHARGE_AMOUNT",
   purchaseProduct: "PURCHASE_PRODUCT",
+  returnChanges: "RETURN_CHANGES",
 });
 
 export const AlertMsg = Object.freeze({
