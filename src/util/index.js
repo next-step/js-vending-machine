@@ -16,3 +16,10 @@ export const sumValuesOfObjects = (prevObj, nextObj) => (
     return newObj;
   }, {})
 )
+
+export const subtractValuesOfObjects = (prevObj, nextObj) => (
+  Object.entries(nextObj).reduce((newObj, [key, value]) => {
+    newObj[key] = Number(prevObj[key]) - Number(value);
+    return newObj;
+  }, {})
+)

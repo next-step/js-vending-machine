@@ -8,5 +8,9 @@ export const initState = {
   {
     totalAmount: 0,
     coins: Object.fromEntries(COINS)
+  },
+  purchaseCharge: getLocalStorage("purchaseCharge") ||
+  {
+    totalAmount: 0
   }
 }

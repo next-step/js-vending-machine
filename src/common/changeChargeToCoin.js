@@ -12,4 +12,16 @@ const changeChargeToCoin = (machineCharge) => {
   }, {});
 }
 
+export const returnChargeAmountToRestCoin = (purchaseCharge, coins) => {
+  let currentCharge = purchaseCharge;
+
+  return coins.reduce((prevObj, [coin, amount]) => {
+    let divisionAmount = Math.floor(currentCharge / coin);
+
+    prevObj[coin] = divisionAmount > amount ? amount : divisionAmount;
+    currentCharge -= prevObj[coin] * coin;
+    return prevObj;
+  }, {});
+}
+
 export default changeChargeToCoin;

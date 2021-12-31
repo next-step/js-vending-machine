@@ -43,7 +43,7 @@ Cypress.Commands.add('submitAfterInputType', ($input, value, $form) => {
 
 Cypress.Commands.add('submitAfterInputTypeAll', (obj, $form) => {
   Object.entries(obj).forEach(([key, value]) => {
-    cy.get(`@ip-${key}`).type(value);
+    cy.get(`#product-${key}-input`).type(value);
   });
 
   cy.get($form).submit();
