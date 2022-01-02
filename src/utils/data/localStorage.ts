@@ -20,6 +20,10 @@ const getLocalStorageItem = ({ key }: { key: string }) => {
     return null
   }
 
+  if (item === 'undefined') {
+    return undefined
+  }
+
   try {
     return JSON.parse(item)
   } catch {
