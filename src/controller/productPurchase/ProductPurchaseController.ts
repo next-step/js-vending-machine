@@ -1,22 +1,30 @@
 import ProductStore from '../../store/ProductStore'
 import { ProductPurchaseReucerAction } from './productPurchaseAction'
-import ProductPurchaseModel from '../../model/productPurchaseModel'
 import MoneyStore from '../../store/MoneyStore'
 
 export default class ProductPurchaseController {
-  #model: ProductPurchaseModel
+  #productStore: ProductStore
+  #moneyStore: MoneyStore
 
   constructor(productStore: ProductStore, moneyStore: MoneyStore) {
-    this.#model = new ProductPurchaseModel(productStore, moneyStore)
+    this.#productStore = productStore
+    this.#moneyStore = moneyStore
   }
 
   dispatch(action: ProductPurchaseReucerAction) {
     switch (action.type) {
       case 'ADD_USER_MONEY':
-        this.#model.addUserMoney(action.payload.money)
+        this.#moneyStore.addUserMoney({ money: action.payload.money })
         break
       case 'PURCHASE_PRODUCT':
-        this.#model.purchaseProduct(action.payload.name)
+        const name = action.payload.name
+
+        const product = this.#productStore.getProduct({ name })
+        if (!product) {
+          return
+        }
+        this.#productStore.purchaseProduct({ name })
+        this.#moneyStore.spendUserMoney({ money: product.price })
         break
     }
   }
