@@ -18,6 +18,7 @@ import {
   PURCHASE_PRODUCT_PURCHASE_PRODUCT_SOLD_OUT,
 } from '../../utils/constants/errorMessage'
 import { $ } from '../../utils/dom/selector'
+import { ViewInterface } from '../View'
 
 const ProductPurchaseTemplate = `
   <div class="purchase-container">
@@ -75,7 +76,7 @@ const ProductPurchaseTemplate = `
   </table>
 `
 
-export default class ProductPurchaseView {
+export default class ProductPurchaseView implements ViewInterface {
   controller: ProductPurchaseController
   $template: DocumentFragment
 

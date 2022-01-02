@@ -15,6 +15,7 @@ import {
 } from '../../utils/constants/errorMessage'
 
 import { $ } from '../../utils/dom/selector'
+import { ViewInterface } from '../View'
 
 const ChargeMoneyTemplate = `
   <h3>자판기 돈통 충전하기</h3>
@@ -56,7 +57,7 @@ const ChargeMoneyTemplate = `
   </table>
 `
 
-export default class ChargeMoneyView {
+export default class ChargeMoneyView implements ViewInterface {
   controller: ChargeMoneyController
   $template: DocumentFragment
   $addButton: HTMLElement

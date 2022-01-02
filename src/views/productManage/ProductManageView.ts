@@ -14,6 +14,7 @@ import {
   PRODUCT_ADD_QUANTITY_INVALID,
 } from '../../utils/constants/errorMessage'
 import { $ } from '../../utils/dom/selector'
+import { ViewInterface } from '../View'
 
 const ProductManageTemplate = `
   <h3>상품 추가하기</h3>
@@ -40,7 +41,7 @@ const ProductManageTemplate = `
   </table>
 `
 
-export default class ProductManageView {
+export default class ProductManageView implements ViewInterface {
   controller: ProductManageController
   $template: DocumentFragment
   $addButton: HTMLElement
