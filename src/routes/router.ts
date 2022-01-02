@@ -2,56 +2,60 @@ import { $ } from '../utils/dom/selector'
 import ChargeMoneyView from '../views/chargeMoney/ChargeMoneyView'
 import ProductManageView from '../views/productManage/ProductManageView'
 import ProductPurchaseView from '../views/productPurchase/ProductPurchaseView'
+import { ViewInterface } from '../views/View'
+import { bindPageChangeEvent, ON_PAGE_CHANGE } from './Event'
 
-export type RouteHashType =
-  | '#productManage'
-  | '#chargeMoney'
-  | '#productPurchase'
-
-const FIRST_ROUTE: RouteHashType = '#productManage'
+const PRODUCT_MANAGE_MENU = '#product-manage-menu'
+const VENDING_MACHINE_MANAGE_MENU = '#vending-machine-manage-menu'
+const PRODUCT_PURCHASE_MENU = '#product-purchase-menu'
 
 export const $Root = $({ selector: '#app' }) as HTMLDivElement
 
-type RouteView = {
-  productManageView: ProductManageView
-  chargeMoneyView: ChargeMoneyView
-  productPurchaseView: ProductPurchaseView
-}
 export class Router {
+  views: Map<string, ViewInterface>
   productManageView: ProductManageView
   chargeMoneyView: ChargeMoneyView
   productPurchaseView: ProductPurchaseView
 
-  constructor({
-    productManageView,
-    chargeMoneyView,
-    productPurchaseView,
-  }: RouteView) {
-    this.productManageView = productManageView
-    this.chargeMoneyView = chargeMoneyView
-    this.productPurchaseView = productPurchaseView
+  constructor(views: ViewInterface[]) {
+    console.log(views)
+    this.views = new Map<string, ViewInterface>()
+
+    views.forEach((view) => {
+      console.log('this view', view, view.viewId)
+      this.views.set(view.viewId, view)
+      console.log('this view', this.views)
+    })
     this.init()
   }
 
-  onHashChange() {
-    const hash = window.location.hash as RouteHashType
+  onRouteChanged(event: CustomEvent) {
+    const route = event.detail.route as string
 
-    switch (hash) {
-      case '#productManage':
-        this.productManageView.render()
-        break
-      case '#chargeMoney':
-        this.chargeMoneyView.render()
-        break
-      case '#productPurchase':
-        this.productPurchaseView.render()
-        break
+    const view = this.views.get(route)
+
+    if (view) {
+      view.render()
     }
   }
 
   init() {
-    window.addEventListener('hashchange', this.onHashChange.bind(this))
+    bindPageChangeEvent(
+      $({ selector: PRODUCT_MANAGE_MENU }) as HTMLAnchorElement
+    )
+    bindPageChangeEvent(
+      $({ selector: VENDING_MACHINE_MANAGE_MENU }) as HTMLAnchorElement
+    )
+    bindPageChangeEvent(
+      $({ selector: PRODUCT_PURCHASE_MENU }) as HTMLAnchorElement
+    )
 
-    window.location.hash = FIRST_ROUTE
+    // window.addEventListener('hashchange', this.onHashChange.bind(this))
+    window.addEventListener(ON_PAGE_CHANGE, this.onRouteChanged.bind(this))
+    this.onRouteChanged(
+      new CustomEvent(ON_PAGE_CHANGE, {
+        detail: { route: 'product-manage-menu' },
+      })
+    )
   }
 }

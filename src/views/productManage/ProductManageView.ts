@@ -42,6 +42,7 @@ const ProductManageTemplate = `
 `
 
 export default class ProductManageView implements ViewInterface {
+  viewId: string
   controller: ProductManageController
   $template: DocumentFragment
   $addButton: HTMLElement
@@ -52,6 +53,7 @@ export default class ProductManageView implements ViewInterface {
   #store: ProductStore
 
   constructor(productStore: ProductStore) {
+    this.viewId = 'product-manage-menu'
     this.controller = new ProductManageController(productStore)
     this.#store = productStore
   }

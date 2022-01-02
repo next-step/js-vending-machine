@@ -1,4 +1,5 @@
 interface ViewInterface {
+  viewId: string
   selectDomElement(): void
   createTemplate(): void
   bindEvent(): void

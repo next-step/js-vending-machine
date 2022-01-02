@@ -77,6 +77,7 @@ const ProductPurchaseTemplate = `
 `
 
 export default class ProductPurchaseView implements ViewInterface {
+  viewId: string
   controller: ProductPurchaseController
   $template: DocumentFragment
 
@@ -91,6 +92,7 @@ export default class ProductPurchaseView implements ViewInterface {
   #moneyStore: MoneyStore
 
   constructor(productStore: ProductStore, moneyStore: MoneyStore) {
+    this.viewId = 'product-purchase-menu'
     this.controller = new ProductPurchaseController(productStore, moneyStore)
     this.#productStore = productStore
     this.#moneyStore = moneyStore

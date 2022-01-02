@@ -58,6 +58,7 @@ const ChargeMoneyTemplate = `
 `
 
 export default class ChargeMoneyView implements ViewInterface {
+  viewId: string
   controller: ChargeMoneyController
   $template: DocumentFragment
   $addButton: HTMLElement
@@ -68,6 +69,7 @@ export default class ChargeMoneyView implements ViewInterface {
   #store: MoneyStore
 
   constructor(moneyStore: MoneyStore) {
+    this.viewId = 'vending-machine-manage-menu'
     this.controller = new ChargeMoneyController(moneyStore)
     this.#store = moneyStore
   }
