@@ -45,7 +45,7 @@ describe('자판기 미션 1단계', () => {
   it('상품의 최소 수량은 1개여야 한다.', () => {
     cy.get('@name').type('잘못된 상품')
     cy.get('@price').type(5000)
-    cy.get('@price').type(0)
+    cy.get('@quantity').type(0)
 
     const stub = cy.stub()
     cy.on('window:alert', stub)
