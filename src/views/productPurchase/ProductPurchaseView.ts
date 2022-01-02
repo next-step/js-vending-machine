@@ -161,19 +161,16 @@ export default class ProductPurchaseView extends View {
 
   bindEvent() {
     this.$chargeButton.addEventListener('click', () => {
-      const moenyOutput = this.getMoney()
-
-      if (moenyOutput.errorMessage) {
-        alert(moenyOutput.errorMessage)
-        return
-      }
-
-      this.controller.dispatch({
+      const isSuccessed = this.controller.dispatch({
         type: 'ADD_USER_MONEY',
-        payload: { money: moenyOutput.money ?? 0 },
       })
 
       this.$chargeInput.value = ''
+
+      if (!isSuccessed) {
+        return
+      }
+
       this.renderMoneyData()
     })
 
@@ -183,29 +180,18 @@ export default class ProductPurchaseView extends View {
       if (!target) {
         return
       }
+
       if (target instanceof HTMLButtonElement) {
         const productName = target.dataset.product ?? ''
-        const product = this.#productStore.getProduct({ name: productName })
-        const money = this.#moneyStore.getUserMoney()
 
-        if (!product) {
-          return
-        }
-
-        if (product.quantity <= 0) {
-          alert(PURCHASE_PRODUCT_PURCHASE_PRODUCT_SOLD_OUT)
-          return
-        }
-
-        if (product.price > money) {
-          alert(PURCHASE_PRODUCT_PURCHASE_NO_MONEY)
-          return
-        }
-
-        this.controller.dispatch({
+        const isSuccesed = this.controller.dispatch({
           type: 'PURCHASE_PRODUCT',
           payload: { name: productName },
         })
+
+        if (!isSuccesed) {
+          return
+        }
 
         this.renderMoneyData()
         this.renderProductList()

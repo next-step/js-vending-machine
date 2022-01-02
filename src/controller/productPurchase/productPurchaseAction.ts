@@ -11,7 +11,6 @@ interface ProductPurchaseAction {
 
 interface AddUserMoneyAction {
   type: typeof ADD_USER_MONEY
-  payload: { money: number }
 }
 
 interface ReturnCoinAction {
