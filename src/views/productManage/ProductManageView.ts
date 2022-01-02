@@ -62,21 +62,13 @@ export default class ProductManageView extends View {
 
   onProductAddButtonClick() {
     this.$addButton.addEventListener('click', () => {
-      const { errorMessage, product } = this.getProduct()
-
-      if (errorMessage) {
-        alert(errorMessage)
-        return
-      }
-
-      if (!product) {
-        return
-      }
-
-      this.controller.dispatch({
+      const isSuccessed = this.controller.dispatch({
         type: 'ADD_PRODUCT',
-        payload: product,
       })
+
+      if (!isSuccessed) {
+        return
+      }
 
       this.$productNameInput.value = ''
       this.$productPriceInput.value = ''
@@ -108,30 +100,6 @@ export default class ProductManageView extends View {
       priceCell.textContent = price.toLocaleString()
       quantityCell.textContent = quantity.toLocaleString()
     })
-  }
-
-  getProduct(): { product?: ProductProps; errorMessage?: string } {
-    const name = this.$productNameInput.value
-    const price = Number(this.$productPriceInput.value)
-    const quantity = Number(this.$productQuantityInput.value)
-
-    if (
-      this.$productNameInput.value === '' ||
-      this.$productQuantityInput.value === '' ||
-      this.$productQuantityInput.value === ''
-    ) {
-      return { errorMessage: PRODUCT_ADD_INPUT_INVALID }
-    }
-
-    if (quantity < 1) {
-      return { errorMessage: PRODUCT_ADD_QUANTITY_INVALID }
-    }
-
-    if (!this.#store.isPriceValid(price)) {
-      return { errorMessage: PRODUCT_ADD_PRICE_INVALID }
-    }
-
-    return { product: { name, price, quantity } }
   }
 
   render() {

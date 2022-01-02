@@ -1,9 +1,7 @@
-import { ProductProps } from '../../store/ProductStore'
-import { ADD_PRODUCT } from '../../utils/constants/action'
+import { ADD_PRODUCT } from '../../constants/productManage/action'
 
 interface AddProductAction {
   type: typeof ADD_PRODUCT
-  payload: ProductProps
 }
 
 type ProductManageReucerAction = AddProductAction

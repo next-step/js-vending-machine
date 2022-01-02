@@ -20,6 +20,7 @@ export default class ProductPurchaseController {
         const name = action.payload.name
 
         const product = this.#productStore.getProduct({ name })
+
         if (!product) {
           return
         }
