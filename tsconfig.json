@@ -1,0 +1,17 @@
+{
+  "compilerOptions": {
+    "declaration": true,
+    "target": "ESNext",
+    "module": "ESNext",
+    "typeRoots": ["./node_modules/@types"],
+    "noImplicitAny": true,
+    "noEmit": false,
+    "strictNullChecks": true,
+    "allowSyntheticDefaultImports": true,
+    "lib": ["ESNext", "dom"],
+    "sourceMap": true,
+    "outDir": "dist"
+  },
+  "include": ["src/**/*"],
+  "exclude": ["node_modules"]
+}
