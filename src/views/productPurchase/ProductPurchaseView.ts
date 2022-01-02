@@ -18,7 +18,7 @@ import {
   PURCHASE_PRODUCT_PURCHASE_PRODUCT_SOLD_OUT,
 } from '../../utils/constants/errorMessage'
 import { $ } from '../../utils/dom/selector'
-import { ViewInterface } from '../View'
+import View from '../View'
 
 const ProductPurchaseTemplate = `
   <div class="purchase-container">
@@ -76,8 +76,9 @@ const ProductPurchaseTemplate = `
   </table>
 `
 
-export default class ProductPurchaseView implements ViewInterface {
+export default class ProductPurchaseView extends View {
   viewId: string
+  template: string
   controller: ProductPurchaseController
   $template: DocumentFragment
 
@@ -92,7 +93,9 @@ export default class ProductPurchaseView implements ViewInterface {
   #moneyStore: MoneyStore
 
   constructor(productStore: ProductStore, moneyStore: MoneyStore) {
+    super()
     this.viewId = 'product-purchase-menu'
+    this.template = ProductPurchaseTemplate
     this.controller = new ProductPurchaseController(productStore, moneyStore)
     this.#productStore = productStore
     this.#moneyStore = moneyStore
@@ -134,10 +137,7 @@ export default class ProductPurchaseView implements ViewInterface {
   }
 
   render() {
-    const $template = this.createTemplate()
-    $Root.replaceChildren($template)
-    this.selectDomElement()
-    this.bindEvent()
+    super.render()
     this.renderStoreData()
   }
 
@@ -234,14 +234,6 @@ export default class ProductPurchaseView implements ViewInterface {
         }
       })
     })
-  }
-
-  createTemplate() {
-    const $template = document
-      .createRange()
-      .createContextualFragment(ProductPurchaseTemplate)
-
-    return $template
   }
 
   selectDomElement() {

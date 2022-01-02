@@ -15,7 +15,7 @@ import {
 } from '../../utils/constants/errorMessage'
 
 import { $ } from '../../utils/dom/selector'
-import { ViewInterface } from '../View'
+import View from '../View'
 
 const ChargeMoneyTemplate = `
   <h3>자판기 돈통 충전하기</h3>
@@ -57,8 +57,9 @@ const ChargeMoneyTemplate = `
   </table>
 `
 
-export default class ChargeMoneyView implements ViewInterface {
+export default class ChargeMoneyView extends View {
   viewId: string
+  template: string
   controller: ChargeMoneyController
   $template: DocumentFragment
   $addButton: HTMLElement
@@ -69,7 +70,9 @@ export default class ChargeMoneyView implements ViewInterface {
   #store: MoneyStore
 
   constructor(moneyStore: MoneyStore) {
+    super()
     this.viewId = 'vending-machine-manage-menu'
+    this.template = ChargeMoneyTemplate
     this.controller = new ChargeMoneyController(moneyStore)
     this.#store = moneyStore
   }
@@ -131,23 +134,12 @@ export default class ChargeMoneyView implements ViewInterface {
   }
 
   render() {
-    const $template = this.createTemplate()
-    $Root.replaceChildren($template)
-    this.selectDomElement()
-    this.bindEvent()
+    super.render()
     this.renderCoin()
   }
 
   bindEvent() {
     this.onMoneyAddButtonClick()
-  }
-
-  createTemplate() {
-    const $template = document
-      .createRange()
-      .createContextualFragment(ChargeMoneyTemplate)
-
-    return $template
   }
 
   selectDomElement() {

@@ -14,7 +14,7 @@ import {
   PRODUCT_ADD_QUANTITY_INVALID,
 } from '../../utils/constants/errorMessage'
 import { $ } from '../../utils/dom/selector'
-import { ViewInterface } from '../View'
+import View from '../View'
 
 const ProductManageTemplate = `
   <h3>상품 추가하기</h3>
@@ -41,8 +41,9 @@ const ProductManageTemplate = `
   </table>
 `
 
-export default class ProductManageView implements ViewInterface {
+export default class ProductManageView extends View {
   viewId: string
+  template: string
   controller: ProductManageController
   $template: DocumentFragment
   $addButton: HTMLElement
@@ -53,7 +54,9 @@ export default class ProductManageView implements ViewInterface {
   #store: ProductStore
 
   constructor(productStore: ProductStore) {
+    super()
     this.viewId = 'product-manage-menu'
+    this.template = ProductManageTemplate
     this.controller = new ProductManageController(productStore)
     this.#store = productStore
   }
@@ -133,23 +136,12 @@ export default class ProductManageView implements ViewInterface {
   }
 
   render() {
-    const $template = this.createTemplate()
-    $Root.replaceChildren($template)
-    this.selectDomElement()
-    this.bindEvent()
+    super.render()
     this.renderProduct()
   }
 
   bindEvent() {
     this.onProductAddButtonClick()
-  }
-
-  createTemplate() {
-    const $template = document
-      .createRange()
-      .createContextualFragment(ProductManageTemplate)
-
-    return $template
   }
 
   selectDomElement() {
