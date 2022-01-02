@@ -104,7 +104,6 @@ export default class ProductPurchaseView extends View {
   renderProductList() {
     const products = this.#productStore.getProducts()
 
-    console.log(products)
     if (!this.$productInputContainer || !products.length) {
       return
     }
@@ -224,8 +223,6 @@ export default class ProductPurchaseView extends View {
       ]
 
       this.renderStoreData()
-      console.log(coin)
-      console.log(this.$coinInventory)
 
       this.$coinInventory.querySelectorAll('td').forEach((element, index) => {
         if (index % 2 === 1) {

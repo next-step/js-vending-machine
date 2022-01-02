@@ -18,13 +18,10 @@ export class Router {
   productPurchaseView: ProductPurchaseView
 
   constructor(views: View[]) {
-    console.log(views)
     this.views = new Map<string, View>()
 
     views.forEach((view) => {
-      console.log('this view', view, view.viewId)
       this.views.set(view.viewId, view)
-      console.log('this view', this.views)
     })
     this.init()
   }
