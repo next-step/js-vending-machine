@@ -1,6 +1,6 @@
 import { $Root } from '../routes/router'
 
-interface ViewInterface {
+interface ViewProps {
   viewId: string
   template: string
   selectDomElement(): void
@@ -10,7 +10,7 @@ interface ViewInterface {
   render(): void
 }
 
-export default class View implements ViewInterface {
+export default class View implements ViewProps {
   viewId: string
   template: string
   bindEvent(): void {}
