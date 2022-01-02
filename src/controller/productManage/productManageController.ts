@@ -1,6 +1,6 @@
+import { ADD_PRODUCT } from '../../constants/productManage/action'
 import ProductManageModel from '../../model/productManageModel'
 import ProductStore from '../../store/ProductStore'
-import { ADD_PRODUCT } from '../../utils/constants/action'
 import { ProductManageReucerAction } from './productManageAction'
 
 export default class ProductManageController {

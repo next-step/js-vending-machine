@@ -1,5 +1,4 @@
 import ProductPurchaseController from '../../controller/productPurchase/ProductPurchaseController'
-import { $Root } from '../../routes/router'
 import MoneyStore from '../../store/MoneyStore'
 import ProductStore from '../../store/ProductStore'
 import {
@@ -9,14 +8,14 @@ import {
   PRODUCT_PURCHASE_CHARGE_BUTTON,
   PRODUCT_PURCHASE_CHARGE_AMOUNT,
   PRODUCT_PURCHASE_COIN_RETURN_BUTTON,
-} from '../../utils/constants/element'
+} from '../../constants/productPurchase/element'
 import {
   PURCHASE_PRODUCT_CHARGE_MONEY_INPUT_EMPTY,
   PURCHASE_PRODUCT_CHARGE_MONEY_INPUT_SPLIT_INVALID,
   PURCHASE_PRODUCT_CHARGE_MONEY_MINIMUM_INPUT_INVALID,
   PURCHASE_PRODUCT_PURCHASE_NO_MONEY,
   PURCHASE_PRODUCT_PURCHASE_PRODUCT_SOLD_OUT,
-} from '../../utils/constants/errorMessage'
+} from '../../constants/productPurchase/errorMessage'
 import { $ } from '../../utils/dom/selector'
 import View from '../View'
 

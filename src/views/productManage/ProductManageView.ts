@@ -1,5 +1,4 @@
 import ProductManageController from '../../controller/productManage/productManageController'
-import { $Root } from '../../routes/router'
 import ProductStore, { ProductProps } from '../../store/ProductStore'
 import {
   PRODUCT_ADD_BUTTON,
@@ -7,12 +6,12 @@ import {
   PRODUCT_NAME_INPUT,
   PRODUCT_PRICE_INPUT,
   PRODUCT_QUANTITY_INPUT,
-} from '../../utils/constants/element'
+} from '../../constants/productManage/element'
 import {
   PRODUCT_ADD_INPUT_INVALID,
   PRODUCT_ADD_PRICE_INVALID,
   PRODUCT_ADD_QUANTITY_INVALID,
-} from '../../utils/constants/errorMessage'
+} from '../../constants/productManage/errorMessage'
 import { $ } from '../../utils/dom/selector'
 import View from '../View'
 

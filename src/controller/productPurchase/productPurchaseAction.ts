@@ -2,7 +2,7 @@ import {
   ADD_USER_MONEY,
   PURCHASE_PRODUCT,
   RETURN_COIN,
-} from '../../utils/constants/action'
+} from '../../constants/productPurchase/action'
 
 interface ProductPurchaseAction {
   type: typeof PURCHASE_PRODUCT

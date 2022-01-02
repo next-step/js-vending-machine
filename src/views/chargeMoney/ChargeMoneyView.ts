@@ -1,18 +1,16 @@
-import ChargeMoneyController from '../../controller/chargeMoney/chargeMoneyController'
-import ProductManageController from '../../controller/productManage/productManageController'
-import { $Root } from '../../routes/router'
-import MoneyStore from '../../store/MoneyStore'
 import {
   VENDING_MACHINE_CHARGE_AMOUNT,
   VENDING_MACHINE_CHARGE_BUTTON,
   VENDING_MACHINE_CHARGE_INPUT,
   VENDING_MACHINE_COIN_INVENTORY,
-} from '../../utils/constants/element'
+} from '../../constants/chargeMoney/element'
+import ChargeMoneyController from '../../controller/chargeMoney/chargeMoneyController'
+import MoneyStore from '../../store/MoneyStore'
 import {
   VENDING_MACHINE_CHARGE_COIN_INPUT_EMPTY,
   VENDING_MACHINE_CHARGE_COIN_INPUT_SPLIT_INVALID,
   VENDING_MACHINE_CHARGE_COIN_MINIMUM_INPUT_INVALID,
-} from '../../utils/constants/errorMessage'
+} from '../../constants/chargeMoney/errorMessage'
 
 import { $ } from '../../utils/dom/selector'
 import View from '../View'
