@@ -1,6 +1,5 @@
 import { ADD_PRODUCT } from '../../constants/productManage/action'
 import {
-  PRODUCT_ADD_BUTTON,
   PRODUCT_NAME_INPUT,
   PRODUCT_PRICE_INPUT,
   PRODUCT_QUANTITY_INPUT,

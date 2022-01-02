@@ -6,11 +6,6 @@ import {
 } from '../../constants/chargeMoney/element'
 import ChargeMoneyController from '../../controller/chargeMoney/chargeMoneyController'
 import MoneyStore from '../../store/MoneyStore'
-import {
-  VENDING_MACHINE_CHARGE_COIN_INPUT_EMPTY,
-  VENDING_MACHINE_CHARGE_COIN_INPUT_SPLIT_INVALID,
-  VENDING_MACHINE_CHARGE_COIN_MINIMUM_INPUT_INVALID,
-} from '../../constants/chargeMoney/errorMessage'
 
 import { $ } from '../../utils/dom/selector'
 import View from '../View'
@@ -77,38 +72,19 @@ export default class ChargeMoneyView extends View {
 
   onMoneyAddButtonClick() {
     this.$addButton.addEventListener('click', () => {
-      const money = Number(this.$vendingMoneyAddInput.value ?? 0)
-
-      if (this.$vendingMoneyAddInput.value === '') {
-        alert(VENDING_MACHINE_CHARGE_COIN_INPUT_EMPTY)
-        this.resetVendingMoneyInput()
-      }
-
-      if (money < 100) {
-        alert(VENDING_MACHINE_CHARGE_COIN_MINIMUM_INPUT_INVALID)
-        this.resetVendingMoneyInput()
-        return
-      }
-
-      if (money % 10 !== 0) {
-        alert(VENDING_MACHINE_CHARGE_COIN_INPUT_SPLIT_INVALID)
-        this.resetVendingMoneyInput()
-        return
-      }
-
-      this.controller.dispatch({
+      const isSuccessed = this.controller.dispatch({
         type: 'CHARGE_MONEY',
-        payload: { money },
       })
 
-      this.resetVendingMoneyInput()
+      this.$vendingMoneyAddInput.value = ''
+      this.$vendingMoneyAddInput.focus()
+
+      if (!isSuccessed) {
+        return
+      }
+
       this.renderCoin()
     })
-  }
-
-  resetVendingMoneyInput() {
-    this.$vendingMoneyAddInput.value = ''
-    this.$vendingMoneyAddInput.focus()
   }
 
   renderCoin() {
