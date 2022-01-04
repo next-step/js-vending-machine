@@ -1,5 +1,6 @@
-import View from "../common/View.js";
-import { $ } from "../utils/index.js";
+import View from '../common/View.js';
+import { $ } from '../utils/index.js';
+import validator from '../utils/validator.js';
 
 /**
  * @typedef {Object} Product
@@ -20,11 +21,18 @@ export default class ProductManageMenu extends View {
   }
 
   addProduct() {
-    const name = $("#product-name-input").value;
-    const price = $("#product-price-input").value;
-    const quantity = $("#product-quantity-input").value;
+    const name = $('#product-name-input').value;
+    const price = $('#product-price-input').value;
+    const quantity = $('#product-quantity-input').value;
 
-    //todo validation
+    if (
+      !validator.validateProductName(name) ||
+      !validator.validateProductPrice(price) ||
+      !validator.validateProductQuantity(quantity)
+    ) {
+      return false;
+    }
+
     //todo name 중복된 상품이름인 경우 나중에 추가된 정보로 덮어쓰기
 
     this.setState({
@@ -44,7 +52,7 @@ export default class ProductManageMenu extends View {
           </tr>
         `
       )
-      .join("");
+      .join('');
 
     this.$el.innerHTML = `
       <h3>상품 추가하기</h3>
@@ -75,8 +83,8 @@ export default class ProductManageMenu extends View {
   }
 
   bindEvents() {
-    this.$el.addEventListener("click", ({ target }) => {
-      if (target.getAttribute("data-ref") === "add-product") {
+    this.$el.addEventListener('click', ({ target }) => {
+      if (target.getAttribute('data-ref') === 'add-product') {
         this.addProduct();
         return;
       }
