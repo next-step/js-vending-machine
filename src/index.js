@@ -1,4 +1,7 @@
-import VendingMachineApp from "./VendingMachineApp.js";
-import { $ } from "./utils/index.js";
+import VendingMachineApp from './VendingMachineApp.js';
+import { $ } from './utils/index.js';
 
-new VendingMachineApp({ $el: $("#vending-machine-app") });
+new VendingMachineApp({
+  $el: $('#vending-machine-app'),
+  name: 'VendingMachineApp',
+});

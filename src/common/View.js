@@ -1,9 +1,12 @@
+import localStorageUtils from '../utils/localStorageUtils.js';
+
 export default class View {
   constructor(props, defaultState) {
-    const { $el } = props;
+    const { $el, name } = props;
     this.$el = $el;
+    this.name = name;
     this.components = {};
-    this.state = defaultState;
+    this.state = localStorageUtils.getState(name) || defaultState;
 
     this.render();
     this.bindEvents();
@@ -14,6 +17,8 @@ export default class View {
       ...this.state,
       ...newState,
     };
+
+    localStorageUtils.setState(this.name, this.state);
 
     this.render();
   }
