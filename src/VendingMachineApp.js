@@ -2,6 +2,7 @@ import ProductManageMenu from './views/ProductManageMenu.js';
 import View from './common/View.js';
 import { $ } from './utils/index.js';
 import routerUtils from './utils/routerUtils.js';
+import VendingMachineManageMenu from './views/VendingMachineManageMenu.js';
 
 export default class VendingMachineApp extends View {
   render() {
@@ -42,6 +43,12 @@ export default class VendingMachineApp extends View {
         return;
 
       case 'vending-machine-manage-menu':
+        this.components[routeName] = new VendingMachineManageMenu({
+          $el: $('[data-component="route-view"]'),
+          name: 'VendingMachineManageMenu',
+        });
+        return;
+
       case 'product-purchase-menu':
     }
   }
