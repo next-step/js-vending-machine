@@ -1,0 +1,18 @@
+{
+  "name": "js-vending-machine",
+  "version": "1.0.0",
+  "description": "js-vending-machine app",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "serve": "live-server ."
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "prettier": "2.5.1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/inhyuck/js-vending-machine.git"
+  },
+  "author": "inhyuck"
+}
