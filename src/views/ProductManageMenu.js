@@ -33,10 +33,21 @@ export default class ProductManageMenu extends View {
       return false;
     }
 
-    //todo name 중복된 상품이름인 경우 나중에 추가된 정보로 덮어쓰기
+    const newProduct = { name, price, quantity };
+
+    const products = this.state.products.slice();
+    const originProductIndex = products.findIndex(
+      ({ name }) => name === newProduct.name
+    );
+
+    if (originProductIndex > -1) {
+      products.splice(originProductIndex, 1, newProduct);
+    } else {
+      products.push(newProduct);
+    }
 
     this.setState({
-      products: [...this.state.products, { name, price, quantity }],
+      products,
     });
   }
 
