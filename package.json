@@ -6,8 +6,8 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "serve": "live-server ."
   },
-  "dependencies": {},
   "devDependencies": {
+    "cypress": "^9.2.0",
     "prettier": "2.5.1"
   },
   "repository": {
