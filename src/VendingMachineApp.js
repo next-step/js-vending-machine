@@ -14,20 +14,25 @@ export default class VendingMachineApp extends View {
       <div id="app" data-component="route-view"></div>
     `;
 
-    const { url } = routerUtils.resolve();
-    this.changeRoute(url.searchParams.get('tab') || '');
+    const { hash } = routerUtils.resolve();
+    this.renderRouteView(hash);
   }
 
   bindEvents() {
     this.$el.addEventListener('click', ({ target }) => {
       const routeName = target.getAttribute('route-name');
-      routeName && this.changeRoute(routeName);
+      if (!routeName) {
+        return;
+      }
+
+      routerUtils.push(routeName);
+      this.renderRouteView(routeName);
     });
+
+    routerUtils.bindOnpopstate((routeName) => this.renderRouteView(routeName));
   }
 
-  changeRoute(routeName) {
-    routeName && routerUtils.push(routeName);
-
+  renderRouteView(routeName) {
     if (this.components[routeName]) {
       this.components[routeName].render();
       return;
