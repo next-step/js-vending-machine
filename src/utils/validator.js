@@ -1,7 +1,9 @@
 const MIN_PRODUCT_PRICE = 100;
-const MIN_UNIT_PRODUCT_PRICE = 10;
-
+const UNIT_PRODUCT_PRICE = 10;
 const MIN_PRODUCT_QUANTITY = 1;
+
+const MIN_AMOUNT_CHARGE = 100;
+const UNIT_AMOUNT_CHARGE = 10;
 
 function validateProductName(name) {
   if (!name) {
@@ -24,7 +26,7 @@ function validateProductPrice(price) {
   }
 
   if (price % MIN_UNIT_PRODUCT_PRICE > 0) {
-    alert(`상품의 가격 단위는 ${MIN_UNIT_PRODUCT_PRICE}원입니다.`);
+    alert(`상품의 가격 단위는 ${UNIT_PRODUCT_PRICE}원입니다.`);
     return false;
   }
 
@@ -45,8 +47,23 @@ function validateProductQuantity(quantity) {
   return true;
 }
 
+function validateVendingMachineAmount(amount) {
+  if (amount < MIN_AMOUNT_CHARGE) {
+    alert(`최소 충전 금액은 ${MIN_AMOUNT_CHARGE}원입니다.`);
+    return false;
+  }
+
+  if (amount % UNIT_AMOUNT_CHARGE > 0) {
+    alert(`충전 금액 단위는 ${UNIT_AMOUNT_CHARGE}원입니다.`);
+    return false;
+  }
+
+  return true;
+}
+
 export default {
   validateProductName,
   validateProductPrice,
   validateProductQuantity,
+  validateVendingMachineAmount,
 };
