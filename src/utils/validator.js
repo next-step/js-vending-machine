@@ -25,7 +25,7 @@ function validateProductPrice(price) {
     return false;
   }
 
-  if (price % MIN_UNIT_PRODUCT_PRICE > 0) {
+  if (price % UNIT_PRODUCT_PRICE > 0) {
     alert(`상품의 가격 단위는 ${UNIT_PRODUCT_PRICE}원입니다.`);
     return false;
   }
