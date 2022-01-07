@@ -30,7 +30,7 @@ export default class ProductManageMenu extends View {
       !validator.validateProductPrice(price) ||
       !validator.validateProductQuantity(quantity)
     ) {
-      return false;
+      return;
     }
 
     const newProduct = { name, price, quantity };
