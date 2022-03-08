@@ -177,3 +177,18 @@ button:active {
 .cashbox-remaining th {
 	border: 1px solid rgb(66, 66, 66);
 }
+
+table {
+	width: 100%;
+	border-collapse: collapse;
+	border-radius: 10px;
+	border-style: hidden;
+	box-shadow: 0 0 0 1px #000;
+}
+th, td {
+	border: 1px solid #444444;
+	padding: 10px;
+}
+.margin {
+	margin: 10px;
+}
