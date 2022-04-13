@@ -83,10 +83,9 @@ export default class ProductManageView extends AbstractView {
   static #handleProductAdd(event) {
     event.preventDefault();
     try {
-      const product = new Product(
-        convertFormDataToObject(new FormData(event.target))
+      ProductManage.addProduct(
+        new Product(convertFormDataToObject(new FormData(event.target)))
       );
-      ProductManage.addProduct(product);
       ProductManageView.#updateProductList();
       ProductManageView.#initializeProductFields();
     } catch (e) {
