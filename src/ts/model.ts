@@ -29,15 +29,16 @@ export const loadProduct = function (): Array<Product> {
   return state.products;
 };
 
-export const addProduct = function (product: Product): Array<Product> {
-  if (product.price < PRODUCT_CONFIG.MIN_PRICE)
+export const addProduct = function (newProduct: Product): Array<Product> {
+  if (newProduct.price < PRODUCT_CONFIG.MIN_PRICE)
     throw new ValidationError(ERROR.LESS_THAN_MIN_PRICE);
-  if (product.quantity < PRODUCT_CONFIG.MIN_QUANTITY)
+  if (newProduct.quantity < PRODUCT_CONFIG.MIN_QUANTITY)
     throw new ValidationError(ERROR.LESS_THAN_MIN_QUANTITY);
-  if (product.price % PRODUCT_CONFIG.SHOULD_BE_DIVIDED !== 0)
+  if (newProduct.price % PRODUCT_CONFIG.SHOULD_BE_DIVIDED !== 0)
     throw new ValidationError(ERROR.NOT_DIVIDED_PRICE);
 
-  state.products.push(product);
+  const products = state.products.filter(product => product.name !== newProduct.name);
+  state.products = [...products, newProduct];
   localStorage.setItem('products', JSON.stringify(state.products));
 
   return state.products;
