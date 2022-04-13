@@ -68,12 +68,54 @@ describe('자판기', () => {
     });
 
     it('수량은 숫자만 입력이 가능하다.', () => {
-      cy.$productPriceInput().type('수량 테스트');
-      cy.$productPriceInput().should('have.value', '');
-      cy.$productPriceInput().type('aafa ');
-      cy.$productPriceInput().should('have.value', '');
-      cy.$productPriceInput().type(10);
-      cy.$productPriceInput().should('have.value', 10);
+      cy.$productQuantityInput().type('수량 테스트');
+      cy.$productQuantityInput().should('have.value', '');
+      cy.$productQuantityInput().type('aafa ');
+      cy.$productQuantityInput().should('have.value', '');
+      cy.$productQuantityInput().type(10);
+      cy.$productQuantityInput().should('have.value', 10);
+    });
+
+    it('상품명을 입력하지 않고 추가하기를 눌렀을때 상품은 추가되지 않는다.', () => {
+      cy.$productAddSubmit()
+        .click()
+        .then(() => {
+          cy.$productNameInput()
+            .invoke('prop', 'validity')
+            .should('deep.include', {
+              valueMissing: true,
+              valid: false,
+            });
+        });
+    });
+
+    it('상품가격을 입력하지 않고 추가하기를 눌렀을때 상품은 추가되지 않는다.', () => {
+      cy.$productNameInput().type('상품명 테스트');
+      cy.$productAddSubmit()
+        .click()
+        .then(() => {
+          cy.$productPriceInput()
+            .invoke('prop', 'validity')
+            .should('deep.include', {
+              valueMissing: true,
+              valid: false,
+            });
+        });
+    });
+
+    it('상품수량을 입력하지 않고 추가하기를 눌렀을때 상품은 추가되지 않는다.', () => {
+      cy.$productNameInput().type('상품명 테스트');
+      cy.$productPriceInput().type(1000);
+      cy.$productAddSubmit()
+        .click()
+        .then(() => {
+          cy.$productQuantityInput()
+            .invoke('prop', 'validity')
+            .should('deep.include', {
+              valueMissing: true,
+              valid: false,
+            });
+        });
     });
   });
 });
