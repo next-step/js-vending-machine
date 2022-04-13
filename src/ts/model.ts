@@ -39,6 +39,25 @@ export const addProduct = function (newProduct: Product): Array<Product> {
 
   const products = state.products.filter(product => product.name !== newProduct.name);
   state.products = [...products, newProduct];
+
+  state.products.sort(function (a: Product, b: Product): 1 | -1 | 0 {
+    if (a.name < b.name) return 1;
+    if (a.name > b.name) return -1;
+
+    if (a.name === b.name) {
+      if (a.price < b.price) return 1;
+      if (a.price > b.price) return 1;
+
+      if (a.price === b.price) {
+        if (a.quantity < b.quantity) return -1;
+        if (a.quantity > b.quantity) return 1;
+        return 0;
+      }
+    }
+    throw new Error('정렬 할 수 없습니다.');
+  });
+  
+
   localStorage.setItem('products', JSON.stringify(state.products));
 
   return state.products;
