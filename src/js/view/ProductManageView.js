@@ -103,4 +103,8 @@ export default class ProductManageView extends AbstractView {
       ProductManageView.#handleProductAdd
     );
   }
+
+  static initialize() {
+    ProductManageView.#updateProductList();
+  }
 }
