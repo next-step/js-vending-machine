@@ -29,17 +29,7 @@ export const loadProduct = function (): Array<Product> {
   return state.products;
 };
 
-export const addProduct = function (newProduct: Product): Array<Product> {
-  if (newProduct.price < PRODUCT_CONFIG.MIN_PRICE)
-    throw new ValidationError(ERROR.LESS_THAN_MIN_PRICE);
-  if (newProduct.quantity < PRODUCT_CONFIG.MIN_QUANTITY)
-    throw new ValidationError(ERROR.LESS_THAN_MIN_QUANTITY);
-  if (newProduct.price % PRODUCT_CONFIG.SHOULD_BE_DIVIDED !== 0)
-    throw new ValidationError(ERROR.NOT_DIVIDED_PRICE);
-
-  const products = state.products.filter(product => product.name !== newProduct.name);
-  state.products = [...products, newProduct];
-
+const sortProduct = function () {
   state.products.sort(function (a: Product, b: Product): 1 | -1 | 0 {
     if (a.name < b.name) return 1;
     if (a.name > b.name) return -1;
@@ -56,7 +46,24 @@ export const addProduct = function (newProduct: Product): Array<Product> {
     }
     throw new Error('정렬 할 수 없습니다.');
   });
-  
+};
+
+const validateNewProduct = function (newProduct: Product) {
+  if (newProduct.price < PRODUCT_CONFIG.MIN_PRICE)
+    throw new ValidationError(ERROR.LESS_THAN_MIN_PRICE);
+  if (newProduct.quantity < PRODUCT_CONFIG.MIN_QUANTITY)
+    throw new ValidationError(ERROR.LESS_THAN_MIN_QUANTITY);
+  if (newProduct.price % PRODUCT_CONFIG.SHOULD_BE_DIVIDED !== 0)
+    throw new ValidationError(ERROR.NOT_DIVIDED_PRICE);
+};
+
+export const addProduct = function (newProduct: Product): Array<Product> {
+  validateNewProduct(newProduct);
+
+  const products = state.products.filter(product => product.name !== newProduct.name);
+  state.products = [...products, newProduct];
+
+  sortProduct();
 
   localStorage.setItem('products', JSON.stringify(state.products));
 
