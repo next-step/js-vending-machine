@@ -49,8 +49,31 @@ describe('자판기', () => {
       cy.$productAddSubmit().should('be.visible');
     });
 
-    it('상품 목록이 보인다.', () => {
+    it('비어있는 상품 목록이 보인다.', () => {
       cy.$productInventory().should('be.visible');
+    });
+
+    it('상품명은 어떤 값이든 입력이 가능하다.', () => {
+      cy.$productNameInput().type('상품명 테스트1');
+      cy.$productNameInput().should('have.value', '상품명 테스트1');
+    });
+
+    it('가격은 숫자만 입력이 가능하다.', () => {
+      cy.$productPriceInput().type('가격 테스트');
+      cy.$productPriceInput().should('have.value', '');
+      cy.$productPriceInput().type('aafa ');
+      cy.$productPriceInput().should('have.value', '');
+      cy.$productPriceInput().type(12);
+      cy.$productPriceInput().should('have.value', 12);
+    });
+
+    it('수량은 숫자만 입력이 가능하다.', () => {
+      cy.$productPriceInput().type('수량 테스트');
+      cy.$productPriceInput().should('have.value', '');
+      cy.$productPriceInput().type('aafa ');
+      cy.$productPriceInput().should('have.value', '');
+      cy.$productPriceInput().type(10);
+      cy.$productPriceInput().should('have.value', 10);
     });
   });
 });
