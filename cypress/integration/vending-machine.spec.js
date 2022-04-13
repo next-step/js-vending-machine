@@ -137,7 +137,30 @@ describe('자판기', () => {
           });
       });
 
-      it('상품가격을 100부터 10단위로 입력하지 않은채(122) 추가하는경우 추가되지 않는다.', () => {
+      it('상품가격을 최소가격(100)과 최소수량(1)을 도달하지 못한 경우 상품이 추가되지 않는다.', () => {
+        cy.$productNameInput().type('경계값 테스트');
+        cy.$productPriceInput().type(99);
+        cy.$productQuantityInput().type(0);
+        cy.$productAddSubmit()
+          .click()
+          .then(() => {
+            cy.$productPriceInput()
+              .invoke('prop', 'validity')
+              .should('deep.include', {
+                stepMismatch: true,
+                rangeUnderflow: true,
+                valid: false,
+              });
+            cy.$productQuantityInput()
+              .invoke('prop', 'validity')
+              .should('deep.include', {
+                rangeUnderflow: true,
+                valid: false,
+              });
+          });
+      });
+
+      it('상품가격을 10단위로 입력하지 않은채(122) 추가하는경우 추가되지 않는다.', () => {
         cy.$productNameInput().type('상품명 테스트');
         cy.$productPriceInput().type(122);
         cy.$productQuantityInput().type(10);
@@ -164,6 +187,20 @@ describe('자판기', () => {
           .click()
           .then(() => {
             expect(alertStub).to.be.called;
+          });
+      });
+
+      it('올바르게 상품(경계값)을 입력한 경우 상품 목록에 입력한 내용의 상품이 추가된다.', () => {
+        const name = '경계값 상품';
+        const price = 100;
+        const quantity = 1;
+        cy.$productNameInput().type(name);
+        cy.$productPriceInput().type(price);
+        cy.$productQuantityInput().type(quantity);
+        cy.$productAddSubmit()
+          .click()
+          .then(() => {
+            cy.findProduct({ name, price, quantity }).should('be.exist');
           });
       });
 
