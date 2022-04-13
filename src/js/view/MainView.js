@@ -4,10 +4,11 @@ import ProductManageView from './ProductManageView.js';
 const $app = document.querySelector('#app');
 const $productManageMenuSubmit = document.getElementById('product-manage-menu');
 
-export default class MenuView extends AbstractView {
+export default class MainView extends AbstractView {
   static #handleProductManageMenu() {
-    MenuView.#changeAppContents(ProductManageView.contents());
+    MainView.#changeAppContents(ProductManageView.contents());
     ProductManageView.eventBindings();
+    ProductManageView.initialize();
   }
 
   static #changeAppContents(template) {
@@ -17,11 +18,11 @@ export default class MenuView extends AbstractView {
   static eventBindings() {
     $productManageMenuSubmit.addEventListener(
       'click',
-      MenuView.#handleProductManageMenu
+      MainView.#handleProductManageMenu
     );
   }
 
   static initialize() {
-    MenuView.#handleProductManageMenu();
+    MainView.#handleProductManageMenu();
   }
 }

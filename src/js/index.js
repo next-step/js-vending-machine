@@ -1,4 +1,4 @@
-import MenuView from './view/MenuView.js';
+import MainView from './view/MainView.js';
 
-MenuView.eventBindings();
-MenuView.initialize();
+MainView.eventBindings();
+MainView.initialize();
