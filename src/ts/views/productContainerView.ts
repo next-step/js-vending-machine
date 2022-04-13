@@ -1,10 +1,13 @@
+import { Product } from '../model.js';
+
 class ProductContainerView {
   private parentElement = document.querySelector('#app')! as HTMLElement;
   private formElement!: HTMLFormElement;
-  constructor() {}
 
-  render() {
-    const markup = this.getHtml();
+  render(products: Array<Product> = []) {
+    console.log(products);
+
+    const markup = this.getHtml(products);
     this.parentElement.innerHTML = '';
     this.parentElement.insertAdjacentHTML('afterbegin', markup);
     this.formElement = this.parentElement.querySelector('.product-container')! as HTMLFormElement;
@@ -23,7 +26,14 @@ class ProductContainerView {
     });
   }
 
-  getHtml(): string {
+  getHtml(products: Array<Product>): string {
+    const productHtml = (product: Product) => /* html */ `
+            <tr>
+                <th>${product.name}</th>
+                <th>${product.price}</th>
+                <th>${product.quantity}</th>
+            </tr>`;
+
     return /* html */ `
     <h3>상품 추가하기</h3>
     <form class="product-container">
@@ -44,6 +54,7 @@ class ProductContainerView {
                 <th>가격</th>
                 <th>수량</th>
             </tr>
+            ${products.map(productHtml).join('')}
         </thead>
         <tbody id="product-inventory-container"></tbody>
     </table>
