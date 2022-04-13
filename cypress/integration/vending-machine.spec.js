@@ -200,7 +200,6 @@ describe('자판기', () => {
               quantity: quantity1,
             }).should('be.exist');
           });
-        cy.clearProductFields();
         cy.$productNameInput().type(name2);
         cy.$productPriceInput().type(price2);
         cy.$productQuantityInput().type(quantity2);
@@ -234,7 +233,6 @@ describe('자판기', () => {
               quantity: quantity1,
             }).should('be.exist');
           });
-        cy.clearProductFields();
         cy.$productNameInput().type(name2);
         cy.$productPriceInput().type(price2);
         cy.$productQuantityInput().type(quantity2);
@@ -247,7 +245,6 @@ describe('자판기', () => {
               quantity: quantity2,
             }).should('be.exist');
           });
-        cy.clearProductFields();
         cy.$productNameInput().type(name1);
         cy.$productPriceInput().type(price1 + 1000);
         cy.$productQuantityInput().type(quantity1 + 10);

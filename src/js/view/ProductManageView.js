@@ -49,6 +49,16 @@ function $productForm() {
   return document.querySelector('#product-form');
 }
 
+function $productNameInput() {
+  return $productForm().querySelector('#product-name-input');
+}
+function $productPriceInput() {
+  return $productForm().querySelector('#product-price-input');
+}
+function $productQuantityInput() {
+  return $productForm().querySelector('#product-quantity-input');
+}
+
 function $productInventory() {
   return document.querySelector('#product-inventory-container');
 }
@@ -64,6 +74,12 @@ export default class ProductManageView extends AbstractView {
     );
   }
 
+  static #initializeProductFields() {
+    $productNameInput().value = null;
+    $productPriceInput().value = null;
+    $productQuantityInput().value = null;
+  }
+
   static #handleProductAdd(event) {
     event.preventDefault();
     try {
@@ -72,6 +88,7 @@ export default class ProductManageView extends AbstractView {
       );
       ProductManage.addProduct(product);
       ProductManageView.#updateProductList();
+      ProductManageView.#initializeProductFields();
     } catch (e) {
       alert(e.message);
     }
