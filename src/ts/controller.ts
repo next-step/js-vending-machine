@@ -8,7 +8,8 @@ const controlProductContainerAddProduct = function (product: Product): void {
 };
 
 const controlProductContainerRender = function (): void {
-  productContainerView.render();
+  const result = model.loadProduct();
+  productContainerView.render(result);
 };
 
 const controlPageView = function (page: Page): void {

@@ -5,8 +5,6 @@ class ProductContainerView {
   private formElement!: HTMLFormElement;
 
   render(products: Array<Product> = []) {
-    console.log(products);
-
     const markup = this.getHtml(products);
     this.parentElement.innerHTML = '';
     this.parentElement.insertAdjacentHTML('afterbegin', markup);

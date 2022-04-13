@@ -18,7 +18,20 @@ export const state: State = {
   products: []
 };
 
-export const addProduct = function (product: Product): Array<Product> {
-  state.products.push(product);
+export const loadProduct = function (): Array<Product> {
+  const storage = localStorage.getItem('products');
+  if (storage) state.products = JSON.parse(storage);
   return state.products;
 };
+
+export const addProduct = function (product: Product): Array<Product> {
+  state.products.push(product);
+  localStorage.setItem('products', JSON.stringify(state.products));
+  return state.products;
+};
+
+const init = function () {
+  loadProduct();
+};
+
+init();
