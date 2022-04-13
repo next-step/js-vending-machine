@@ -1,10 +1,16 @@
 import productContainerView from './views/productContainerView.js';
 import * as model from './model.js';
 import { Product, Page } from './model.js';
+import ValidationError from './utils/errorValidation.js';
 
 const controlProductContainerAddProduct = function (product: Product): void {
-  const result = model.addProduct(product);
-  productContainerView.render(result);
+  try {
+    const result = model.addProduct(product);
+    productContainerView.render(result);
+  } catch (err) {
+    if (err instanceof ValidationError) alert(err.message);
+    console.log(err);
+  }
 };
 
 const controlProductContainerRender = function (): void {
