@@ -1,7 +1,26 @@
 import Product from './Product.js';
 
+const LOCALSTORAGE_KEY = 'circlegivenVendingMachine';
+
+function getProductListFromLocalStorage() {
+  return JSON.parse(localStorage.getItem(LOCALSTORAGE_KEY));
+}
+
+function updateProductListFromLocalStorage(productList) {
+  localStorage.setItem(
+    LOCALSTORAGE_KEY,
+    JSON.stringify(
+      productList.map((product) => ({
+        name: product.name,
+        price: product.price,
+        quantity: product.quantity,
+      }))
+    )
+  );
+}
+
 export default class ProductManage {
-  static #productList = [];
+  static #productList = getProductListFromLocalStorage() ?? [];
 
   // TODO next step
   // static initialize() {
@@ -38,5 +57,6 @@ export default class ProductManage {
     ProductManage.#isDuplicateProduct(product)
       ? ProductManage.#updateProduct(product)
       : ProductManage.#addProduct(product);
+    updateProductListFromLocalStorage(ProductManage.list);
   }
 }
