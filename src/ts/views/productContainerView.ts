@@ -1,25 +1,37 @@
 class ProductContainerView {
   private parentElement = document.querySelector('#app')! as HTMLElement;
+  private formElement!: HTMLFormElement;
+  constructor() {}
 
   render() {
     const markup = this.getHtml();
     this.parentElement.innerHTML = '';
     this.parentElement.insertAdjacentHTML('afterbegin', markup);
+    this.formElement = this.parentElement.querySelector('.product-container')! as HTMLFormElement;
   }
 
   addHandlerRender(handler: Function) {
     handler();
   }
 
+  addHandlerProduct(handler: Function) {
+    this.parentElement.addEventListener('submit', (event: Event) => {
+      event.preventDefault();
+      const dataArray = [...new FormData(this.formElement)];
+      const product = Object.fromEntries(dataArray);
+      handler(product);
+    });
+  }
+
   getHtml(): string {
     return /* html */ `
     <h3>상품 추가하기</h3>
-    <div class="product-container">
-        <input type="text" id="product-name-input" placeholder="상품명" />
-        <input type="number" id="product-price-input" placeholder="가격" />
-        <input type="number" id="product-quantity-input" placeholder="수량" />
+    <form class="product-container">
+        <input type="text" id="product-name-input" name="name" placeholder="상품명" required />
+        <input type="number" id="product-price-input" name="price" placeholder="가격" required />
+        <input type="number" id="product-quantity-input" name="quantity" placeholder="수량" required />
         <button id="product-add-button">추가하기</button>
-    </div>
+    </form>
     <table class="product-inventory">
         <colgroup>
             <col style="width: 140px" />
