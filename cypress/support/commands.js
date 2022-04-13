@@ -23,3 +23,11 @@
 //
 // -- This will overwrite an existing command --
 // Cypress.Commands.overwrite('visit', (originalFn, url, options) => { ... })
+
+Cypress.Commands.add('initialView', () => {
+  cy.get('#product-manage-menu').should('be.visible');
+  cy.get('#vending-machine-manage-menu').should('be.visible');
+  cy.get('#product-manage-menu').should('be.visible');
+  cy.get('.product-container').should('be.visible');
+});
+
