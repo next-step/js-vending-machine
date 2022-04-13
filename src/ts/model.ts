@@ -1,3 +1,7 @@
+export enum Page {
+  ProductManagement = 'productContainerView'
+}
+
 export interface Product {
   name: string;
   price: number;
@@ -5,10 +9,12 @@ export interface Product {
 }
 
 interface State {
+  currentView: Page;
   products: Array<Product>;
 }
 
 export const state: State = {
+  currentView: Page.ProductManagement,
   products: []
 };
 
