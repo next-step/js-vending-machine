@@ -31,3 +31,15 @@ Cypress.Commands.add('initialView', () => {
   cy.get('.product-container').should('be.visible');
 });
 
+Cypress.Commands.add('invalidProductInput', (item, message) => {
+  cy.get('#product-name-input').type(item.title);
+  cy.get('#product-price-input').type(item.price);
+  cy.get('#product-quantity-input').type(item.quantity);
+  const alertStub = cy.stub();
+  cy.on('window:alert', alertStub);
+  cy.get('#product-add-button')
+    .click()
+    .then(() => {
+      expect(alertStub).to.be.calledWith(message);
+    });
+});
