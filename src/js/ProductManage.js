@@ -1,14 +1,14 @@
 import Product from './Product.js';
 
-const LOCALSTORAGE_KEY = 'circlegivenVendingMachine';
+const LOCALSTORAGE_PRODUCT_MANAGE_KEY = 'circlegivenProductManage';
 
 function getProductListFromLocalStorage() {
-  return JSON.parse(localStorage.getItem(LOCALSTORAGE_KEY));
+  return JSON.parse(localStorage.getItem(LOCALSTORAGE_PRODUCT_MANAGE_KEY));
 }
 
 function updateProductListFromLocalStorage(productList) {
   localStorage.setItem(
-    LOCALSTORAGE_KEY,
+    LOCALSTORAGE_PRODUCT_MANAGE_KEY,
     JSON.stringify(
       productList.map((product) => ({
         name: product.name,
