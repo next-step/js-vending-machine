@@ -18,6 +18,7 @@ export const state: State = {
   products: []
 };
 
-export const addProduct = function (product: Product) {
+export const addProduct = function (product: Product): Array<Product> {
   state.products.push(product);
+  return state.products;
 };

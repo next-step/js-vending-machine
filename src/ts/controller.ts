@@ -3,8 +3,8 @@ import * as model from './model.js';
 import { Product, Page } from './model.js';
 
 const controlProductContainerAddProduct = function (product: Product): void {
-  model.addProduct(product);
-  productContainerView.render(model.state.products);
+  const result = model.addProduct(product);
+  productContainerView.render(result);
 };
 
 const controlProductContainerRender = function (): void {
