@@ -5,17 +5,58 @@
 	<meta charset="UTF-8" />
 	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-	<link rel="stylesheet" href="./index.css" />
+	<link rel="stylesheet" href="./assets/index.css" />
 	<title>NEXTSTEP JavaScript Vending machine</title>
 </head>
 
 <body>
-	<button id="product-manage-menu">상품 관리</button>
-	<button id="vending-machine-manage-menu">잔돈충전</button>
-	<button id="product-purchase-menu">상품 구매</button>
-
-	<div id="app"></div>
-	<script type="" src="./index.js"></script>
+	<div id="app">
+		<header>
+			<div>
+				<h3>자판기</h3>
+			</div>
+			<nav>
+				<button id="product-manage-menu">상품 관리</button>
+				<button id="vending-machine-manage-menu">잔돈충전</button>
+				<button id="product-purchase-menu">상품 구매</button>
+			</nav>
+		</header>
+		<main>
+			<section class="product-container">
+				<form class="product-add-form">
+					<input type="text" required autofocus />
+					<input type="number" required min="100" step="10" />
+					<input type="number" required min="1" step="1" />
+					<button type="submit" id="product-add-button">추가하기</button>
+				</form>
+				<table class="product-inventory">
+					<thead>
+						<th>상품명</th>
+						<th>가격</th>
+						<th>수량</th>
+					</thead>
+					<tbody>
+						<tr>
+							<td>콜라</td>
+							<td>1000</td>
+							<td>2</td>
+						</tr>
+						<tr>
+							<td>콜라콜라콜라콜라콜라콜라콜라콜라콜라콜라콜라콜라콜라콜라콜라콜라콜라콜라콜라콜라콜라</td>
+							<td>1000</td>
+							<td>2</td>
+						</tr>
+						<tr>
+							<td>사이다</td>
+							<td>2000</td>
+							<td>4</td>
+						</tr>
+					</tbody>
+				</table>
+			</section>
+		</main>
+	</div>
+	<script type="module" src="./src/index.js"></script>
 </body>
 
 </html>

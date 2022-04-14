@@ -1,3 +1,142 @@
+* {
+	box-sizing: border-box;
+}
+
+body {
+	text-align: center;
+	margin: 0;
+	padding: 2rem 1rem;
+	word-break: keep-all;
+	overflow-wrap: break-word;
+	font-size: 1.0625rem;
+	overflow-anchor: none;
+	background-color: #f4f3f5;
+}
+
+header, main{
+	margin: 1em 0;
+}
+
+h3 {
+	margin-top: 0;
+}
+
+section {
+	width: 28rem;
+}
+
+section:last-child {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+}
+
+input[type='number'],
+input[type='text'] {
+	all: unset;
+	font-size: 0.825rem;
+	padding: 0.5rem;
+	background: white;
+	text-align: left;
+	border: 1px solid #afafaf;
+	border-radius: 6px;
+	width: calc(100% - 6.125rem);
+}
+
+section p {
+	border: 1px dashed rgb(70, 70, 70);
+	border-radius: 6px;
+	padding: 8px 0;
+	border-radius: 6px;
+	width: 65%;
+	font-size: 14px;
+}
+
+button {
+	all: unset;
+	font-size: 0.825rem;
+	cursor: pointer;
+	border: 1px solid #afafaf;
+	border-radius: 6px;
+	padding: 0.3rem 0.45rem;
+	transition: 0.2s ease-in-out;
+}
+
+button:hover {
+	background-color: #d6d6d6;
+}
+
+button:active {
+	box-shadow: 1px 1px 2px 1px #d8d8d8 inset;
+}
+
+#app {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+}
+
+#charge-button,
+#product-add-button,
+#vending-machine-charge-button {
+	padding: 0.5rem;
+	margin-left: 0.5rem;
+}
+
+.product-container input:not(:first-child) {
+	margin-top: 0.5rem;
+}
+
+#product-add-button {
+	margin-left: 0;
+	margin-top: 0.5rem;
+	width: 78%;
+}
+
+.product-inventory {
+	margin-top: 1rem;
+	width: 340px;
+}
+
+.vending-machine-wrapper {
+	width: 65%;
+}
+
+#coin-return-button {
+	margin-bottom: 1rem;
+}
+
+.purchase-container {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	flex-direction: column;
+}
+
+
+.cashbox-remaining,
+.purchase-available,
+.cashbox-change,
+.product-inventory {
+	border-radius: 10px;
+	border-collapse: collapse;
+	border-style: hidden;
+	box-shadow: 0 0 0 1px rgb(66, 66, 66);
+}
+
+.purchase-available td,
+.product-inventory td,
+.cashbox-change td,
+.cashbox-remaining td,
+.purchase-available th,
+.product-inventory th,
+.cashbox-change th,
+.cashbox-remaining th {
+	border: 1px solid rgb(66, 66, 66);
+}
+
 .purchase-available,
 .product-inventory,
 .cashbox-change,
@@ -15,9 +154,6 @@
 	max-width: 300px;
 }
 
-.product-inventory {
-	width: 340px;
-}
 
 .purchase-available {
 	width: 445px;
@@ -42,10 +178,23 @@
 	word-break: normal;
 }
 
-.purchase-available th,
-.product-inventory th,
-.cashbox-change th,
-.cashbox-remaining th {
+th:first-child {
+	border-top-left-radius: 10px;
+}
+
+th:last-child {
+	border-top-right-radius: 10px;
+}
+
+th {
+	background-color: #d6d6d6 !important;
+}
+
+thead{
+	border-bottom: 4px double black;
+}
+
+:is(.purchase-available, .product-inventory, .cashbox-change, .cashbox-remaining) th {
 	border-color: black;
 	border-style: solid;
 	border-width: 1px;
@@ -55,125 +204,4 @@
 	overflow: hidden;
 	padding: 10px 5px;
 	word-break: normal;
-}
-
-body {
-	text-align: center;
-	margin: 0;
-	padding: 2rem 1rem;
-	word-break: keep-all;
-	overflow-wrap: break-word;
-	font-size: 1.0625rem;
-	overflow-anchor: none;
-	background-color: #f4f3f5;
-}
-
-section {
-	width: 28rem;
-}
-
-section:last-child {
-	display: flex;
-	flex-direction: column;
-	justify-content: center;
-	align-items: center;
-	margin-top: 1rem;
-}
-
-#app {
-	display: flex;
-	flex-direction: column;
-	justify-content: center;
-	align-items: center;
-}
-
-input[type='number'],
-input[type='text'] {
-	all: unset;
-	font-size: 0.825rem;
-	padding: 0.5rem;
-	background: white;
-	text-align: left;
-	border: 1px solid #afafaf;
-	border-radius: 6px;
-	width: calc(100% - 6.125rem);
-}
-
-#charge-button,
-#product-add-button,
-#vending-machine-charge-button {
-	padding: 0.5rem;
-	margin-left: 0.5rem;
-}
-
-button {
-	all: unset;
-	font-size: 0.825rem;
-	cursor: pointer;
-	border: 1px solid #afafaf;
-	border-radius: 6px;
-	padding: 0.3rem 0.45rem;
-}
-
-section p {
-	border: 1px dashed rgb(70, 70, 70);
-	border-radius: 6px;
-	padding: 8px 0;
-	border-radius: 6px;
-	width: 65%;
-	font-size: 14px;
-}
-
-.purchase-container {
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	flex-direction: column;
-}
-
-.product-inventory {
-	margin-top: 1rem;
-}
-
-.product-container input:not(:first-child) {
-	margin-top: 0.5rem;
-}
-
-.vending-machine-wrapper {
-	width: 65%;
-}
-
-#product-add-button {
-	margin-left: 0;
-	margin-top: 0.5rem;
-	width: 78%;
-}
-
-#coin-return-button {
-	margin-bottom: 1rem;
-}
-
-button:active {
-	box-shadow: 1px 1px 2px 1px #d8d8d8 inset;
-}
-
-.cashbox-remaining,
-.purchase-available,
-.cashbox-change,
-.product-inventory {
-	border-radius: 10px;
-	border-collapse: collapse;
-	border-style: hidden;
-	box-shadow: 0 0 0 1px rgb(66, 66, 66);
-}
-
-.purchase-available td,
-.product-inventory td,
-.cashbox-change td,
-.cashbox-remaining td,
-.purchase-available th,
-.product-inventory th,
-.cashbox-change th,
-.cashbox-remaining th {
-	border: 1px solid rgb(66, 66, 66);
 }
