@@ -1,4 +1,4 @@
-import { Product } from '../model.js';
+import { Product } from '../model';
 
 class ProductContainerView {
   private parentElement = document.querySelector('#app')! as HTMLElement;

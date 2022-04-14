@@ -1,6 +1,6 @@
-import { PRODUCT_CONFIG } from './utils/config.js';
-import { ERROR } from './utils/message.js';
-import ValidationError from './utils/errorValidation.js';
+import { PRODUCT_CONFIG } from './utils/config';
+import { ERROR } from './utils/message';
+import ValidationError from './utils/errorValidation';
 
 export enum Page {
   ProductManagement = 'productContainerView'

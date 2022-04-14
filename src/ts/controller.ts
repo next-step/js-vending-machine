@@ -1,7 +1,7 @@
-import productContainerView from './views/productContainerView.js';
-import * as model from './model.js';
-import { Product, Page } from './model.js';
-import ValidationError from './utils/errorValidation.js';
+import productContainerView from './views/productContainerView';
+import * as model from './model';
+import { Product, Page } from './model';
+import ValidationError from './utils/errorValidation';
 
 const controlProductContainerAddProduct = function (product: Product): void {
   try {
