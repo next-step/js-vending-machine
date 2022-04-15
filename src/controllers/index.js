@@ -1,3 +1,3 @@
-import ProductManagerController from './ProductManagerController.js';
+import ProductManageController from './ProductManageController.js';
 
-export { ProductManagerController };
+export { ProductManageController };

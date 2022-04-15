@@ -1,6 +1,6 @@
 import { SELECTOR } from '../constants.js';
 
-class ProductManagerView {
+class ProductManageView {
   constructor(target) {
     this.$target = target;
     this.render();
@@ -38,4 +38,4 @@ class ProductManagerView {
   }
 }
 
-export default ProductManagerView;
+export default ProductManageView;

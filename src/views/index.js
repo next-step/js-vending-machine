@@ -1,3 +1,3 @@
-import ProductManagerView from './ProductManagerView.js';
+import ProductManageView from './ProductManageView.js';
 
-export { ProductManagerView };
+export { ProductManageView };
