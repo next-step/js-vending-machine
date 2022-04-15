@@ -1,11 +1,27 @@
-import { SELECTOR } from '../constants.js';
 import { TabModel } from '../models/index.js';
+import {
+  ProductManageView,
+  ProductPurchaseView,
+  VendingMachineManageView,
+} from '../views/index.js';
+
+import { SELECTOR, TAB } from '../constants.js';
 import { $ } from '../utils/dom.js';
 
 class TabController {
-  constructor() {
+  constructor(target) {
     this.menuModel = new TabModel();
+    this.productManageView = new ProductManageView(target);
+    this.productPurchaseView = new ProductPurchaseView(target);
+    this.vendingMachineManageView = new VendingMachineManageView(target);
+
+    this.changeTab = {
+      [TAB.PRODUCT_MANAGE_TAB]: () => this.productManageView.render(),
+      [TAB.PRODUCT_PURCHASE_TAB]: () => this.productPurchaseView.render(),
+      [TAB.VENDING_MACHINE_MANAGE_TAB]: () => this.vendingMachineManageView.render(),
+    };
     this.addEvent();
+    this.init();
   }
 
   addEvent() {
@@ -14,8 +30,14 @@ class TabController {
     $(`#${SELECTOR.VENDING_MACHINE_MANAGE_MENU_ID}`).onclick = this.onClickMenu.bind(this);
   }
 
+  init() {
+    this.changeTab[this.menuModel.currentTab]();
+  }
+
   onClickMenu(event) {
-    this.menuModel.setCurrentTab(event.target.textContent);
+    const clickedTab = event.target.textContent;
+    this.menuModel.setCurrentTab(clickedTab);
+    this.changeTab[clickedTab]();
   }
 }
 

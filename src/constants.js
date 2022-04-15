@@ -13,3 +13,9 @@ export const SELECTOR = Object.freeze({
 export const STORE_KEY = Object.freeze({
   CURRENT_TAB: 'current-tab',
 });
+
+export const TAB = Object.freeze({
+  PRODUCT_MANAGE_TAB: '상품관리',
+  PRODUCT_PURCHASE_TAB: '상품구매',
+  VENDING_MACHINE_MANAGE_TAB: '잔돈충전',
+});

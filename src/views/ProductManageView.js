@@ -3,7 +3,6 @@ import { SELECTOR } from '../constants.js';
 class ProductManageView {
   constructor(target) {
     this.$target = target;
-    this.render();
   }
 
   render() {
