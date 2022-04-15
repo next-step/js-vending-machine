@@ -9,3 +9,7 @@ export const SELECTOR = Object.freeze({
   PRODUCT_ADD_BUTTON_ID: 'product-add-button',
   PRODUCT_INVENTORY_CONTAINER_ID: 'product-inventory-container',
 });
+
+export const STORE_KEY = Object.freeze({
+  CURRENT_TAB: 'current-tab',
+});

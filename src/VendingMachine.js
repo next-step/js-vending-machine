@@ -1,9 +1,9 @@
-import { ProductManageView } from './views/index.js';
+import { ProductManageController, TabController } from './controllers/index.js';
 
 class VendingMachine {
   constructor(target) {
-    this.$target = target;
-    this.$productManageView = new ProductManageView(target);
+    this.$productManageController = new ProductManageController(target);
+    this.$tabController = new TabController();
   }
 }
 
