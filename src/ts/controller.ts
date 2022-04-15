@@ -5,17 +5,18 @@ import ValidationError from './utils/errorValidation';
 
 const controlProductContainerAddProduct = function (product: Product): void {
   try {
-    const result = model.addProduct(product);
-    productContainerView.render(result);
+    const products = model.addProduct(product);
+    productContainerView.render(products);
   } catch (err) {
-    if (err instanceof ValidationError) alert(err.message);
-    console.log(err);
+    if (err instanceof ValidationError) {
+      alert(err.message);
+    }
   }
 };
 
 const controlProductContainerRender = function (): void {
-  const result = model.loadProduct();
-  productContainerView.render(result);
+  const products = model.loadProduct();
+  productContainerView.render(products);
 };
 
 const controlPageView = function (page: Page): void {
