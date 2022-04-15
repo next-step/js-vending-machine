@@ -1,0 +1,24 @@
+{
+  "name": "js-vending-machine",
+  "version": "1.0.0",
+  "description": "### Step1 - 상품 관리",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "cypress:open": "cypress open"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bereal1995/js-vending-machine.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/bereal1995/js-vending-machine/issues"
+  },
+  "homepage": "https://github.com/bereal1995/js-vending-machine#readme",
+  "devDependencies": {
+    "cypress": "^9.5.4"
+  }
+}
