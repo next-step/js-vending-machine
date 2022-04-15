@@ -1,0 +1,22 @@
+.product-add-form input:not(:first-child) {
+	margin-top: 0.5rem;
+}
+
+#product-add-button {
+	padding: 0.5rem;
+	margin-top: 0.5rem;
+	width: 78%;
+}
+
+.product-inventory {
+	margin-top: 1rem;
+	width: 340px;
+	border-radius: 10px;
+	border-style: hidden;
+	border-collapse: collapse;
+	border-spacing: 0;
+	box-shadow: 0 0 0 1px rgb(66, 66, 66);
+	text-align: center;
+	vertical-align: top;
+	table-layout: fixed;
+}

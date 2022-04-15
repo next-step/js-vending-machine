@@ -1,0 +1,16 @@
+#changes-charge-button {
+  padding: 0.5rem;
+}
+
+.changes-cashbox {
+  width: 100%;
+  max-width: 300px;
+  border-radius: 10px;
+  border-collapse: collapse;
+  border-style: hidden;
+  border-spacing: 0;
+  text-align: center;
+  vertical-align: top;
+  table-layout: fixed;
+  box-shadow: 0 0 0 1px rgb(66, 66, 66);
+}
