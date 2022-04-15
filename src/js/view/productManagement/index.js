@@ -2,7 +2,7 @@ import { STORE_KEY } from '../../constants/store/index.js';
 import { validateProduct } from '../../service/productManagement/error.js';
 import store from '../../store/index.js';
 import { getProductsTemplate } from '../../template/productManagement/index.js';
-import { headerActive, printAlert } from '../common.js';
+import { printAlert } from '../common.js';
 
 class ProductManagement {
   constructor() {
@@ -46,7 +46,6 @@ class ProductManagement {
   }
 
   render() {
-    headerActive(document.getElementById('product-manage-menu'));
     document.getElementById('app').innerHTML = getProductsTemplate();
     this.setEvent();
   }

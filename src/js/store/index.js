@@ -2,6 +2,7 @@ import { STORE_KEY } from '../constants/store/index.js';
 
 const initState = {
   productManagement: [],
+  menuName: STORE_KEY.PRODUCT_MANAGEMENT,
 };
 
 const getState = () => {
