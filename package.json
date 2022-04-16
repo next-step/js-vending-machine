@@ -1,0 +1,14 @@
+{
+  "name": "js-vending-machine",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "https://github.com/Blackraven93/js-vending-machine.git",
+  "author": "Raven <61782746+Blackraven93@users.noreply.github.com>",
+  "license": "MIT",
+  "devDependencies": {
+    "cypress": "^9.5.4"
+  },
+  "scripts": {
+    "test": "cypress run --headless"
+  }
+}
