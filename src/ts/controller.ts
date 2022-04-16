@@ -1,6 +1,6 @@
 import productContainerView from './views/productContainerView';
 import * as model from './model';
-import { Product, Page } from './model';
+import { Page } from './model';
 import ValidationError from './utils/errorValidation';
 
 const controlProductContainerAddProduct = function (product: Product): void {
