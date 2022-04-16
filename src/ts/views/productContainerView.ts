@@ -1,10 +1,11 @@
-class ProductContainerView {
-  private parentElement = document.querySelector('#app')! as HTMLElement;
+import AbstractView from './abstractView';
+
+class ProductContainerView extends AbstractView<HTMLElement, Array<Product>> {
   private formElement!: HTMLFormElement;
 
   render(products: Array<Product> = []) {
     const markup = this.generateMarkup(products);
-    this.parentElement.innerHTML = '';
+    this.clear();
     this.parentElement.insertAdjacentHTML('afterbegin', markup);
     this.formElement = this.parentElement.querySelector('.product-container')! as HTMLFormElement;
   }
