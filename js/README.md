@@ -59,3 +59,48 @@
 2. Router
 
 3. MVC
+
+4. 상태관리
+
+## Page
+
+[Page Link](../TEMPLATE.md)
+
+1. 자판기 돈통 충전 (업체의 화면)
+2. 상품 추가 (업체의 화면)
+3. 유저 상품 구매 (유저의 화면)
+
+### Component
+
+1. 자판기 돈통 충전 화면
+
+```jsx
+<App>
+  <Router />
+  <CoinChargeInfo>
+    <ChargeInfo />
+    <CoinHoldings />
+  </CoinChargeInfo>
+</App>
+```
+
+2. 상품 관리 화면
+
+```jsx
+<App>
+  <Router />
+  <ProductChargeInfo />
+  <ProductStatus />
+</App>
+```
+
+3. 유저 상품 구입 화면
+
+```jsx
+<App>
+  <Router />
+  <AmountInput />
+  <ProductStatus />
+  <ChangeInfo />
+</App>
+```
