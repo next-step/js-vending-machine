@@ -6,8 +6,10 @@ class ProductContainerView extends AbstractView<HTMLElement, Array<Product>> {
   render(products: Array<Product> = []) {
     const markup = this.generateMarkup(products);
     this.clear();
-    this.parentElement.insertAdjacentHTML('afterbegin', markup);
-    this.formElement = this.parentElement.querySelector('.product-container')! as HTMLFormElement;
+    this.containerElement.insertAdjacentHTML('afterbegin', markup);
+    this.formElement = this.containerElement.querySelector(
+      '.product-container',
+    )! as HTMLFormElement;
   }
 
   addHandlerRender(handler: Function) {
@@ -15,7 +17,7 @@ class ProductContainerView extends AbstractView<HTMLElement, Array<Product>> {
   }
 
   addHandlerProduct(handler: Function) {
-    this.parentElement.addEventListener('submit', (event: Event) => {
+    this.containerElement.addEventListener('submit', (event: Event) => {
       event.preventDefault();
       const dataArray = [...new FormData(this.formElement)];
       const product = Object.fromEntries(dataArray);
