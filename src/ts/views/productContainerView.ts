@@ -3,7 +3,7 @@ class ProductContainerView {
   private formElement!: HTMLFormElement;
 
   render(products: Array<Product> = []) {
-    const markup = this.getHtml(products);
+    const markup = this.generateMarkup(products);
     this.parentElement.innerHTML = '';
     this.parentElement.insertAdjacentHTML('afterbegin', markup);
     this.formElement = this.parentElement.querySelector('.product-container')! as HTMLFormElement;
@@ -22,7 +22,7 @@ class ProductContainerView {
     });
   }
 
-  getHtml(products: Array<Product>): string {
+  generateMarkup(products: Array<Product>): string {
     const productHtml = (product: Product) => /* html */ `
             <tr>
                 <th>${product.name}</th>
