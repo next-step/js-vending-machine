@@ -2,21 +2,38 @@ import './components/index.js';
 import { $element } from './helpers/index.js';
 import clickableMethods from './helpers/mixins/Button.js';
 
-document.querySelector('nav').addEventListener('click', ({ target }) => {
-  const $main = document.querySelector('main');
-  if (target.matches('#product-manage-menu'))
-    $main.replaceChildren($element('<machine-product></machine-product>'));
-  if (target.matches('#vending-machine-manage-menu'))
-    $main.replaceChildren($element('<machine-charge></machine-charge>'));
-  if (target.matches('#product-purchase-menu'))
-    $main.replaceChildren($element('<machine-purchase></machine-purchase>'));
-});
+// App entry는 mixins을 조합한다? 얘만 함수형???흠;
 
-function Button(id) {
-  this.$el = document.getElementById(id);
-}
+const App = () => {
+  const template = /*html*/ `
+	<div id="app">
+		<header>
+			<div>
+				<h3>자판기</h3>
+			</div>
+			<nav>
+				<button id="product-manage-menu">상품 관리</button>
+				<button id="vending-machine-manage-menu">잔돈 충전</button>
+				<button id="product-purchase-menu">상품 구매</button>
+			</nav>
+		</header>
+		<main>
+      <machine-product></machine-product>
+    </main>
+	</div>`;
 
-Object.assign(Button.prototype, clickableMethods);
+  function Nav(element) {
+    this.$el = element.querySelector('nav');
+    this.$target = element.querySelector('main');
+  }
 
-const button = new Button('product-manage-menu');
-button.init(button.hover);
+  Object.assign(Nav.prototype, clickableMethods);
+
+  const $template = $element(template);
+  const $nav = new Nav($template);
+  $nav.init();
+
+  return $template;
+};
+
+document.body.insertAdjacentElement('afterbegin', App());

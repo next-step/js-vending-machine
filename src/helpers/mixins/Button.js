@@ -1,15 +1,17 @@
+import { $element } from '../dom.js';
+
+const routerPage = {
+  'product-manage-menu': '<machine-product></machine-product>',
+  'vending-machine-manage-menu': '<machine-charge></machine-charge>',
+  'product-purchase-menu': '<machine-purchase></machine-purchase>',
+};
+
 const clickableMethods = {
-  init(callback) {
-    this.$el.addEventListener('click', callback);
+  init() {
+    this.$el.addEventListener('click', this.click.bind(this));
   },
-  hover() {
-    console.log('hovering', this);
-  },
-  press() {
-    console.log('button pressed', this);
-  },
-  click() {
-    console.log('button clicked', this);
+  click({ target }) {
+    this.$target.replaceChildren($element(routerPage[target.id]));
   },
 };
 
