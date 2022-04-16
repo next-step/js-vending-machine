@@ -77,10 +77,10 @@
 ```jsx
 <App>
   <Router />
-  <CoinChargeInfo>
+  <CoinCharge>
     <ChargeInfo />
     <CoinHoldings />
-  </CoinChargeInfo>
+  </CoinCharge>
 </App>
 ```
 
@@ -89,8 +89,10 @@
 ```jsx
 <App>
   <Router />
-  <ProductChargeInfo />
-  <ProductStatus />
+  <ProductCharge>
+    <ProductManage />
+    <ProductStatus />
+  </ProductCharge>
 </App>
 ```
 
@@ -99,8 +101,10 @@
 ```jsx
 <App>
   <Router />
-  <AmountInput />
-  <ProductStatus />
-  <ChangeInfo />
+  <UserPurchase>
+    <AmountInput />
+    <ProductStatus />
+    <ChangeInfo />
+  </UserPurchase>
 </App>
 ```

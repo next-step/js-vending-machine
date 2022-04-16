@@ -1,2 +1,2 @@
-const selector = (name) => document.querySelector(name);
-const selectorAll = (name) => document.querySelectorAll(name);
+export const selector = (name) => document.querySelector(name);
+export const selectorAll = (name) => document.querySelectorAll(name);

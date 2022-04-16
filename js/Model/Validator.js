@@ -1,0 +1,3 @@
+const Validator = {
+  product: {},
+};
