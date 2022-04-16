@@ -84,8 +84,8 @@ button:active {
 }
 
 :is(table) th, td {
-  width: 65px;
-  border: 1px solid rgb(66, 66, 66);
+	width: 65px;
+	border: 1px solid rgb(66, 66, 66);
 	font-family: Arial, sans-serif;
 	font-size: 14px;
 	overflow: hidden;
@@ -93,18 +93,29 @@ button:active {
 	word-break: normal;
 }
 
+table {
+	border-top-left-radius: 10px;
+	border-top-right-radius: 10px;
+	background-color: #d6d6d6;
+}
+
 thead {
 	border-bottom: 4px double black;
 }
 
-th:first-child {
-	border-top-left-radius: 10px;
+tbody {
+	background-color: #f4f3f5;
 }
 
-th:last-child {
-	border-top-right-radius: 10px;
+tbody tr:last-child td:first-child {
+	border-bottom-left-radius: 10px;
 }
 
-th {
-	background-color: #d6d6d6 !important;
+tbody tr:last-child td:last-child {
+	border-bottom-right-radius: 10px;
+}
+
+.hidden {
+	opacity: 0;
+	visibility: hidden;
 }
