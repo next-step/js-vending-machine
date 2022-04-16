@@ -25,11 +25,11 @@ const Event = (function () {
         const name = selector('#product-name-input'),
           price = selector('#product-price-input'),
           quantity = selector('#product-quantity-input'),
-          { productContainer } = Controller.product;
+          { handleInfo } = Controller.product;
 
-        name.addEventListener('keydown', productContainer);
-        price.addEventListener('keydown', productContainer);
-        quantity.addEventListener('keydown', productContainer);
+        name.addEventListener('keydown', handleInfo);
+        price.addEventListener('keydown', handleInfo);
+        quantity.addEventListener('keydown', handleInfo);
       },
     },
   };
