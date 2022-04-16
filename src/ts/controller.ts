@@ -1,4 +1,6 @@
-import productContainerView from './views/productContainerView';
+import productContainerView from './views/ProductContainerView';
+import ErrorPageView from './views/ErrorPageView';
+
 import * as model from './model';
 import { Page } from './model';
 import ValidationError from './utils/errorValidation';
@@ -19,20 +21,22 @@ const controlProductContainerRender = function (): void {
   productContainerView.render(products);
 };
 
+const controlErrorPageRender = function (): void {
+  ErrorPageView.render(Error('🚨 존재하지 않는 페이지입니다! 🚨'));
+};
+
 const controlPageView = function (page: Page): void {
   switch (page) {
     case Page.ProductManagement:
       controlProductContainerRender();
       break;
     default:
-      throw Error('존재하지 않는 page view 입니다.');
+      controlErrorPageRender();
   }
 };
 
 const init = () => {
-  productContainerView.addHandlerRender(controlProductContainerRender);
   productContainerView.addHandlerProduct(controlProductContainerAddProduct);
-
   controlPageView(Page.ProductManagement);
 };
 
