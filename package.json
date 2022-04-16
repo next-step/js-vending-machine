@@ -1,0 +1,36 @@
+{
+  "name": "js-vending-machine",
+  "private": true,
+  "version": "0.0.0",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "cypress": "cypress open",
+    "prepare": "husky install"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.17.9",
+    "@babel/eslint-parser": "^7.17.0",
+    "@babel/preset-env": "^7.16.11",
+    "@rollup/plugin-eslint": "^8.0.2",
+    "cypress": "^9.5.4",
+    "eslint": "^8.13.0",
+    "eslint-config-airbnb-base": "^15.0.0",
+    "eslint-config-prettier": "^8.5.0",
+    "eslint-plugin-cypress": "^2.12.1",
+    "eslint-plugin-import": "^2.26.0",
+    "eslint-plugin-prettier": "^4.0.0",
+    "husky": ">=7",
+    "lint-staged": ">=10",
+    "prettier": "^2.6.2",
+    "rollup": "^2.70.2",
+    "vite": "^2.9.2"
+  },
+  "lint-staged": {
+    "*.js": [
+      "eslint --cache --fix --ignore-path .gitignore",
+      "prettier --writer --ignore-path .gitignore"
+    ]
+  }
+}
