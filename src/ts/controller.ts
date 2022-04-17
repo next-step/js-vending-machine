@@ -7,8 +7,8 @@ import ValidationError from './utils/errorValidation';
 
 const controlProductContainerAddProduct = function (product: Product): void {
   try {
-    const products = model.addProduct(product);
-    productContainerView.render(products);
+    const products: Array<Product> = model.addProduct(product);
+    if (products) productContainerView.render(products);
   } catch (err) {
     if (err instanceof ValidationError) {
       alert(err.message);
@@ -17,8 +17,12 @@ const controlProductContainerAddProduct = function (product: Product): void {
 };
 
 const controlProductContainerRender = function (): void {
-  const products = model.loadProduct();
-  productContainerView.render(products);
+  try {
+    const products = model.loadProduct();
+    productContainerView.render(products);
+  } catch (err: Error) {
+    productContainerView.renderError(err);
+  }
 };
 
 const controlErrorPageRender = function (): void {

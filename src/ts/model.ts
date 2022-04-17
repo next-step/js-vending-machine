@@ -17,7 +17,7 @@ export const loadProduct = function (): Array<Product> {
     state.products = <Array<Product>>getItem('products');
     return state.products;
   } catch (err) {
-    throw err;
+    throw new Error(ERROR.NO_PRODUCT_ITEM);
   }
 };
 

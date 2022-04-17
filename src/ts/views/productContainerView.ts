@@ -12,6 +12,12 @@ class ProductContainerView extends AbstractView<HTMLElement, Array<Product>> {
     )! as HTMLFormElement;
   }
 
+  renderError(err: Error): void {
+    this.render();
+    const markup = `<h3>${err.message}<h3>`;
+    this.formElement.insertAdjacentHTML('afterbegin', markup);
+  }
+
   addHandlerRender(handler: Function) {
     handler();
   }
