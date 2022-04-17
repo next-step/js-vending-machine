@@ -1,6 +1,7 @@
 @import url('./modules/product.css');
 @import url('./modules/charge.css');
 @import url('./modules/purchase.css');
+@import url('./modules/notFound.css');
 
 * {
 	box-sizing: border-box;
@@ -15,6 +16,11 @@ body {
 	font-size: 1.0625rem;
 	overflow-anchor: none;
 	background-color: #f4f3f5;
+}
+
+a {
+	text-decoration: none;
+	color: #000000;
 }
 
 header, main {
