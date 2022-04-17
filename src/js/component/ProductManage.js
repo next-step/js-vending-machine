@@ -22,7 +22,6 @@ export default class ProductManage {
         this.$productQuantityInput = document.querySelector("#product-quantity-input");
         this.$productcontainerForm = document.querySelector("#product-container-form");
 
-        //this.$productcontainerForm.addEventListener("submit", () => this.onSubmitProduct());
         document.querySelector("#product-add-button").addEventListener("click", () => this.onSubmitProduct());
     }
 
@@ -35,7 +34,7 @@ export default class ProductManage {
     }
 
     onAddProduct() {
-        if (document.querySelector(`#${this.$productNameInput.value}`)) {
+        if (document.querySelector(`[data-product-name="${this.$productNameInput.value}"]`)) {
             this.#replceProduct({
                 name: this.$productNameInput.value,
                 price: this.$productPriceInput.value,
@@ -59,11 +58,14 @@ export default class ProductManage {
     }
 
     #replceProduct(product) {
-        let newProductElement = document.createElement("template");
+        const newProductElement = document.createElement("template");
         newProductElement.innerHTML = this.#getProductTemplate(product);
         document
-            .querySelector(`#${product.name}`)
-            .parentNode.replaceChild(newProductElement.content.firstChild, document.querySelector(`#${product.name}`));
+            .querySelector(`[data-product-name="${product.name}"]`)
+            .parentNode.replaceChild(
+                newProductElement.content.firstChild,
+                document.querySelector(`[data-product-name="${product.name}"]`)
+            );
     }
 
     #appendProduct(product) {
@@ -102,7 +104,7 @@ export default class ProductManage {
     }
 
     #getProductTemplate(product) {
-        return `<tr id="${product.name}">
+        return `<tr data-product-name=${product.name}>
                     <td>${product.name}</td>
                     <td>${product.price}</td>
                     <td>${product.quantity}</td>
