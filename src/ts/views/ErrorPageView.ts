@@ -4,7 +4,7 @@ class ErrorPageView extends AbstractView<HTMLElement, Error> {
   render(error: Error) {
     const markup = this.generateMarkup(error);
     this.clear();
-    this.parentElement.insertAdjacentHTML('afterbegin', markup);
+    this.containerElement.insertAdjacentHTML('afterbegin', markup);
   }
 
   generateMarkup(error: Error) {
