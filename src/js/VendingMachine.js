@@ -1,6 +1,6 @@
 import { $, $$ } from './dom.js';
 
-import ProductMange from './section/ProductMange/index.js';
+import ProductMange from './section/ProductManage/index.js';
 import ProductPurchaseeManage from './section/ProductPurchaseManage/index.js';
 import VendingMachineManage from './section/VendingMachineManage/index.js';
 import actionMap from './eventAction.js';
