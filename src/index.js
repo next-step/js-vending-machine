@@ -1,39 +1,28 @@
 import './components/index.js';
 import { $element } from './helpers/index.js';
-import clickableMethods from './helpers/mixins/Button.js';
+import router from './routes.js';
 
-// App entry는 mixins을 조합한다? 얘만 함수형???흠;
-
-const App = () => {
-  const template = /*html*/ `
+// prettier-ignore
+const AppTemplate = $element(/*html*/ `
 	<div id="app">
 		<header>
 			<div>
-				<h3>자판기</h3>
+				<h1>🏧자판기🏧</h1>
 			</div>
 			<nav>
-				<button id="product-manage-menu">상품 관리</button>
-				<button id="vending-machine-manage-menu">잔돈 충전</button>
-				<button id="product-purchase-menu">상품 구매</button>
+				<a href="#/product" id="product-manage-menu"><button>상품 관리</button></a>
+				<a href="#/charge" id="vending-machine-manage-menu"><button>잔돈 충전</button></a>
+				<a href="#/purchase" id="product-purchase-menu"><button>상품 구매</button></a>
 			</nav>
 		</header>
-		<main>
-      <machine-product></machine-product>
-    </main>
-	</div>`;
+		<main></main>
+	</div>`);
 
-  function Nav(element) {
-    this.$el = element.querySelector('nav');
-    this.$target = element.querySelector('main');
-  }
+document.body.insertAdjacentElement('afterbegin', AppTemplate);
 
-  Object.assign(Nav.prototype, clickableMethods);
-
-  const $template = $element(template);
-  const $nav = new Nav($template);
-  $nav.init();
-
-  return $template;
-};
-
-document.body.insertAdjacentElement('afterbegin', App());
+router
+  .addRoute('#/product', '<machine-product></machine-product>')
+  .addRoute('#/charge', '<machine-charge></machine-charge>')
+  .addRoute('#/purchase', '<machine-purchase></machine-purchase>')
+  .setNotFound('<not-found></not-found>')
+  .start(document.querySelector('main'));
