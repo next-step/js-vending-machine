@@ -24,8 +24,7 @@ export const ERROR_MESSAGE = Object.freeze({
   REQUIRED_PRODUCT_NAME: '상품명을 입력해주세요.',
   REQUIRED_PRODUCT_PRICE: '상품 금액을 입력해주세요.',
   REQUIRED_PRODUCT_QUANTITY: '상품 수량을 입력해주세요.',
-  PRODUCT_PRICE_HAVE_TO_OVER_100: '상품 금액은 100이상인 정수이고, 10으로 나누어 떨어져야 합니다.',
-  PRODUCT_PRICE_HAVE_TO_DIVIDED_BY_10:
-    '상품 금액은 100이상인 정수이고, 10으로 나누어 떨어져야 합니다.',
+  PRODUCT_PRICE_HAVE_TO_OVER_100: '상품 금액은 100이상인 정수여야 합니다.',
+  PRODUCT_PRICE_HAVE_TO_DIVIDED_BY_10: '상품 금액은 10으로 나누어 떨어져야 합니다.',
   PRODUCT_QUANTITY_HAVE_TO_OVER_1: '상품 수량은 1이상인 정수여야 합니다.',
 });

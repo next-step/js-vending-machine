@@ -62,7 +62,7 @@ describe('상품 추가하기 탭 관련 테스트', () => {
         .click()
         .then(() => {
           expect(alertStub.getCall(0)).to.be.calledWith(
-            ERROR_MESSAGE.PRODUCT_QUANTITY_HAVE_TO_OVER_1,
+            ERROR_MESSAGE.PRODUCT_PRICE_HAVE_TO_DIVIDED_BY_10,
           );
         });
     });
