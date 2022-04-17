@@ -13,19 +13,22 @@ describe('vending machine', () => {
 
     // COMPLETE
     it('최초 상품 공백 확인', () => {
-      cy.get('[data-manage=product]').should('be.empty');
+      cy.get('product-inventory')
+        .shadow()
+        .find('[data-manage=product]')
+        .should('be.empty');
     });
 
-    // TODO
+    // COMPLETE
     it('상품명, 금액, 수량을 추가할 수 있다. 추가한 상품은 하위 UI에 반영된다.', () => {
       const data = ['아메리카노', '4000', '4'];
       cy.addProduct();
       data.forEach((value) => {
-        cy.get('[data-manage=product]')
-          .contains('td', value)
-          .should('be.visible');
+        cy.get('product-inventory')
+          .shadow()
+          .find('td')
+          .should('contain.text', value);
       });
-      // thead > td
     });
 
     // TODO

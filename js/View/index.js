@@ -13,7 +13,7 @@ const Component = (function () {
         const tr = document.createElement('tr');
         const fragment = document.createDocumentFragment();
         priceInfo.forEach((info) => {
-          const th = document.createElement('th');
+          const th = document.createElement('td');
           th.textContent = info;
           fragment.appendChild(th);
         });
@@ -22,8 +22,6 @@ const Component = (function () {
       },
 
       render(target, element) {
-        console.log(target);
-        console.log(element);
         target.appendChild(element);
       },
     },
