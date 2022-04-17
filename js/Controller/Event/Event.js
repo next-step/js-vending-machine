@@ -25,11 +25,47 @@ const Event = (function () {
         const name = selector('#product-name-input'),
           price = selector('#product-price-input'),
           quantity = selector('#product-quantity-input'),
-          { handleInfo } = Controller.product;
+          createButton = selector('#product-add-button');
 
-        name.addEventListener('keydown', handleInfo);
-        price.addEventListener('keydown', handleInfo);
-        quantity.addEventListener('keydown', handleInfo);
+        name.addEventListener('keyup', this.seperateProductInfo);
+        price.addEventListener('keyup', this.seperateProductInfo);
+        quantity.addEventListener('keyup', this.seperateProductInfo);
+        createButton.addEventListener('click', this.seperateProductInfo);
+      },
+
+      submitProduct(event) {
+        const { id, value } = event.target;
+        const { product } = Controller;
+
+        product.act(value);
+      },
+
+      seperateProductInfo(event) {
+        const { id, value } = event.target;
+        const { product } = Controller;
+
+        if (
+          event.type === 'click' &&
+          event.target.id === 'product-add-button'
+        ) {
+          product.act(value);
+        }
+
+        if (event.key === 'Enter') {
+          product.act(value);
+        }
+
+        if (id === 'product-name-input') {
+          product.handleName(value);
+        }
+
+        if (id === 'product-price-input') {
+          product.handlePrice(value);
+        }
+
+        if (id === 'product-quantity-input') {
+          product.handleQuantity(value);
+        }
       },
     },
   };

@@ -1,4 +1,4 @@
-// MEMO: 테스트코드 작성 시 상수 값 분리하기
+// MEMO: 테스트코드 작성 시 상수 값 분리
 describe('vending machine', () => {
   beforeEach(() => {
     cy.visit('/');
