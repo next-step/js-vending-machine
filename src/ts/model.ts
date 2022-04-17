@@ -43,6 +43,8 @@ export const addProduct = function (newProduct: Product): Array<Product> {
     const products = state.products.filter(product => product.name !== newProduct.name);
     state.products = [...products, newProduct];
 
+    if (!state.products) throw Error(ERROR.FAIL_ADD_PRODUCT);
+
     sortProduct();
     setItem('products', state.products);
 

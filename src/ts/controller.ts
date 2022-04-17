@@ -9,10 +9,13 @@ const controlProductContainerAddProduct = function (product: Product): void {
   try {
     const products: Array<Product> = model.addProduct(product);
     if (products) productContainerView.render(products);
-  } catch (err) {
+  } catch (err: Error) {
     if (err instanceof ValidationError) {
       alert(err.message);
+      return;
     }
+    
+    productContainerView.renderError(err);
   }
 };
 
