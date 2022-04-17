@@ -1,18 +1,34 @@
 import Product from "./Product.js";
 
 export default class Products {
-    products;
+    products = [];
 
     constructor(products) {
-        console.log(products);
-        if(products) this.setProducts(products);
+        if (products) this.setProducts(products);
+    }
+
+    get value() {
+        return this.products;
     }
 
     setProducts(products) {
-        let test = products.map((product) => new Product(product.name, product.price, product.amount));
+        products.forEach((product) => {
+            this.addProduct(product.name, product.price, product.quantity);
+        });
     }
 
-    addProduct(name, price, amount) {
-        this.products.push(new Product(name, price, amount));
+    addProduct(name, price, quantity) {
+        const findIndex = this.products.findIndex((product) => product.name === name);
+
+        if (findIndex > -1) {
+            this.products[findIndex] = {
+                name: name,
+                price: price,
+                quantity: quantity,
+            };
+            return;
+        }
+
+        this.products.push(new Product(name, Number(price), Number(quantity)));
     }
 }

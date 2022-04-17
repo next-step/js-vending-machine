@@ -3,32 +3,37 @@ import ProductException from "../exception/ProductException.js";
 export default class Product {
     name;
     price;
-    amount;
+    quantity;
 
-    static NAME_MIN_LENGTH = 1
-    static AMOUNT_MIN = 1;
+    static NAME_MIN_LENGTH = 1;
+    static QUANTITY_MIN = 1;
     static PRICE_MIN = 100;
     static PRICE_UNIT = 10;
 
-    constructor(name, price, amount) {
-        this.validate(name, price, amount);
+    constructor(name, price, quantity) {
+        this.validate(name, price, quantity);
+        return {
+            name: name,
+            price: price,
+            quantity: quantity,
+        };
     }
 
-    validate(name, price, amount) {
-        if(!name || name.trim().length < Product.NAME_MIN_LENGTH) {
+    validate(name, price, quantity) {
+        if (!name || name.trim().length < Product.NAME_MIN_LENGTH) {
             throw ProductException.notExistProductName();
         }
 
-        if(price < Product.PRICE_MIN) {
+        if (price < Product.PRICE_MIN) {
             throw ProductException.outOfRangePrice();
         }
-        
-        if(price % Product.PRICE_UNIT !== 0) {
+
+        if (price % Product.PRICE_UNIT !== 0) {
             throw ProductException.notMatchPriceUnit();
         }
 
-        if(amount < Product.AMOUNT_MIN) {
-            throw ProductException.outOfRangeAmount();
+        if (quantity < Product.QUANTITY_MIN) {
+            throw ProductException.outOfRangeQuantity();
         }
     }
 }

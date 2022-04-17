@@ -1,11 +1,10 @@
-import Product from "../domain/Product.js";
-
 export default class ProductManage {
     products;
+    props;
 
-    constructor(products) {
-        console.log(products);
-        this.products = products.products ? products.products : [];
+    constructor(products, props) {
+        this.products = products;
+        this.props = props;
     }
 
     setProductManage() {
@@ -21,17 +20,56 @@ export default class ProductManage {
         this.$productNameInput = document.querySelector("#product-name-input");
         this.$productPriceInput = document.querySelector("#product-price-input");
         this.$productQuantityInput = document.querySelector("#product-quantity-input");
+        this.$productcontainerForm = document.querySelector("#product-container-form");
 
-        document.querySelector("#product-add-button").addEventListener("click", () => this.onAddProduct());
+        //this.$productcontainerForm.addEventListener("submit", () => this.onSubmitProduct());
+        document.querySelector("#product-add-button").addEventListener("click", () => this.onSubmitProduct());
+    }
+
+    onSubmitProduct() {
+        this.props.onAddProduct(
+            this.$productNameInput.value,
+            this.$productPriceInput.value,
+            this.$productQuantityInput.value
+        );
     }
 
     onAddProduct() {
-        try {
-            //const product = new Product(this.$productNameInput.value, this.$productPriceInput.value, this.$productQuantityInput.value);
-            this.products.addProduct(this.$productNameInput.value, this.$productPriceInput.value, this.$productQuantityInput.value);
-        } catch(error) {
-            alert(error.message);
+        if (document.querySelector(`#${this.$productNameInput.value}`)) {
+            this.#replceProduct({
+                name: this.$productNameInput.value,
+                price: this.$productPriceInput.value,
+                quantity: this.$productQuantityInput.value,
+            });
+        } else {
+            this.#appendProduct({
+                name: this.$productNameInput.value,
+                price: this.$productPriceInput.value,
+                quantity: this.$productQuantityInput.value,
+            });
         }
+
+        this.#clearInputForm();
+    }
+
+    #clearInputForm() {
+        this.$productNameInput.value = "";
+        this.$productPriceInput.value = "";
+        this.$productQuantityInput.value = "";
+    }
+
+    #replceProduct(product) {
+        let newProductElement = document.createElement("template");
+        newProductElement.innerHTML = this.#getProductTemplate(product);
+        document
+            .querySelector(`#${product.name}`)
+            .parentNode.replaceChild(newProductElement.content.firstChild, document.querySelector(`#${product.name}`));
+    }
+
+    #appendProduct(product) {
+        document
+            .querySelector("#product-inventory-container")
+            .insertAdjacentHTML("beforeend", this.#getProductTemplate(product));
     }
 
     #getTemplate() {
@@ -57,18 +95,17 @@ export default class ProductManage {
                 </tr>
             </thead>
             <tbody id="product-inventory-container">
-            ${this.products.map((product) => this.#getProductTemplate(product)).join("")}
+            ${this.products.value.map((product) => this.#getProductTemplate(product)).join("")}
+            
             </tbody>
-        </table>`
+        </table>`;
     }
 
     #getProductTemplate(product) {
-        return `
-            <tr>
-                <td>${product.name}</td>
-                <td>${product.price}</td>
-                <td>${product.amount}</td>
-            </tr>
-        `;
+        return `<tr id="${product.name}">
+                    <td>${product.name}</td>
+                    <td>${product.price}</td>
+                    <td>${product.quantity}</td>
+                </tr>`;
     }
 }
