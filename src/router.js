@@ -1,5 +1,3 @@
-import '../index.css';
-
 import useRouter from './utils/useRouter';
 import ProductManagement from './domains/products/management/views/ProductManagement';
 
