@@ -1,21 +1,24 @@
+import { getItem, setItem } from './utils/storage';
 import { PRODUCT_CONFIG } from './utils/config';
 import { ERROR } from './utils/message';
 import ValidationError from './utils/errorValidation';
 
 export enum Page {
-  ProductManagement = 'productContainerView'
+  ProductManagement = 'productContainerView',
 }
 
 export const state: State = {
   currentView: Page.ProductManagement,
-  products: []
+  products: [],
 };
 
 export const loadProduct = function (): Array<Product> {
-  const storage = localStorage.getItem('products');
-  if (storage) state.products = JSON.parse(storage);
-
-  return state.products;
+  try {
+    state.products = <Array<Product>>getItem('products');
+    return state.products;
+  } catch (err) {
+    throw err;
+  }
 };
 
 const sortProduct = function (): void {
@@ -34,20 +37,17 @@ const validateNewProduct = function (newProduct: Product) {
 };
 
 export const addProduct = function (newProduct: Product): Array<Product> {
-  validateNewProduct(newProduct);
+  try {
+    validateNewProduct(newProduct);
 
-  const products = state.products.filter(product => product.name !== newProduct.name);
-  state.products = [...products, newProduct];
+    const products = state.products.filter(product => product.name !== newProduct.name);
+    state.products = [...products, newProduct];
 
-  sortProduct();
+    sortProduct();
+    setItem('products', state.products);
 
-  localStorage.setItem('products', JSON.stringify(state.products));
-
-  return state.products;
+    return state.products;
+  } catch (err) {
+    throw err;
+  }
 };
-
-const init = function () {
-  loadProduct();
-};
-
-init();
