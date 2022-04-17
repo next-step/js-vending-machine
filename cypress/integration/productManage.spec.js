@@ -98,4 +98,23 @@ describe('상품 추가하기 탭 관련 테스트', () => {
         });
     });
   });
+
+  context('상품 추가가 잘 되어야 합니다.', () => {
+    it('모든 데이터가 잘 입력되었다면 테이블에 상품이 추가됩니다.', () => {
+      cy.get(`#${SELECTOR.PRODUCT_NAME_INPUT_ID}`).type('hello');
+      cy.get(`#${SELECTOR.PRODUCT_PRICE_INPUT_ID}`).type(1000);
+      cy.get(`#${SELECTOR.PRODUCT_QUANTITY_INPUT_ID}`).type(5);
+      cy.get(`#${SELECTOR.PRODUCT_ADD_BUTTON_ID}`).click();
+
+      cy.get(`#${SELECTOR.PRODUCT_INVENTORY_CONTAINER_ID}`)
+        .first()
+        .children()
+        .children()
+        .each((el, index) => {
+          if (index === 0) expect(el).to.have.text('hello');
+          if (index === 1) expect(el).to.have.text(1000);
+          if (index === 2) expect(el).to.have.text(5);
+        });
+    });
+  });
 });
