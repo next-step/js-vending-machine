@@ -1,8 +1,4 @@
-const ProductInventory = (props) => {
-  // eslint-disable-next-line no-unused-vars
-  const { _ } = props;
-
-  return `
+const ProductInventory = () => `
     <table class="product-inventory">
         <colgroup>
             <col style="width: 140px" />
@@ -18,6 +14,5 @@ const ProductInventory = (props) => {
         </thead>
         <tbody id="product-inventory-container"></tbody>
     </table>`;
-};
 
 export default ProductInventory;
