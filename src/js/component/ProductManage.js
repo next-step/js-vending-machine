@@ -76,7 +76,7 @@ export default class ProductManage {
 
     #getTemplate() {
         return `
-        <h3>상품 추가하기</h3>
+        <h3 id="product-manage">상품 추가하기</h3>
         <div class="product-container">
             <input type="text" id="product-name-input" placeholder="상품명" />
             <input type="number" id="product-price-input" placeholder="가격" />

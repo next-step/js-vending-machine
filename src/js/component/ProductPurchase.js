@@ -6,6 +6,6 @@ export default class ProductPurchase {
     }
 
     #getTemplate() {
-        return `<h3>상품구매</h3>`;
+        return `<h3 id="product-purchase">상품구매</h3>`;
     }
 }

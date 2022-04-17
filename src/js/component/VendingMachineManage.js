@@ -6,6 +6,6 @@ export default class VendingMachineManage {
     }
 
     #getTemplate() {
-        return `<h3>잔돈 충전</h3>`;
+        return `<h3 id="vending-machine-manage">잔돈 충전</h3>`;
     }
 }
