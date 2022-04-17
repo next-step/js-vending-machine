@@ -1,6 +1,8 @@
+import { $element } from '../helpers/index.js';
 import ComponentHandler from './abstract/index.js';
 
-const template = /*html*/ `
+// prettier-ignore
+const template = coins => $element(/*html*/ `
 <section class="changes-charge-container">
   <div>
     <h3>자판기 동전 충전하기</h3>
@@ -20,31 +22,30 @@ const template = /*html*/ `
       <tbody>
         <tr>
           <td>500원</td>
-          <td></td>
+          <td><span data-charge-coin="500">${coins['500']}</span>개</td>
         </tr>
         <tr>
           <td>100원</td>
-          <td></td>
+          <td><span data-charge-coin="100">${coins['100']}</span>개</td>
         </tr>
         <tr>
           <td>50원</td>
-          <td></td>
+          <td><span data-charge-coin="50">${coins['50']}</span>개</td>
         </tr>
         <tr>
           <td>10원</td>
-          <td></td>
+          <td><span data-charge-coin="10">${coins['10']}</span>개</td>
         </tr>
       </tbody>
     </table>
   </div>
-</section>
-`;
+</section>`);
 
 export default class Charge extends ComponentHandler {
   static #template = template;
 
-  render() {
-    this.insertAdjacentHTML('afterbegin', Charge.#template);
+  render({ CHARGE }) {
+    this.replaceChildren(Charge.#template(CHARGE));
   }
 }
 

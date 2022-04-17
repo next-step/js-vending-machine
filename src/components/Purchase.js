@@ -1,6 +1,8 @@
+import { $element } from '../helpers/index.js';
 import ComponentHandler from './abstract/index.js';
 
-const template = /*html*/ `
+// prettier-ignore
+const template = productList => $element(/*html*/ `
 <section class="purchase-container">
   <div>
     <h3>금액 투입</h3>
@@ -9,7 +11,7 @@ const template = /*html*/ `
       <button type="submit" id="purchase-money-charge-button">투입하기</button>
     </form>
   </div>
-  <p>투입한 금액 : <span>원</span></p>
+  <p>투입한 금액 : <span id="purchase-charged-money">0</span>원</p>
   <div>
     <h3>구매할 수 있는 상품 현황</h3>
     <table class="purchase-available">
@@ -20,24 +22,13 @@ const template = /*html*/ `
         <th>구매</th>
       </thead>
       <tbody>
+        ${productList.map(({name, price, quantity}) => /*html*/`
         <tr>
-          <td>콜라</td>
-          <td>1000</td>
-          <td>2</td>
-          <td><button type="button">구매하기</button></td>
-        </tr>
-        <tr>
-          <td>콜라콜라콜라콜라콜라콜라콜라콜라콜라콜라콜라콜라콜라콜라콜라콜라콜라콜라콜라콜라콜라</td>
-          <td>1000</td>
-          <td>2</td>
-          <td><button type="button">구매하기</button></td>
-        </tr>
-        <tr>
-          <td>사이다</td>
-          <td>2000</td>
-          <td>4</td>
-          <td><button type="button">구매하기</button></td>
-        </tr>
+          <td data-product-name="${name}">${name}</td>
+          <td data-product-price="${price}">${price}</td>
+          <td data-product-quantity="${quantity}">${quantity}</td>
+          <td><button type="button" data-delete="${name}">구매하기</button></td>
+        </tr>`).join('')}
       </tbody>
     </table>
   </div>
@@ -52,31 +43,30 @@ const template = /*html*/ `
       <tbody>
         <tr>
           <td>500원</td>
-          <td></td>
+          <td><span data-return-coin="500">0</span>개</td>
         </tr>
         <tr>
           <td>100원</td>
-          <td></td>
+          <td><span data-return-coin="100">0</span>개</td>
         </tr>
         <tr>
           <td>50원</td>
-          <td></td>
+          <td><span data-return-coin="50">0</span>개</td>
         </tr>
         <tr>
           <td>10원</td>
-          <td></td>
+          <td><span data-return-coin="10">0</span>개</td>
         </tr>
       </tbody>
     </table>
   </div>
-</section>
-`;
+</section>`);
 
 export default class Purchase extends ComponentHandler {
   static #template = template;
 
-  render() {
-    this.insertAdjacentHTML('afterbegin', Purchase.#template);
+  render({ PRODUCT }) {
+    this.replaceChildren(Purchase.#template(PRODUCT));
   }
 }
 
