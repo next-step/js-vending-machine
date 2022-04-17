@@ -1,33 +1,42 @@
-import { useStore } from '../../helpers/index.js';
-
-const store = useStore();
+import ErrorHandler from './ErrorHandler.js';
+import Store from '../../store.js';
 
 export default class ComponentHandler extends HTMLElement {
   #removeHandler = null;
-  #store = store;
+  #store = Store;
+  #errorHandler = ErrorHandler;
+  #timerId = null;
 
   constructor() {
     super();
-    this.#store = store;
     this.render(this.#store.getState());
+    this.#timerId = setInterval(() => this.#store.push(), 2000);
   }
 
   connectedCallback() {
     this.#removeHandler = this.bindHandler();
+    this.#store.pull();
   }
 
   disconnectedCallback() {
     if (this.#removeHandler === null) return;
 
     this.#removeHandler();
+    this.#store.push();
+    clearInterval(this.#timerId);
   }
 
   render() {
     throw new Error('렌더링 할 템플릿을 지정해주세요!');
   }
 
-  setState(key, value) {
-    this.#store.setState(key, value);
+  getState(key) {
+    return this.#store.getState(key);
+  }
+
+  setState(newState) {
+    this.#store.setState(newState);
+
     this.render(this.#store.getState());
   }
 
@@ -46,5 +55,9 @@ export default class ComponentHandler extends HTMLElement {
   dispatch(type, detail) {
     this.dispatchEvent(new CustomEvent(type, { detail, bubbles: true }));
     return this;
+  }
+
+  printError() {
+    this.#errorHandler.printStackLog();
   }
 }
