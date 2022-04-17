@@ -115,6 +115,10 @@ button {
 	padding: 0.3rem 0.45rem;
 }
 
+button.active{
+	box-shadow: 0 0 0 0.15rem rgb(179, 237, 245);
+}
+
 section p {
 	border: 1px dashed rgb(70, 70, 70);
 	border-radius: 6px;
