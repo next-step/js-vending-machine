@@ -6,6 +6,4 @@ export const $element = html => {
   return $wrapper.firstElementChild;
 };
 
-export const $focus = target => {
-  document.querySelector(target).focus();
-};
+export const $focus = target => document.querySelector(target).focus();
