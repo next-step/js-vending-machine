@@ -8,6 +8,7 @@ const router = {};
 const createRouter = () => {
   const routes = [];
 
+  let routeCallbackGroup = null;
   let $targetElements = null;
   let notFoundComponents = null;
 
@@ -16,6 +17,7 @@ const createRouter = () => {
     const currentRoute = routes.find(({ testRegExp }) => testRegExp.test(hash));
 
     $targetElements.replaceChildren($element(!currentRoute ? notFoundComponents : currentRoute.component));
+    routeCallbackGroup.forEach(callback => callback());
   };
 
   router.addRoute = (fragment, component) => {
@@ -39,6 +41,11 @@ const createRouter = () => {
 
   router.setNotFound = component => {
     notFoundComponents = component;
+    return router;
+  };
+
+  router.addEvents = (...events) => {
+    routeCallbackGroup = events;
     return router;
   };
 
