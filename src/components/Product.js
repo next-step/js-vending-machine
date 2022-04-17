@@ -8,9 +8,11 @@ const template = productList => $element(/*html*/ `
   <div>
     <h3>자판기 상품 추가하기</h3>
     <form autocomplete class="product-add-form">
-      <input type="text" name="product-name" required autofocus />
-      <input type="number" name="product-price" required min="${VENDING_MACHINE.MIN_PRICE}" step="${VENDING_MACHINE.PRICE_STEP}" />
-      <input type="number" name="product-quantity" required min="${VENDING_MACHINE.MIN_QUANTITY}" step="${VENDING_MACHINE.QUANTITY_STEP}" />
+      <input type="text" name="product-name" placeholder="추가할 상품명" required autofocus />
+      <input type="number" name="product-price" placeholder="추가할 상품 금액" required
+              min="${VENDING_MACHINE.MIN_PRICE}" step="${VENDING_MACHINE.PRICE_STEP}" />
+      <input type="number" name="product-quantity" placeholder="추가할 상품 수량" required
+              min="${VENDING_MACHINE.MIN_QUANTITY}" step="${VENDING_MACHINE.QUANTITY_STEP}" />
       <button type="submit" id="product-add-button">추가하기</button>
     </form>
   </div>

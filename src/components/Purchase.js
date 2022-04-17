@@ -7,7 +7,7 @@ const template = productList => $element(/*html*/ `
   <div>
     <h3>금액 투입</h3>
     <form autocomplete class="purchase-money-charge-form">
-      <input type="number" required autofocus min="100" step="10" />
+      <input type="number" placeholder="투입할 금액" required autofocus min="100" step="10" />
       <button type="submit" id="purchase-money-charge-button">투입하기</button>
     </form>
   </div>

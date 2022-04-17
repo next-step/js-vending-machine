@@ -7,7 +7,7 @@ const template = coins => $element(/*html*/ `
   <div>
     <h3>자판기 동전 충전하기</h3>
     <form autocomplete class="changes-charge-form">
-      <input type="number" required autofocus min="100" step="10" />
+      <input type="number" placeholder="충전할 금액" required autofocus min="100" step="10" />
       <button type="submit" id="changes-charge-button">추가하기</button>
     </form>
   </div>
