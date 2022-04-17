@@ -1,10 +1,12 @@
+export const APP_KEY = 'VENDING_MACHINE_APP';
+
 export const ACTION_KEY = {
   INIT: 'INIT',
   PULL: 'PULL',
   PUSH: 'PUSH',
 };
 
-export const STORAGE_KEY = {
+export const STATE_KEY = {
   PRODUCT: 'PRODUCT',
   CHARGE: 'CHARGE',
   PURCHASE: 'PURCHASE',
@@ -18,8 +20,8 @@ export const COINS = {
 };
 
 export const INITIAL_STORE = {
-  [STORAGE_KEY.PRODUCT]: [],
-  [STORAGE_KEY.CHARGE]: COINS,
+  [STATE_KEY.PRODUCT]: [],
+  [STATE_KEY.CHARGE]: COINS,
 };
 
 export const VENDING_MACHINE = {

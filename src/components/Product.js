@@ -1,9 +1,9 @@
 import ComponentHandler from './abstract/index.js';
-import { STORAGE_KEY, VENDING_MACHINE } from '../constants.js';
-import { $element } from '../helpers/index.js';
+import { STATE_KEY, VENDING_MACHINE } from '../constants.js';
+import { $element, $focus } from '../helpers/index.js';
 
 // prettier-ignore
-const template = products => $element(/*html*/ `
+const template = productList => $element(/*html*/ `
 <section class="product-container">
   <div>
     <h3>자판기 상품 추가하기</h3>
@@ -21,13 +21,15 @@ const template = products => $element(/*html*/ `
         <th>상품명</th>
         <th>가격</th>
         <th>수량</th>
+        <th>관리</th>
       </thead>
       <tbody>
-        ${products.map(({ name, price, quantity }) => /*html*/ `
+        ${productList.map(({ name, price, quantity }) => /*html*/ `
         <tr>
           <td data-product-name="${name}">${name}</td>
           <td data-product-price="${price}">${price}</td>
           <td data-product-quantity="${quantity}">${quantity}</td>
+          <td><button type="button" data-delete="${name}">삭제하기</button></td>
         </tr>`).join('')}
       </tbody>
     </table>
@@ -43,25 +45,51 @@ export default class Product extends ComponentHandler {
 
   defineEvents() {
     return [
-      {
-        type: 'submit',
-        callback: this.addProduct,
-      },
+      { type: 'submit', callback: this.addProduct },
+      { type: 'click', callback: this.deleteProduct },
     ];
   }
 
-  addProduct = event => {
-    event.preventDefault();
-    const [{ value: name }, { valueAsNumber: price }, { valueAsNumber: quantity }] =
-      event.target.elements;
-
-    const product = {
+  generateFormValues(formElements) {
+    const [{ value: name }, { valueAsNumber: price }, { valueAsNumber: quantity }] = formElements;
+    return {
       name: name.trim(),
       price,
       quantity,
     };
+  }
 
-    this.setState(STORAGE_KEY.PRODUCT, product);
+  update(productList) {
+    this.setState({ key: STATE_KEY.PRODUCT, value: productList, isReplace: true });
+    setTimeout(() => $focus('[name="product-name"]'), 500);
+  }
+
+  parsedToProductName(inputProduct) {
+    const productList = this.getState(STATE_KEY.PRODUCT);
+    const isExists = productList.findIndex(product => product.name === inputProduct.name);
+    if (isExists > -1) return productList.map(product => (product.name === inputProduct.name ? inputProduct : product));
+    return [...productList, inputProduct];
+  }
+
+  removedToProductName(productName) {
+    const productList = this.getState(STATE_KEY.PRODUCT);
+    return productList.filter(product => product.name !== productName);
+  }
+
+  addProduct = event => {
+    event.preventDefault();
+
+    const product = this.generateFormValues(event.target.elements);
+    const addedProductList = this.parsedToProductName(product);
+    this.update(addedProductList);
+  };
+
+  deleteProduct = ({ target }) => {
+    if (!target.matches('button[type="button"]')) return;
+
+    const productName = target.getAttribute('data-delete');
+    const deletedProductList = this.removedToProductName(productName);
+    this.update(deletedProductList);
   };
 }
 
