@@ -1,16 +1,16 @@
 import AbstractView from './abstractView';
 
-class ErrorPageView extends AbstractView<HTMLElement, Error> {
-  render(error: Error) {
-    const markup = this.generateMarkup(error);
-    this.clear();
-    this.containerElement.insertAdjacentHTML('afterbegin', markup);
+class ErrorPageView extends AbstractView<HTMLElement, string> {
+  private errorMessage: string = '🚨 존재하지 않는 페이지입니다! 🚨';
+
+  render(message = this.errorMessage) {
+    super.render(message);
   }
 
-  generateMarkup(error: Error) {
+  generateMarkup(message: string) {
     return /* html */ `
-            <h3>${error.message}</h3>
-         `;
+            <h3>${message}</h3>
+    `;
   }
 }
 
