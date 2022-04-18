@@ -5,9 +5,17 @@ export default class Product {
 
   #quantity;
 
-  constructor(name, price, quantity) {
+  constructor({ name, price, quantity }) {
     this.#name = name;
     this.#price = price;
     this.#quantity = quantity;
+  }
+
+  getProduct() {
+    return {
+      name: this.#name,
+      price: this.#price,
+      quantity: this.#quantity,
+    };
   }
 }
