@@ -1,41 +1,63 @@
 import useRouter from './utils/useRouter';
 import ProductManagement from './domains/products/management/views/ProductManagement';
+import productAppend from './domains/products/management/viewModel/productAppend';
 
 export const routing = (path) => {
-  let component;
+  let render;
+  let eventListeners;
 
   switch (path[1]) {
     case '':
     case 'product-management':
-      component = ProductManagement();
+      render = ProductManagement;
+      eventListeners = productAppend;
+
       break;
+    // TODO: Add components
     case 'charge-changes':
-      component = 'charge-changes';
+      render = () => 'charge-changes';
+      eventListeners = () => {};
+
       break;
+    // TODO: Add components
     case 'product-purchase':
-      component = 'product-purchase';
+      render = () => 'product-purchase';
+      eventListeners = () => {};
+
       break;
     default:
-      component = ProductManagement();
+      render = ProductManagement;
+      eventListeners = productAppend;
+
       window.history.pushState('', '', '/');
   }
 
-  return component;
+  return {
+    render,
+    eventListeners,
+  };
+};
+
+const getComponent = () => {
+  const path = useRouter();
+
+  return routing(path);
 };
 
 const router = () => {
   window.onload = () => {
-    const path = useRouter();
-    const component = routing(path);
+    const component = getComponent();
 
-    document.querySelector('main').append(component);
+    document.querySelector('main').append(component.render());
+    component.eventListeners();
   };
 
   window.onpopstate = () => {
-    const path = useRouter();
-    const component = routing(path);
+    const component = getComponent();
+    const child = document.querySelector('main').childNodes[0];
 
-    document.querySelector('main').replaceWith(component);
+    child.replaceWith(component.render());
+    component.eventListeners();
   };
 };
 
