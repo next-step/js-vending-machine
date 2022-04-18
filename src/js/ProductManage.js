@@ -9,54 +9,42 @@ function getProductListFromLocalStorage() {
 function updateProductListFromLocalStorage(productList) {
   localStorage.setItem(
     LOCALSTORAGE_PRODUCT_MANAGE_KEY,
-    JSON.stringify(
-      productList.map((product) => ({
-        name: product.name,
-        price: product.price,
-        quantity: product.quantity,
-      }))
-    )
+    JSON.stringify(productList.map((product) => product.toJson()))
   );
 }
 
-export default class ProductManage {
-  static #productList = getProductListFromLocalStorage() ?? [];
+const ProductManage = (function () {
+  let productList = getProductListFromLocalStorage() ?? [];
 
-  // TODO next step
-  // static initialize() {
-  //   ProductManage.#productList = [];
-  // }
-
-  static get list() {
-    return ProductManage.#productList;
-  }
-
-  static #isDuplicateProduct(product) {
-    return ProductManage.#productList.some(
+  function isDuplicateProduct(product) {
+    return productList.some(
       (addedProduct) => product.name === addedProduct.name
     );
   }
 
-  static #updateProduct(product) {
-    ProductManage.#productList = ProductManage.#productList.map(
-      (addedProduct) =>
-        product.name === addedProduct.name ? product : addedProduct
+  function updateProduct(product) {
+    productList = productList.map((addedProduct) =>
+      product.name === addedProduct.name ? product : addedProduct
     );
   }
 
-  static #addProduct(product) {
-    ProductManage.#productList.push(product);
+  function addProduct(product) {
+    productList.push(product);
   }
 
-  static addProduct(product) {
+  function handleAddProduct(product) {
     if (product instanceof Product === false) {
       throw new Error('Product 형태가 아닙니다.');
     }
 
     // eslint-disable-next-line no-unused-expressions
-    ProductManage.#isDuplicateProduct(product)
-      ? ProductManage.#updateProduct(product)
-      : ProductManage.#addProduct(product);
-    updateProductListFromLocalStorage(ProductManage.list);
+    isDuplicateProduct(product) ? updateProduct(product) : addProduct(product);
+    updateProductListFromLocalStorage(productList);
   }
-}
+
+  return {
+    list: () => productList,
+    addProduct: handleAddProduct,
+  };
+})();
+export default ProductManage;
