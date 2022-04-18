@@ -67,44 +67,40 @@ function convertFormDataToObject(formData) {
   return Object.fromEntries(formData);
 }
 
-export default class ProductManageView extends AbstractView {
-  static #updateProductList() {
+class IProductManageView extends AbstractView {
+  #updateProductList() {
     $productInventory().replaceChildren(
-      ...ProductManage.list.map((product) => productTemplate(product))
+      ...ProductManage.list().map((product) => productTemplate(product))
     );
   }
 
-  static #initializeProductFields() {
+  #initializeProductFields() {
     $productNameInput().value = null;
     $productPriceInput().value = null;
     $productQuantityInput().value = null;
   }
 
-  static #handleProductAdd(event) {
+  handleProductAdd(event) {
     event.preventDefault();
     try {
       ProductManage.addProduct(
         new Product(convertFormDataToObject(new FormData(event.target)))
       );
-      ProductManageView.#updateProductList();
-      ProductManageView.#initializeProductFields();
+      this.#updateProductList();
+      this.#initializeProductFields();
     } catch (e) {
       alert(e.message);
     }
   }
 
-  static contents() {
+  contents() {
     return productManageTemplate();
   }
 
-  static eventBindings() {
-    $productForm().addEventListener(
-      'submit',
-      ProductManageView.#handleProductAdd
-    );
-  }
-
-  static initialize() {
-    ProductManageView.#updateProductList();
+  initialize() {
+    this.#updateProductList();
   }
 }
+const ProductManageView = new IProductManageView();
+Object.freeze(ProductManageView);
+export default ProductManageView;
