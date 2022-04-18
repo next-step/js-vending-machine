@@ -1,11 +1,13 @@
-const product = {
-  products: [],
-  GET_PRODUCTS() {
-    return this.products;
-  },
-  SET_PRODUCTS(_products) {
-    this.products = [...this.products, _products];
-  },
-};
+export default class Product {
+  #name;
 
-export default product;
+  #price;
+
+  #quantity;
+
+  constructor(name, price, quantity) {
+    this.#name = name;
+    this.#price = price;
+    this.#quantity = quantity;
+  }
+}
