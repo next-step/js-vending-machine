@@ -12,7 +12,7 @@ const ProductInventory = () => `
                 <th>수량</th>
             </tr>
         </thead>
-        <tbody id="product-inventory-container"></tbody>
+        <tbody id="product-inventory-container" data-test="product-inventory-container"></tbody>
     </table>`;
 
 export default ProductInventory;
