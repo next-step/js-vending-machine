@@ -30,6 +30,14 @@ export default class Product {
     return this.#quantity;
   }
 
+  toJson() {
+    return {
+      name: this.name,
+      price: this.price,
+      quantity: this.quantity,
+    };
+  }
+
   #validateName(name) {
     if (isEmpty(name)) {
       throw new Error('상품명은 필수값입니다.');
