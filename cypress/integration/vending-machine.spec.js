@@ -293,6 +293,7 @@ describe('자판기', () => {
               price: price1 + 1000,
               quantity: quantity1 + 10,
             }).should('be.exist');
+            cy.$productList().should('have.length', 2);
           });
       });
     });
