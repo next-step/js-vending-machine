@@ -34,18 +34,16 @@ export default class ProductManage {
     }
 
     onAddProduct() {
+        const product = {
+            name: this.$productNameInput.value,
+            price: this.$productPriceInput.value,
+            quantity: this.$productQuantityInput.value,
+        };
+
         if (document.querySelector(`[data-product-name="${this.$productNameInput.value}"]`)) {
-            this.#replceProduct({
-                name: this.$productNameInput.value,
-                price: this.$productPriceInput.value,
-                quantity: this.$productQuantityInput.value,
-            });
+            this.#replaceProduct(product);
         } else {
-            this.#appendProduct({
-                name: this.$productNameInput.value,
-                price: this.$productPriceInput.value,
-                quantity: this.$productQuantityInput.value,
-            });
+            this.#appendProduct(product);
         }
 
         this.#clearInputForm();
@@ -57,7 +55,7 @@ export default class ProductManage {
         this.$productQuantityInput.value = "";
     }
 
-    #replceProduct(product) {
+    #replaceProduct(product) {
         const newProductElement = document.createElement("template");
         newProductElement.innerHTML = this.#getProductTemplate(product);
         document

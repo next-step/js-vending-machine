@@ -13,9 +13,9 @@ export default class Product {
     constructor(name, price, quantity) {
         this.validate(name, price, quantity);
         return {
-            name: name,
-            price: price,
-            quantity: quantity,
+            name,
+            price,
+            quantity,
         };
     }
 

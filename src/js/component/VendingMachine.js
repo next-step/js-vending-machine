@@ -16,7 +16,7 @@ export default class VendingMachine {
             onProductPurchase: () => this.onProductPurchase(),
         });
         this.productManage = new ProductManage(this.products, {
-            onAddProduct: (name, price, quantity) => this.onAddProduct(name, price, quantity),
+            onAddProduct: this.onAddProduct.bind(this),
         });
         this.vendingMachineManage = new VendingMachineManage();
         this.productPurchase = new ProductPurchase();

@@ -22,9 +22,9 @@ export default class Products {
 
         if (findIndex > -1) {
             this.products[findIndex] = {
-                name: name,
-                price: price,
-                quantity: quantity,
+                name,
+                price,
+                quantity,
             };
             return;
         }

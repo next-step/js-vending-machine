@@ -1,6 +1,4 @@
 export default class ProductPurchase {
-    constructor() {}
-
     render() {
         document.querySelector("#app").innerHTML = this.#getTemplate();
     }

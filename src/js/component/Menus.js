@@ -5,8 +5,12 @@ export default class Menus {
     }
 
     mounted() {
-        document.querySelector("#product-manage-menu").addEventListener("click", () => this.props.onProductManage())
-        document.querySelector("#vending-machine-manage-menu").addEventListener("click", () => this.props.onVendingMachineManage())
-        document.querySelector("#product-purchase-menu").addEventListener("click", () => this.props.onProductPurchase())
+        document.querySelector("#product-manage-menu").addEventListener("click", () => this.props.onProductManage());
+        document
+            .querySelector("#vending-machine-manage-menu")
+            .addEventListener("click", () => this.props.onVendingMachineManage());
+        document
+            .querySelector("#product-purchase-menu")
+            .addEventListener("click", () => this.props.onProductPurchase());
     }
 }

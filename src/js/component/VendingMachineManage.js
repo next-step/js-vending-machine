@@ -1,6 +1,4 @@
 export default class VendingMachineManage {
-    constructor() {}
-
     render() {
         document.querySelector("#app").innerHTML = this.#getTemplate();
     }
