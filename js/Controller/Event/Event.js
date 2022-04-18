@@ -10,6 +10,8 @@ const Event = (function () {
       },
 
       // TODO router 구현
+      // DOMContentLoaded를 통해
+      // 해당 페이지에 이동하면 state를 통해 DOM을 렌더링
       seperateEventTarget(event) {
         if (event.target.id === 'vending-machine-manage-menu') {
         }
@@ -33,26 +35,15 @@ const Event = (function () {
         createButton.addEventListener('click', this.seperateProductInfo);
       },
 
-      submitProduct(event) {
-        const { id, value } = event.target;
-        const { product } = Controller;
-
-        product.act(value);
-      },
-
       seperateProductInfo(event) {
         const { id, value } = event.target;
         const { product } = Controller;
+        const isKeyTypeEnter = event.key === 'Enter';
+        const hasClicked =
+          event.type === 'click' && id === 'product-add-button';
 
-        if (
-          event.type === 'click' &&
-          event.target.id === 'product-add-button'
-        ) {
-          product.act(value);
-        }
-
-        if (event.key === 'Enter') {
-          product.act(value);
+        if (hasClicked || isKeyTypeEnter) {
+          product.add(value);
         }
 
         if (id === 'product-name-input') {

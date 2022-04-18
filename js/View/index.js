@@ -6,7 +6,6 @@ const Component = (function () {
     product: {
       init() {
         customElements.define('product-inventory', ProductCharge);
-        // customElements.define('product', ProductElement);
       },
 
       create(priceInfo) {

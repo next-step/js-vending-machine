@@ -12,7 +12,7 @@ class ProductCharge extends HTMLElement {
 
     const thead = document.createElement('thead');
     const tr = document.createElement('tr');
-    const theadInfo = ['상품명', '가격', '수량'];
+    const theadInfo = ['상품명', '가격(원)', '수량(개)'];
     theadInfo.forEach((info) => {
       const th = document.createElement('th');
       th.textContent = info;

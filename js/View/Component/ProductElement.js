@@ -16,9 +16,6 @@ class ProductElement extends HTMLElement {
     this.shadowRoot.append(link, tr);
   }
 
-  // static of(name, price, quantity) {
-  //   return new ProductElement(name, price, quantity);
-  // }
   // MEMO lifeCycle
   attributeChangedCallback(name, oldValue, newValue) {}
 }
