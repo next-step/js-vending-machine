@@ -12,6 +12,7 @@ export const SELECTOR = Object.freeze({
 
 export const STORE_KEY = Object.freeze({
   CURRENT_TAB: 'current-tab',
+  PRODUCTS: 'products',
 });
 
 export const TAB = Object.freeze({
