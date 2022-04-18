@@ -11,7 +11,7 @@ const Header = (target) => {
     </header>
     `;
 
-  target.insertAdjacentHTML('beforebegin', _Header);
+  target.insertAdjacentHTML('beforeend', _Header);
 
   document.querySelector('header').addEventListener('click', (e) => {
     switch (e.target.id) {

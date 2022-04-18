@@ -1,7 +1,7 @@
 const Main = (target) => {
   const _Main = `<main></main>`;
 
-  target.insertAdjacentHTML('afterbegin', _Main);
+  target.insertAdjacentHTML('beforeend', _Main);
 };
 
 export default Main;
