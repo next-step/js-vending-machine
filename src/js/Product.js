@@ -12,7 +12,7 @@ export default class Product {
   #quantity;
 
   constructor({ name, price, quantity }) {
-    Product.#validate({ name, price, quantity });
+    this.#validate({ name, price, quantity });
     this.#name = name.trim();
     this.#price = price;
     this.#quantity = quantity;
@@ -30,13 +30,13 @@ export default class Product {
     return this.#quantity;
   }
 
-  static #validateName(name) {
+  #validateName(name) {
     if (isEmpty(name)) {
       throw new Error('상품명은 필수값입니다.');
     }
   }
 
-  static #validatePrice(price) {
+  #validatePrice(price) {
     if (isEmpty(price)) {
       throw new Error('가격은 필수값입니다.');
     }
@@ -48,7 +48,7 @@ export default class Product {
     }
   }
 
-  static #validateQuantity(quantity) {
+  #validateQuantity(quantity) {
     if (isEmpty(quantity)) {
       throw new Error('수량은 필수값입니다.');
     }
@@ -58,9 +58,9 @@ export default class Product {
     }
   }
 
-  static #validate({ name, price, quantity }) {
-    Product.#validateName(name);
-    Product.#validatePrice(price);
-    Product.#validateQuantity(quantity);
+  #validate({ name, price, quantity }) {
+    this.#validateName(name);
+    this.#validatePrice(price);
+    this.#validateQuantity(quantity);
   }
 }
