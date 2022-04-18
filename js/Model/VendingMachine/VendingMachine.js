@@ -5,6 +5,7 @@ class VendingMachine {
   #name;
   #price;
   #quantity;
+  #productList;
 
   /**
    * @param {string} newName
@@ -39,6 +40,10 @@ class VendingMachine {
     return this.#quantity;
   }
 
+  get getProductList() {
+    return this.#productList;
+  }
+
   static of({ name, price, quantity }) {
     return new VendingMachine({ name, price, quantity });
   }
@@ -52,11 +57,50 @@ class VendingMachine {
     }
 
     if (
-      product.isNotPriceTenUnit(parseInt(this.#price, 10)) &&
+      product.isNotPriceTenUnit(parseInt(this.#price, 10)) ||
       product.isNotOverTen(parseInt(this.#price, 10))
     ) {
       return new Error(VALIDATE.TEN_UNIT_PRICE);
     }
+  }
+
+  setProduct() {
+    const { product } = Validator;
+    const newProduct = {
+      name: this.#name,
+      price: this.#price,
+      quantity: this.#quantity,
+    };
+
+    if (!this.#productList) {
+      this.#productList = [newProduct];
+      return;
+    }
+
+    if (product.includesProduct(this.#productList, newProduct)) {
+      this.#productList = this.replaceProduct(this.#productList, newProduct);
+      return;
+    }
+
+    this.#productList.push(newProduct);
+  }
+
+  replaceProduct(prevProduct, newProduct) {
+    let index = 0;
+    prevProduct.forEach((product, i) => {
+      if (product.name === newProduct.name) {
+        index = i;
+      }
+    });
+
+    prevProduct[index] = newProduct;
+    return prevProduct;
+  }
+
+  init() {
+    this.#name = undefined;
+    this.#price = undefined;
+    this.#quantity = undefined;
   }
 }
 

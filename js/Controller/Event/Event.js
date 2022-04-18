@@ -1,4 +1,5 @@
 import { selector } from '../../util/consts.js';
+import Component from '../../View/index.js';
 import Controller from '../Controller/Controller.js';
 
 const Event = (function () {

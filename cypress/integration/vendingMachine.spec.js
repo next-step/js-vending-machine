@@ -1,11 +1,12 @@
 import { VALIDATE } from '../../js/util/consts.js';
 
-// MEMO: 테스트코드 작성 시 상수 값 분리
+// MEMO: 테스트코드 작성 시 상수 값 분리 및 중복체크
 describe('vending machine', () => {
   beforeEach(() => {
     cy.visit('/');
   });
 
+  // COMPLETE
   describe('상품관리 화면', () => {
     Cypress.Commands.add('addProduct', () => {
       cy.get('[data-product=name-input]').type('아메리카노');
@@ -60,9 +61,20 @@ describe('vending machine', () => {
         });
     });
 
-    // TODO
+    // COMPLETE
     it('같은 상품명의 데이터를 추가하면 기존의 상품에 해당하는 데이터는 새로운 상품으로 대체된다.', () => {
-      // 기존의 상품에 해당하는 데이터는 새로운 상품으로 대체된다.
+      cy.addProduct();
+      cy.get('[data-product=name-input]').type('아메리카노');
+      cy.get('[data-product=price-input]').type('5000');
+      cy.get('[data-product=quantity-input]').type(`3{enter}`);
+
+      const data = ['아메리카노', '5000', '3'];
+      data.forEach((value) => {
+        cy.get('product-inventory')
+          .shadow()
+          .find('td')
+          .should('contain.text', value);
+      });
     });
 
     // TODO

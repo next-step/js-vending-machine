@@ -11,6 +11,11 @@ const Validator = {
     isNotOverTen(price) {
       return price < DEFAULT_PRICE_UNIT;
     },
+    includesProduct(productList, currProduct) {
+      return productList.some(
+        (prevProduct) => prevProduct.name === currProduct.name
+      );
+    },
   },
 };
 

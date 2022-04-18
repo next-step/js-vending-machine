@@ -1,10 +1,16 @@
+import { selector } from '../util/consts.js';
 import ProductCharge from './Component/ProductCharge.js';
-import ProductElement from './Component/ProductElement.js';
 
 const Component = (function () {
   return {
     product: {
       init() {
+        selector('#product-name-input').value = '';
+        selector('#product-price-input').value = '';
+        selector('#product-quantity-input').value = '';
+      },
+
+      define() {
         customElements.define('product-inventory', ProductCharge);
       },
 
@@ -20,8 +26,18 @@ const Component = (function () {
         return tr;
       },
 
-      render(target, element) {
-        target.appendChild(element);
+      render(element) {
+        selector('product-inventory')
+          .shadowRoot.querySelector('#product-inventory-container')
+          .appendChild(element);
+      },
+
+      removePreviousComponent() {
+        // FIXME 일괄 삭제 고려
+        selector('product-inventory')
+          .shadowRoot.querySelector('#product-inventory-container')
+          .querySelectorAll('tr')
+          .forEach((tag) => tag.remove());
       },
     },
   };
