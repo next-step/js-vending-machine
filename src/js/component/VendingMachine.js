@@ -1,4 +1,5 @@
 import Products from "../domain/Products.js";
+import VendingMachineCharge from "../domain/VendingMachineCharge.js";
 import { getProducts, setProducts } from "../service/index.js";
 import Menus from "./Menus.js";
 import ProductManage from "./ProductManage.js";
@@ -10,6 +11,7 @@ export default class VendingMachine {
 
     constructor() {
         this.products = new Products(getProducts());
+        this.vendingMachineCharge = new VendingMachineCharge();
         this.menu = new Menus({
             onProductManage: () => this.onProductManage(),
             onVendingMachineManage: () => this.onVendingMachineManage(),
@@ -18,7 +20,9 @@ export default class VendingMachine {
         this.productManage = new ProductManage(this.products, {
             onAddProduct: this.onAddProduct.bind(this),
         });
-        this.vendingMachineManage = new VendingMachineManage();
+        this.vendingMachineManage = new VendingMachineManage({
+            onVendingMachine: this.onVendingMachineCharge.bind(this),
+        });
         this.productPurchase = new ProductPurchase();
         this.onProductManage();
     }
@@ -37,8 +41,17 @@ export default class VendingMachine {
         }
     }
 
+    onVendingMachineCharge(charge) {
+        try {
+            VendingMachineCharge.validate(Number(charge));
+            this.vendingMachineCharge.computeCharge(Number(charge));
+        } catch (error) {
+            alert(error.message);
+        }
+    }
+
     onVendingMachineManage() {
-        this.vendingMachineManage.render();
+        this.vendingMachineManage.setVendingMachineManage();
     }
 
     onProductPurchase() {

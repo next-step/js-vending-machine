@@ -1,10 +1,6 @@
 import ProductException from "../exception/ProductException.js";
 
 export default class Product {
-    name;
-    price;
-    quantity;
-
     static NAME_MIN_LENGTH = 1;
     static QUANTITY_MIN = 1;
     static PRICE_MIN = 100;

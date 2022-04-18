@@ -74,4 +74,20 @@ describe("Vending Machine", () => {
                 });
         });
     });
+
+    describe("충전할 금액의 값은 필수 값이고 조건이 있다.", () => {
+        it("충전할 금액에 공백이 입력되면 경고창을 출력한다.", () => {
+            // const alertStub = cy.stub();
+            // cy.on("window:alert", alertStub);
+            // cy.get("#product-name-input").clear();
+            // cy.get("#product-add-button")
+            //     .click()
+            //     .then(() => {
+            //         expect(alertStub).to.be.calledWith("상품명을 입력해주세요.");
+            //     });
+        });
+
+        it("충전할 금액에 0이 입력되면 경고창을 출력한다.", () => {});
+        it("충전할 금액이 10의 단위가 아닌 값이 입력되면 경고창을 출력한다.", () => {});
+    });
 });
