@@ -15,7 +15,7 @@ class VendingMachineView {
     };
   }
 
-  render(state) {
+  renderTab(state) {
     this.target.innerHTML = this.changeTab[state.currentTab](state);
   }
 }

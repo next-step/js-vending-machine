@@ -20,7 +20,7 @@ class VendingMachine {
   }
 
   render() {
-    this.vendingMachineView.render(this.state);
+    this.vendingMachineView.renderTab(this.state);
   }
 
   initEvents() {
