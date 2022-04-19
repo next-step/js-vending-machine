@@ -1,5 +1,6 @@
-/* eslint-disable no-unused-vars */
-before(() => cy.visit('../../dist/index.html'));
+before(() => {
+  cy.visit('../../dist/index.html');
+});
 
 const $formContainer = () => cy.get('[data-test="product-container"]');
 const $nameInput = () => cy.get('[data-test="product-name-input"]');
@@ -9,25 +10,57 @@ const $quantityInput = () => cy.get('[data-test="product-quantity-input"]');
 const $inventroyContainer = () =>
   cy.get('[data-test="product-inventory-container"');
 
-afterEach(() => {
+beforeEach(() => {
   cy.reload();
   cy.visit('../../dist/index.html');
 });
 
+const powerAde = ['파워에이드', '1500', '3'];
+const powerAdeAfter = ['파워에이드', '1200', '2'];
+const gaetoray = ['게토레이', '1400', '2'];
+
+const appendProduct = (item) => {
+  $nameInput().type(item[0]);
+  $priceInput().type(item[1]);
+  $quantityInput().type(item[2]);
+
+  $formContainer().submit();
+};
+
+const checkProducts = (items) => {
+  $inventroyContainer()
+    .find('td')
+    .each(($el, idx) => expect($el.text()).eq(items[idx]));
+};
+
 describe('상품을 추가하려 한다.', () => {
-  context('파워에이드 3개를 1500원에 추가한다.', () => {
-    it('파워에이드 3개가 1500원으로 추가된다.', () => {
-      const data = ['파워에이드', '3', '1500'];
+  context('음료수 하나를 추가한다.', () => {
+    it('파워에이드가 1500원으로 3개가 추가된다.', () => {
+      appendProduct(powerAde);
 
-      $nameInput().type(data[0]);
-      $priceInput().type(data[1]);
-      $quantityInput().type(data[2]);
+      checkProducts(powerAde);
+    });
+  });
 
-      $formContainer().submit();
+  context('음료수 두개를 추가한다.', () => {
+    it('파워에이드가 1500원으로 3개, 게토리이가 1400원으로 2개 추가된다.', () => {
+      appendProduct(powerAde);
+      appendProduct(gaetoray);
 
-      $inventroyContainer()
-        .find('td')
-        .each(($el, idx) => expect($el.text()).eq(data[idx]));
+      const allProducts = [...powerAde, ...gaetoray];
+
+      checkProducts(allProducts);
+    });
+  });
+});
+
+describe('상품을 변경하려 한다.', () => {
+  context('음료수 하나를 변경한다.', () => {
+    it('추가되어 있던 파워에이드가 2개, 1200원으로 변경된다.', () => {
+      appendProduct(powerAde);
+      appendProduct(powerAdeAfter);
+
+      checkProducts(powerAdeAfter);
     });
   });
 });
