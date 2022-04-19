@@ -15,21 +15,21 @@ context('자판기 테스트 케이스', () => {
     cy.clearLocalStorage().should((ls) => {
       expect(ls.getItem('ns-vending-machine')).to.be.null;
     });
-    cy.get('#product-inventory-container').children().should('have.length', 0);
+    cy.get('#product-inventory-container').children().contains('상품리스트가 존재하지 않습니다.');
   });
 
   context('상품을 추가하지 못하는 경우', () => {
     it('상품명, 금액, 수량은 공백이 불가능하다.', () => {
       cy.get('#product-add-button').click();
 
-      cy.get('#product-inventory-container').children().should('have.length', 0);
+      cy.get('#product-inventory-container').children().contains('상품리스트가 존재하지 않습니다.');
     });
 
     it('상품의 최소 수량은 1개여야 한다.', () => {
       typeProduct({ name: '테스트 상품', price: '10000', quantity: '0' });
       cy.get('#product-add-button').click();
 
-      cy.get('#product-inventory-container').children().should('have.length', 0);
+      cy.get('#product-inventory-container').children().contains('상품리스트가 존재하지 않습니다.');
     });
 
     it('상품 가격이 10원으로 나누어 떨어지지 않는 경우 경고창 발생', () => {
@@ -39,7 +39,7 @@ context('자판기 테스트 케이스', () => {
       cy.get('#product-add-button').click();
 
       cy.get('@alerted').should('have.been.calledOnce').and('have.been.calledWith', ERRORS.PRICE_UNIT);
-      cy.get('#product-inventory-container').children().should('have.length', 0);
+      cy.get('#product-inventory-container').children().contains('상품리스트가 존재하지 않습니다.');
     });
   });
 
