@@ -10,4 +10,8 @@ describe('Product', () => {
     cy.get('#product-quantity-input').should('be.visible');
     cy.get('#product-add-button').should('be.visible');
   });
+
+  it('[상품 현황] 영역이 보여야 한다.', () => {
+    cy.get('.product-inventory').shoud('be.visible');
+  });
 });
