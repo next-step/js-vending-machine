@@ -9,7 +9,7 @@ function getProductListFromLocalStorage() {
 function updateProductListFromLocalStorage(productList) {
   localStorage.setItem(
     LOCALSTORAGE_PRODUCT_MANAGE_KEY,
-    JSON.stringify(productList.map((product) => product.toJson()))
+    JSON.stringify(productList.map((product) => product instanceof Product ? product.toJson() : product))
   );
 }
 
