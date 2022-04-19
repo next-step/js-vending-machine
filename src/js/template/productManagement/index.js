@@ -3,15 +3,16 @@ import store from '../../store/index.js';
 export const render = () => {};
 
 export const getProductsTemplate = () => {
-  const productManagement = store.getState()?.productManagement;
-
   return `
     <h3>상품 추가하기</h3>
     <form class="product-container">
       <input type="text" name="product-name-input" placeholder="상품명" required />
       <input type="number" name="product-price-input" placeholder="가격" required min="1" />
       <input type="number" name="product-quantity-input" placeholder="수량" required min="1" />
-      <button id="product-add-button">추가하기</button>
+      <div>
+        <button id="product-add-button">추가하기</button>
+        <button id="product-all-remove-button" type="button">전체 삭제</button>
+      </div>
     </form>
     <table class="product-inventory">
       <colgroup>
@@ -26,19 +27,23 @@ export const getProductsTemplate = () => {
           <th>수량</th>
         </tr>
       </thead>
-      <tbody id="product-inventory-container">
-      ${productManagement
-        ?.map(
-          (product) => `
-          <tr>
-            <td>${product.name}</td>
-            <td>${product.price}</td>
-            <td>${product.quantity}</td>
-          </tr>
-        `
-        )
-        .join('')}
-      </tbody>
+      <tbody id="product-inventory-container"></tbody>
     </table>
+  `;
+};
+
+export const getProductListTemplate = (productManagement) => {
+  return `
+    ${productManagement
+      .map(
+        (product) => `
+        <tr>
+          <td>${product.name}</td>
+          <td>${product.price}</td>
+          <td>${product.quantity}</td>
+        </tr>
+      `
+      )
+      .join('')}
   `;
 };

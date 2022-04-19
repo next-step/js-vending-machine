@@ -107,6 +107,7 @@ input[type='text'] {
 
 #charge-button,
 #product-add-button,
+#product-all-remove-button,
 #vending-machine-charge-button {
   padding: 0.5rem;
   margin-left: 0.5rem;
@@ -149,7 +150,8 @@ section p {
   width: 65%;
 }
 
-#product-add-button {
+#product-add-button,
+#product-all-remove-button {
   margin-left: 0;
   margin-top: 0.5rem;
   width: 78%;

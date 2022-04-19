@@ -1,8 +1,8 @@
-class PurchaseProduct {
-  constructor() {}
-  setEvent() {}
-  render() {
-    document.getElementById('app').innerHTML = '상품 구매 페이지 입니다.';
+import { Component } from '../common.js';
+
+class PurchaseProduct extends Component {
+  constructor() {
+    super('상품 구매 페이지 입니다.');
   }
 }
 
