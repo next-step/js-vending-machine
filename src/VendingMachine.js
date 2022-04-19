@@ -59,11 +59,17 @@ class VendingMachine {
       quantity: inputProductQuantity,
     };
 
+    this.filterDuplicateProduct(newProduct.name);
+
     this.setState({
       ...this.state,
       products: [...this.state.products, newProduct],
     });
     store.setValue(STORE_KEY.PRODUCTS, this.state.products);
+  }
+
+  filterDuplicateProduct(productName) {
+    this.state.products = this.state.products.filter(product => product.name !== productName);
   }
 
   validateProductDatas(name, price, quantity) {
