@@ -1,1 +1,4 @@
-console.log('test');
+import Product from './product.js';
+
+const product = new Product();
+product.showProductContainer();
