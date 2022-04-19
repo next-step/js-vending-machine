@@ -1,4 +1,5 @@
 import VendingMachineView from './VendingMachineView.js';
+import Validator from './Validator.js';
 
 import { $ } from './utils/dom.js';
 import store from './utils/store.js';
@@ -7,6 +8,7 @@ import { SELECTOR, STORE_KEY, TAB } from './constants.js';
 class VendingMachine {
   constructor(target) {
     this.vendingMachineView = new VendingMachineView(target);
+    this.validator = new Validator();
 
     this.state = {
       currentTab: store.getValue(STORE_KEY.CURRENT_TAB) || TAB.PRODUCT_MANAGE_TAB,
@@ -47,7 +49,11 @@ class VendingMachine {
     const inputProductQuantity = $(`#${SELECTOR.PRODUCT_QUANTITY_INPUT_ID}`).value;
 
     try {
-      this.validateProductDatas(inputProductName, inputProductPrice, inputProductQuantity);
+      this.validator.validateProductDatas(
+        inputProductName,
+        inputProductPrice,
+        inputProductQuantity,
+      );
     } catch (error) {
       alert(error.message);
       return;
@@ -59,17 +65,14 @@ class VendingMachine {
       quantity: inputProductQuantity,
     };
 
-    this.filterDuplicateProduct(newProduct.name);
-
     this.setState({
       ...this.state,
-      products: [...this.state.products, newProduct],
+      products: [
+        ...this.state.products.filter(product => product.name !== newProduct.name),
+        newProduct,
+      ],
     });
     store.setValue(STORE_KEY.PRODUCTS, this.state.products);
-  }
-
-  filterDuplicateProduct(productName) {
-    this.state.products = this.state.products.filter(product => product.name !== productName);
   }
 
   onClickMenu(event) {
