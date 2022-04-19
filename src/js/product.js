@@ -29,8 +29,7 @@ export default function Product() {
       </table>`;
 
   this.showProductContainer = () => {
-    const app = document.querySelector('#app');
-    app.innerHTML = productTemplate;
+    document.querySelector('#app').insertAdjacentHTML('afterbegin', productTemplate);
   };
 
   this.showInventory = () => {
