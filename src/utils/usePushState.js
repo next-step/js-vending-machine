@@ -10,6 +10,7 @@ const usePushState = (path) => {
   const child = document.querySelector('main').childNodes[0];
 
   child.replaceWith(component.render());
+  component.eventListeners();
 };
 
 export default usePushState;
