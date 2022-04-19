@@ -11,21 +11,22 @@ export default function Product() {
 
   const inventoryTemplate =
     /* HTML */
-    `<table class="product-inventory">
-      <colgroup>
-        <col style="width: 140px" />
-        <col style="width: 100px" />
-        <col style="width: 100px" />
-      </colgroup>
-      <thead>
-        <tr>
-          <th>상품명</th>
-          <th>가격</th>
-          <th>수량</th>
-        </tr>
-      </thead>
-      <tbody id="product-inventory-container"></tbody>
-    </table>`;
+    `<h3>상품 현황</h3>
+      <table class="product-inventory">
+        <colgroup>
+          <col style="width: 140px" />
+          <col style="width: 100px" />
+          <col style="width: 100px" />
+        </colgroup>
+        <thead>
+          <tr>
+            <th>상품명</th>
+            <th>가격</th>
+            <th>수량</th>
+          </tr>
+        </thead>
+        <tbody id="product-inventory-container"></tbody>
+      </table>`;
 
   this.showProductContainer = () => {
     const app = document.querySelector('#app');
@@ -33,7 +34,6 @@ export default function Product() {
   };
 
   this.showInventory = () => {
-    const app = document.querySelector('#app');
-    app.insertAdjacentHTML('beforeend', inventoryTemplate);
+    document.querySelector('#app').insertAdjacentHTML('beforeend', inventoryTemplate);
   };
 }
