@@ -2,7 +2,7 @@ import VendingMachineView from './VendingMachineView.js';
 
 import { $ } from './utils/dom.js';
 import store from './utils/store.js';
-import { ERROR_MESSAGE, SELECTOR, STORE_KEY, TAB } from './constants.js';
+import { SELECTOR, STORE_KEY, TAB } from './constants.js';
 
 class VendingMachine {
   constructor(target) {
@@ -70,28 +70,6 @@ class VendingMachine {
 
   filterDuplicateProduct(productName) {
     this.state.products = this.state.products.filter(product => product.name !== productName);
-  }
-
-  validateProductDatas(name, price, quantity) {
-    this.validateProductName(name);
-    this.validateProductPrice(price);
-    this.validateProductQuantity(quantity);
-  }
-
-  validateProductName(productName) {
-    if (!productName) throw new Error(ERROR_MESSAGE.REQUIRED_PRODUCT_NAME);
-  }
-
-  validateProductPrice(productPrice) {
-    if (!productPrice) throw new Error(ERROR_MESSAGE.REQUIRED_PRODUCT_PRICE);
-    else if (productPrice < 100) throw new Error(ERROR_MESSAGE.PRODUCT_PRICE_HAVE_TO_OVER_100);
-    else if (productPrice % 10 !== 0)
-      throw new Error(ERROR_MESSAGE.PRODUCT_PRICE_HAVE_TO_DIVIDED_BY_10);
-  }
-
-  validateProductQuantity(productQuantity) {
-    if (!productQuantity) throw new Error(ERROR_MESSAGE.REQUIRED_PRODUCT_QUANTITY);
-    else if (productQuantity < 1) throw new Error(ERROR_MESSAGE.PRODUCT_QUANTITY_HAVE_TO_OVER_1);
   }
 
   onClickMenu(event) {
