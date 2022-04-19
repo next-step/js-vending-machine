@@ -16,8 +16,22 @@ class VendingMachine {
     };
 
     this.render();
-    this.addEvents();
     this.initEvents();
+  }
+
+  render() {
+    this.vendingMachineView.render(this.state);
+  }
+
+  initEvents() {
+    $(`#${SELECTOR.PRODUCT_MANAGE_MENU_ID}`).onclick = this.changeTab.bind(this);
+    $(`#${SELECTOR.PRODUCT_PURCHASE_MENU_ID}`).onclick = this.changeTab.bind(this);
+    $(`#${SELECTOR.VENDING_MACHINE_MANAGE_MENU_ID}`).onclick = this.changeTab.bind(this);
+    $(`#${SELECTOR.APP_ID}`).addEventListener('click', event => {
+      if (event.target.id === SELECTOR.PRODUCT_ADD_BUTTON_ID) {
+        this.addProduct();
+      }
+    });
   }
 
   setState(newState) {
@@ -25,22 +39,14 @@ class VendingMachine {
     this.render();
   }
 
-  render() {
-    this.vendingMachineView.render(this.state);
-  }
+  changeTab(event) {
+    const clickedTab = event.target.textContent;
 
-  addEvents() {
-    $(`#${SELECTOR.PRODUCT_MANAGE_MENU_ID}`).onclick = this.onClickMenu.bind(this);
-    $(`#${SELECTOR.PRODUCT_PURCHASE_MENU_ID}`).onclick = this.onClickMenu.bind(this);
-    $(`#${SELECTOR.VENDING_MACHINE_MANAGE_MENU_ID}`).onclick = this.onClickMenu.bind(this);
-  }
-
-  initEvents() {
-    $(`#${SELECTOR.APP_ID}`).addEventListener('click', event => {
-      if (event.target.id === SELECTOR.PRODUCT_ADD_BUTTON_ID) {
-        this.addProduct();
-      }
+    this.setState({
+      ...this.state,
+      currentTab: clickedTab,
     });
+    store.setValue(STORE_KEY.CURRENT_TAB, clickedTab);
   }
 
   addProduct() {
@@ -59,29 +65,18 @@ class VendingMachine {
       return;
     }
 
-    const newProduct = {
-      name: inputProductName,
-      price: inputProductPrice,
-      quantity: inputProductQuantity,
-    };
-
     this.setState({
       ...this.state,
       products: [
-        ...this.state.products.filter(product => product.name !== newProduct.name),
-        newProduct,
+        ...this.state.products.filter(product => product.name !== inputProductName),
+        {
+          name: inputProductName,
+          price: inputProductPrice,
+          quantity: inputProductQuantity,
+        },
       ],
     });
     store.setValue(STORE_KEY.PRODUCTS, this.state.products);
-  }
-
-  onClickMenu(event) {
-    const clickedTab = event.target.textContent;
-    store.setValue(STORE_KEY.CURRENT_TAB, clickedTab);
-    this.setState({
-      ...this.state,
-      currentTab: clickedTab,
-    });
   }
 }
 
