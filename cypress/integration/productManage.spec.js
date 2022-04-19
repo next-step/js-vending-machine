@@ -116,5 +116,27 @@ describe('상품 추가하기 탭 관련 테스트', () => {
           if (index === 2) expect(el).to.have.text(5);
         });
     });
+
+    it('기존에 존재하던 상품이 추가되면 내용을 덮어씌웁니다.', () => {
+      cy.get(`#${SELECTOR.PRODUCT_NAME_INPUT_ID}`).type('hello');
+      cy.get(`#${SELECTOR.PRODUCT_PRICE_INPUT_ID}`).type(1000);
+      cy.get(`#${SELECTOR.PRODUCT_QUANTITY_INPUT_ID}`).type(5);
+      cy.get(`#${SELECTOR.PRODUCT_ADD_BUTTON_ID}`).click();
+
+      cy.get(`#${SELECTOR.PRODUCT_NAME_INPUT_ID}`).type('hello');
+      cy.get(`#${SELECTOR.PRODUCT_PRICE_INPUT_ID}`).type(10000);
+      cy.get(`#${SELECTOR.PRODUCT_QUANTITY_INPUT_ID}`).type(50);
+      cy.get(`#${SELECTOR.PRODUCT_ADD_BUTTON_ID}`).click();
+
+      cy.get(`#${SELECTOR.PRODUCT_INVENTORY_CONTAINER_ID}`)
+        .first()
+        .children()
+        .children()
+        .each((el, index) => {
+          if (index === 0) expect(el).to.have.text('hello');
+          if (index === 1) expect(el).to.have.text(10000);
+          if (index === 2) expect(el).to.have.text(50);
+        });
+    });
   });
 });
