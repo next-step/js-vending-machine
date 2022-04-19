@@ -9,46 +9,7 @@
   </head>
 
   <body>
-    <div id="router">
-      <button id="product-manage-menu">상품 관리</button>
-      <button id="vending-machine-manage-menu">잔돈충전</button>
-      <button id="product-purchase-menu">상품 구매</button>
-    </div>
-
-    <div id="app">
-      <h3>상품 추가하기</h3>
-      <div class="product-container">
-        <input
-          type="text"
-          id="product-name-input"
-          placeholder="상품명"
-          data-product="name-input"
-          required
-        />
-        <input
-          type="number"
-          id="product-price-input"
-          placeholder="가격"
-          data-product="price-input"
-          min="10"
-          max="100000"
-          required
-        />
-        <input
-          type="number"
-          id="product-quantity-input"
-          placeholder="수량"
-          data-product="quantity-input"
-          min="1"
-          max="100"
-          required
-        />
-        <button id="product-add-button" data-product="add-button">
-          추가하기
-        </button>
-      </div>
-      <product-inventory></product-inventory>
-    </div>
+    <div id="app"></div>
     <script type="module" src="./js/index.js"></script>
   </body>
 </html>

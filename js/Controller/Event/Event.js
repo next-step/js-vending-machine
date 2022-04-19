@@ -6,7 +6,7 @@ const Event = (function () {
   return {
     router: {
       init() {
-        const router = selector('#router');
+        const router = selector('vending-machine-router');
         router.addEventListener('click', this.seperateEventTarget);
       },
 
@@ -15,20 +15,25 @@ const Event = (function () {
       // 해당 페이지에 이동하면 state를 통해 DOM을 렌더링
       seperateEventTarget(event) {
         if (event.target.id === 'vending-machine-manage-menu') {
+          console.log('vending-machine');
         }
         if (event.target.id === 'product-manage-menu') {
+          console.log('manage-menu');
         }
         if (event.target.id === 'product-purchase-menu') {
+          console.log('product-purchase');
         }
       },
     },
 
     product: {
       init() {
-        const name = selector('#product-name-input'),
-          price = selector('#product-price-input'),
-          quantity = selector('#product-quantity-input'),
-          createButton = selector('#product-add-button');
+        const shadowDOMSelector = selector('product-handling-board').shadowRoot;
+
+        const name = shadowDOMSelector.querySelector('#product-name-input'),
+          price = shadowDOMSelector.querySelector('#product-price-input'),
+          quantity = shadowDOMSelector.querySelector('#product-quantity-input'),
+          createButton = shadowDOMSelector.querySelector('#product-add-button');
 
         name.addEventListener('keyup', this.seperateProductInfo);
         price.addEventListener('keyup', this.seperateProductInfo);
