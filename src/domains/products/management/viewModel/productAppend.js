@@ -1,20 +1,26 @@
 /* eslint-disable no-alert */
 import productStore from '../../../../store/productsStore';
 import ProductItem from '../components/ProductItem';
+import DIVIDABLE_NUMBER from '../constants/constants';
+import {
+  TYPE_DIVIDABLE_PRICE,
+  TYPE_INPUT,
+  TYPE_PRODUCT_NAME,
+} from '../constants/message';
 
 const isValidateInput = (name, price, quantity) => {
   if (!(name && price && quantity)) {
-    alert('값을 입력해주세요!');
+    alert(TYPE_INPUT);
     return false;
   }
 
   if (name.trim() === '') {
-    alert('상품명을 입력해주세요!');
+    alert(TYPE_PRODUCT_NAME);
     return false;
   }
 
-  if (price % 10 !== 0) {
-    alert('가격은 10원 단위로 입력해주세요!');
+  if (price % DIVIDABLE_NUMBER !== 0) {
+    alert(TYPE_DIVIDABLE_PRICE);
     return false;
   }
 
