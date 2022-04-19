@@ -6,7 +6,7 @@ const initState = {
 };
 class store {
   constructor() {
-    this.initState = initState;
+    this.$state;
     this.init();
   }
 
@@ -15,8 +15,8 @@ class store {
       localStorage.getItem(STORE_KEY.PRIVATE) !== 'undefined' && JSON.parse(localStorage.getItem(STORE_KEY.PRIVATE));
 
     if (!localStorageState) {
-      this.$state = { ...this.initState };
-      localStorage.setItem(STORE_KEY.PRIVATE, JSON.stringify({ ...this.initState }));
+      this.$state = { ...initState };
+      localStorage.setItem(STORE_KEY.PRIVATE, JSON.stringify({ ...initState }));
 
       return;
     }
@@ -29,7 +29,7 @@ class store {
   }
 
   reset() {
-    this.$state = { ...this.initState };
+    this.$state = { ...initState };
     localStorage.setItem(STORE_KEY.PRIVATE, JSON.stringify(this.$state));
   }
 

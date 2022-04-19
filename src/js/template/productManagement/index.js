@@ -1,7 +1,3 @@
-import store from '../../store/index.js';
-
-export const render = () => {};
-
 export const getProductsTemplate = () => {
   return `
     <h3>상품 추가하기</h3>

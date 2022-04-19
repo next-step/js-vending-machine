@@ -1,6 +1,5 @@
 import { STORE_KEY } from '../../constants/store/index.js';
 import { validateProduct } from '../../service/productManagement/error.js';
-import store from '../../store/index.js';
 import { getProductListTemplate, getProductsTemplate } from '../../template/productManagement/index.js';
 import { Component } from '../common.js';
 
