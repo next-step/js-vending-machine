@@ -12,6 +12,6 @@ describe('Product', () => {
   });
 
   it('[상품 현황] 영역이 보여야 한다.', () => {
-    cy.get('.product-inventory').shoud('be.visible');
+    cy.get('.product-inventory').should('be.visible');
   });
 });
