@@ -1,16 +1,32 @@
+/* eslint-disable no-alert */
 import productStore from '../../../../store/productsStore';
 import ProductItem from '../components/ProductItem';
+
+const isValidateInput = (name, price, quantity) => {
+  if (!(name && price && quantity)) {
+    alert('값을 입력해주세요!');
+    return false;
+  }
+
+  if (name.trim() === '') {
+    alert('상품명을 입력해주세요!');
+    return false;
+  }
+
+  if (price % 10 !== 0) {
+    alert('가격은 10원 단위로 입력해주세요!');
+    return false;
+  }
+
+  return true;
+};
 
 const setProduct = (e) => {
   const name = e.target.querySelector('#product-name-input').value;
   const price = e.target.querySelector('#product-price-input').value;
   const quantity = e.target.querySelector('#product-quantity-input').value;
 
-  if (!(name && price && quantity)) {
-    // eslint-disable-next-line no-alert
-    alert('값을 입력해주세요!');
-    return false;
-  }
+  if (!isValidateInput(name, price, quantity)) return false;
 
   const product = { name, price, quantity };
 
