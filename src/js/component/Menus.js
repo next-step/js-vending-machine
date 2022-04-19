@@ -1,16 +1,22 @@
 export default class Menus {
+    static PRODUCT_MANAGE = "product-manage-menu";
+    static VENDING_MACHINE_MANAGE = "vending-machine-manage-menu";
+    static PRODUCT_PURCHASE = "product-purchase-menu";
+
     constructor(props) {
         this.props = props;
         this.mounted();
     }
 
     mounted() {
-        document.querySelector("#product-manage-menu").addEventListener("click", () => this.props.onProductManage());
+        document.querySelector(`#${Menus.PRODUCT_MANAGE}`).addEventListener("click", this.props.onProductManage.bind());
         document
-            .querySelector("#vending-machine-manage-menu")
-            .addEventListener("click", () => this.props.onVendingMachineManage());
+            .querySelector(`#${Menus.VENDING_MACHINE_MANAGE}`)
+            .addEventListener("click", this.props.onVendingMachineManage.bind());
         document
-            .querySelector("#product-purchase-menu")
-            .addEventListener("click", () => this.props.onProductPurchase());
+            .querySelector(`#${Menus.PRODUCT_PURCHASE}`)
+            .addEventListener("click", this.props.onProductPurchase.bind());
     }
+
+    setSelectedMenu(menu) {}
 }

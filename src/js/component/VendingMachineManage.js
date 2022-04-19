@@ -1,5 +1,8 @@
+import VendingMachineCharge from "../domain/VendingMachineCharge.js";
+
 export default class VendingMachineManage {
-    constructor(props) {
+    constructor(vendingMachineCharge, props) {
+        this.vendingMachineCharge = vendingMachineCharge;
         this.props = props;
     }
     setVendingMachineManage() {
@@ -19,6 +22,28 @@ export default class VendingMachineManage {
 
     #onSubmitVendingMachineCharge() {
         this.props.onVendingMachine(document.querySelector("#vending-machine-charge-input").value);
+    }
+
+    onSetVendingMachine() {
+        this.#setHaveCharge();
+        this.#setHaveCoins();
+    }
+
+    #setHaveCharge() {
+        document.querySelector("#vending-machine-charge-amount").innerHTML = this.vendingMachineCharge.charge;
+    }
+
+    #setHaveCoins() {
+        let amount = 0;
+
+        VendingMachineCharge.COINS.forEach((coin) => {
+            amount = this.vendingMachineCharge.coins[coin];
+            if (amount !== 0) {
+                document.querySelector(`#vending-machine-coin-${coin}-quantity`).innerHTML = `${amount}개`;
+            } else {
+                document.querySelector(`#vending-machine-coin-${coin}-quantity`).innerHTML = "";
+            }
+        });
     }
 
     #getTemplate() {
