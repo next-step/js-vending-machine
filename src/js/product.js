@@ -30,9 +30,58 @@ export default function Product() {
 
   this.showProductContainer = () => {
     document.querySelector('#app').insertAdjacentHTML('afterbegin', productTemplate);
+
+    const productAddButton = document.querySelector('#product-add-button');
+    productAddButton.addEventListener('click', this.setLocalStorageProducts);
   };
 
   this.showInventory = () => {
     document.querySelector('#app').insertAdjacentHTML('beforeend', inventoryTemplate);
+  };
+
+  this.setLocalStorageProducts = () => {
+    const products = this.getLocalStorageProducts();
+
+    const productName = document.querySelector('#product-name-input').value;
+    const productPrice = document.querySelector('#product-price-input').value;
+    const productQuantity = document.querySelector('#product-quantity-input').value;
+
+    products.push({
+      name: productName,
+      price: productPrice,
+      quantity: productQuantity,
+    });
+
+    window.localStorage.setItem('products', JSON.stringify(products));
+
+    this.renderProducts();
+  };
+
+  this.getLocalStorageProducts = () => {
+    if (!window.localStorage.getItem('products')) {
+      return [];
+    }
+
+    return JSON.parse(window.localStorage.getItem('products'));
+  };
+
+  this.renderProducts = () => {
+    const products = this.getLocalStorageProducts();
+
+    const productsTemplate = products
+      .map(
+        product =>
+          /* HTML */
+          `
+            <tr>
+              <td class="product-manage-name">${product.name}</td>
+              <td class="product-manage-price">${product.price}</td>
+              <td class="product-manage-quantity">${product.quantity}</td>
+            </tr>
+          `
+      )
+      .join('');
+
+    document.querySelector('#product-inventory-container').innerHTML = productsTemplate;
   };
 }
