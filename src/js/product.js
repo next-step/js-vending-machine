@@ -50,7 +50,9 @@ export default function Product() {
     const productPrice = document.querySelector('#product-price-input').value;
     const productQuantity = document.querySelector('#product-quantity-input').value;
 
-    validateProductInputs(productName, productPrice, productQuantity);
+    if (!validateProductInputs(productName, productPrice, productQuantity)) {
+      return;
+    }
 
     const duplicatedProuductNameIndex = findDuplicatedProductNameIndex(products, productName);
 
