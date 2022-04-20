@@ -1,3 +1,5 @@
+import Validation from './Validation.js';
+
 export default function Product() {
   const productTemplate =
     /* HTML */
@@ -46,17 +48,17 @@ export default function Product() {
     const productPrice = document.querySelector('#product-price-input').value;
     const productQuantity = document.querySelector('#product-quantity-input').value;
 
-    if (!this.isEmptyProductInput(productName, productPrice, productQuantity)) {
+    if (!Validation.isEmptyProductInput(productName, productPrice, productQuantity)) {
       alert('상품명, 금액, 수량에는 공백을 입력할 수 없습니다.');
       return false;
     }
 
-    if (!this.isUnder100Price(productPrice)) {
+    if (!Validation.isUnder100Price(productPrice)) {
       alert('상품의 최소 가격은 100원입니다.');
       return false;
     }
 
-    if (!this.isUnderMinQuantity(productQuantity)) {
+    if (!Validation.isUnderMinQuantity(productQuantity)) {
       alert('상품의 최소 수량은 1개입니다.');
       return false;
     }
@@ -98,29 +100,5 @@ export default function Product() {
       .join('');
 
     document.querySelector('#product-inventory-container').innerHTML = productsTemplate;
-  };
-
-  this.isEmptyProductInput = (name, price, quantity) => {
-    if (name === '' || price === '' || quantity === '') {
-      return false;
-    }
-
-    return true;
-  };
-
-  this.isUnder100Price = price => {
-    if (price < 100) {
-      return false;
-    }
-
-    return true;
-  };
-
-  this.isUnderMinQuantity = quantity => {
-    if (quantity < 1) {
-      return false;
-    }
-
-    return true;
   };
 }
