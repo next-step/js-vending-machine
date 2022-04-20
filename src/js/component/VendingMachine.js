@@ -13,16 +13,16 @@ export default class VendingMachine {
     constructor() {
         this.products = new Products(getProducts());
         this.vendingMachineCharge = new VendingMachineCharge();
-        this.menu = new Menus({
+        new Menus({
             onProductManage: () => this.onProductManage(),
-            onVendingMachineManage: () => this.onVendingMachineManage(),
-            onProductPurchase: () => this.onProductPurchase(),
+            onVendingMachineManage: () => this.#onVendingMachineManage(),
+            onProductPurchase: () => this.#onProductPurchase(),
         });
         this.productManage = new ProductManage(this.products, {
             onAddProduct: this.onAddProduct.bind(this),
         });
         this.vendingMachineManage = new VendingMachineManage(this.vendingMachineCharge, {
-            onVendingMachine: this.onVendingMachineCharge.bind(this),
+            onVendingMachine: this.#onVendingMachineCharge.bind(this),
         });
         this.productPurchase = new ProductPurchase();
         this.onProductManage();
@@ -42,7 +42,7 @@ export default class VendingMachine {
         }
     }
 
-    onVendingMachineCharge(charge) {
+    #onVendingMachineCharge(charge) {
         try {
             VendingMachineCharge.validate(Number(charge));
             this.vendingMachineCharge.computeCharge(Number(charge));
@@ -53,11 +53,11 @@ export default class VendingMachine {
         }
     }
 
-    onVendingMachineManage() {
+    #onVendingMachineManage() {
         this.vendingMachineManage.setVendingMachineManage();
     }
 
-    onProductPurchase() {
+    #onProductPurchase() {
         this.productPurchase.render();
     }
 }
