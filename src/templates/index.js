@@ -1,5 +1,10 @@
-import ProductManageTemplate from './ProductManageTemplate.js';
-import ProductPurchaseTemplate from './ProductPurchaseTemplate.js';
-import VendingMachineManageTemplate from './VendingMachineManageTemplate.js';
+import { productManageTabTemplate, productTemplate } from './ProductManageTemplate.js';
+import { productPurchaseTabTemplate } from './ProductPurchaseTemplate.js';
+import { vendingMachineManageTabTemplate } from './VendingMachineManageTemplate.js';
 
-export { ProductManageTemplate, ProductPurchaseTemplate, VendingMachineManageTemplate };
+export {
+  productManageTabTemplate,
+  productTemplate,
+  productPurchaseTabTemplate,
+  vendingMachineManageTabTemplate,
+};
