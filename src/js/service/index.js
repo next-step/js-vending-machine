@@ -14,5 +14,5 @@ export const getProducts = () => {
 
 export const getCharge = () => {
     const chargeData = localStorage.getItem(CHARGE_ID);
-    return productData ? JSON.parse(productData) : VendingMachineCharge.getInitCoins;
+    return chargeData ? JSON.parse(chargeData) : VendingMachineCharge.getInitCoins;
 };
