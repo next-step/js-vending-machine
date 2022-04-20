@@ -3,8 +3,7 @@ import ProductManage from '../ProductManage.js';
 import { PRODUCT } from '../constants/product-constant.js';
 
 function productManageTemplate() {
-  const $template = document.createElement('template');
-  $template.innerHTML = `
+  return `
     <h3>상품 추가하기</h3>
     <div class="product-container">
       <form id="product-form">
@@ -30,19 +29,24 @@ function productManageTemplate() {
       <tbody id="product-inventory-container"></tbody>
     </table>
   `;
-  return $template.content;
 }
 
 function productTemplate({ name, price, quantity }) {
-  const $template = document.createElement('template');
-  $template.innerHTML = `
-    <tr data-name="${name}" data-price="${price}" data-quantity="${quantity}">
-      <td>${name}</td>
-      <td>${price}</td>
-      <td>${quantity}</td>
-    </tr>
-  `;
-  return $template.content;
+  const $template = new DocumentFragment();
+  const $tr = document.createElement('tr');
+  $tr.dataset.name = name;
+  $tr.dataset.price = price;
+  $tr.dataset.quantity = quantity;
+  $tr.insertAdjacentHTML(
+    'afterbegin',
+    `
+    <td>${name}</td>
+    <td>${price}</td>
+    <td>${quantity}</td>
+  `
+  );
+  $template.append($tr);
+  return $template;
 }
 
 function $productForm() {
