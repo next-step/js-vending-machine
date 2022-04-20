@@ -97,4 +97,19 @@ describe('Product', () => {
         expect(alertStub).to.be.calledWith('상품의 가격은 10원 단위어야 합니다.');
       });
   });
+
+  it('상품이 추가되면 입력 값은 빈 값으로 바뀌어야 한다.', () => {
+    cy.get('#product-name-input').type('칠성사이다');
+    cy.get('#product-price-input').type(105);
+    cy.get('#product-quantity-input').type(1);
+
+    // when , then
+    cy.get('#product-add-button')
+      .click()
+      .then(() => {
+        cy.get('#product-name-input').should('have.value', '');
+        cy.get('#product-price-input').should('have.value', '');
+        cy.get('#product-quantity-input').should('have.value', '');
+      });
+  });
 });
