@@ -9,11 +9,16 @@ const MainView = (function () {
     return formId === FORM.PRODUCT;
   }
 
+  function initializeContent() {
+    $app.innerHTML = '';
+  }
+
   function changeAppContents(template) {
-    $app.replaceChildren(template);
+    $app.insertAdjacentHTML('afterbegin', template);
   }
 
   function handleProductManageMenu() {
+    initializeContent();
     changeAppContents(ProductManageView.contents());
     ProductManageView.initialize();
   }
@@ -25,9 +30,20 @@ const MainView = (function () {
     }
   }
 
+  function preventEmptyKeypress(event) {
+    if (event.target.tagName !== 'INPUT') {
+      return;
+    }
+
+    if (event.code === 'Space') {
+      event.preventDefault();
+    }
+  }
+
   function eventBindings() {
     $productManageMenuSubmit.addEventListener('click', handleProductManageMenu);
     $app.addEventListener('submit', handleMenuContentSubmit);
+    $app.addEventListener('keypress', preventEmptyKeypress);
   }
 
   function initialize() {

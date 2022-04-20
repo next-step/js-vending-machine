@@ -4,6 +4,10 @@ function isEmpty(value) {
   return value === undefined || value === null || value.trim() === '';
 }
 
+function isIncludeEmptyString(value) {
+  return (value ?? '').includes('');
+}
+
 export default class Product {
   #name;
   #price;
@@ -39,6 +43,10 @@ export default class Product {
   #validateName(name) {
     if (isEmpty(name)) {
       throw new Error('상품명은 필수값입니다.');
+    }
+
+    if (isIncludeEmptyString(name)) {
+      throw new Error('상품명에 공백은 포함될수 없습니다.');
     }
   }
 
