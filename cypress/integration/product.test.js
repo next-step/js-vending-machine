@@ -37,6 +37,7 @@ describe('Product', () => {
   it('상품명, 금액, 수량은 공백을 입력할 수 없다.', () => {
     // given
     const alertStub = cy.stub();
+    cy.on('window:alert', alertStub);
 
     // when , then
     cy.get('#product-add-button')
