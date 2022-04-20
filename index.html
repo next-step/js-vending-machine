@@ -9,11 +9,12 @@
   </head>
   
   <body>
-    <button class="link" data-link="products" id="product-manage-menu">상품 관리</button>
-    <button class="link" data-link="charge" id="vending-machine-manage-menu">잔돈충전</button>
-    <button class="link" data-link="purchase" id="product-purchase-menu">상품 구매</button>
+    <a data-link="/products" href="#/products" id="product-manage-menu">상품 관리</a>
+    <a data-link="/charge" href="#/charge" id="vending-machine-manage-menu">잔돈충전</a>
+    <a data-link="/purchase" href="#/purchase" id="product-purchase-menu">상품 구매</a>
 
     <div id="app"></div>
+    <!-- <script type="module" src="/dist/index.d253dda5.js" defer></script> -->
     <script type="module" src="./src/ts/controller.ts" defer></script>
   </body>
 </html>
