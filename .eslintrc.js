@@ -5,7 +5,8 @@ module.exports = {
     node: true,
   },
   parserOptions: {
-    ecmaVersion: 2021,
+    ecmaVersion: 'latest',
+    sourceType: 'module',
   },
   extends: ['eslint:recommended', 'airbnb-base', 'prettier'],
   plugins: ['prettier'],
