@@ -56,6 +56,11 @@ export default function Product() {
       return false;
     }
 
+    if (!this.isUnderMinQuantity(productQuantity)) {
+      alert('상품의 최소 수량은 1개입니다.');
+      return false;
+    }
+
     products.push({
       name: productName,
       price: productPrice,
@@ -105,6 +110,14 @@ export default function Product() {
 
   this.isUnder100Price = price => {
     if (price < 100) {
+      return false;
+    }
+
+    return true;
+  };
+
+  this.isUnderMinQuantity = quantity => {
+    if (quantity < 1) {
       return false;
     }
 
