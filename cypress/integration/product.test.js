@@ -80,4 +80,21 @@ describe('Product', () => {
         expect(alertStub).to.be.calledWith('상품의 최소 수량은 1개입니다.');
       });
   });
+
+  it('상품 가격은 10원으로 나누어 떨어져야 한다.', () => {
+    // given
+    const alertStub = cy.stub();
+    cy.on('window:alert', alertStub);
+
+    cy.get('#product-name-input').type('칠성사이다');
+    cy.get('#product-price-input').type(105);
+    cy.get('#product-quantity-input').type(1);
+
+    // when , then
+    cy.get('#product-add-button')
+      .click()
+      .then(() => {
+        expect(alertStub).to.be.calledWith('상품의 가격은 10원 단위어야 합니다.');
+      });
+  });
 });
