@@ -71,12 +71,12 @@ describe('자판기', () => {
 
     describe('상품 입력 테스트', () => {
       it('상품명은 어떤 값이든 입력이 가능하다.', () => {
-        cy.$productNameInput().type('상품명 테스트1');
-        cy.$productNameInput().should('have.value', '상품명 테스트1');
+        cy.$productNameInput().type('상품명테스트1');
+        cy.$productNameInput().should('have.value', '상품명테스트1');
       });
 
       it('가격은 숫자만 입력이 가능하다.', () => {
-        cy.$productPriceInput().type('가격 테스트');
+        cy.$productPriceInput().type('가격테스트');
         cy.$productPriceInput().should('have.value', '');
         cy.$productPriceInput().type('aafa ');
         cy.$productPriceInput().should('have.value', '');
@@ -85,7 +85,7 @@ describe('자판기', () => {
       });
 
       it('수량은 숫자만 입력이 가능하다.', () => {
-        cy.$productQuantityInput().type('수량 테스트');
+        cy.$productQuantityInput().type('수량테스트');
         cy.$productQuantityInput().should('have.value', '');
         cy.$productQuantityInput().type('aafa ');
         cy.$productQuantityInput().should('have.value', '');
@@ -109,7 +109,7 @@ describe('자판기', () => {
       });
 
       it('상품가격을 입력하지 않고 추가하기를 눌렀을때 상품은 추가되지 않는다.', () => {
-        cy.$productNameInput().type('상품명 테스트');
+        cy.$productNameInput().type('상품명테스트');
         cy.$productAddSubmit()
           .click()
           .then(() => {
@@ -123,7 +123,7 @@ describe('자판기', () => {
       });
 
       it('상품수량을 입력하지 않고 추가하기를 눌렀을때 상품은 추가되지 않는다.', () => {
-        cy.$productNameInput().type('상품명 테스트');
+        cy.$productNameInput().type('상품명테스트');
         cy.$productPriceInput().type(1000);
         cy.$productAddSubmit()
           .click()
@@ -138,7 +138,7 @@ describe('자판기', () => {
       });
 
       it('상품가격을 최소가격(100)과 최소수량(1)을 도달하지 못한 경우 상품이 추가되지 않는다.', () => {
-        cy.$productNameInput().type('경계값 테스트');
+        cy.$productNameInput().type('경계값테스트');
         cy.$productPriceInput().type(99);
         cy.$productQuantityInput().type(0);
         cy.$productAddSubmit()
@@ -176,7 +176,7 @@ describe('자판기', () => {
           });
       });
 
-      it('상품명을 공백을 입력하고 추가하는 경우 사용자에게 경고창을 띄운다.', () => {
+      it('상품명을 공백은 입력되지 않는다..', () => {
         const alertStub = cy.stub();
         cy.on('window:alert', alertStub);
 
@@ -186,12 +186,17 @@ describe('자판기', () => {
         cy.$productAddSubmit()
           .click()
           .then(() => {
-            expect(alertStub).to.be.called;
+            cy.$productNameInput()
+              .invoke('prop', 'validity')
+              .should('deep.include', {
+                valueMissing: true,
+                valid: false,
+              });
           });
       });
 
       it('올바르게 상품(경계값)을 입력한 경우 상품 목록에 입력한 내용의 상품이 추가된다.', () => {
-        const name = '경계값 상품';
+        const name = '경계값상품';
         const price = 100;
         const quantity = 1;
         cy.$productNameInput().type(name);
@@ -205,7 +210,7 @@ describe('자판기', () => {
       });
 
       it('올바르게 상품을 입력한 경우 상품 목록에 입력한 내용의 상품이 추가된다.', () => {
-        const name = '제대로 된 상품';
+        const name = '제대로된상품';
         const price = 1000;
         const quantity = 10;
         cy.$productNameInput().type(name);
