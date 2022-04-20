@@ -68,11 +68,19 @@ export default function Product() {
       return false;
     }
 
-    products.push({
-      name: productName,
-      price: productPrice,
-      quantity: productQuantity,
-    });
+    const duplicatedProductNameIndex = products.findIndex(product => product.name === productName);
+    console.log(`중복되는 상품명의 위치 : ${duplicatedProductNameIndex}`);
+
+    if (duplicatedProductNameIndex !== -1) {
+      products[duplicatedProductNameIndex].price = productPrice;
+      products[duplicatedProductNameIndex].quantity = productQuantity;
+    } else {
+      products.push({
+        name: productName,
+        price: productPrice,
+        quantity: productQuantity,
+      });
+    }
 
     window.localStorage.setItem('products', JSON.stringify(products));
 
