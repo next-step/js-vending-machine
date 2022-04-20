@@ -1,4 +1,4 @@
-import ProductException from "../exception/ProductException.js";
+import { ProductException } from "../exception/ProductException.js";
 
 export default class Product {
     static NAME_MIN_LENGTH = 1;
@@ -28,7 +28,7 @@ export default class Product {
             throw ProductException.notMatchPriceUnit();
         }
 
-        if (quantity < Product.QUANTITY_MIN) {
+        if (!quantity || quantity < Product.QUANTITY_MIN) {
             throw ProductException.outOfRangeQuantity();
         }
     }

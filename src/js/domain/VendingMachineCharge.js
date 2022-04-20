@@ -1,4 +1,4 @@
-import VendingMachineChargeException from "../exception/VendingMachineChargeException.js";
+import { VendingMachineChargeException } from "../exception/VendingMachineChargeException.js";
 
 export default class VendingMachineCharge {
     static MIN_CHARGE = 0;
@@ -33,25 +33,23 @@ export default class VendingMachineCharge {
 
     computeCharge(charge) {
         let remainCharge = charge;
-        let amount = 0;
         let chargeCoin = VendingMachineCharge.getInitCoins();
 
         VendingMachineCharge.COINS.forEach((coin) => {
-            amount = 0;
-
-            if (remainCharge >= coin) {
-                if (coin !== 10) {
-                    amount = Math.trunc(Math.random() * (remainCharge / coin + 1));
-                } else {
-                    amount = remainCharge / coin;
-                }
-                chargeCoin[coin] = amount;
-                remainCharge = remainCharge - coin * amount;
+            if (coin !== 10) {
+                chargeCoin[coin] = this.#getCoinAmount(remainCharge, coin);
+                remainCharge = remainCharge - coin * chargeCoin[coin];
+            } else {
+                chargeCoin[10] = remainCharge !== 0 ? remainCharge / 10 : remainCharge;
             }
         });
 
         this.setHaveCoins(chargeCoin);
         this.setHaveCharge(charge);
+    }
+
+    #getCoinAmount(remain, coin) {
+        return remain >= coin ? Math.trunc(Math.random() * (remain / coin + 1)) : 0;
     }
 
     setHaveCharge(charge) {
