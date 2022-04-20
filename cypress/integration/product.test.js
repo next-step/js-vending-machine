@@ -100,7 +100,7 @@ describe('Product', () => {
 
   it('상품이 추가되면 입력 값은 빈 값으로 바뀌어야 한다.', () => {
     cy.get('#product-name-input').type('칠성사이다');
-    cy.get('#product-price-input').type(105);
+    cy.get('#product-price-input').type(150);
     cy.get('#product-quantity-input').type(1);
 
     // when , then
