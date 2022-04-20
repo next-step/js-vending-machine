@@ -1,4 +1,4 @@
-const Validation = {
+const InputValidation = {
   isEmptyProductInput(name, price, quantity) {
     if (name === '' || price === '' || quantity === '') {
       return false;
@@ -24,4 +24,4 @@ const Validation = {
   },
 };
 
-export default Validation;
+export default InputValidation;

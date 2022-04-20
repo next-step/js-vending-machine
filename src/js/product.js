@@ -1,4 +1,4 @@
-import Validation from './Validation.js';
+import InputValidation from './InputValidation.js';
 
 export default function Product() {
   const productTemplate =
@@ -48,17 +48,17 @@ export default function Product() {
     const productPrice = document.querySelector('#product-price-input').value;
     const productQuantity = document.querySelector('#product-quantity-input').value;
 
-    if (!Validation.isEmptyProductInput(productName, productPrice, productQuantity)) {
+    if (!InputValidation.isEmptyProductInput(productName, productPrice, productQuantity)) {
       alert('상품명, 금액, 수량에는 공백을 입력할 수 없습니다.');
       return false;
     }
 
-    if (!Validation.isUnder100Price(productPrice)) {
+    if (!InputValidation.isUnder100Price(productPrice)) {
       alert('상품의 최소 가격은 100원입니다.');
       return false;
     }
 
-    if (!Validation.isUnderMinQuantity(productQuantity)) {
+    if (!InputValidation.isUnderMinQuantity(productQuantity)) {
       alert('상품의 최소 수량은 1개입니다.');
       return false;
     }
