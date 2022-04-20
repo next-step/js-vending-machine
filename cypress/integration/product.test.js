@@ -1,6 +1,7 @@
 describe('Product', () => {
   beforeEach(() => {
     cy.visit('./index.html');
+    cy.clearLocalStorage();
   });
 
   it('[상품 추가하기] 영역이 보여야 한다.', () => {
