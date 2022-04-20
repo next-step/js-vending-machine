@@ -1,6 +1,7 @@
 import AbstractView from './AbstractView.js';
-import Product, { STEP_PRICE, MIN_PRICE, MIN_QUANTITY } from '../Product.js';
+import Product from '../Product.js';
 import ProductManage from '../ProductManage.js';
+import { PRODUCT } from '../constants/product-constant.js';
 
 function productManageTemplate() {
   const $template = document.createElement('template');
@@ -9,8 +10,8 @@ function productManageTemplate() {
     <div class="product-container">
       <form id="product-form">
         <input required type="text" name="name" id="product-name-input" placeholder="상품명" />
-        <input required type="number" name="price" min="${MIN_PRICE}" step="${STEP_PRICE}" id="product-price-input" placeholder="가격" />
-        <input required type="number" name="quantity" min="${MIN_QUANTITY}" id="product-quantity-input" placeholder="수량" />
+        <input required type="number" name="price" min="${PRODUCT.MIN_PRICE}" step="${PRODUCT.STEP_PRICE}" id="product-price-input" placeholder="가격" />
+        <input required type="number" name="quantity" min="${PRODUCT.MIN_QUANTITY}" id="product-quantity-input" placeholder="수량" />
         <button type="submit" id="product-add-button">추가하기</button>
       </form>
     </div>

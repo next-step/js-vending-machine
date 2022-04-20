@@ -1,6 +1,4 @@
-export const MIN_PRICE = 100;
-export const MIN_QUANTITY = 1;
-export const STEP_PRICE = 10;
+import { PRODUCT } from './constants/product-constant.js';
 
 function isEmpty(value) {
   return value === undefined || value === null || value.trim() === '';
@@ -48,11 +46,11 @@ export default class Product {
     if (isEmpty(price)) {
       throw new Error('가격은 필수값입니다.');
     }
-    if (price < MIN_PRICE) {
-      throw new Error(`가격은 ${MIN_PRICE} 보다 커야됩니다.`);
+    if (price < PRODUCT.MIN_PRICE) {
+      throw new Error(`가격은 ${PRODUCT.MIN_PRICE} 보다 커야됩니다.`);
     }
-    if (price % STEP_PRICE !== 0) {
-      throw new Error(`가격은 ${STEP_PRICE} 단위여야 합니다.`);
+    if (price % PRODUCT.STEP_PRICE !== 0) {
+      throw new Error(`가격은 ${PRODUCT.STEP_PRICE} 단위여야 합니다.`);
     }
   }
 
@@ -61,8 +59,8 @@ export default class Product {
       throw new Error('수량은 필수값입니다.');
     }
 
-    if (quantity < MIN_QUANTITY) {
-      throw new Error(`수량은 ${MIN_QUANTITY} 이상 이여야 합니다.`);
+    if (quantity < PRODUCT.MIN_QUANTITY) {
+      throw new Error(`수량은 ${PRODUCT.MIN_QUANTITY} 이상 이여야 합니다.`);
     }
   }
 
