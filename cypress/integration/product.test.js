@@ -33,4 +33,16 @@ describe('Product', () => {
     cy.get('.product-manage-price').should('have.text', 1500);
     cy.get('.product-manage-quantity').should('have.text', 5);
   });
+
+  it('상품명, 금액, 수량은 공백을 입력할 수 없다.', () => {
+    // given
+    const alertStub = cy.stub();
+
+    // when , then
+    cy.get('#product-add-button')
+      .click()
+      .then(() => {
+        expect(alertStub).to.be.calledWith('상품명, 금액, 수량에는 공백을 입력할 수 없습니다.');
+      });
+  });
 });
