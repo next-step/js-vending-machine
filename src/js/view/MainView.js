@@ -9,16 +9,11 @@ const MainView = (function () {
     return formId === FORM.PRODUCT;
   }
 
-  function initializeContent() {
-    $app.innerHTML = '';
-  }
-
   function changeAppContents(template) {
-    $app.insertAdjacentHTML('afterbegin', template);
+    $app.replaceChildren(template);
   }
 
   function handleProductManageMenu() {
-    initializeContent();
     changeAppContents(ProductManageView.contents());
     ProductManageView.initialize();
   }
