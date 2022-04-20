@@ -1,4 +1,4 @@
-import { ERROR_MESSAGE, SELECTOR } from '../../src/constants.js';
+import { ERROR_MESSAGE, SELECTOR, STANDARD } from '../../src/constants.js';
 
 describe('상품 추가하기 탭 관련 테스트', () => {
   beforeEach(() => {
@@ -34,7 +34,7 @@ describe('상품 추가하기 탭 관련 테스트', () => {
         });
     });
 
-    it('상품 가격은 100이상 정수여야 합니다.', () => {
+    it(`상품 가격은 ${STANDARD.PRODUCT_PRICE_MINIMUM}이상 정수여야 합니다.`, () => {
       const alertStub = cy.stub();
       cy.on('window:alert', alertStub);
 
@@ -50,7 +50,7 @@ describe('상품 추가하기 탭 관련 테스트', () => {
         });
     });
 
-    it('상품 가격은 10으로 나누어 떨어져야 합니다.', () => {
+    it(`상품 가격은 ${STANDARD.PRODUCT_PRICE_DIVIDE_BY}으로 나누어 떨어져야 합니다.`, () => {
       const alertStub = cy.stub();
       cy.on('window:alert', alertStub);
 
@@ -81,7 +81,7 @@ describe('상품 추가하기 탭 관련 테스트', () => {
         });
     });
 
-    it('상품 수량은 1이상 정수여야 합니다.', () => {
+    it(`상품 수량은 ${STANDARD.PRODUCT_QUANTITY_MINIMUM}이상 정수여야 합니다.`, () => {
       const alertStub = cy.stub();
       cy.on('window:alert', alertStub);
 
