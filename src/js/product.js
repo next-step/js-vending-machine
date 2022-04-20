@@ -1,5 +1,6 @@
 import { getLocalStorageProducts, setLocalStorageProducts } from './store.js';
 import { clearProductInputs, validateProductInputs, findDuplicatedProductNameIndex } from './Utils.js';
+import Constants from './Contants.js';
 
 export default function Product() {
   const productTemplate =
@@ -51,15 +52,17 @@ export default function Product() {
 
     validateProductInputs(productName, productPrice, productQuantity);
 
-    if (findDuplicatedProductNameIndex(products, productName) !== -1) {
-      products[findDuplicatedProductNameIndex(products, productName)].price = productPrice;
-      products[findDuplicatedProductNameIndex(products, productName)].quantity = productQuantity;
-    } else {
+    const duplicatedProuductNameIndex = findDuplicatedProductNameIndex(products, productName);
+
+    if (duplicatedProuductNameIndex === Constants.NOT_FOUND_DUPLICATED_PRODUCT_NAME) {
       products.push({
         name: productName,
         price: productPrice,
         quantity: productQuantity,
       });
+    } else {
+      products[duplicatedProuductNameIndex].price = productPrice;
+      products[duplicatedProuductNameIndex].quantity = productQuantity;
     }
 
     setLocalStorageProducts(products);
