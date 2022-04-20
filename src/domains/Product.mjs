@@ -14,6 +14,10 @@ class Product {
     this.#quantity = quantity;
   }
 
+  get name() {
+    return this.#name;
+  }
+
   getProduct() {
     return {
       name: this.#name,

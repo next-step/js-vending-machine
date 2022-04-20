@@ -18,6 +18,7 @@ class ProductManager {
 
   addProduct({ name, price, quantity }) {
     try {
+      this.#fliterSameNameProduct(name);
       this.#products = [...this.#products, new Product({ name, price, quantity })];
     } catch (error) {
       alert(error.message);
@@ -25,6 +26,10 @@ class ProductManager {
     }
 
     store.setValue(STORE_KEY.PRODUCTS, this.products);
+  }
+
+  #fliterSameNameProduct(productName) {
+    this.#products = this.#products.filter(product => product.name !== productName);
   }
 }
 
