@@ -1,6 +1,5 @@
-import InputValidation from './InputValidation.js';
 import { getLocalStorageProducts, setLocalStorageProducts } from './store.js';
-import clearProductInputs from './Utils';
+import { clearProductInputs, validateProductInputs } from './Utils.js';
 
 export default function Product() {
   const productTemplate =
@@ -50,25 +49,7 @@ export default function Product() {
     const productPrice = document.querySelector('#product-price-input').value;
     const productQuantity = document.querySelector('#product-quantity-input').value;
 
-    if (!InputValidation.isEmptyProductInput(productName, productPrice, productQuantity)) {
-      alert('상품명, 금액, 수량에는 공백을 입력할 수 없습니다.');
-      return false;
-    }
-
-    if (!InputValidation.isUnder100Price(productPrice)) {
-      alert('상품의 최소 가격은 100원입니다.');
-      return false;
-    }
-
-    if (!InputValidation.isPriceInUnitsOf10Won(productPrice)) {
-      alert('상품의 가격은 10원 단위어야 합니다.');
-      return false;
-    }
-
-    if (!InputValidation.isUnderMinQuantity(productQuantity)) {
-      alert('상품의 최소 수량은 1개입니다.');
-      return false;
-    }
+    validateProductInputs(productName, productPrice, productQuantity);
 
     const duplicatedProductNameIndex = products.findIndex(product => product.name === productName);
     console.log(`중복되는 상품명의 위치 : ${duplicatedProductNameIndex}`);
