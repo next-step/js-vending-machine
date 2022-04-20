@@ -3,7 +3,6 @@ import { ERROR_MESSAGE, SELECTOR } from '../../src/constants.js';
 describe('상품 추가하기 탭 관련 테스트', () => {
   beforeEach(() => {
     cy.visit('/');
-    cy.get(`#${SELECTOR.PRODUCT_MANAGE_MENU_ID}`).click();
   });
 
   context('상품명이 알맞게 입력되어야 합니다.', () => {
