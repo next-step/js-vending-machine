@@ -77,6 +77,10 @@ export default function Product() {
     window.localStorage.setItem('products', JSON.stringify(products));
 
     this.renderProducts();
+
+    document.querySelector('#product-name-input').value = '';
+    document.querySelector('#product-price-input').value = '';
+    document.querySelector('#product-quantity-input').value = '';
   };
 
   this.getLocalStorageProducts = () => {
