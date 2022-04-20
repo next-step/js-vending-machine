@@ -11,7 +11,8 @@ export default class VendingMachineManage {
     }
 
     #render() {
-        document.querySelector("#app").innerHTML = this.#getTemplate();
+        document.querySelector("#app").replaceChildren();
+        document.querySelector("#app").insertAdjacentHTML("afterbegin", this.#getTemplate());
     }
 
     #mounted() {

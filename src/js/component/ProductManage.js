@@ -13,7 +13,8 @@ export default class ProductManage {
     }
 
     #render() {
-        document.querySelector("#app").innerHTML = this.#getTemplate();
+        document.querySelector("#app").replaceChildren();
+        document.querySelector("#app").insertAdjacentHTML("afterbegin", this.#getTemplate());
     }
 
     #mounted() {
@@ -22,10 +23,10 @@ export default class ProductManage {
         this.$productQuantityInput = document.querySelector("#product-quantity-input");
         this.$productcontainerForm = document.querySelector("#product-container-form");
 
-        document.querySelector("#product-add-button").addEventListener("click", () => this.onSubmitProduct());
+        document.querySelector("#product-add-button").addEventListener("click", () => this.#onSubmitProduct());
     }
 
-    onSubmitProduct() {
+    #onSubmitProduct() {
         this.props.onAddProduct(
             this.$productNameInput.value,
             this.$productPriceInput.value,
