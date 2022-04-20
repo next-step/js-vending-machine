@@ -1,82 +1,56 @@
+import { ProductManager, Router } from './domains/index.js';
 import VendingMachineView from './VendingMachineView.js';
-import Validator from './Validator.js';
 
 import { $ } from './utils/dom.js';
-import store from './utils/store.js';
-import { SELECTOR, STORE_KEY, TAB } from './constants.js';
+import { SELECTOR, TAB } from './constants.js';
 
 class VendingMachine {
   constructor(target) {
     this.vendingMachineView = new VendingMachineView(target);
-    this.validator = new Validator();
-
-    this.state = {
-      currentTab: store.getValue(STORE_KEY.CURRENT_TAB) || TAB.PRODUCT_MANAGE_TAB,
-      products: store.getValue(STORE_KEY.PRODUCTS) || [],
-    };
-
-    this.render();
+    this.productManager = new ProductManager();
+    this.router = new Router();
+    this.initRender();
     this.initEvents();
   }
 
-  render() {
-    this.vendingMachineView.renderTab(this.state);
+  initRender() {
+    this.vendingMachineView.renderTab(this.router.currentTab);
+    if (this.router.currentTab === TAB.PRODUCT_MANAGE_TAB)
+      this.vendingMachineView.renderProductTableInProductManageTab(this.productManager.products);
   }
 
   initEvents() {
-    $(`#${SELECTOR.PRODUCT_MANAGE_MENU_ID}`).onclick = this.changeTab.bind(this);
-    $(`#${SELECTOR.PRODUCT_PURCHASE_MENU_ID}`).onclick = this.changeTab.bind(this);
-    $(`#${SELECTOR.VENDING_MACHINE_MANAGE_MENU_ID}`).onclick = this.changeTab.bind(this);
-    $(`#${SELECTOR.APP_ID}`).addEventListener('click', event => {
-      if (event.target.id === SELECTOR.PRODUCT_ADD_BUTTON_ID) {
-        this.addProduct();
-      }
-    });
+    $('body').addEventListener('click', event => this.handleClickEvent(event));
   }
 
-  setState(newState) {
-    this.state = newState;
-    this.render();
+  handleClickEvent(event) {
+    const targetId = event.target.id;
+
+    if (
+      targetId === SELECTOR.PRODUCT_MANAGE_MENU_ID ||
+      targetId === SELECTOR.PRODUCT_PURCHASE_MENU_ID ||
+      targetId === SELECTOR.VENDING_MACHINE_MANAGE_MENU_ID
+    ) {
+      this.changeTab(event.target.textContent);
+    }
+
+    if (targetId === SELECTOR.PRODUCT_ADD_BUTTON_ID) this.addProduct();
   }
 
-  changeTab(event) {
-    const clickedTab = event.target.textContent;
-
-    this.setState({
-      ...this.state,
-      currentTab: clickedTab,
-    });
-    store.setValue(STORE_KEY.CURRENT_TAB, clickedTab);
+  changeTab(tab) {
+    this.router.currentTab = tab;
+    this.vendingMachineView.renderTab(this.router.currentTab);
   }
 
   addProduct() {
-    const inputProductName = $(`#${SELECTOR.PRODUCT_NAME_INPUT_ID}`).value;
-    const inputProductPrice = $(`#${SELECTOR.PRODUCT_PRICE_INPUT_ID}`).value;
-    const inputProductQuantity = $(`#${SELECTOR.PRODUCT_QUANTITY_INPUT_ID}`).value;
+    const product = {
+      name: $(`#${SELECTOR.PRODUCT_NAME_INPUT_ID}`).value,
+      price: $(`#${SELECTOR.PRODUCT_PRICE_INPUT_ID}`).value,
+      quantity: $(`#${SELECTOR.PRODUCT_QUANTITY_INPUT_ID}`).value,
+    };
 
-    try {
-      this.validator.validateProductDatas(
-        inputProductName,
-        inputProductPrice,
-        inputProductQuantity,
-      );
-    } catch (error) {
-      alert(error.message);
-      return;
-    }
-
-    this.setState({
-      ...this.state,
-      products: [
-        ...this.state.products.filter(product => product.name !== inputProductName),
-        {
-          name: inputProductName,
-          price: inputProductPrice,
-          quantity: inputProductQuantity,
-        },
-      ],
-    });
-    store.setValue(STORE_KEY.PRODUCTS, this.state.products);
+    this.productManager.addProduct(product);
+    this.vendingMachineView.renderProductTableInProductManageTab(this.productManager.products);
   }
 }
 
