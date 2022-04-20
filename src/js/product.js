@@ -46,7 +46,7 @@ export default function Product() {
     const productPrice = document.querySelector('#product-price-input').value;
     const productQuantity = document.querySelector('#product-quantity-input').value;
 
-    if (!this.isValidateProductInput(productName, productPrice, productQuantity)) {
+    if (!this.isEmptyProductInput(productName, productPrice, productQuantity)) {
       alert('상품명, 금액, 수량에는 공백을 입력할 수 없습니다.');
       return false;
     }
@@ -90,7 +90,7 @@ export default function Product() {
     document.querySelector('#product-inventory-container').innerHTML = productsTemplate;
   };
 
-  this.isValidateProductInput = (name, price, quantity) => {
+  this.isEmptyProductInput = (name, price, quantity) => {
     if (name === '' || price === '' || quantity === '') {
       return false;
     }
