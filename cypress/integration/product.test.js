@@ -25,8 +25,8 @@ describe('Product', () => {
     cy.get('#product-add-button').click();
 
     // then
-    cy.get('#product-inventory-container').should('have.text', '칠성사이다');
-    cy.get('#product-inventory-container').should('have.text', 1500);
-    cy.get('#product-inventory-container').should('have.text', 5);
+    cy.get('.product-manage-name').should('have.text', '칠성사이다');
+    cy.get('.product-manage-price').should('have.text', 1500);
+    cy.get('.product-manage-quantity').should('have.text', 5);
   });
 });
