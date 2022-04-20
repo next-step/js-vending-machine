@@ -1,4 +1,5 @@
 import InputValidation from './InputValidation.js';
+import { getLocalStorageProducts, setLocalStorageProducts } from './store.js';
 
 export default function Product() {
   const productTemplate =
@@ -42,7 +43,7 @@ export default function Product() {
   };
 
   this.setLocalStorageProducts = () => {
-    const products = this.getLocalStorageProducts();
+    const products = getLocalStorageProducts();
 
     const productName = document.querySelector('#product-name-input').value;
     const productPrice = document.querySelector('#product-price-input').value;
@@ -82,7 +83,7 @@ export default function Product() {
       });
     }
 
-    window.localStorage.setItem('products', JSON.stringify(products));
+    setLocalStorageProducts(products);
 
     this.renderProducts();
 
@@ -91,16 +92,8 @@ export default function Product() {
     document.querySelector('#product-quantity-input').value = '';
   };
 
-  this.getLocalStorageProducts = () => {
-    if (!window.localStorage.getItem('products')) {
-      return [];
-    }
-
-    return JSON.parse(window.localStorage.getItem('products'));
-  };
-
   this.renderProducts = () => {
-    const products = this.getLocalStorageProducts();
+    const products = getLocalStorageProducts();
 
     if (products.length === 0) {
       document.querySelector('#product-inventory-container').innerHTML =
