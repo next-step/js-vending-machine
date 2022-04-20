@@ -19,6 +19,10 @@ describe('Product', () => {
     cy.get('#product-inventory-container').find('tr').should('have.length', 0);
   });
 
+  it('상품이 없으면 "등록된 상품이 없습니다."라는 메시지를 보여준다. ', () => {
+    cy.get('#product-inventory-container').find('tr').should('have.text', '등록된 상품이 없습니다.');
+  });
+
   it('[추가하기] 버튼을 클릭하면 상품이 추가된다.', () => {
     // given
     cy.get('#product-name-input').type('칠성사이다');
