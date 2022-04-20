@@ -1,4 +1,3 @@
-import AbstractView from './AbstractView.js';
 import Product from '../Product.js';
 import ProductManage from '../ProductManage.js';
 import { PRODUCT } from '../constants/product-constant.js';
@@ -68,40 +67,40 @@ function convertFormDataToObject(formData) {
   return Object.fromEntries(formData);
 }
 
-class IProductManageView extends AbstractView {
-  #updateProductList() {
+const ProductManageView = (function () {
+  function updateProductList() {
     $productInventory().replaceChildren(
       ...ProductManage.list().map((product) => productTemplate(product))
     );
   }
 
-  #initializeProductFields() {
+  function initializeProductFields() {
     $productNameInput().value = null;
     $productPriceInput().value = null;
     $productQuantityInput().value = null;
   }
 
-  handleProductAdd(event) {
+  function handleProductAdd(event) {
     event.preventDefault();
     try {
       ProductManage.addProduct(
         new Product(convertFormDataToObject(new FormData(event.target)))
       );
-      this.#updateProductList();
-      this.#initializeProductFields();
+      updateProductList();
+      initializeProductFields();
     } catch (e) {
       alert(e.message);
     }
   }
 
-  contents() {
+  function contents() {
     return productManageTemplate();
   }
 
-  initialize() {
-    this.#updateProductList();
+  function initialize() {
+    updateProductList();
   }
-}
-const ProductManageView = new IProductManageView();
-Object.freeze(ProductManageView);
+
+  return { contents, initialize, handleProductAdd };
+})();
 export default ProductManageView;

@@ -1,43 +1,39 @@
-import AbstractView from './AbstractView.js';
 import ProductManageView from './ProductManageView.js';
 import { FORM } from '../constants/content-constant.js';
 
 const $app = document.querySelector('#app');
 const $productManageMenuSubmit = document.getElementById('product-manage-menu');
 
-class IMainView extends AbstractView {
-  #isProductManageContent(formId) {
+const MainView = (function () {
+  function isProductManageContent(formId) {
     return formId === FORM.PRODUCT;
   }
 
-  #changeAppContents(template) {
+  function changeAppContents(template) {
     $app.replaceChildren(template);
   }
 
-  #handleProductManageMenu = () => {
-    this.#changeAppContents(ProductManageView.contents());
+  function handleProductManageMenu() {
+    changeAppContents(ProductManageView.contents());
     ProductManageView.initialize();
-  };
+  }
 
-  #handleMenuContentSubmit = (event) => {
+  function handleMenuContentSubmit(event) {
     const formId = event.target.id;
-    if (this.#isProductManageContent(formId)) {
+    if (isProductManageContent(formId)) {
       ProductManageView.handleProductAdd(event);
     }
-  };
-
-  eventBindings() {
-    $productManageMenuSubmit.addEventListener(
-      'click',
-      this.#handleProductManageMenu
-    );
-    $app.addEventListener('submit', this.#handleMenuContentSubmit);
   }
 
-  initialize() {
-    this.#handleProductManageMenu();
+  function eventBindings() {
+    $productManageMenuSubmit.addEventListener('click', handleProductManageMenu);
+    $app.addEventListener('submit', handleMenuContentSubmit);
   }
-}
-const MainView = new IMainView();
-Object.freeze(MainView);
+
+  function initialize() {
+    handleProductManageMenu();
+  }
+
+  return { initialize, eventBindings };
+})();
 export default MainView;
