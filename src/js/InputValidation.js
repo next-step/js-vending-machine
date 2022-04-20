@@ -15,6 +15,14 @@ const InputValidation = {
     return true;
   },
 
+  isPriceInUnitsOf10Won(price) {
+    if (price % 10 === 0) {
+      return true;
+    }
+
+    return false;
+  },
+
   isUnderMinQuantity(quantity) {
     if (quantity < 1) {
       return false;

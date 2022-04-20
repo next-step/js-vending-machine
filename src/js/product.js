@@ -58,6 +58,11 @@ export default function Product() {
       return false;
     }
 
+    if (!InputValidation.isPriceInUnitsOf10Won(productPrice)) {
+      alert('상품의 가격은 10원 단위어야 합니다.');
+      return false;
+    }
+
     if (!InputValidation.isUnderMinQuantity(productQuantity)) {
       alert('상품의 최소 수량은 1개입니다.');
       return false;
