@@ -46,4 +46,21 @@ describe('Product', () => {
         expect(alertStub).to.be.calledWith('상품명, 금액, 수량에는 공백을 입력할 수 없습니다.');
       });
   });
+
+  it('상품의 최소 가격은 100원이다.', () => {
+    // given
+    const alertStub = cy.stub();
+    cy.on('window:alert', alertStub);
+
+    cy.get('#product-name-input').type('칠성사이다');
+    cy.get('#product-price-input').type(50);
+    cy.get('#product-quantity-input').type(5);
+
+    // when , then
+    cy.get('#product-add-button')
+      .click()
+      .then(() => {
+        expect(alertStub).to.be.calledWith('상품의 최소 가격은 100원입니다.');
+      });
+  });
 });
