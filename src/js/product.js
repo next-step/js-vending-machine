@@ -1,5 +1,6 @@
 import InputValidation from './InputValidation.js';
 import { getLocalStorageProducts, setLocalStorageProducts } from './store.js';
+import clearProductInputs from './Utils';
 
 export default function Product() {
   const productTemplate =
@@ -85,11 +86,9 @@ export default function Product() {
 
     setLocalStorageProducts(products);
 
-    this.renderProducts();
+    clearProductInputs();
 
-    document.querySelector('#product-name-input').value = '';
-    document.querySelector('#product-price-input').value = '';
-    document.querySelector('#product-quantity-input').value = '';
+    this.renderProducts();
   };
 
   this.renderProducts = () => {
