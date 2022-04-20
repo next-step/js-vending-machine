@@ -27,3 +27,7 @@ export function validateProductInputs(name, price, quantity) {
     return false;
   }
 }
+
+export function findDuplicatedProductNameIndex(products, inputName) {
+  return products.findIndex(product => product.name === inputName);
+}

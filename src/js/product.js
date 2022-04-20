@@ -1,5 +1,5 @@
 import { getLocalStorageProducts, setLocalStorageProducts } from './store.js';
-import { clearProductInputs, validateProductInputs } from './Utils.js';
+import { clearProductInputs, validateProductInputs, findDuplicatedProductNameIndex } from './Utils.js';
 
 export default function Product() {
   const productTemplate =
@@ -51,12 +51,9 @@ export default function Product() {
 
     validateProductInputs(productName, productPrice, productQuantity);
 
-    const duplicatedProductNameIndex = products.findIndex(product => product.name === productName);
-    console.log(`중복되는 상품명의 위치 : ${duplicatedProductNameIndex}`);
-
-    if (duplicatedProductNameIndex !== -1) {
-      products[duplicatedProductNameIndex].price = productPrice;
-      products[duplicatedProductNameIndex].quantity = productQuantity;
+    if (findDuplicatedProductNameIndex(products, productName) !== -1) {
+      products[findDuplicatedProductNameIndex(products, productName)].price = productPrice;
+      products[findDuplicatedProductNameIndex(products, productName)].quantity = productQuantity;
     } else {
       products.push({
         name: productName,
