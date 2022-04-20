@@ -116,4 +116,27 @@ describe('Product', () => {
         cy.get('#product-quantity-input').should('have.value', '');
       });
   });
+
+  it('같은 상품명의 상품을 추가하면 기존 상품을 새로운 상품으로 대체한다.', () => {
+    // given
+    cy.get('#product-name-input').type('칠성사이다');
+    cy.get('#product-price-input').type(200);
+    cy.get('#product-quantity-input').type(1);
+    cy.get('#product-add-button').click();
+
+    // when : 같은 상품명인데 가격과 수량을 다르게 추가한다.
+    cy.get('#product-name-input').type('칠성사이다');
+    cy.get('#product-price-input').type(500);
+    cy.get('#product-quantity-input').type(10);
+
+    // then
+    cy.get('#product-add-button')
+      .click()
+      .then(() => {
+        // 기존에 입력한 가격 200과 수량 1은 보이지 않아야 한다.
+        cy.get('.product-manage-name').should('have.text', '칠성사이다');
+        cy.get('.product-manage-price').should('not.have.text', 200);
+        cy.get('.product-manage-quantity').should('not.have.text', 1);
+      });
+  });
 });
