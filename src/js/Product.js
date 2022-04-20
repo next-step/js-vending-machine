@@ -5,7 +5,7 @@ function isEmpty(value) {
 }
 
 function isIncludeEmptyString(value) {
-  return (value ?? '').includes('');
+  return (value ?? '').includes(' ');
 }
 
 export default class Product {
