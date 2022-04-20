@@ -94,6 +94,17 @@ export default function Product() {
   this.renderProducts = () => {
     const products = this.getLocalStorageProducts();
 
+    if (products.length === 0) {
+      document.querySelector('#product-inventory-container').innerHTML =
+        /* HTML */
+        `
+          <tr>
+            <td colspan="3">등록된 상품이 없습니다.</td>
+          </tr>
+        `;
+      return;
+    }
+
     const productsTemplate = products
       .map(
         product =>
