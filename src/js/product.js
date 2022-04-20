@@ -35,14 +35,14 @@ export default function Product() {
     document.querySelector('#app').insertAdjacentHTML('afterbegin', productTemplate);
 
     const productAddButton = document.querySelector('#product-add-button');
-    productAddButton.addEventListener('click', this.setLocalStorageProducts);
+    productAddButton.addEventListener('click', this.addProductToInventory);
   };
 
   this.showInventory = () => {
     document.querySelector('#app').insertAdjacentHTML('beforeend', inventoryTemplate);
   };
 
-  this.setLocalStorageProducts = () => {
+  this.addProductToInventory = () => {
     const products = getLocalStorageProducts();
 
     const productName = document.querySelector('#product-name-input').value;
