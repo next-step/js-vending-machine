@@ -4,25 +4,20 @@ class ProductContainerView extends AbstractView<HTMLElement, Array<Product>> {
   private formElement!: HTMLFormElement;
 
   render(products: Array<Product> = []) {
-    const markup = this.generateMarkup(products);
-    this.clear();
-    this.containerElement.insertAdjacentHTML('afterbegin', markup);
+    super.render(products);
+
     this.formElement = this.containerElement.querySelector(
       '.product-container',
     )! as HTMLFormElement;
   }
 
-  renderError(err: Error): void {
+  renderError(message: string): void {
     this.render();
-    const markup = `<h3>${err.message}<h3>`;
+    const markup = `<h3>${message}<h3>`;
     this.formElement.insertAdjacentHTML('afterbegin', markup);
   }
 
-  addHandlerRender(handler: Function) {
-    handler();
-  }
-
-  addHandlerProduct(handler: Function) {
+  subscribeAddProduct(handler: Function) {
     this.containerElement.addEventListener('submit', (event: Event | SubmitEvent) => {
       event.preventDefault();
       const dataArray = [...new FormData(this.formElement)];
@@ -58,10 +53,11 @@ class ProductContainerView extends AbstractView<HTMLElement, Array<Product>> {
                 <th>상품명</th>
                 <th>가격</th>
                 <th>수량</th>
-            </tr>
-            ${products.map(productHtml).join('')}
+            </tr>            
         </thead>
-        <tbody id="product-inventory-container"></tbody>
+        <tbody id="product-inventory-container">
+        ${products.map(productHtml).join('')}
+        </tbody>
     </table>
 `;
   }

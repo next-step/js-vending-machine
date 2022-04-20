@@ -5,7 +5,5 @@ declare interface Product {
 }
 
 declare interface State {
-  currentView: Page;
   products: Array<Product>;
 }
-

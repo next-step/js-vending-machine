@@ -1,19 +1,19 @@
 <!DOCTYPE html>
 <html lang="ko">
   <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="./src/index.css" />
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/src/index.css">
     <title>NEXTSTEP JavaScript Vending machine</title>
   </head>
   
   <body>
-    <button class="link" data-page="productContainerView" id="product-manage-menu">상품 관리</button>
-    <button class="link" data-page="changeContainerView" id="vending-machine-manage-menu">잔돈충전</button>
-    <button class="link" data-page="purchaseContainerView" id="product-purchase-menu">상품 구매</button>
+    <button class="link" data-link="products" id="product-manage-menu">상품 관리</button>
+    <button class="link" data-link="charge" id="vending-machine-manage-menu">잔돈충전</button>
+    <button class="link" data-link="purchase" id="product-purchase-menu">상품 구매</button>
 
     <div id="app"></div>
-    <script type="module" src="./src/ts/controller.ts"></script>
+    <script type="module" src="./src/ts/controller.ts" defer></script>
   </body>
 </html>

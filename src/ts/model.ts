@@ -3,26 +3,21 @@ import { PRODUCT_CONFIG } from './utils/config';
 import { ERROR } from './utils/message';
 import ValidationError from './utils/errorValidation';
 
-export enum Page {
-  ProductManagement = 'productContainerView',
-}
-
 export const state: State = {
-  currentView: Page.ProductManagement,
   products: [],
 };
 
-export const loadProduct = function (): Array<Product> {
+export function loadData<T extends State>(path: string): T {
   try {
-    state.products = <Array<Product>>getItem('products');
-    return state.products;
-  } catch (err) {
-    throw new Error(ERROR.NO_PRODUCT_ITEM);
+    const pageName = path.replace(/\//i, '');
+    return getItem(pageName);
+  } catch (err: unknown) {
+    throw err;
   }
-};
+}
 
 const sortProduct = function (): void {
-  state.products = Array.from(state.products).sort((a, b) => {
+  state.products = Array.from(<Array<Product>>state.products).sort((a: Product, b: Product) => {
     return a.name.localeCompare(b.name) || a.price - b.price || b.quantity - a.quantity;
   });
 };
