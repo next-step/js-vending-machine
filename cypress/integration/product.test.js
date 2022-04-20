@@ -15,6 +15,10 @@ describe('Product', () => {
     cy.get('.product-inventory').should('be.visible');
   });
 
+  it('최초 상품 목록은 비워진 상태여야 한다.', () => {
+    cy.get('#product-inventory-container').find('tr').should('have.length', 0);
+  });
+
   it('[추가하기] 버튼을 클릭하면 상품이 추가된다.', () => {
     // given
     cy.get('#product-name-input').type('칠성사이다');
