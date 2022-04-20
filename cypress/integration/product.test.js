@@ -16,7 +16,7 @@ describe('Product', () => {
   });
 
   it('최초 상품 목록은 비워진 상태여야 한다.', () => {
-    cy.get('#product-inventory-container').find('tr').should('have.length', 0);
+    cy.get('#product-inventory-container').find('.product-manage-name').should('have.length', 0);
   });
 
   it('상품이 없으면 "등록된 상품이 없습니다."라는 메시지를 보여준다. ', () => {
