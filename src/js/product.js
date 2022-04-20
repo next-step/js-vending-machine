@@ -51,6 +51,11 @@ export default function Product() {
       return false;
     }
 
+    if (!this.isUnder100Price(productPrice)) {
+      alert('상품의 최소 가격은 100원입니다.');
+      return false;
+    }
+
     products.push({
       name: productName,
       price: productPrice,
@@ -92,6 +97,14 @@ export default function Product() {
 
   this.isEmptyProductInput = (name, price, quantity) => {
     if (name === '' || price === '' || quantity === '') {
+      return false;
+    }
+
+    return true;
+  };
+
+  this.isUnder100Price = price => {
+    if (price < 100) {
       return false;
     }
 
