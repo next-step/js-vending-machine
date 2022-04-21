@@ -1,5 +1,8 @@
+@import './errorpage.css';
+
 :root {
   --primary-color: #00bcd4;
+  --danger-color : #dc3545;
 }
 
 a {
