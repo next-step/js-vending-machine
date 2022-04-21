@@ -10,7 +10,7 @@ const App = () => {
   const $app = $('#app');
   const store = createStore({ ...initState });
 
-  createRoute({ root: $app, store, defaultHash: '#product' });
+  createRoute({ root: $app, store, defaultHash: '#/product' });
 };
 
 App();

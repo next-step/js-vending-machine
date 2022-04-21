@@ -20,6 +20,6 @@ const createRoute = ({ root, store, defaultHash }) => {
   };
 };
 
-const findRoute = (hash) => routes.find(({ path }) => `#${path}` === hash);
+const findRoute = (hash) => routes.find(({ path }) => `#/${path}` === hash);
 
 export default createRoute;
