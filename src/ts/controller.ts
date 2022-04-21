@@ -2,8 +2,8 @@ import ProductContainerView from './views/ProductContainerView';
 import { ValidationError } from './utils/errorValidation';
 import * as model from './model';
 import { router } from './router/router';
-
-export const addProduct = function (product: Product): void {
+ 
+const addProduct = function (product: Product): void {
   try {
     const products: Array<Product> = model.addProduct(product);
     ProductContainerView.render(products);
@@ -22,4 +22,3 @@ const init = () => {
   router();
 };
 init();
-
