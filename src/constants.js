@@ -21,6 +21,12 @@ export const TAB = Object.freeze({
   VENDING_MACHINE_MANAGE_TAB: '잔돈충전',
 });
 
+export const HASH = Object.freeze({
+  PRODUCT_MANAGE_TAB: '#/product-manage',
+  VENDING_MACHINE_MANAGE_TAB: '#/vending-machine-manage',
+  PRODUCT_PURCHASE_TAB: '#/product-purchase',
+});
+
 export const STANDARD = Object.freeze({
   PRODUCT_PRICE_MINIMUM: 100,
   PRODUCT_PRICE_DIVIDE_BY: 10,

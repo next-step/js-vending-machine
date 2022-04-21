@@ -1,26 +1,43 @@
 import {
+  vendingMachineTemplate,
   productManageTabTemplate,
   productTemplate,
   productPurchaseTabTemplate,
   vendingMachineManageTabTemplate,
 } from './templates/index.js';
 
-import { SELECTOR, TAB } from './constants.js';
+import { SELECTOR, HASH } from './constants.js';
 import { $ } from './utils/dom.js';
 
 const RenderTab = {
-  [TAB.PRODUCT_MANAGE_TAB]: () => productManageTabTemplate(),
-  [TAB.PRODUCT_PURCHASE_TAB]: () => productPurchaseTabTemplate(),
-  [TAB.VENDING_MACHINE_MANAGE_TAB]: () => vendingMachineManageTabTemplate(),
+  [HASH.PRODUCT_MANAGE_TAB]: () => productManageTabTemplate(),
+  [HASH.PRODUCT_PURCHASE_TAB]: () => productPurchaseTabTemplate(),
+  [HASH.VENDING_MACHINE_MANAGE_TAB]: () => vendingMachineManageTabTemplate(),
 };
 
 class VendingMachineView {
-  constructor(target) {
-    this.target = target;
+  constructor() {
+    this.renderVendingMachine();
   }
 
-  renderTab(changeTab) {
-    this.target.innerHTML = RenderTab[changeTab]();
+  renderVendingMachine() {
+    $('body').innerHTML = vendingMachineTemplate();
+  }
+
+  renderTab(currentTab) {
+    $('main').innerHTML = RenderTab[currentTab]();
+  }
+
+  renderTabWithData(curretTab, data) {
+    const view = {
+      [HASH.PRODUCT_MANAGE_TAB]: () => {
+        this.renderProductTableInProductManageTab(data);
+      },
+      [HASH.VENDING_MACHINE_MANAGE_TAB]: () => {},
+      [HASH.PRODUCT_PURCHASE_TAB]: () => {},
+    };
+
+    view[curretTab](data);
   }
 
   renderProductTableInProductManageTab(products) {
