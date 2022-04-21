@@ -1,7 +1,7 @@
 import AbstractView from './abstractView';
 
 class ErrorPageView extends AbstractView<HTMLElement, string> {
-  private errorMessage: string = '🚨 존재하지 않는 페이지입니다! 🚨';
+  private errorMessage: string = '🚨 Not Found! 🚨';
 
   render(message = this.errorMessage) {
     super.render(message);
@@ -9,7 +9,13 @@ class ErrorPageView extends AbstractView<HTMLElement, string> {
 
   generateMarkup(message: string) {
     return /* html */ `
-            <h3>${message}</h3>
+    <section class="error-page-section">
+      <h2>
+          <span>
+            ${message}
+          </span>
+      </h2> 
+    </section>
     `;
   }
 }

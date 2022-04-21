@@ -9,17 +9,18 @@ const route = function (): void {
   document.querySelectorAll(`a[data-link]`)?.forEach(el => el.classList.remove('active'));
   document.querySelector(`a[data-link="${path}"]`)?.classList.add('active');
 
-  try {
-    const data = model.loadData(path);
-    if (currentView) currentView.view.render(data);
-  } catch (err) {
-    if (currentView) {
-      currentView.view.renderError(err.message);
-      return;
-    }
+    try {
+      const data = model.loadData(path);
 
-    PAGE['error'].view.render();
-  }
+      if (currentView) currentView.view.render(data);
+    } catch (err: Error | unknown) {
+      if (currentView && err instanceof Error) {
+        currentView.view.renderError(err.message);
+        return;
+      }
+
+      PAGE['error'].view.render();
+    }
 };
 
 export const router = () => {

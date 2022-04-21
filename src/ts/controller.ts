@@ -7,7 +7,7 @@ const addProduct = function (product: Product): void {
   try {
     const products: Array<Product> = model.addProduct(product);
     ProductContainerView.render(products);
-  } catch (err: Error) {
+  } catch (err: Error | unknown) {
     if (err instanceof ValidationError) {
       alert(err.message);
       return;

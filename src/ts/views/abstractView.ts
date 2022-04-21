@@ -1,4 +1,4 @@
-export default abstract class AbstractView<T extends HTMLElement, U extends State> {
+export default abstract class AbstractView<T extends HTMLElement, U extends Object> {
   protected containerElement: T;
   protected data!: U;
 
@@ -13,9 +13,15 @@ export default abstract class AbstractView<T extends HTMLElement, U extends Stat
     this.containerElement.insertAdjacentHTML('afterbegin', markup);
   }
 
-  renderError(message: string = 'Error Page') {
-    const markup = this.generateMarkup(message);
-    this.containerElement.insertAdjacentHTML('beforebegin', markup);
+  renderError(err: Error | unknown): void {
+    let message = 'ERROR';
+    if (err instanceof Error) message = err.message;
+
+
+    const markup = `<h2>${message}</h2>`;
+
+    this.clear();
+    this.containerElement.insertAdjacentHTML('afterbegin', markup);
   }
 
   clear(): void {
