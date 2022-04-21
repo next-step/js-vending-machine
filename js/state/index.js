@@ -5,8 +5,7 @@ const createStore = (initialState) => {
 
   const listeners = [];
 
-  const getState = (key) =>
-    key ? { [key]: storage.get(key) } : storage.getAll();
+  const getState = (key) => (key ? storage.get(key) : storage.getAll());
 
   const dispatch = (newState) => {
     const prevState = storage.getAll();

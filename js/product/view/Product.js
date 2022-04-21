@@ -27,7 +27,7 @@ const Product = ($app, store) => {
 
   const init = () => {
     const products = store.getState('products');
-    products && renderProductList(products);
+    products && renderProductList({ products });
 
     store.subscribe(renderProductList);
     $form.addEventListener('submit', handleProductSubmit);

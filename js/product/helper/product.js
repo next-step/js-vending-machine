@@ -11,13 +11,13 @@ export const addProduct = (newProduct, prevProducts) =>
   sortByRegisterTime(mergeProducts(newProduct, prevProducts));
 
 const getProductWithRegisterTime = (newProduct, prevProducts) => {
-  const isUniq = !prevProducts.some(({ name }) => name === newProduct.name);
+  const found = prevProducts.find(({ name }) => name === newProduct.name);
+  const registerTime = found?.registerTime ?? now();
 
-  if (isUniq) {
-    newProduct.registerTime = now();
-  }
-
-  return newProduct;
+  return {
+    ...newProduct,
+    registerTime,
+  };
 };
 
 const mergeProducts = (newProduct, prevProducts) => {
