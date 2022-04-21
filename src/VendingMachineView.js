@@ -28,6 +28,12 @@ class VendingMachineView {
       .map(({ name, price, quantity }) => productTemplate({ name, price, quantity }))
       .join('');
   }
+
+  resetProductForm() {
+    $(`#${SELECTOR.PRODUCT_NAME_INPUT_ID}`).value = '';
+    $(`#${SELECTOR.PRODUCT_PRICE_INPUT_ID}`).value = '';
+    $(`#${SELECTOR.PRODUCT_QUANTITY_INPUT_ID}`).value = '';
+  }
 }
 
 export default VendingMachineView;

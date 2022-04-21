@@ -48,8 +48,13 @@ class VendingMachine {
       price: $(`#${SELECTOR.PRODUCT_PRICE_INPUT_ID}`).value,
       quantity: $(`#${SELECTOR.PRODUCT_QUANTITY_INPUT_ID}`).value,
     };
-
-    this.productManager.addProduct(product);
+    try {
+      this.productManager.addProduct(product);
+    } catch (error) {
+      alert(error.message);
+      return;
+    }
+    this.vendingMachineView.resetProductForm();
     this.vendingMachineView.renderProductTableInProductManageTab(this.productManager.products);
   }
 }

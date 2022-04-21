@@ -122,8 +122,9 @@ describe('상품 추가하기 탭 관련 테스트', () => {
       cy.get(`#${SELECTOR.PRODUCT_QUANTITY_INPUT_ID}`).type(5);
       cy.get(`#${SELECTOR.PRODUCT_ADD_BUTTON_ID}`).click();
 
-      cy.get(`#${SELECTOR.PRODUCT_PRICE_INPUT_ID}`).type(0);
-      cy.get(`#${SELECTOR.PRODUCT_QUANTITY_INPUT_ID}`).type(5);
+      cy.get(`#${SELECTOR.PRODUCT_NAME_INPUT_ID}`).type('hello');
+      cy.get(`#${SELECTOR.PRODUCT_PRICE_INPUT_ID}`).type(10000);
+      cy.get(`#${SELECTOR.PRODUCT_QUANTITY_INPUT_ID}`).type(50);
       cy.get(`#${SELECTOR.PRODUCT_ADD_BUTTON_ID}`).click();
 
       cy.get(`#${SELECTOR.PRODUCT_INVENTORY_CONTAINER_ID}`)
@@ -133,7 +134,7 @@ describe('상품 추가하기 탭 관련 테스트', () => {
         .each((el, index) => {
           if (index === 0) expect(el).to.have.text('hello');
           if (index === 1) expect(el).to.have.text(10000);
-          if (index === 2) expect(el).to.have.text(55);
+          if (index === 2) expect(el).to.have.text(50);
         });
     });
   });

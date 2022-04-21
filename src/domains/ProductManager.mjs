@@ -17,14 +17,9 @@ class ProductManager {
   }
 
   addProduct({ name, price, quantity }) {
-    try {
-      this.#fliterSameNameProduct(name);
-      this.#products = [...this.#products, new Product({ name, price, quantity })];
-    } catch (error) {
-      alert(error.message);
-      return;
-    }
-
+    const newProduct = new Product({ name, price, quantity });
+    this.#fliterSameNameProduct(name);
+    this.#products = [...this.#products, newProduct];
     store.setValue(STORE_KEY.PRODUCTS, this.products);
   }
 
