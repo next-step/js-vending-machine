@@ -25,11 +25,15 @@ const Product = ($app, store) => {
     $productList.innerHTML = products.map(productRow).join('');
   };
 
-  store.subscribe(renderProductList);
+  const init = () => {
+    const products = store.getState('products');
+    products && renderProductList(products);
 
-  $form.addEventListener('submit', handleProductSubmit);
+    store.subscribe(renderProductList);
+    $form.addEventListener('submit', handleProductSubmit);
+  };
 
-  store.getState('products') && renderProductList(store.getState('products'));
+  init();
 
   return {
     $app,
