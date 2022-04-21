@@ -10,14 +10,19 @@ const Product = ($app, store) => {
   const handleProductSubmit = (event) => {
     event.preventDefault();
 
-    const newProducts = addProduct(
-      Object.fromEntries(new FormData($form)),
-      store.getState('products')
-    );
+    try {
+      const newProducts = addProduct(
+        Object.fromEntries(new FormData($form)),
+        store.getState('products')
+      );
 
-    store.dispatch({
-      products: newProducts,
-    });
+      store.dispatch({
+        products: newProducts,
+      });
+    } catch ({ target, message }) {
+      message && alert(message);
+      target && $form[target].focus();
+    }
   };
 
   const renderProductList = ({ products }) => {
