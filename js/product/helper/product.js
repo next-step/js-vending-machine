@@ -3,7 +3,7 @@ import { InputValidationError } from '../../utils/validation.js';
 
 export const RANGE = {
   MAX_PRICE: 500_000,
-  MIN_PRICE: 10,
+  MIN_PRICE: 100,
   MAX_COUNT: 5_000,
   MIN_COUNT: 1,
 };
