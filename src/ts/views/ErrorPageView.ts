@@ -15,6 +15,7 @@ class ErrorPageView extends AbstractView<HTMLElement, string> {
             ${message}
           </span>
       </h2> 
+      <a href="#">Home</a>
     </section>
     `;
   }

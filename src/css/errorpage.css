@@ -1,16 +1,23 @@
 .error-page-section {
+  position: absolute;
+  top:0;
+  background-color: rgba(0, 0, 0, 0.90);
   display: flex;
   justify-content: center;
   align-items: center;
-  width:100%;
-  height: 40vh;
+  width:100vw;
+  height: 100vh;
+}
+
+.error-page-section a{
+  color: #fff;
+  padding: 1rem 1.2rem;
 }
 
 .error-page-section h2 {
-  font-size: 3em;
+  font-size: 3rem;
   color: #0e3742;
   text-transform: uppercase;
-  width: 100%;
   text-align: center;
   -webkit-box-reflect: below -42px linear-gradient(transparent, #0004);
 }
