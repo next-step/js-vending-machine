@@ -1,11 +1,11 @@
 import store from '../utils/store.js';
-import { STORE_KEY, TAB } from '../constants.js';
+import { STORE_KEY, HASH } from '../constants.js';
 
 class Router {
   #currentTab;
 
   constructor() {
-    this.#currentTab = store.getValue(STORE_KEY.CURRENT_TAB, TAB.PRODUCT_MANAGE_TAB);
+    this.#currentTab = store.getValue(STORE_KEY.CURRENT_TAB, HASH.PRODUCT_MANAGE_TAB);
   }
 
   get currentTab() {

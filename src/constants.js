@@ -15,12 +15,6 @@ export const STORE_KEY = Object.freeze({
   PRODUCTS: 'products',
 });
 
-export const TAB = Object.freeze({
-  PRODUCT_MANAGE_TAB: '상품관리',
-  PRODUCT_PURCHASE_TAB: '상품구매',
-  VENDING_MACHINE_MANAGE_TAB: '잔돈충전',
-});
-
 export const HASH = Object.freeze({
   PRODUCT_MANAGE_TAB: '#/product-manage',
   VENDING_MACHINE_MANAGE_TAB: '#/vending-machine-manage',

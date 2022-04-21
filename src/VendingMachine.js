@@ -1,5 +1,4 @@
-import Router from './Router.mjs';
-import { ProductManager } from './domains/index.js';
+import { ProductManager, Router } from './domains/index.js';
 import VendingMachineView from './VendingMachineView.js';
 
 import { $ } from './utils/dom.js';
