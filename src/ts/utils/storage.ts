@@ -1,4 +1,4 @@
-import ValidationError from './errorValidation';
+import { ValidationError } from './errorValidation';
 import { ERROR } from './message';
 
 export function setItem(key: string, value: Object): void {

@@ -1,7 +1,7 @@
 import { getItem, setItem } from './utils/storage';
 import { PRODUCT_CONFIG } from './utils/config';
 import { ERROR } from './utils/message';
-import ValidationError from './utils/errorValidation';
+import { ValidationError } from './utils/errorValidation';
 
 export const state: State = {
   products: [],

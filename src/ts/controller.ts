@@ -1,5 +1,5 @@
 import ProductContainerView from './views/ProductContainerView';
-import ValidationError from './utils/errorValidation';
+import { ValidationError } from './utils/errorValidation';
 import * as model from './model';
 import { router } from './router/router';
 
