@@ -5,6 +5,7 @@
   "license": "MIT",
   "scripts": {
     "test": "vitest -w",
+    "dev": "vite",
     "start": "live-server --port=5000 ./",
     "test:e2e:open": "yarn cypress open",
     "test:e2e:run": "yarn cypress run"
