@@ -27,9 +27,10 @@ describe('step1', () => {
         cy.get('#product-quantity-input').then($input => $input[0].checkValidity()).should('be.false');
       })
 
-      it('상품의 최소 수량은 1개여야 한다.', () => {
-        cy.get('#product-quantity-input').type('')
-        // 오류
+      it('step1-2 상품의 최소 수량은 1개여야 한다.', () => {
+        cy.get('#product-quantity-input').type('0')
+
+        cy.get('#product-quantity-input').then($input => $input[0].checkValidity()).should('be.false');
       })
 
       it('상품의 최소 가격은 100원이다', () => {
