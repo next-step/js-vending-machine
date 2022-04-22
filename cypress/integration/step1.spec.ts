@@ -21,7 +21,6 @@ describe('step1', () => {
 
     describe('상품명, 금액, 수량을 추가할 수 있다.', () => {
       it('step1-1 상품명, 금액, 수량은 공백이 불가능하다.', () => {
-        cy.get('#product-add-button').click()
         cy.get('#product-name-input').then($input => $input[0].checkValidity()).should('be.false');
         cy.get('#product-price-input').then($input => $input[0].checkValidity()).should('be.false');
         cy.get('#product-quantity-input').then($input => $input[0].checkValidity()).should('be.false');
@@ -29,18 +28,32 @@ describe('step1', () => {
 
       it('step1-2 상품의 최소 수량은 1개여야 한다.', () => {
         cy.get('#product-quantity-input').type('0')
+          .then($input => $input[0].checkValidity()).should('be.false')
 
-        cy.get('#product-quantity-input').then($input => $input[0].checkValidity()).should('be.false');
+        cy.get('#product-quantity-input').clear()
+
+        cy.get('#product-quantity-input').type('1')
+          .then($input => $input[0].checkValidity()).should('be.true');
       })
 
-      it('상품의 최소 가격은 100원이다', () => {
+      it('step1-3 상품의 최소 가격은 100원이다', () => {
         cy.get('#product-price-input').type('99')
-        // 오류
+          .then($input => $input[0].checkValidity()).should('be.false');
+
+        cy.get('#product-quantity-input').clear()
+
+        cy.get('#product-price-input').type('100')
+          .then($input => $input[0].checkValidity()).should('be.true');
       })
 
-      it('상품의 가격은 10원으로 나누어 떨어져야 한다.', () => {
-        cy.get('#product-price-input').type('11')
-        // 오류
+      it('step-1-4 상품의 가격은 10원으로 나누어 떨어져야 한다.', () => {
+        cy.get('#product-price-input').type('111')
+          .then($input => $input[0].checkValidity()).should('be.false');
+
+        cy.get('#product-price-input').clear();
+
+        cy.get('#product-price-input').type('100')
+          .then($input => $input[0].checkValidity()).should('be.true');
       })
     })
 
