@@ -1,4 +1,5 @@
 import { VendingMachineChargeException } from "../exception/VendingMachineChargeException.js";
+import { getCharge, getCoins } from "../service/index.js";
 
 export default class VendingMachineCharge {
     static MIN_CHARGE = 0;
@@ -6,7 +7,12 @@ export default class VendingMachineCharge {
     static COINS = [500, 100, 50, 10];
 
     #haveCharge = 0;
-    #haveCoins = VendingMachineCharge.getInitCoins();
+    #haveCoins;
+
+    constructor() {
+        this.#haveCharge = getCharge();
+        this.#haveCoins = getCoins();
+    }
 
     static validate(charge) {
         if (!charge) {

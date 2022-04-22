@@ -1,6 +1,6 @@
 import Products from "../domain/Products.js";
 import VendingMachineCharge from "../domain/VendingMachineCharge.js";
-import { CHARGE_ID, getProducts, PRODUCT_ID, setLocalStorage } from "../service/index.js";
+import { CHARGE_ID, COINS_ID, getCharge, getProducts, PRODUCT_ID, setLocalStorage } from "../service/index.js";
 import Menus from "./Menus.js";
 import ProductManage from "./ProductManage.js";
 import ProductPurchase from "./ProductPurchase.js";
@@ -12,7 +12,7 @@ export default class VendingMachine {
 
     constructor() {
         this.products = new Products(getProducts());
-        this.vendingMachineCharge = new VendingMachineCharge();
+        this.vendingMachineCharge = new VendingMachineCharge(getCharge());
         new Menus({
             onProductManage: () => this.onProductManage(),
             onVendingMachineManage: () => this.#onVendingMachineManage(),
@@ -47,7 +47,8 @@ export default class VendingMachine {
             VendingMachineCharge.validate(Number(charge));
             this.vendingMachineCharge.computeCharge(Number(charge));
             this.vendingMachineManage.onSetVendingMachine();
-            setLocalStorage(CHARGE_ID, this.vendingMachineCharge.value);
+            setLocalStorage(CHARGE_ID, this.vendingMachineCharge.charge);
+            setLocalStorage(COINS_ID, this.vendingMachineCharge.coins);
         } catch (error) {
             alert(error.message);
         }

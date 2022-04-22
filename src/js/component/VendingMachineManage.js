@@ -31,7 +31,10 @@ export default class VendingMachineManage {
     }
 
     #setHaveCharge() {
-        document.querySelector("#vending-machine-charge-amount").innerHTML = this.vendingMachineCharge.charge;
+        document.querySelector("#vending-machine-charge-amount").replaceChildren();
+        document
+            .querySelector("#vending-machine-charge-amount")
+            .insertAdjacentText("afterbegin", this.vendingMachineCharge.charge);
     }
 
     #setHaveCoins() {
@@ -51,10 +54,12 @@ export default class VendingMachineManage {
         return `
         <h3 id="vending-machine-manage">자판기 돈통 충전하기</h3>
         <div class="vending-machine-wrapper">
-            <input type="number" name="vending-machine-charge-amount" id="vending-machine-charge-input" autofocus />
-            <button id="vending-machine-charge-button">충전하기</button>
+            <form id="vending-machine-charge-form">
+                <input type="number" name="vending-machine-charge-amount" id="vending-machine-charge-input" autofocus />
+                <button id="vending-machine-charge-button">충전하기</button>
+            </form>
         </div>
-        <p>보유 금액: <span id="vending-machine-charge-amount">0</span>원</p>
+        <p>보유 금액: <span id="vending-machine-charge-amount">${this.vendingMachineCharge.charge}</span>원</p>
         <h3>동전 보유 현황</h3>
         <table class="cashbox-remaining">
             <colgroup>
@@ -68,24 +73,20 @@ export default class VendingMachineManage {
                 </tr>
             </thead>
             <tbody>
-                <tr>
-                    <td>500원</td>
-                    <td id="vending-machine-coin-500-quantity"></td>
-                </tr>
-                <tr>
-                    <td>100원</td>
-                    <td id="vending-machine-coin-100-quantity"></td>
-                </tr>
-                <tr>
-                    <td>50원</td>
-                    <td id="vending-machine-coin-50-quantity"></td>
-                </tr>
-                <tr>
-                    <td>10원</td>
-                    <td id="vending-machine-coin-10-quantity"></td>
-                </tr>
+                ${VendingMachineCharge.COINS.map((coin) => this.#getCoinTemplate(coin)).join("")}
             </tbody>
         </table>
+        `;
+    }
+
+    #getCoinTemplate(coin) {
+        return `
+            <tr>
+                <td>${coin}원</td>
+                <td id="vending-machine-coin-${coin}-quantity">
+                ${this.vendingMachineCharge.coins[coin] === 0 ? "" : this.vendingMachineCharge.coins[coin] + "개"}
+                </td>
+            </tr>
         `;
     }
 }
