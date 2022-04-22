@@ -65,15 +65,23 @@ describe('step1', () => {
       context('같은 상품명의 데이터를 추가하면', () => {
 
         // then
-        it('기존의 상품에 해당하는 데이터는 새로운 상품으로 대체된다.', () => {
+        it('step1-5 기존의 상품에 해당하는 데이터는 새로운 상품으로 대체된다.', () => {
 
         })
       })
     })
 
     describe('사용자는 추가한 상품을 확인할 수 있다.', () => {
-      it('상품의 이름, 가격, 수량 순으로 상품 목록이 보여진다.', () => {
+      it('step1-6 상품의 이름, 가격, 수량 순으로 상품 목록이 보여진다.', () => {
+        cy.get('#product-name-input').type('상품1')
+        cy.get('#product-price-input').type('100')
+        cy.get('#product-quantity-input').type('1')
 
+        cy.get('#product-add-button').click()
+
+        expect(cy.get('#product-manage-name').should('have.text', '상품1'))
+        expect(cy.get('#product-manage-price').should('have.text', '100'))
+        expect(cy.get('#product-manage-quantity').should('have.text', '1'))
       })
 
       it('상품 목록은 탭을 이동하여도 기존의 상품 목록이 유지되어야 한다.', () => {
