@@ -20,11 +20,11 @@ describe('step1', () => {
     });
 
     describe('상품명, 금액, 수량을 추가할 수 있다.', () => {
-      it('상품명, 금액, 수량은 공백이 불가능하다.', () => {
-        cy.get('#product-name-input').type('')
-        cy.get('#product-price-input').type('')
-        cy.get('#product-quantity-input').type('')
-        // 오류
+      it('step1-1 상품명, 금액, 수량은 공백이 불가능하다.', () => {
+        cy.get('#product-add-button').click()
+        cy.get('#product-name-input').then($input => $input[0].checkValidity()).should('be.false');
+        cy.get('#product-price-input').then($input => $input[0].checkValidity()).should('be.false');
+        cy.get('#product-quantity-input').then($input => $input[0].checkValidity()).should('be.false');
       })
 
       it('상품의 최소 수량은 1개여야 한다.', () => {
