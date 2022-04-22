@@ -29,6 +29,6 @@ export default class Products {
             return;
         }
 
-        this.products.push(new Product(name, Number(price), Number(quantity)));
+        this.products.push(new Product(name, Number(price), Number(quantity)).data);
     }
 }

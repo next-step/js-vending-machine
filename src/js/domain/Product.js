@@ -6,9 +6,11 @@ export default class Product {
     static PRICE_MIN = 100;
     static PRICE_UNIT = 10;
 
+    #data;
+
     constructor(name, price, quantity) {
         this.validate(name, price, quantity);
-        return {
+        this.data = {
             name,
             price,
             quantity,
@@ -31,5 +33,13 @@ export default class Product {
         if (!quantity || quantity < Product.QUANTITY_MIN) {
             throw ProductException.outOfRangeQuantity();
         }
+    }
+
+    set data(data) {
+        this.#data = data;
+    }
+
+    get data() {
+        return this.#data;
     }
 }
