@@ -115,6 +115,11 @@ button {
     padding: 0.3rem 0.45rem;
 }
 
+.selected {
+    border: 2px solid #c5c5c5;
+    font-weight: 600;
+}
+
 section p {
     border: 1px dashed rgb(70, 70, 70);
     border-radius: 6px;
