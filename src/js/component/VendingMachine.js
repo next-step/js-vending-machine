@@ -8,7 +8,6 @@ import VendingMachineManage from "./VendingMachineManage.js";
 
 export default class VendingMachine {
     products;
-    currentMenu;
 
     constructor() {
         this.products = new Products(getProducts());
