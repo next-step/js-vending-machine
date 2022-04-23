@@ -13,13 +13,8 @@ export default abstract class AbstractView<T extends HTMLElement, U extends Obje
     this.containerElement.insertAdjacentHTML('afterbegin', markup);
   }
 
-  renderError(err: Error | unknown): void {
-    let message = 'ERROR';
-    if (err instanceof Error) message = err.message;
-
-
-    const markup = `<h2>${message}</h2>`;
-
+  renderError(errMsg: string = 'ERROR'): void {
+    const markup = `<h2>${errMsg}</h2>`;
     this.clear();
     this.containerElement.insertAdjacentHTML('afterbegin', markup);
   }

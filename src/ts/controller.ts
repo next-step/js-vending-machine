@@ -3,7 +3,7 @@ import { ValidationError } from './utils/errorValidation';
 import * as model from './model';
 import { router } from './router/router';
  
-const addProduct = function (product: Product): void {
+const addProduct = function (product: Product) {
   try {
     const products: Array<Product> = model.addProduct(product);
     ProductContainerView.render(products);
@@ -13,7 +13,9 @@ const addProduct = function (product: Product): void {
       return;
     }
 
-    ProductContainerView.renderError(err);
+    if (err instanceof Error) {
+      ProductContainerView.renderError(err.message);
+    }
   }
 };
 
