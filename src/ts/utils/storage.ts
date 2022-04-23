@@ -13,8 +13,7 @@ export function getItem<T extends Object>(key: string): T {
   try {
     const json = localStorage.getItem(key);
     if (json === null) throw new ValidationError(ERROR.NO_STORAGE_ITEM);
-    const stored: T = JSON.parse(json);
-    return stored;
+    return JSON.parse(json);
   } catch (err) {
     throw err;
   }
