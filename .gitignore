@@ -1,6 +1,5 @@
 node_modules
 cypress.json
-cypress/downloads
 cypress/fixtures
 cypress/plugins
 cypress/integration/1-getting-started

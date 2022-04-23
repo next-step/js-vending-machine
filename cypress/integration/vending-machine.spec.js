@@ -1,25 +1,100 @@
-before(() => cy.visit('http://127.0.0.1:5500/index.html'));
+import createStore from '../../js/state/index.js';
 
-describe('', () => {
+before(() => {
+  cy.visit('http://127.0.0.1:5500/index.html');
+});
+
+const getProductInfo = (name, price, quantity) => ({
+  name: {
+    $el: '#product-name-input',
+    value: name,
+  },
+  price: {
+    $el: '#product-price-input',
+    value: price,
+  },
+  quantity: {
+    $el: '#product-quantity-input',
+    value: quantity,
+  },
+});
+
+describe('Step1 - 상품 관리', () => {
   describe('입력값 유효성 검사', () => {
-    it('공백이 입력되면 경고창을 출력한다.', () => {
-      cy.submitForm('.js-money-form', 0).alert('');
-    });
-
-    it('금액에 100원 미만으로 입력되면 경고창을 출력한다.', () => {
-      cy.submitForm('.js-money-form', 90).alert('');
+    beforeEach(() => {
+      createStore({ products: [] });
     });
 
     it('금액의 단위가 10원이 아니라면 경고창을 출력한다.', () => {
-      cy.submitForm('.js-money-form', 12).alert('');
+      cy.addProductInfo(getProductInfo('콜라', 12, 10))
+        .submitForm()
+        .alert('금액은 10원 단위로 입력하세요.');
     });
 
-    it('수량이 1 미만으로 입력되면 경고창을 출력한다.', () => {
-      cy.submitForm('.js-count-form', 0).alert('');
+    it('상품의 이름, 가격, 수량 순으로 상품 목록이 보여진다', () => {
+      const info = {
+        name: '딸기라떼',
+        price: 5_000,
+        quantity: 40,
+      };
+
+      cy.addProductInfo(
+        getProductInfo(info.name, info.price, info.quantity)
+      ).submitForm();
+
+      cy.get('#product-inventory-container')
+        .children()
+        .should(($trs) => {
+          expect($trs.children().eq(0)).to.contain(info.name);
+          expect($trs.children().eq(1)).to.contain(info.price);
+          expect($trs.children().eq(2)).to.contain(info.quantity);
+        });
     });
 
-    it('같은 상품명이 입력되면 새로운 정보로 Replace 된다.', () => {
-      cy.submitForm('.js-product-form', '콜라');
+    it('동일한 상품명의 데이터를 추가하면 새로운 상품으로 대체된다.', () => {
+      const lastItem = {
+        name: '콜라',
+        price: 500,
+        quantity: 12,
+      };
+
+      cy.addProductInfo(getProductInfo('콜라', 2_000, 10))
+        .submitForm()
+        .addProductInfo(getProductInfo('사이다', 1_000, 5))
+        .submitForm()
+        .addProductInfo(getProductInfo('우유', 4_000, 2))
+        .submitForm()
+        .addProductInfo(
+          getProductInfo(lastItem.name, lastItem.price, lastItem.quantity)
+        )
+        .submitForm();
+
+      cy.get('#product-inventory-container')
+        .children()
+        .should(($trs) => {
+          expect($trs).to.have.length(3);
+          expect($trs.eq(2)).to.contain(lastItem.name);
+          expect($trs.eq(2)).to.contain(lastItem.price);
+          expect($trs.eq(2)).to.contain(lastItem.quantity);
+        });
+    });
+
+    it('상품 목록은 탭을 이동하여도 기존의 상품 목록이 유지되어야 한다.', () => {
+      cy.addProductInfo(getProductInfo('콜라', 2_000, 10))
+        .submitForm()
+        .addProductInfo(getProductInfo('사이다', 1_000, 5))
+        .submitForm()
+        .addProductInfo(getProductInfo('우유', 4_000, 2))
+        .submitForm();
+
+      cy.get('#vending-machine-manage-menu').click();
+      cy.get('#product-manage-menu').click();
+
+      cy.get('#product-inventory-container')
+        .children()
+        .should(($trs) => {
+          expect($trs).to.have.length(3);
+        });
     });
   });
 });
