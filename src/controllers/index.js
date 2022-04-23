@@ -1,3 +1,3 @@
-import VendingMachine from './VendingMachine.js';
+import VendingMachineController from './VendingMachineController.js';
 
-export { VendingMachine };
+export { VendingMachineController };
