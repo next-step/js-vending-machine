@@ -2,6 +2,6 @@
   "video": false,
   "baseUrl": "http://localhost:8080",
   "cypress-watch-and-reload": {
-    "watch": ["src/*", "src/templates/*", "src/utils/*", "src/domains/*"]
+    "watch": ["src/*", "src/templates/*", "src/utils/*", "src/domains/*", "src/controllers/*"]
   }
 }
