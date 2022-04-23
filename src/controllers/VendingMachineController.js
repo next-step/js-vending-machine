@@ -1,29 +1,30 @@
-import { ProductManager, Router } from './domains/index.js';
-import VendingMachineView from './VendingMachineView.js';
+import { Router } from '../models/index.js';
+import { VendingMachineView, ProductPurchaseView, VendingMachineManageView } from '../views/index.js';
+import ProductManageController from './ProductManageController.js';
 
-import { $ } from './utils/dom.js';
-import { SELECTOR, HASH } from './constants.js';
+import { $ } from '../utils/dom.js';
+import { SELECTOR, HASH } from '../constants.js';
 
 class VendingMachine {
   constructor() {
-    this.vendingMachineView = new VendingMachineView();
-    this.productManager = new ProductManager();
+    VendingMachineView.render();
+
     this.router = new Router();
-    this.initRender();
+
+    this.productManageController = new ProductManageController();
+
+    this.renderTab();
     this.initEvents();
   }
 
-  initRender() {
-    this.vendingMachineView.renderTab(this.router.currentTab);
-    this.dataBindingInTab();
-  }
+  renderTab() {
+    const RenderTab = {
+      [HASH.PRODUCT_MANAGE_TAB]: () => this.productManageController.render(),
+      [HASH.PRODUCT_PURCHASE_TAB]: () => ProductPurchaseView.render(),
+      [HASH.VENDING_MACHINE_MANAGE_TAB]: () => VendingMachineManageView.render(),
+    };
 
-  dataBindingInTab() {
-    if (this.router.currentTab === HASH.PRODUCT_MANAGE_TAB)
-      this.vendingMachineView.renderTabWithData(
-        this.router.currentTab,
-        this.productManager.products,
-      );
+    RenderTab[this.router.currentTab]();
   }
 
   initEvents() {
@@ -34,32 +35,13 @@ class VendingMachine {
   handleClickEvent(event) {
     const targetId = event.target.id;
 
-    if (targetId === SELECTOR.PRODUCT_ADD_BUTTON_ID) this.addProduct();
+    if (targetId === SELECTOR.PRODUCT_ADD_BUTTON_ID) this.productManageController.addProduct();
   }
 
   handleHashChange() {
     const { hash: currentTab } = window.location;
-    this.vendingMachineView.renderTab(currentTab);
     this.router.currentTab = currentTab;
-    this.dataBindingInTab();
-  }
-
-  addProduct() {
-    const product = {
-      name: $(`#${SELECTOR.PRODUCT_NAME_INPUT_ID}`).value,
-      price: $(`#${SELECTOR.PRODUCT_PRICE_INPUT_ID}`).value,
-      quantity: $(`#${SELECTOR.PRODUCT_QUANTITY_INPUT_ID}`).value,
-    };
-
-    try {
-      this.productManager.addProduct(product);
-    } catch (error) {
-      alert(error.message);
-      return;
-    }
-
-    this.vendingMachineView.resetProductForm();
-    this.vendingMachineView.renderProductTableInProductManageTab(this.productManager.products);
+    this.renderTab();
   }
 }
 
