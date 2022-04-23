@@ -1,3 +1,4 @@
+import { MESSAGE } from '../../js/product/const/index.js';
 import createStore from '../../js/state/index.js';
 
 before(() => {
@@ -28,7 +29,7 @@ describe('Step1 - 상품 관리', () => {
     it('금액의 단위가 10원이 아니라면 경고창을 출력한다.', () => {
       cy.addProductInfo(getProductInfo('콜라', 12, 10))
         .submitForm()
-        .alert('금액은 10원 단위로 입력하세요.');
+        .alert(MESSAGE.PLZ_CHECK_PRICE_UNIT);
     });
 
     it('상품의 이름, 가격, 수량 순으로 상품 목록이 보여진다', () => {

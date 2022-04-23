@@ -1,5 +1,6 @@
 import { createFragmentWithTemplate, $ } from '../../utils/dom.js';
-import { addProduct, RANGE } from '../helper/product.js';
+import { RANGE } from '../const/index.js';
+import { addProduct } from '../helper/product.js';
 
 const Product = ($app, store) => {
   const $frag = createFragmentWithTemplate(productTemplate(RANGE));
