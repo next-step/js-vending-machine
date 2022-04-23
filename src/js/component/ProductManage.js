@@ -23,10 +23,12 @@ export default class ProductManage {
         this.$productQuantityInput = document.querySelector("#product-quantity-input");
         this.$productcontainerForm = document.querySelector("#product-container-form");
 
-        document.querySelector("#product-add-button").addEventListener("click", () => this.#onSubmitProduct());
+        document.querySelector("#product-input-form").addEventListener("submit", (event) => this.#onSubmitProduct(event));
     }
 
-    #onSubmitProduct() {
+    #onSubmitProduct(event) {
+        event.preventDefault();
+    
         this.props.onAddProduct(
             this.$productNameInput.value,
             this.$productPriceInput.value,
@@ -77,10 +79,12 @@ export default class ProductManage {
         return `
         <h3 id="product-manage">상품 추가하기</h3>
         <div class="product-container">
-            <input type="text" id="product-name-input" placeholder="상품명" />
-            <input type="number" id="product-price-input" placeholder="가격" />
-            <input type="number" id="product-quantity-input" placeholder="수량" />
-            <button id="product-add-button">추가하기</button>
+            <form id="product-input-form">
+                <input autofocus type="text" id="product-name-input" placeholder="상품명" />
+                <input type="number" id="product-price-input" placeholder="가격" />
+                <input type="number" id="product-quantity-input" placeholder="수량" />
+                <button id="product-add-button">추가하기</button>
+            </form>            
         </div>
         <table class="product-inventory">
             <colgroup>

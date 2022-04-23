@@ -17,12 +17,14 @@ export default class VendingMachineManage {
 
     #mounted() {
         document
-            .querySelector("#vending-machine-charge-button")
-            .addEventListener("click", () => this.#onSubmitVendingMachineCharge());
+            .querySelector("#vending-machine-charge-form")
+            .addEventListener("submit", (event) => this.#onSubmitVendingMachineCharge(event));
     }
 
-    #onSubmitVendingMachineCharge() {
+    #onSubmitVendingMachineCharge(event) { 
+        event.preventDefault();
         this.props.onVendingMachine(document.querySelector("#vending-machine-charge-input").value);
+        document.querySelector("#vending-machine-charge-input").value = "";
     }
 
     onSetVendingMachine() {
