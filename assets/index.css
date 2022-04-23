@@ -80,7 +80,18 @@ button:hover {
 
 button.active {
 	background-color: #484848;
-	color: #ffffff;
+	color: #ffffff !important;
+}
+
+a:focus, section button:focus{
+	outline: thick double #32a1ce;
+	border-radius: 3px;
+	transition: none;
+}
+
+nav {
+	display: flex;
+	gap: 1em;
 }
 
 #app {
