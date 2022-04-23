@@ -1,4 +1,3 @@
-import { now } from '../../utils/date.js';
 import { InputValidationError } from '../../utils/validation.js';
 import { MESSAGE, RANGE } from '../const/index.js';
 
@@ -7,7 +6,7 @@ export const addProduct = (newProduct, prevProducts) =>
 
 const getProductWithRegisterTime = (newProduct, prevProducts) => {
   const found = prevProducts.find(({ name }) => name === newProduct.name);
-  const registerTime = found?.registerTime ?? now();
+  const registerTime = found?.registerTime ?? Date.now();
 
   return {
     ...newProduct,
