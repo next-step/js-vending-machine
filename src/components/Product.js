@@ -1,6 +1,6 @@
 import ComponentHandler from './abstract/index.js';
 import { STATE_KEY, VENDING_MACHINE } from '../constants.js';
-import { $element, $focus } from '../helpers/index.js';
+import { $element, $focus, unitGenerateNumber } from '../helpers/index.js';
 
 // prettier-ignore
 const template = productList => $element(/*html*/ `
@@ -8,7 +8,8 @@ const template = productList => $element(/*html*/ `
   <div>
     <h3>자판기 상품 추가하기</h3>
     <form autocomplete class="product-add-form">
-      <input type="text" name="product-name" placeholder="추가할 상품명" required autofocus />
+      <input type="text" name="product-name" placeholder="추가할 상품명" required
+              autofocus maxLength="${VENDING_MACHINE.MAX_PRODUCT_NAME_LENGTH}"/>
       <input type="number" name="product-price" placeholder="추가할 상품 금액" required
               min="${VENDING_MACHINE.MIN_PRICE}" step="${VENDING_MACHINE.PRICE_STEP}" />
       <input type="number" name="product-quantity" placeholder="추가할 상품 수량" required
@@ -17,7 +18,7 @@ const template = productList => $element(/*html*/ `
     </form>
   </div>
   <div>
-    <h3>자판기 동전 현황</h3>
+    <h3>자판기 상품 현황</h3>
     <table class="product-inventory">
       <thead>
         <th>상품명</th>
@@ -29,8 +30,8 @@ const template = productList => $element(/*html*/ `
         ${productList.map(({ name, price, quantity }) => /*html*/ `
         <tr>
           <td data-product-name="${name}">${name}</td>
-          <td data-product-price="${price}">${price}</td>
-          <td data-product-quantity="${quantity}">${quantity}</td>
+          <td data-product-price="${price}">${unitGenerateNumber(price)}원</td>
+          <td data-product-quantity="${quantity}">${unitGenerateNumber(quantity)}개</td>
           <td><button type="button" data-delete="${name}">삭제하기</button></td>
         </tr>`).join('')}
       </tbody>
@@ -41,8 +42,9 @@ const template = productList => $element(/*html*/ `
 export default class Product extends ComponentHandler {
   static #template = template;
 
-  render({ PRODUCT }) {
-    this.replaceChildren(Product.#template(PRODUCT));
+  render({ product }) {
+    this.replaceChildren(Product.#template(product));
+    setTimeout(() => $focus('[name="product-name"]'), 10);
   }
 
   defineEvents() {
@@ -52,7 +54,19 @@ export default class Product extends ComponentHandler {
     ];
   }
 
-  generateFormValues(formElements) {
+  #update(productList) {
+    this.setState({ key: STATE_KEY.PRODUCT, value: productList });
+  }
+
+  addProduct = event => {
+    event.preventDefault();
+
+    const product = this.#generateFormValues(event.target.elements);
+    const addedProductList = this.#parsedToProductName(product);
+    this.#update(addedProductList);
+  };
+
+  #generateFormValues(formElements) {
     const [{ value: name }, { valueAsNumber: price }, { valueAsNumber: quantity }] = formElements;
     return {
       name: name.trim(),
@@ -61,38 +75,25 @@ export default class Product extends ComponentHandler {
     };
   }
 
-  update(productList) {
-    this.setState({ key: STATE_KEY.PRODUCT, value: productList, isReplace: true });
-    setTimeout(() => $focus('[name="product-name"]'), 500);
-  }
-
-  parsedToProductName(inputProduct) {
+  #parsedToProductName(inputProduct) {
     const productList = this.getState(STATE_KEY.PRODUCT);
     const isExists = productList.findIndex(product => product.name === inputProduct.name);
     if (isExists > -1) return productList.map(product => (product.name === inputProduct.name ? inputProduct : product));
     return [...productList, inputProduct];
   }
 
-  removedToProductName(productName) {
-    const productList = this.getState(STATE_KEY.PRODUCT);
-    return productList.filter(product => product.name !== productName);
-  }
-
-  addProduct = event => {
-    event.preventDefault();
-
-    const product = this.generateFormValues(event.target.elements);
-    const addedProductList = this.parsedToProductName(product);
-    this.update(addedProductList);
-  };
-
   deleteProduct = ({ target }) => {
     if (!target.matches('button[type="button"]')) return;
 
     const productName = target.getAttribute('data-delete');
-    const deletedProductList = this.removedToProductName(productName);
-    this.update(deletedProductList);
+    const deletedProductList = this.#removedToProductName(productName);
+    this.#update(deletedProductList);
   };
+
+  #removedToProductName(productName) {
+    const productList = this.getState(STATE_KEY.PRODUCT);
+    return productList.filter(product => product.name !== productName);
+  }
 }
 
 customElements.define('machine-product', Product);
