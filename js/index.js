@@ -8,7 +8,7 @@ const initState = {
 
 const App = () => {
   const $app = $('#app');
-  const store = createStore({ ...initState });
+  const store = createStore({ initState });
 
   createRoute({ root: $app, store, defaultHash: '#/product' });
 };
