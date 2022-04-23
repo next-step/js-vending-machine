@@ -5,8 +5,8 @@ export const addProduct = (newProduct, prevProducts) =>
   sortByRegisterTime(mergeProducts(newProduct, prevProducts));
 
 const getProductWithRegisterTime = (newProduct, prevProducts) => {
-  const found = prevProducts.find(({ name }) => name === newProduct.name);
-  const registerTime = found?.registerTime ?? Date.now();
+  const prevProduct = prevProducts.find(({ name }) => name === newProduct.name);
+  const registerTime = prevProduct?.registerTime ?? Date.now();
 
   return {
     ...newProduct,
