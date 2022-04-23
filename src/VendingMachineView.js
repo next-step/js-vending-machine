@@ -30,9 +30,7 @@ class VendingMachineView {
 
   renderTabWithData(curretTab, data) {
     const view = {
-      [HASH.PRODUCT_MANAGE_TAB]: () => {
-        this.renderProductTableInProductManageTab(data);
-      },
+      [HASH.PRODUCT_MANAGE_TAB]: () => this.renderProductTableInProductManageTab(data),
       [HASH.VENDING_MACHINE_MANAGE_TAB]: () => {},
       [HASH.PRODUCT_PURCHASE_TAB]: () => {},
     };
