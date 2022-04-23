@@ -40,7 +40,7 @@ class ProductContainerView extends AbstractView<HTMLElement, Array<Product>> {
         <input type="text" id="product-name-input" name="name" placeholder="상품명" required />
         <input type="number" id="product-price-input" name="price" placeholder="가격" required />
         <input type="number" id="product-quantity-input" name="quantity" placeholder="수량" required />
-        <button id="product-add-button">추가하기</button>
+        <button type="submit" id="product-add-button">추가하기</button>
     </form>
     <table class="product-inventory">
         <colgroup>
