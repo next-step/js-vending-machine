@@ -9,17 +9,16 @@ const createStore = (initialState) => {
 
   const dispatch = (newState) => {
     const prevState = storage.getAll();
+
     storage.set({
       ...prevState,
       ...newState,
     });
 
-    listeners.forEach((listener) => listener(storage.getAll()));
+    listeners.forEach((listener) => listener());
   };
 
-  const subscribe = (listener) => {
-    listeners.push(listener);
-  };
+  const subscribe = (listener) => listeners.push(listener);
 
   return {
     getState,

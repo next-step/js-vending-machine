@@ -26,9 +26,9 @@ const Product = ($app, store) => {
     }
   };
 
-  const renderProductList = ({ products }) => {
-    if (!products) return;
-    $productList.innerHTML = products.map(productRow).join('');
+  const renderProductList = () => {
+    $productList.innerHTML =
+      store.getState('products')?.map(productRow).join('') || '';
   };
 
   const init = () => {
