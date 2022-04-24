@@ -1,5 +1,8 @@
 import Product from '../../Model/Product/Product.js';
+import Component from '../../View/index.js';
 import ProductManageMenu from '../../View/Template/ProductManageMenu.js';
+import ProductPurchaseMenu from '../../View/Template/ProductPurchaseMenu.js';
+import VendingMachineManageMenu from '../../View/Template/VendingMachineManageMenu.js';
 import Employee from '../Controller/Employee.js';
 
 const Event = (function () {
@@ -8,18 +11,16 @@ const Event = (function () {
     router: {
       click(event) {
         if (event.target.id === 'product-manage-menu') {
-          ProductManageMenu.of().render(); // 화면을 그려주고
-          // 스토리지에서 상품을 가져와서
-
-          //TODO storage에서 직원이 꺼내오고 렌더링
-          employee.getProduct();
-          employee.display();
+          ProductManageMenu.of().render();
+          Component.product.display();
         }
 
         if (event.target.id === 'vending-machine-manage-menu') {
+          VendingMachineManageMenu.of().render();
         }
 
         if (event.target.id === 'product-purchase-menu') {
+          ProductPurchaseMenu.of().render();
         }
       },
     },
