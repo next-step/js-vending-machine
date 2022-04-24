@@ -1,5 +1,5 @@
 import { VALIDATE } from '../../js/util/consts.js';
-import './selector.js';
+import './util.js';
 // MEMO: 테스트코드 작성 시 상수 값 분리 및 중복체크
 describe('vending machine', () => {
   beforeEach(() => {

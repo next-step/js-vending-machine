@@ -3,7 +3,7 @@ import { DEFAULT_PRICE_UNIT } from '../util/consts.js';
 const Validator = {
   product: {
     isEmpty(...info) {
-      return info.some((e) => e === '' || e === undefined);
+      return info.some((e) => e?.trim() === '' || e?.trim() === undefined);
     },
     isNotPriceTenUnit(price) {
       return price % DEFAULT_PRICE_UNIT !== 0;
@@ -15,6 +15,12 @@ const Validator = {
       return productList.some(
         (prevProduct) => prevProduct.name === currProduct.name
       );
+    },
+  },
+
+  storage: {
+    isEmpty(storageProduct) {
+      return storageProduct === null;
     },
   },
 };

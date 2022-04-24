@@ -1,68 +1,52 @@
-import { selector } from '../../util/consts.js';
-import Component from '../../View/index.js';
-import Controller from '../Controller/Controller.js';
+import Product from '../../Model/Product/Product.js';
+import ProductManageMenu from '../../View/Template/ProductManageMenu.js';
+import Employee from '../Controller/Employee.js';
 
 const Event = (function () {
+  const employee = Employee.of();
   return {
     router: {
-      init() {
-        const router = selector('vending-machine-router');
-        router.addEventListener('click', this.seperateEventTarget);
-      },
-
-      // TODO router 구현
-      // DOMContentLoaded를 통해
-      // 해당 페이지에 이동하면 state를 통해 DOM을 렌더링
-      seperateEventTarget(event) {
-        if (event.target.id === 'vending-machine-manage-menu') {
-          console.log('vending-machine');
-        }
+      click(event) {
         if (event.target.id === 'product-manage-menu') {
-          console.log('manage-menu');
+          ProductManageMenu.of().render(); // 화면을 그려주고
+          // 스토리지에서 상품을 가져와서
+
+          //TODO storage에서 직원이 꺼내오고 렌더링
+          employee.getProduct();
+          employee.display();
         }
+
+        if (event.target.id === 'vending-machine-manage-menu') {
+        }
+
         if (event.target.id === 'product-purchase-menu') {
-          console.log('product-purchase');
         }
       },
     },
 
     product: {
-      init() {
-        const shadowDOMSelector = selector('product-handling-board').shadowRoot;
-
-        const name = shadowDOMSelector.querySelector('#product-name-input'),
-          price = shadowDOMSelector.querySelector('#product-price-input'),
-          quantity = shadowDOMSelector.querySelector('#product-quantity-input'),
-          createButton = shadowDOMSelector.querySelector('#product-add-button');
-
-        name.addEventListener('keyup', this.seperateProductInfo);
-        price.addEventListener('keyup', this.seperateProductInfo);
-        quantity.addEventListener('keyup', this.seperateProductInfo);
-        createButton.addEventListener('click', this.seperateProductInfo);
+      keydown(event) {
+        console.log(event.target);
       },
 
-      seperateProductInfo(event) {
-        const { id, value } = event.target;
-        const { product } = Controller;
-        const isKeyTypeEnter = event.key === 'Enter';
-        const hasClicked =
-          event.type === 'click' && id === 'product-add-button';
+      submit(event) {
+        event.preventDefault();
 
-        if (hasClicked || isKeyTypeEnter) {
-          product.add(value);
+        const form = event.path[0];
+        const product = Product.of({
+          name: form.querySelector('#product-name-input').value,
+          price: form.querySelector('#product-price-input').value,
+          quantity: form.querySelector('#product-quantity-input').value,
+        });
+
+        if (!employee.isPassProductValidation(product)) {
+          return;
         }
 
-        if (id === 'product-name-input') {
-          product.handleName(value);
-        }
-
-        if (id === 'product-price-input') {
-          product.handlePrice(value);
-        }
-
-        if (id === 'product-quantity-input') {
-          product.handleQuantity(value);
-        }
+        // 1. 같은 부분이 있다면 view 대체하기
+        // 2. localstorage에 최신화 하기
+        employee.update(product);
+        //
       },
     },
   };

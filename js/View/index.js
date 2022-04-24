@@ -1,62 +1,96 @@
-import { selector } from '../util/consts.js';
-import ProductCharge from './Component/ProductCharge.js';
-import ProductHandlingBoard from './Component/ProductHandlingBoard.js';
-import Router from './Component/Router.js';
+import Storage from '../Model/Store/Storage.js';
+import { selector, shadowDOMSelector } from '../util/consts.js';
 
 const Component = (function () {
   return {
     router: {
-      render() {
-        selector('#app').innerHTML = `
+      render(tag = '') {
+        selector('#app').innerHTML = String.raw`
           <h1>🧃 자판기 미션 🧃</h1>
           <vending-machine-router></vending-machine-router>
-          <product-handling-board></product-handling-board>
+          ${tag && `<${tag}></${tag}>`}
         `;
       },
     },
+    user: {
+      render() {
+        selector('#app');
+      },
+    },
+    cashBox: {
+      render() {},
+    },
+
     product: {
       init() {
-        selector('product-handling-board').shadowRoot.querySelector(
-          '#product-name-input'
-        ).value = '';
-        selector('product-handling-board').shadowRoot.querySelector(
-          '#product-price-input'
-        ).value = '';
-        selector('product-handling-board').shadowRoot.querySelector(
+        shadowDOMSelector('product-dashboard', '#product-name-input').value =
+          '';
+        shadowDOMSelector('product-dashboard', '#product-price-input').value =
+          '';
+        shadowDOMSelector(
+          'product-dashboard',
           '#product-quantity-input'
         ).value = '';
       },
 
-      define() {
-        customElements.define('vending-machine-router', Router);
-        customElements.define('product-handling-board', ProductHandlingBoard);
-        customElements.define('product-inventory', ProductCharge);
-      },
-
-      create(priceInfo) {
-        const tr = document.createElement('tr');
+      //TODO : Stroage에서 꺼내 와서 렌더링도 해야함
+      display() {
+        const tbody = shadowDOMSelector(
+          'product-inventory',
+          '#product-inventory-container'
+        );
+        const storage = Storage.of();
         const fragment = document.createDocumentFragment();
-        priceInfo.forEach((info) => {
-          const th = document.createElement('td');
-          th.textContent = info;
-          fragment.appendChild(th);
+        storage.getStorageProduct.forEach((product) => {
+          const tr = document.createElement('tr');
+          Object.values(product).forEach((info) => {
+            const td = document.createElement('td');
+            td.textContent = info;
+            tr.appendChild(td);
+          });
+          fragment.append(tr);
         });
-        tr.appendChild(fragment);
-        return tr;
+        tbody.append(fragment);
       },
 
-      render(element) {
-        selector('product-handling-board')
-          .shadowRoot.querySelector('product-inventory')
-          .shadowRoot.querySelector('#product-inventory-container')
-          .appendChild(element);
+      /**
+       * @param {string} tagName
+       * @param {Object} product
+       *   @type {
+       *     name: {string}
+       *     price: {string}
+       *     quantity: {string}
+       *   }
+       */
+      render(containerName, { product, tagName }) {
+        const container = document.createElement(containerName);
+        const fragment = document.createDocumentFragment();
+
+        Object.values(product).forEach((info) => {
+          const tag = document.createElement(tagName);
+          tag.textContent = info;
+          fragment.appendChild(tag);
+        });
+        container.appendChild(fragment);
+        return container;
+      },
+
+      mount(element) {
+        // 상품추가?
+        element &&
+          shadowDOMSelector(
+            'product-inventory',
+            '#product-inventory-container'
+          ).appendChild(element);
+      },
+
+      replace() {
+        // TODO: 테이블 교체
       },
 
       removePreviousComponent() {
-        // FIXME 일괄 삭제 고려
-        selector('product-handling-board')
-          .shadowRoot.querySelector('product-inventory')
-          .shadowRoot.querySelector('#product-inventory-container')
+        // MEMO : `재귀적으로 shadowRoot를 찾는게 좋을까?`에 대해 리서치
+        shadowDOMSelector('product-inventory', '#product-inventory-container')
           .querySelectorAll('tr')
           .forEach((tag) => tag.remove());
       },

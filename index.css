@@ -68,6 +68,10 @@ body {
   background-color: #f4f3f5;
 }
 
+label {
+  visibility: hidden;
+}
+
 section {
   width: 28rem;
 }

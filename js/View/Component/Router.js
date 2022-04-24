@@ -1,34 +1,30 @@
+import Event from '../../Controller/Event/Event.js';
+
 class Router extends HTMLElement {
   constructor() {
     super();
 
     const shadow = this.attachShadow({ mode: 'open' });
-    const routerButton = [
-      { id: 'product-manage-menu', text: '상품 관리' },
-      { id: 'vending-machine-manage-menu', text: '잔돈충전' },
-      {
-        id: 'product-purchase-menu',
-        text: '상품 구매',
-      },
-    ];
 
     const container = document.createElement('div');
     container.setAttribute('id', 'router');
-
-    routerButton.forEach((info) => {
-      const button = document.createElement('button');
-      button.setAttribute('id', info.id);
-      button.textContent = info.text;
-      container.appendChild(button);
-    });
+    container.innerHTML = String.raw`
+      <button id="product-manage-menu">상품관리</button>
+      <button id="vending-machine-manage-menu">잔돈충전</button>
+      <button id="product-purchase-menu">상품구매</button>
+    `;
 
     const link = document.createElement('link');
     link.setAttribute('rel', 'stylesheet');
     link.setAttribute('href', './index.css');
+
+    this.shadowRoot.addEventListener('click', Event.router.click);
+
     this.shadowRoot.append(link, container);
   }
 
   // MEMO lifeCycle
+
   attributeChangedCallback(name, oldValue, newValue) {}
 }
 

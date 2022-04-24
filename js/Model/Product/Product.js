@@ -1,11 +1,17 @@
 import { VALIDATE } from '../../util/consts.js';
 import Validator from '../Validator.js';
 
-class VendingMachine {
+class Product {
   #name;
   #price;
   #quantity;
   #productList;
+
+  constructor({ name, price, quantity }) {
+    this.#name = name;
+    this.#price = price;
+    this.#quantity = quantity;
+  }
 
   /**
    * @param {string} newName
@@ -40,12 +46,16 @@ class VendingMachine {
     return this.#quantity;
   }
 
-  get getProductList() {
-    return this.#productList;
+  get getProductInfo() {
+    return {
+      name: this.#name,
+      price: this.#price,
+      quantity: this.#quantity,
+    };
   }
 
-  static of({ name, price, quantity }) {
-    return new VendingMachine({ name, price, quantity });
+  static of(product) {
+    return new Product(product);
   }
 
   validate() {
@@ -104,4 +114,4 @@ class VendingMachine {
   }
 }
 
-export default VendingMachine;
+export default Product;

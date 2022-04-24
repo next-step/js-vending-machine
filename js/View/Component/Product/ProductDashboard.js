@@ -1,12 +1,14 @@
-class ProductHandlingBoard extends HTMLElement {
+import Event from '../../../Controller/Event/Event.js';
+
+class ProductDashboard extends HTMLElement {
   constructor() {
     super();
 
     const shadow = this.attachShadow({ mode: 'open' });
-    const container = document.createElement('section');
-    container.innerHTML = `
-      <h3>상품 추가하기</h3>
-      <div class="product-container">
+    const container = document.createElement('form');
+    container.setAttribute('id', 'product-dashboard');
+    container.innerHTML = String.raw`
+        <label for="product-name-input"></label>
         <input
           type="text"
           id="product-name-input"
@@ -14,6 +16,7 @@ class ProductHandlingBoard extends HTMLElement {
           data-product="name-input"
           required
         />
+        <label for="product-price-input"></label>
         <input
           type="number"
           id="product-price-input"
@@ -23,6 +26,7 @@ class ProductHandlingBoard extends HTMLElement {
           max="100000"
           required
         />
+        <label for="product-quantity-input"></label>
         <input
           type="number"
           id="product-quantity-input"
@@ -32,20 +36,18 @@ class ProductHandlingBoard extends HTMLElement {
           max="100"
           required
         />
-        <button id="product-add-button" data-product="add-button">
+        <button type="submit" id="product-add-button" data-product="add-button">
           추가하기
-        </button>
+        </button>`;
 
-        <product-inventory></product-inventory>
-      </div>`;
     const link = document.createElement('link');
     link.setAttribute('rel', 'stylesheet');
     link.setAttribute('href', './index.css');
+
+    this.shadowRoot.addEventListener('submit', Event.product.submit);
+
     this.shadowRoot.append(link, container);
   }
-
-  // MEMO lifeCycle
-  attributeChangedCallback(name, oldValue, newValue) {}
 }
 
-export default ProductHandlingBoard;
+export default ProductDashboard;
