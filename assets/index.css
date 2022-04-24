@@ -83,7 +83,7 @@ button.active {
 	color: #ffffff !important;
 }
 
-a:focus, section button:focus{
+a:focus, section button:focus {
 	outline: thick double #32a1ce;
 	border-radius: 3px;
 	transition: none;
@@ -103,7 +103,6 @@ nav {
 
 :is(table) th, td {
 	width: 65px;
-	border: 1px solid rgb(66, 66, 66);
 	font-family: Arial, sans-serif;
 	font-size: 14px;
 	overflow: hidden;
@@ -112,25 +111,40 @@ nav {
 }
 
 table {
-	border-top-left-radius: 10px;
-	border-top-right-radius: 10px;
-	background-color: #d6d6d6;
+	border-radius: 10px;
+	background-color: #40AEF0;
+	text-align: center;
+	vertical-align: middle;
+	margin-top: 1rem;
+	width: 500px !important;
+
+	border-collapse: collapse;
+	box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+}
+
+table button {
+	border: none;
+	background-color: #40AEF0;
+}
+
+table button:hover {
+	background-color: #ffffff;
 }
 
 thead {
-	border-bottom: 4px double black;
+	color: #ffffff;
 }
 
 tbody {
-	background-color: #f4f3f5;
+	background-color: #d1ecfc;
 }
 
-tbody tr:last-child td:first-child {
-	border-bottom-left-radius: 10px;
+tbody tr:nth-of-type(even) {
+	background-color: #a1d6f7;
 }
 
-tbody tr:last-child td:last-child {
-	border-bottom-right-radius: 10px;
+tbody tr:last-child {
+	border-bottom: 4px solid #40AEF0;
 }
 
 .hidden {
