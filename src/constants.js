@@ -1,13 +1,23 @@
 export const SELECTOR = Object.freeze({
   APP_ID: 'app',
+
   PRODUCT_MANAGE_MENU_ID: 'product-manage-menu',
   VENDING_MACHINE_MANAGE_MENU_ID: 'vending-machine-manage-menu',
+
   PRODUCT_PURCHASE_MENU_ID: 'product-purchase-menu',
   PRODUCT_NAME_INPUT_ID: 'product-name-input',
   PRODUCT_PRICE_INPUT_ID: 'product-price-input',
   PRODUCT_QUANTITY_INPUT_ID: 'product-quantity-input',
   PRODUCT_ADD_BUTTON_ID: 'product-add-button',
   PRODUCT_INVENTORY_CONTAINER_ID: 'product-inventory-container',
+
+  VENDING_MACHINE_CHARGE_INPUT_ID: 'vending-machine-charge-input',
+  VENDING_MACHINE_CHARGE_BUTTON_ID: 'vending-machine-charge-button',
+  VENDING_MACHINE_CHARGE_AMOUNT_ID: 'vending-machine-charge-amount',
+  VENDING_MACHINE_COIN_500_QUANTITY_ID: 'vending-machine-coin-500-quantity',
+  VENDING_MACHINE_COIN_100_QUANTITY_ID: 'vending-machine-coin-100-quantity',
+  VENDING_MACHINE_COIN_50_QUANTITY_ID: 'vending-machine-coin-50-quantity',
+  VENDING_MACHINE_COIN_10_QUANTITY_ID: 'vending-machine-coin-10-quantity',
 });
 
 export const STORE_KEY = Object.freeze({
