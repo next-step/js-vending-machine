@@ -1,6 +1,6 @@
+import ComponentHandler from './abstract/index.js';
 import { COIN_KEY, ERROR_MESSAGE, STATE_KEY, VENDING_MACHINE } from '../constants.js';
 import { $element, $focus, pipe, pipeline, unitGenerateNumber, descSortFirstVariable } from '../helpers/index.js';
-import ComponentHandler from './abstract/index.js';
 
 const template = ({ product: productList, purchase: chargedMoney, returned: returnedCoins }) => {
   // prettier-ignore

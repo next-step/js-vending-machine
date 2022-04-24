@@ -1,5 +1,5 @@
-import { COINS, COIN_KEY, STATE_KEY, VENDING_MACHINE } from '../constants.js';
 import ComponentHandler from './abstract/index.js';
+import { COINS, COIN_KEY, STATE_KEY, VENDING_MACHINE } from '../constants.js';
 import { $element, $focus, pipe, pipeline, totalCoinCalculator, unitGenerateNumber } from '../helpers/index.js';
 
 const template = coins => {

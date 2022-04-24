@@ -1,3 +1,4 @@
+import { ROUTER } from './constants.js';
 import { $element } from './helpers/index.js';
 
 const ROUTE_PARAMETER_REGEXP = /:(\w+)/g;
@@ -53,7 +54,7 @@ const createRouter = () => {
     $targetElements = elements;
 
     window.addEventListener('hashchange', checkRoutes);
-    if (!location.hash) location.hash = '#/product';
+    if (!location.hash) location.hash = ROUTER.PRODUCT;
     checkRoutes();
   };
 

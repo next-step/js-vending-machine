@@ -1,11 +1,10 @@
-import ErrorHandler from './ErrorHandler.js';
+import './ErrorHandler.js';
 import Store from '../../store.js';
 import { ERROR_MESSAGE } from '../../constants.js';
 
 export default class ComponentHandler extends HTMLElement {
   #removeHandler = null;
   #store = Store;
-  #errorHandler = ErrorHandler;
 
   constructor() {
     super();
