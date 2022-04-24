@@ -1,9 +1,7 @@
 import { ERROR_MESSAGE, SELECTOR, STANDARD } from '../../src/constants.js';
 
 describe('상품 추가하기 탭 관련 테스트', () => {
-  beforeEach(() => {
-    cy.visit('/');
-  });
+  beforeEach(() => cy.visit('/'));
 
   context('상품명이 알맞게 입력되어야 합니다.', () => {
     it('상품명은 필수값 입니다.', () => {
