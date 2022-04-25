@@ -2,7 +2,7 @@ import { SELECTOR } from '../constants.js';
 
 export const vendingMachineManageTabTemplate = () => String.raw`
   <h3>자판기 돈통 충전하기</h3>
-  <div class="vending-machine-wrapper">
+  <form class="vending-machine-wrapper">
     <input
       type="number"
       name="vending-machine-charge-amount"
@@ -10,7 +10,7 @@ export const vendingMachineManageTabTemplate = () => String.raw`
       autofocus
     />
     <button id="${SELECTOR.VENDING_MACHINE_CHARGE_BUTTON_ID}">충전하기</button>
-  </div>
+  </form>
   <p>보유 금액: <span id="${SELECTOR.VENDING_MACHINE_CHARGE_AMOUNT_ID}">0</span>원</p>
   <h3>동전 보유 현황</h3>
   <table class="cashbox-remaining">
