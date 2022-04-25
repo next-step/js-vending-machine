@@ -20,9 +20,11 @@ const powerAdeAfter = ['파워에이드', '1200', '2'];
 const gaetoray = ['게토레이', '1400', '2'];
 
 const appendProduct = (item) => {
-  $nameInput().type(item[0]);
-  $priceInput().type(item[1]);
-  $quantityInput().type(item[2]);
+  const [name, price, quantity] = item;
+
+  $nameInput().type(name);
+  $priceInput().type(price);
+  $quantityInput().type(quantity);
 
   $formContainer().submit();
 };
