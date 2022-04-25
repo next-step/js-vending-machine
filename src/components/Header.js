@@ -2,7 +2,7 @@ import usePushState from '../utils/usePushState';
 import Title from './Title';
 
 const Header = (target) => {
-  const _Header = `
+  const headerTemplate = `
     <header>
         ${Title('🥤자판기🥤')}
         <button id="product-manage-menu">상품 관리</button>
@@ -11,7 +11,7 @@ const Header = (target) => {
     </header>
     `;
 
-  target.insertAdjacentHTML('beforeend', _Header);
+  target.insertAdjacentHTML('beforeend', headerTemplate);
 
   document.querySelector('header').addEventListener('click', (e) => {
     switch (e.target.id) {

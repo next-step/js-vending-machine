@@ -3,10 +3,10 @@ import { routing } from '../router';
 const usePushState = (path) => {
   window.history.pushState('', '', path);
 
-  const _path = [''];
-  _path.push(path);
+  const paths = [''];
+  paths.push(path);
 
-  const component = routing(_path);
+  const component = routing(paths);
   const child = document.querySelector('main').childNodes[0];
 
   child.replaceWith(component.render());

@@ -1,14 +1,14 @@
 import Product from '../domains/products/management/models/Product';
 import useLocalStorage from '../utils/useLocalStorage';
 
-const _getProducts = () =>
+const getProductsByLocalStorage = () =>
   useLocalStorage.getByJson('products')
     ? new Map(Object.entries(useLocalStorage.getByJson('products')))
     : new Map();
 
 const productStore = {
   GET_PRODUCTS() {
-    const products = _getProducts();
+    const products = getProductsByLocalStorage();
 
     return [...products].map(
       (product) =>
@@ -20,7 +20,7 @@ const productStore = {
     );
   },
   SET_PRODUCTS(product) {
-    const products = _getProducts();
+    const products = getProductsByLocalStorage();
 
     products.set(product.name, {
       price: product.price,
