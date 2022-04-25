@@ -1,8 +1,32 @@
 import ComponentHandler from './abstract/index.js';
-import { COIN_KEY, ERROR_MESSAGE, STATE_KEY, VENDING_MACHINE } from '../constants.js';
+import { COIN_KEY, ERROR_MESSAGE, NOT_FOUND_ITEMS, STATE_KEY, VENDING_MACHINE } from '../constants.js';
 import { $element, $focus, pipe, pipeline, unitGenerateNumber, descSortFirstVariable } from '../helpers/index.js';
 
 const template = ({ product: productList, purchase: chargedMoney, returned: returnedCoins }) => {
+  let productListHTML = NOT_FOUND_ITEMS;
+  if (productList.length > 0) {
+    // prettier-ignore
+    productListHTML = /*html*/`
+      <h3>구매할 수 있는 상품 현황</h3>
+      <table class="purchase-available">
+        <thead>
+          <th>상품명</th>
+          <th>가격</th>
+          <th>수량</th>
+          <th>구매</th>
+        </thead>
+        <tbody>
+          ${!productList.length ? NOT_FOUND_ITEMS : productList.map(({name, price, quantity}) => /*html*/`
+          <tr>
+            <td data-product-name="${name}">${name}</td>
+            <td data-product-price="${price}">${unitGenerateNumber(price)}원</td>
+            <td data-product-quantity="${quantity}">${unitGenerateNumber(quantity)}개</td>
+            <td><button type="button" class="purchase-product-button" data-purchase-product="${name}">구매하기</button></td>
+          </tr>`).join('')}
+        </tbody>
+      </table>`;
+  }
+
   // prettier-ignore
   return $element(/*html*/ `
     <section class="purchase-container">
@@ -15,26 +39,7 @@ const template = ({ product: productList, purchase: chargedMoney, returned: retu
         </form>
       </div>
       <p>투입한 금액 : <span id="purchase-charged-money">${unitGenerateNumber(chargedMoney)}</span>원</p>
-      <div class="row">
-        <h3>구매할 수 있는 상품 현황</h3>
-        <table class="purchase-available">
-          <thead>
-            <th>상품명</th>
-            <th>가격</th>
-            <th>수량</th>
-            <th>구매</th>
-          </thead>
-          <tbody>
-            ${productList.map(({name, price, quantity}) => /*html*/`
-            <tr>
-              <td data-product-name="${name}">${name}</td>
-              <td data-product-price="${price}">${unitGenerateNumber(price)}원</td>
-              <td data-product-quantity="${quantity}">${unitGenerateNumber(quantity)}개</td>
-              <td><button type="button" class="purchase-product-button" data-purchase-product="${name}">구매하기</button></td>
-            </tr>`).join('')}
-          </tbody>
-        </table>
-      </div>
+      <div class="row">${productListHTML}</div>
       <div class="row">
         <h3>잔돈</h3>
         <button id="coin-return-button" data-charge-money="${chargedMoney}">반환하기</button>
