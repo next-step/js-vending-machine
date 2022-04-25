@@ -6,7 +6,7 @@ const template = ({ product: productList, purchase: chargedMoney, returned: retu
   // prettier-ignore
   return $element(/*html*/ `
     <section class="purchase-container">
-      <div>
+      <div class="row">
         <h3>금액 투입</h3>
         <form autocomplete class="purchase-money-charge-form">
           <input type="number" name="purchase-money-charge" placeholder="투입할 금액" required
@@ -15,7 +15,7 @@ const template = ({ product: productList, purchase: chargedMoney, returned: retu
         </form>
       </div>
       <p>투입한 금액 : <span id="purchase-charged-money">${unitGenerateNumber(chargedMoney)}</span>원</p>
-      <div>
+      <div class="row">
         <h3>구매할 수 있는 상품 현황</h3>
         <table class="purchase-available">
           <thead>
@@ -35,7 +35,7 @@ const template = ({ product: productList, purchase: chargedMoney, returned: retu
           </tbody>
         </table>
       </div>
-      <div>
+      <div class="row">
         <h3>잔돈</h3>
         <button id="coin-return-button" data-charge-money="${chargedMoney}">반환하기</button>
         <table class="cashbox-remaining">

@@ -27,8 +27,15 @@ header, main {
 	margin: 1em 0;
 }
 
+h1 {
+  color: #fdfdfe;
+  text-shadow: 0px 0px 5px #40AEF0, 0px 0px 10px #40AEF0, 0px 0px 10px #40AEF0,
+    0px 0px 20px #40AEF0;
+}
+
 h3 {
 	margin-top: 0;
+	text-shadow: 4px 3px 0px #dedede, 3px 4px 0px rgba(0,0,0,0.15);
 }
 
 section {
@@ -48,20 +55,21 @@ input[type='text'] {
 	all: unset;
 	font-size: 0.825rem;
 	padding: 0.5rem;
-	background: white;
+	background: #ffffff;
 	text-align: left;
 	border: 1px solid #afafaf;
 	border-radius: 6px;
 	width: calc(100% - 6.125rem);
+	box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 4px, rgba(0, 0, 0, 0.3) 0px 7px 13px -3px, rgba(0, 0, 0, 0.2) 0px -3px 0px inset;
 }
 
 section p {
-	border: 1px dashed rgb(70, 70, 70);
 	padding: 8px 0;
 	border-radius: 6px;
 	width: 65%;
 	font-size: 14px;
 	margin: 0;
+	box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 4px, rgba(0, 0, 0, 0.3) 0px 7px 13px -3px, rgba(0, 0, 0, 0.2) 0px -3px 0px inset;
 }
 
 button {
@@ -72,6 +80,7 @@ button {
 	border-radius: 6px;
 	padding: 0.3rem 0.45rem;
 	transition: 0.2s ease-in-out;
+	box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 4px, rgba(0, 0, 0, 0.3) 0px 7px 13px -3px, rgba(0, 0, 0, 0.2) 0px -3px 0px inset;
 }
 
 button:hover {
@@ -81,6 +90,9 @@ button:hover {
 button.active {
 	background-color: #484848;
 	color: #ffffff !important;
+	box-shadow: 1px 1px 0 rgb(0, 0, 0, 0.5);
+	position: relative;
+	top: 2px;
 }
 
 a:focus, section button:focus {
@@ -119,7 +131,7 @@ table {
 	width: 500px !important;
 
 	border-collapse: collapse;
-	box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+	box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 4px, rgba(0, 0, 0, 0.3) 0px 7px 13px -3px, rgba(0, 0, 0, 0.2) 0px -3px 0px inset;
 }
 
 table button {
@@ -147,7 +159,6 @@ tbody tr:last-child {
 	border-bottom: 4px solid #40AEF0;
 }
 
-.hidden {
-	opacity: 0;
-	visibility: hidden;
+.row {
+	margin: 1em 0;
 }

@@ -15,7 +15,7 @@ const AppTemplate = $element(/*html*/ `
   <div id="app">
     <header>
       <div>
-        <h1>🏧자판기🏧</h1>
+        <h1>🏧 자판기 🏧</h1>
       </div>
       <nav>
         <a href="${ROUTER.PRODUCT}" id="product-manage-menu">

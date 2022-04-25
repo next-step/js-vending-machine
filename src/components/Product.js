@@ -5,7 +5,7 @@ import { $element, $focus, unitGenerateNumber } from '../helpers/index.js';
 // prettier-ignore
 const template = productList => $element(/*html*/ `
 <section class="product-container">
-  <div>
+  <div class="row">
     <h3>자판기 상품 추가하기</h3>
     <form autocomplete class="product-add-form">
       <input type="text" name="product-name" placeholder="추가할 상품명" required
@@ -17,7 +17,7 @@ const template = productList => $element(/*html*/ `
       <button type="submit" id="product-add-button">추가하기</button>
     </form>
   </div>
-  <div>
+  <div class="row">
     <h3>자판기 상품 현황</h3>
     <table class="product-inventory">
       <thead>

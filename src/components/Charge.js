@@ -14,7 +14,7 @@ const template = coins => {
 
   return $element(/*html*/ `
     <section class="changes-charge-container">
-      <div>
+      <div class="row">
         <h3>자판기 동전 충전하기</h3>
         <form autocomplete class="changes-charge-form">
           <input type="number" name="changes-charge" placeholder="충전할 금액" required
@@ -23,7 +23,7 @@ const template = coins => {
         </form>
       </div>
       <p>보유 금액 : <span>${generatedMoney}원</span></p>
-      <div>
+      <div class="row">
         <h3>자판기 동전 현황</h3>
         <table class="changes-cashbox">
           <thead>
