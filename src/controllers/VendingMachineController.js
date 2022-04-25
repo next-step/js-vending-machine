@@ -38,7 +38,7 @@ class VendingMachineController {
     const targetId = event.target.id;
 
     if (targetId === SELECTOR.PRODUCT_ADD_BUTTON_ID) this.productManageController.addProduct();
-    if (targetId === SELECTOR.VENDING_MACHINE_CHARGE_BUTTON_ID) this.vendingMachineManageController.chargeCoin();
+    if (targetId === SELECTOR.VENDING_MACHINE_CHARGE_BUTTON_ID) this.vendingMachineManageController.chargeMoney();
   }
 
   handleHashChange() {

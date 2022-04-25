@@ -1,27 +1,31 @@
 import { VendingMachineManageView } from '../views/index.js';
+import { MoneyManager } from '../models/index.js';
 
 import { $ } from '../utils/dom.js';
-import { ERROR_MESSAGE, SELECTOR, STANDARD } from '../constants.js';
+import { SELECTOR } from '../constants.js';
 
 class VendingMachineManageController {
-  render() {
-    VendingMachineManageView.render();
+  constructor() {
+    this.moneyManager = new MoneyManager();
   }
 
-  chargeCoin() {
+  render() {
+    VendingMachineManageView.render();
+    VendingMachineManageView.renderHoldingMoney(this.moneyManager.holdingMoney);
+  }
+
+  chargeMoney() {
     const chargeMoney = $(`#${SELECTOR.VENDING_MACHINE_CHARGE_INPUT_ID}`).value;
 
     try {
-      this.validateChargeMoney(chargeMoney);
+      this.moneyManager.holdingMoney = chargeMoney;
     } catch (error) {
       alert(error.message);
+      return;
     }
-  }
 
-  validateChargeMoney(money) {
-    if (!money) throw new Error(ERROR_MESSAGE.REQUIRED_CHARGE_INPUT);
-    if (money < STANDARD.CHARGE_INPUT_MINIMUM) throw new Error(ERROR_MESSAGE.CHARGE_INPUT_HAVE_TO_OVER_100);
-    if (money % STANDARD.CHARGE_INPUT_DIVIDE_BY) throw new Error(ERROR_MESSAGE.CHARGE_INPUT_HAVE_TO_DIVIDED_BY_10);
+    VendingMachineManageView.renderHoldingMoney(chargeMoney);
+    VendingMachineManageView.resetChargeInput();
   }
 }
 
