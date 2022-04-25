@@ -8,17 +8,25 @@ import {
   TYPE_PRODUCT_NAME,
 } from '../constants/message';
 
-const isValidateInput = (name, price, quantity) => {
+const isInputsExist = (name, price, quantity) => {
   if (!(name && price && quantity)) {
     alert(TYPE_INPUT);
     return false;
   }
 
+  return true;
+};
+
+const isNameFilled = (name) => {
   if (name.trim() === '') {
     alert(TYPE_PRODUCT_NAME);
     return false;
   }
 
+  return true;
+};
+
+const isValidPriceUnit = (price) => {
   if (price % DIVIDABLE_NUMBER !== 0) {
     alert(TYPE_DIVIDABLE_PRICE);
     return false;
@@ -32,7 +40,9 @@ const setProduct = (e) => {
   const price = e.target.querySelector('#product-price-input').value;
   const quantity = e.target.querySelector('#product-quantity-input').value;
 
-  if (!isValidateInput(name, price, quantity)) return false;
+  if (!isInputsExist(name, price, quantity)) return false;
+  if (!isNameFilled(name)) return false;
+  if (!isValidPriceUnit(price)) return false;
 
   const product = { name, price, quantity };
 
