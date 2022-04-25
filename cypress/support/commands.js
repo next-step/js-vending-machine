@@ -12,9 +12,3 @@
 //
 // -- This will overwrite an existing command --
 // Cypress.Commands.overwrite('visit', (originalFn, url, options) => { ... })
-
-Cypress.Commands.add('expectAlertWithMessage', message => {
-  cy.on('window:alert', text => {
-    expect(text).to.contains(message);
-  });
-});
