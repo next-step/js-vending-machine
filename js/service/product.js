@@ -1,4 +1,4 @@
-import { InputValidationError } from '../../utils/validation.js';
+import { InputValidationError } from '../utils/validation.js';
 import { MESSAGE, RANGE } from '../const/index.js';
 
 const product = (prevProducts) => {

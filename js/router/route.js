@@ -1,6 +1,7 @@
-import Charge from '../charge/view/Charge.js';
-import Product from '../product/view/Product.js';
-import Purchase from '../purchase/view/Purchase.js';
+import Charge from "../views/Charge.js";
+import Product from "../views/Product.js";
+import Purchase from "../views/Purchase.js";
+
 
 const routes = [
   {

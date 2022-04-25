@@ -1,6 +1,6 @@
-import { createFragmentWithTemplate, $ } from '../../utils/dom.js';
+import { createFragmentWithTemplate, $ } from '../utils/dom.js';
 import { RANGE } from '../const/index.js';
-import service from '../helper/product.js';
+import service from '../service/product.js';
 
 const Product = ($app, store) => {
   const $frag = createFragmentWithTemplate(productTemplate(RANGE));

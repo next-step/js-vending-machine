@@ -1,4 +1,4 @@
-import { createFragmentWithTemplate } from '../../utils/dom.js';
+import { createFragmentWithTemplate } from '../utils/dom.js';
 
 const Charge = ($app, store) => {
   // TODO
