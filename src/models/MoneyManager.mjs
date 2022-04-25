@@ -24,7 +24,7 @@ class MoneyManager {
   }
 
   set holdingMoney(money) {
-    this.validateChargeMoney(money);
+    this.#validateChargeMoney(money);
 
     this.#holdingMoney += Number(money);
     store.setValue(STORE_KEY.HOLDING_MONEY, this.#holdingMoney);
@@ -55,7 +55,7 @@ class MoneyManager {
     return coins;
   }
 
-  validateChargeMoney(money) {
+  #validateChargeMoney(money) {
     if (!money) throw new Error(ERROR_MESSAGE.REQUIRED_CHARGE_INPUT);
     if (money < STANDARD.CHARGE_INPUT_MINIMUM) throw new Error(ERROR_MESSAGE.CHARGE_INPUT_HAVE_TO_OVER_100);
     if (money % STANDARD.CHARGE_INPUT_DIVIDE_BY) throw new Error(ERROR_MESSAGE.CHARGE_INPUT_HAVE_TO_DIVIDED_BY_10);
