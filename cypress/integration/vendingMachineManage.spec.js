@@ -50,5 +50,18 @@ describe('잔돈 충전 탭 관련 테스트', () => {
 
       cy.get(`#${SELECTOR.VENDING_MACHINE_CHARGE_AMOUNT_ID}`).should('have.text', CHARGE_MONEY);
     });
+
+    it('잔돈 충전 금액은 기존 금액에서 누적되어야 합니다.', () => {
+      const CHARGE_MONEY = 200;
+      const MORE_CHARGE_MONEY = 500;
+
+      cy.get(`#${SELECTOR.VENDING_MACHINE_CHARGE_INPUT_ID}`).type(`${CHARGE_MONEY}`);
+      cy.get(`#${SELECTOR.VENDING_MACHINE_CHARGE_BUTTON_ID}`).click();
+
+      cy.get(`#${SELECTOR.VENDING_MACHINE_CHARGE_INPUT_ID}`).type(`${MORE_CHARGE_MONEY}`);
+      cy.get(`#${SELECTOR.VENDING_MACHINE_CHARGE_BUTTON_ID}`).click();
+
+      cy.get(`#${SELECTOR.VENDING_MACHINE_CHARGE_AMOUNT_ID}`).should('have.text', CHARGE_MONEY + MORE_CHARGE_MONEY);
+    });
   });
 });
