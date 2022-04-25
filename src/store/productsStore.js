@@ -2,9 +2,7 @@ import Product from '../domains/products/management/models/Product';
 import useLocalStorage from '../utils/useLocalStorage';
 
 const getProductsByLocalStorage = () =>
-  useLocalStorage.getByJson('products')
-    ? new Map(Object.entries(useLocalStorage.getByJson('products')))
-    : new Map();
+  new Map(Object.entries(useLocalStorage.getByJson('products')));
 
 const productStore = {
   GET_PRODUCTS() {
