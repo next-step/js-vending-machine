@@ -19,6 +19,7 @@ class VendingMachineManageController {
   }
 
   validateChargeMoney(money) {
+    if (!money) throw new Error(ERROR_MESSAGE.REQUIRED_CHARGE_INPUT);
     if (money < STANDARD.CHARGE_INPUT_MINIMUM) throw new Error(ERROR_MESSAGE.CHARGE_INPUT_HAVE_TO_OVER_100);
     if (money % STANDARD.CHARGE_INPUT_DIVIDE_BY) throw new Error(ERROR_MESSAGE.CHARGE_INPUT_HAVE_TO_DIVIDED_BY_10);
   }
