@@ -3,8 +3,6 @@ import ChargeContainerView from '../views/ChargeContainerView';
 import PurchaseContainerView from '../views/PurchaseContainerView';
 import ErrorPageView from '../views/ErrorPageView';
 
-export type PageType = typeof PAGE[keyof typeof PAGE];
-
 export const PAGE = {
   products: {
     path: '/products',
@@ -25,3 +23,5 @@ export const PAGE = {
 } as const;
 
 export const PageList = Object.values(PAGE);
+export type PageType = typeof PAGE[keyof typeof PAGE];
+export type PathType = typeof PAGE[keyof typeof PAGE]['path'];

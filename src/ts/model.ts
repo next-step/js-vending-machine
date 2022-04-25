@@ -2,12 +2,13 @@ import { getItem, setItem } from './utils/storage';
 import { PRODUCT_CONFIG } from './utils/config';
 import { ERROR } from './utils/message';
 import { ValidationError } from './utils/errorValidation';
+import { PathType } from '../ts/router/pages';
 
 export const state: State = {
   products: [],
 };
 
-export const loadData = <T extends State>(path: string): T => {
+export const loadData = <T extends State>(path: PathType): T => {
   try {
     const pageName = path.replace(/\//i, '');
     return getItem(pageName);
