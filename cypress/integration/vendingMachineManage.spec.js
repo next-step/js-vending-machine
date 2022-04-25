@@ -6,7 +6,7 @@ describe('잔돈 충전 탭 관련 테스트', () => {
     cy.get(`#${SELECTOR.VENDING_MACHINE_MANAGE_MENU_ID}`).click();
   });
 
-  context('잔돈 충전 금액은 알맞게 입력되어야 합니다.', () => {
+  context('잔돈 충전 금액 검증 관련', () => {
     it('잔돈 충전 금액은 필수값 입니다.', () => {
       const alertStub = cy.stub();
       cy.on('window:alert', alertStub);
@@ -41,7 +41,9 @@ describe('잔돈 충전 탭 관련 테스트', () => {
           expect(alertStub.getCall(0)).to.be.calledWith(ERROR_MESSAGE.CHARGE_INPUT_HAVE_TO_DIVIDED_BY_10);
         });
     });
+  });
 
+  context('잔돈 충전 금액 표시 관련', () => {
     it('잔돈 충전 금액이 잘 입력되었으면 보유 금액에 잘 반영되어야 합니다.', () => {
       const CHARGE_MONEY = 200;
 

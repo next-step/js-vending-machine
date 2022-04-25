@@ -24,6 +24,7 @@ export const STORE_KEY = Object.freeze({
   CURRENT_TAB: 'current-tab',
   PRODUCTS: 'products',
   HOLDING_MONEY: 'holding-money',
+  HOLDING_COINS: 'holding-coins',
 });
 
 export const HASH = Object.freeze({
@@ -39,6 +40,11 @@ export const STANDARD = Object.freeze({
 
   CHARGE_INPUT_MINIMUM: 100,
   CHARGE_INPUT_DIVIDE_BY: 10,
+
+  COIN_500: 500,
+  COIN_100: 100,
+  COIN_50: 50,
+  COIN_10: 10,
 });
 
 export const ERROR_MESSAGE = Object.freeze({

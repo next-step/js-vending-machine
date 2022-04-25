@@ -17,5 +17,6 @@ module.exports = {
     'no-alert': 'off',
     'no-undef': 'off',
     'no-new': 'off',
+    'no-param-reassign': 'off',
   },
 };

@@ -11,7 +11,7 @@ class VendingMachineManageController {
 
   render() {
     VendingMachineManageView.render();
-    VendingMachineManageView.renderHoldingMoney(this.moneyManager.holdingMoney);
+    this.renderWithDatas();
   }
 
   chargeMoney() {
@@ -24,8 +24,14 @@ class VendingMachineManageController {
       return;
     }
 
-    VendingMachineManageView.renderHoldingMoney(this.moneyManager.holdingMoney);
+    this.moneyManager.holdingCoins = this.moneyManager.pickRandomAmountOfCoins(chargeMoney);
+    this.renderWithDatas();
+  }
+
+  renderWithDatas() {
     VendingMachineManageView.resetChargeInput();
+    VendingMachineManageView.renderHoldingMoney(this.moneyManager.holdingMoney);
+    VendingMachineManageView.renderHoldingCoins(this.moneyManager.holdingCoins);
   }
 }
 
