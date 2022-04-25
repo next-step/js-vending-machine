@@ -36,7 +36,7 @@ const checkProducts = (items) => {
 };
 
 describe('상품을 추가하려 한다.', () => {
-  context('음료수 하나를 추가한다.', () => {
+  context('음료수 하나를 추가했다.', () => {
     it('파워에이드가 1500원으로 3개가 추가된다.', () => {
       appendProduct(powerAde);
 
@@ -44,7 +44,7 @@ describe('상품을 추가하려 한다.', () => {
     });
   });
 
-  context('음료수 두개를 추가한다.', () => {
+  context('음료수 두개를 추가했다.', () => {
     it('파워에이드가 1500원으로 3개, 게토리이가 1400원으로 2개 추가된다.', () => {
       appendProduct(powerAde);
       appendProduct(gaetoray);
@@ -57,7 +57,7 @@ describe('상품을 추가하려 한다.', () => {
 });
 
 describe('상품을 변경하려 한다.', () => {
-  context('음료수 하나를 변경한다.', () => {
+  context('음료수 하나를 변경했다.', () => {
     it('추가되어 있던 파워에이드가 2개, 1200원으로 변경된다.', () => {
       appendProduct(powerAde);
       appendProduct(powerAdeAfter);
