@@ -5,18 +5,18 @@ class MoneyManager {
   #holdingMoney;
 
   constructor() {
-    this.#holdingMoney = store.getValue(STORE_KEY.HOLDING_MONEY, 0);
+    this.#holdingMoney = Number(store.getValue(STORE_KEY.HOLDING_MONEY, 0));
   }
 
   get holdingMoney() {
-    return this.#holdingMoney;
+    return Number(this.#holdingMoney);
   }
 
   set holdingMoney(money) {
     this.validateChargeMoney(money);
 
-    this.#holdingMoney = money;
-    store.setValue(STORE_KEY.HOLDING_MONEY, money);
+    this.#holdingMoney += Number(money);
+    store.setValue(STORE_KEY.HOLDING_MONEY, this.#holdingMoney);
   }
 
   validateChargeMoney(money) {

@@ -24,7 +24,7 @@ class VendingMachineManageController {
       return;
     }
 
-    VendingMachineManageView.renderHoldingMoney(chargeMoney);
+    VendingMachineManageView.renderHoldingMoney(this.moneyManager.holdingMoney);
     VendingMachineManageView.resetChargeInput();
   }
 }
