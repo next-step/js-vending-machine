@@ -56,23 +56,23 @@ const template = coins => {
 export default class Charge extends ComponentHandler {
   static #template = template;
 
-  render({ charge }) {
+  async render({ charge }) {
     this.CHARGE = charge;
 
     this.replaceChildren(Charge.#template(charge));
-    setTimeout(() => $focus('[name="changes-charge"]'), 10);
+    await $focus('[name="changes-charge"]');
   }
 
   defineEvents() {
     return [
       {
         type: 'submit',
-        callback: this.inputMoney,
+        callback: this.handlerInputMoney,
       },
     ];
   }
 
-  inputMoney = event => {
+  handlerInputMoney = event => {
     event.preventDefault();
 
     const [{ valueAsNumber: money }] = event.target.elements;

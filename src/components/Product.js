@@ -32,7 +32,7 @@ const template = productList => $element(/*html*/ `
           <td data-product-name="${name}">${name}</td>
           <td data-product-price="${price}">${unitGenerateNumber(price)}원</td>
           <td data-product-quantity="${quantity}">${unitGenerateNumber(quantity)}개</td>
-          <td><button type="button" data-delete="${name}">삭제하기</button></td>
+          <td><button type="button" class="delete-product" data-delete="${name}">삭제하기</button></td>
         </tr>`).join('')}
       </tbody>
     </table>
@@ -42,15 +42,15 @@ const template = productList => $element(/*html*/ `
 export default class Product extends ComponentHandler {
   static #template = template;
 
-  render({ product }) {
+  async render({ product }) {
     this.replaceChildren(Product.#template(product));
-    setTimeout(() => $focus('[name="product-name"]'), 10);
+    await $focus('[name="product-name"]');
   }
 
   defineEvents() {
     return [
-      { type: 'submit', callback: this.addProduct },
-      { type: 'click', callback: this.deleteProduct },
+      { type: 'submit', callback: this.handlerAddProduct },
+      { type: 'click', callback: this.handlerDeleteProduct },
     ];
   }
 
@@ -58,16 +58,19 @@ export default class Product extends ComponentHandler {
     this.setState({ key: STATE_KEY.PRODUCT, value: productList });
   }
 
-  addProduct = event => {
+  handlerAddProduct = event => {
     event.preventDefault();
 
     const product = this.#generateFormValues(event.target.elements);
-    const addedProductList = this.#parsedToProductName(product);
+    const addedProductList = this.#replaceOrAddProductList(product);
     this.#update(addedProductList);
   };
 
   #generateFormValues(formElements) {
-    const [{ value: name }, { valueAsNumber: price }, { valueAsNumber: quantity }] = formElements;
+    const { value: name } = formElements['product-name'];
+    const { valueAsNumber: price } = formElements['product-price'];
+    const { valueAsNumber: quantity } = formElements['product-quantity'];
+
     return {
       name: name.trim(),
       price,
@@ -75,15 +78,16 @@ export default class Product extends ComponentHandler {
     };
   }
 
-  #parsedToProductName(inputProduct) {
+  #replaceOrAddProductList(inputProduct) {
     const productList = this.getState(STATE_KEY.PRODUCT);
-    const isExists = productList.findIndex(product => product.name === inputProduct.name);
-    if (isExists > -1) return productList.map(product => (product.name === inputProduct.name ? inputProduct : product));
+    const sampeProductIndex = productList.findIndex(product => product.name === inputProduct.name);
+    if (sampeProductIndex > -1)
+      return productList.map(product => (product.name === inputProduct.name ? inputProduct : product));
     return [...productList, inputProduct];
   }
 
-  deleteProduct = ({ target }) => {
-    if (!target.matches('button[type="button"]')) return;
+  handlerDeleteProduct = ({ target }) => {
+    if (!target.matches('.delete-product')) return;
 
     const productName = target.getAttribute('data-delete');
     const deletedProductList = this.#removedToProductName(productName);

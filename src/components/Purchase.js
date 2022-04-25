@@ -69,34 +69,34 @@ const template = ({ product: productList, purchase: chargedMoney, returned: retu
 export default class Purchase extends ComponentHandler {
   static #template = template;
 
-  render({ product, charge, purchase, returned }) {
+  async render({ product, charge, purchase, returned }) {
     this.registeredProductList = [...product];
     this.chargeCoins = { ...charge };
     this.purchaseMoney = purchase;
     this.returnedCoins = { ...returned };
 
     this.replaceChildren(Purchase.#template({ product, purchase, returned }));
-    setTimeout(() => $focus('[name="purchase-money-charge"]'), 10);
+    await $focus('[name="purchase-money-charge"]');
   }
 
   defineEvents() {
     return [
       {
         type: 'submit',
-        callback: this.inputChargeMoney,
+        callback: this.handlerInputChargeMoney,
       },
       {
         type: 'click',
-        callback: this.purchaseProduct,
+        callback: this.handlerPurchaseProduct,
       },
       {
         type: 'click',
-        callback: this.returnChanges,
+        callback: this.handlerReturnChanges,
       },
     ];
   }
 
-  inputChargeMoney = event => {
+  handlerInputChargeMoney = event => {
     event.preventDefault();
 
     const [{ valueAsNumber: chargeMoney }] = event.target.elements;
@@ -105,11 +105,11 @@ export default class Purchase extends ComponentHandler {
     this.setState({ key: STATE_KEY.PURCHASE, value: this.purchaseMoney + chargeMoney });
   };
 
-  purchaseProduct = ({ target }) => {
+  handlerPurchaseProduct = ({ target }) => {
     if (!target.matches('.purchase-product-button')) return;
 
     const productName = target.dataset.purchaseProduct;
-    const selledProductList = this.registeredProductList.map(this.#checkProductWithSell(productName));
+    const selledProductList = this.#checkProductWithSell(productName);
 
     this.setState([
       { key: STATE_KEY.PRODUCT, value: selledProductList },
@@ -118,12 +118,13 @@ export default class Purchase extends ComponentHandler {
   };
 
   #checkProductWithSell = productName => {
-    return product => {
+    return this.registeredProductList.map(product => {
       if (product.name !== productName) return product;
+
       const { remainedMoney, quantity } = this.#checkProduct(product);
       this.purchaseMoney = remainedMoney;
       return { ...product, quantity };
-    };
+    });
   };
 
   #checkProduct = ({ price, quantity }) => {
@@ -134,7 +135,7 @@ export default class Purchase extends ComponentHandler {
     return { remainedMoney, quantity: selledQuantity };
   };
 
-  returnChanges = ({ target }) => {
+  handlerReturnChanges = ({ target }) => {
     if (!target.matches('#coin-return-button')) return;
     if (this.purchaseMoney === 0) throw new Error(ERROR_MESSAGE.NOT_EXISTS_MONEY);
 

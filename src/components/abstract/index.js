@@ -21,7 +21,7 @@ export default class ComponentHandler extends HTMLElement {
     this.#removeHandler();
   }
 
-  render() {
+  async render() {
     throw new Error(ERROR_MESSAGE.NEED_TO_TEMPLATE);
   }
 

@@ -3,14 +3,8 @@ import { ERROR_MESSAGE } from '../constants.js';
 // prettier-ignore
 export const pipe = (...fns) => value => fns.reduce((_value, fn) => fn(_value), value);
 
-export const pipeline = (execute, params) => {
-  try {
-    return execute(params);
-  } catch (error) {
-    alert(error.message);
-    return null;
-  }
-};
+// TODO: 전역 에러 핸들러와 결합하여 후속처리를 어떻게 진행할 건지 생각하기
+export const pipeline = (execute, params) => execute(params);
 
 export const unitGenerateNumber = numberValue => {
   if (typeof numberValue !== 'number') throw new TypeError(ERROR_MESSAGE.NOT_NUMBER_TYPE);

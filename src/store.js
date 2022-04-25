@@ -1,4 +1,4 @@
-import { APP_KEY, ERROR_MESSAGE, INITIAL_STORE } from './constants.js';
+import { APP_KEY, COINS, ERROR_MESSAGE, INITIAL_STORE, STATE_KEY } from './constants.js';
 
 class Storage {
   #key = APP_KEY;
@@ -6,7 +6,7 @@ class Storage {
   localState;
 
   constructor() {
-    this.localState = { ...INITIAL_STORE, ...this.#pull() };
+    this.localState = { ...this.#pull(), [STATE_KEY.RETURNED]: COINS };
   }
 
   setState = payload => {
@@ -38,7 +38,7 @@ class Storage {
 
   #pull() {
     const item = this.storage.getItem(this.#key);
-    if (item === undefined) return {};
+    if (item === undefined) return { ...INITIAL_STORE };
 
     return JSON.parse(item);
   }
