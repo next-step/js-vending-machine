@@ -1,3 +1,4 @@
+import Change from "../domain/Change.js";
 import Products from "../domain/Products.js";
 import VendingMachineCharge from "../domain/VendingMachineCharge.js";
 import { CHARGE_ID, COINS_ID, getCharge, getProducts, PRODUCT_ID, setLocalStorage } from "../service/index.js";
@@ -8,6 +9,7 @@ import VendingMachineManage from "./VendingMachineManage.js";
 
 export default class VendingMachine {
     products;
+    change;
 
     constructor() {
         this.products = new Products(getProducts());
@@ -23,7 +25,10 @@ export default class VendingMachine {
         this.vendingMachineManage = new VendingMachineManage(this.vendingMachineCharge, {
             onVendingMachine: this.#onVendingMachineCharge.bind(this),
         });
-        this.productPurchase = new ProductPurchase();
+        this.productPurchase = new ProductPurchase(this.products, this.vendingMachineCharge, {
+            onChargeChange: this.onChargeChange.bind(this),
+        });
+        this.change = new Change();
         this.onProductManage();
     }
 
@@ -36,6 +41,15 @@ export default class VendingMachine {
             this.products.addProduct(name, price, quantity);
             this.productManage.onAddProduct();
             setLocalStorage(PRODUCT_ID, this.products.value);
+        } catch (error) {
+            alert(error.message);
+        }
+    }
+
+    onChargeChange(charge) {
+        try {
+            this.change.validate(charge);
+            this.change.value = charge;
         } catch (error) {
             alert(error.message);
         }
@@ -59,5 +73,6 @@ export default class VendingMachine {
 
     #onProductPurchase() {
         this.productPurchase.render();
+        this.productPurchase.mounted();
     }
 }
