@@ -1,3 +1,9 @@
+import {
+  TYPE_INPUT,
+  TYPE_PRODUCT_NAME,
+  TYPE_DIVIDABLE_PRICE,
+} from '../../src/domains/products/management/constants/message';
+
 before(() => {
   cy.visit('../../dist/index.html');
 });
@@ -18,6 +24,9 @@ beforeEach(() => {
 const powerAde = ['파워에이드', '1500', '3'];
 const powerAdeAfter = ['파워에이드', '1200', '2'];
 const gaetoray = ['게토레이', '1400', '2'];
+const emptyProductItem = [' ', ' ', ' '];
+const emptyProductName = [' ', '1300', '2'];
+const invalidPriceUnit = ['파워에이드', '1311', '2'];
 
 const appendProduct = (item) => {
   const [name, price, quantity] = item;
@@ -35,12 +44,36 @@ const checkProducts = (items) => {
     .each(($el, idx) => expect($el.text()).eq(items[idx]));
 };
 
+const alertMessageContainsCheck = (alertMessage) => {
+  cy.on('window:alert', (msg) => {
+    expect(msg).to.contains(alertMessage);
+  });
+};
+
 describe('상품을 추가하려 한다.', () => {
   context('음료수 하나를 추가했다.', () => {
     it('파워에이드가 1500원으로 3개가 추가된다.', () => {
       appendProduct(powerAde);
 
       checkProducts(powerAde);
+    });
+
+    it('값들을 입력하지 않고 추가하여 값을 입력하라는 안내를 보게된다.', () => {
+      appendProduct(emptyProductItem);
+
+      alertMessageContainsCheck(TYPE_INPUT);
+    });
+
+    it('상품명을 입력하지 않고 추가하여 상품명을 입력하라는 안내를 보게된다.', () => {
+      appendProduct(emptyProductName);
+
+      alertMessageContainsCheck(TYPE_PRODUCT_NAME);
+    });
+
+    it('가격을 입력 가능한 단위로 입력하지 않아아 입력 가능한 단위로 입력하라는 안내를 보게된다.', () => {
+      appendProduct(invalidPriceUnit);
+
+      alertMessageContainsCheck(TYPE_DIVIDABLE_PRICE);
     });
   });
 
