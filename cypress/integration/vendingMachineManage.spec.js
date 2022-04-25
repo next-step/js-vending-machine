@@ -41,5 +41,14 @@ describe('잔돈 충전 탭 관련 테스트', () => {
           expect(alertStub.getCall(0)).to.be.calledWith(ERROR_MESSAGE.CHARGE_INPUT_HAVE_TO_DIVIDED_BY_10);
         });
     });
+
+    it('잔돈 충전 금액이 잘 입력되었으면 보유 금액에 잘 반영되어야 합니다.', () => {
+      const CHARGE_MONEY = 200;
+
+      cy.get(`#${SELECTOR.VENDING_MACHINE_CHARGE_INPUT_ID}`).type(`${CHARGE_MONEY}`);
+      cy.get(`#${SELECTOR.VENDING_MACHINE_CHARGE_BUTTON_ID}`).click();
+
+      cy.get(`#${SELECTOR.VENDING_MACHINE_CHARGE_AMOUNT_ID}`).should('have.text', CHARGE_MONEY);
+    });
   });
 });
