@@ -1,6 +1,6 @@
 import { createFragmentWithTemplate, $ } from '../../utils/dom.js';
 import { RANGE } from '../const/index.js';
-import { addProduct } from '../helper/product.js';
+import service from '../helper/product.js';
 
 const Product = ($app, store) => {
   const $frag = createFragmentWithTemplate(productTemplate(RANGE));
@@ -10,16 +10,15 @@ const Product = ($app, store) => {
 
   const handleProductSubmit = (event) => {
     event.preventDefault();
+    const productService = service(store.getState('products'));
 
     try {
-      const newProducts = addProduct(
-        Object.fromEntries(new FormData($form)),
-        store.getState('products')
-      );
+      productService.add(Object.fromEntries(new FormData($form)));
 
       store.dispatch({
-        products: newProducts,
+        products: productService.getProducts(),
       });
+
     } catch ({ target, message }) {
       message && alert(message);
       target && $form[target].focus();

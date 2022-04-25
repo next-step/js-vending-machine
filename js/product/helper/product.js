@@ -1,30 +1,43 @@
 import { InputValidationError } from '../../utils/validation.js';
 import { MESSAGE, RANGE } from '../const/index.js';
 
-export const addProduct = (newProduct, prevProducts) =>
-  sortByRegisterTime(mergeProducts(newProduct, prevProducts));
+const product = (prevProducts) => {
+  const products = prevProducts;
 
-const getProductWithRegisterTime = (newProduct, prevProducts) => {
-  const prevProduct = prevProducts.find(({ name }) => name === newProduct.name);
-  const registerTime = prevProduct?.registerTime ?? Date.now();
+  const add = (product) => {
+    validateProductInfo(product);
+
+    const registeredIdx = products.findIndex(({ name }) => name === product.name);
+    registeredIdx > 0 ? replaceProduct(registeredIdx, product) : pushWithRegisterTime(product);
+
+    return products.length; 
+  };
+
+  const getProducts = () => products.sort(({ registerTime: a }, { registerTime: b }) => b - a);
+
+  const replaceProduct = (registeredIdx, product) => {
+    products[registeredIdx] = {
+      ...products[registeredIdx],
+      ...product,
+    }
+  }
+
+  const pushWithRegisterTime = (product) => {
+    products.push({
+        ...product,
+        registerTime: Date.now()
+      })
+  }
 
   return {
-    ...newProduct,
-    registerTime,
-  };
-};
-
-const mergeProducts = (newProduct, prevProducts) => {
-  validateProductInfo(newProduct);
-
-  const filtered = prevProducts.filter(({ name }) => name !== newProduct.name);
-  return filtered.concat(getProductWithRegisterTime(newProduct, prevProducts));
-};
-
-const sortByRegisterTime = (products) =>
-  products.sort(({ registerTime: a }, { registerTime: b }) => b - a);
+    add,
+    getProducts,
+  }
+}
 
 const validateProductInfo = ({ price }) => {
   if (price % RANGE.PRICE_UNIT)
     InputValidationError.of('price', MESSAGE.PLZ_CHECK_PRICE_UNIT);
 };
+
+export default product;
