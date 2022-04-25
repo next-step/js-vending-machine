@@ -37,7 +37,7 @@ export const routing = (path) => {
 };
 
 const getComponent = () => {
-  const path = useRouter();
+  const path = useRouter.getPath();
 
   return routing(path);
 };
