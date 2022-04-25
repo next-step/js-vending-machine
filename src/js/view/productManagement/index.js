@@ -65,7 +65,7 @@ class ProductManagement extends Component {
 
   updateView = () => {
     const { store } = this.$props;
-    const productManagement = store.state.productManagement;
+    const productManagement = store.state[STORE_KEY.PRODUCT_MANAGEMENT];
 
     document.getElementById('product-inventory-container').innerHTML = getProductListTemplate(productManagement);
   };

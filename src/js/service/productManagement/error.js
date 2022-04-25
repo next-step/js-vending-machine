@@ -1,4 +1,4 @@
-import { ERRORS } from '../../constants/productManagement/index.js';
+import { ERRORS } from '../../constants/index.js';
 
 export const validateProduct = (product) => {
   let errorMessage = '';

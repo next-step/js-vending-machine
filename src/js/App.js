@@ -13,7 +13,9 @@ class App {
     this.productManagementView = new ProductManagement({
       store: this.store,
     });
-    this.chargeChangeView = new ChargeChange();
+    this.chargeChangeView = new ChargeChange({
+      store: this.store,
+    });
     this.purchaseProductView = new PurchaseProduct();
 
     this.render(tabMenuName);
