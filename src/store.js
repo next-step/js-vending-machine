@@ -38,7 +38,7 @@ class Storage {
 
   #pull() {
     const item = this.storage.getItem(this.#key);
-    if (item === undefined) return { ...INITIAL_STORE };
+    if (item === null) return { ...INITIAL_STORE };
 
     return JSON.parse(item);
   }
