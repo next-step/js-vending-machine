@@ -42,9 +42,9 @@ const template = productList => $element(/*html*/ `
 export default class Product extends ComponentHandler {
   static #template = template;
 
-  async render({ product }) {
+  render({ product }) {
     this.replaceChildren(Product.#template(product));
-    await $focus('[name="product-name"]');
+    setTimeout(() => $focus('[name="product-name"]'), 10);
   }
 
   defineEvents() {

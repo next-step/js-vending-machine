@@ -56,11 +56,11 @@ const template = coins => {
 export default class Charge extends ComponentHandler {
   static #template = template;
 
-  async render({ charge }) {
+  render({ charge }) {
     this.CHARGE = charge;
 
     this.replaceChildren(Charge.#template(charge));
-    await $focus('[name="changes-charge"]');
+    setTimeout(() => $focus('[name="changes-charge"]'), 10);
   }
 
   defineEvents() {

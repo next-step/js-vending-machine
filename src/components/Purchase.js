@@ -69,14 +69,14 @@ const template = ({ product: productList, purchase: chargedMoney, returned: retu
 export default class Purchase extends ComponentHandler {
   static #template = template;
 
-  async render({ product, charge, purchase, returned }) {
+  render({ product, charge, purchase, returned }) {
     this.registeredProductList = [...product];
     this.chargeCoins = { ...charge };
     this.purchaseMoney = purchase;
     this.returnedCoins = { ...returned };
 
     this.replaceChildren(Purchase.#template({ product, purchase, returned }));
-    await $focus('[name="purchase-money-charge"]');
+    setTimeout(() => $focus('[name="purchase-money-charge"]'), 10);
   }
 
   defineEvents() {
