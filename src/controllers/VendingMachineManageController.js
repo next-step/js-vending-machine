@@ -24,14 +24,15 @@ class VendingMachineManageController {
       return;
     }
 
-    this.moneyManager.holdingCoins = this.moneyManager.pickRandomAmountOfCoins(chargeMoney);
+    this.moneyManager.setCoinsAmount(this.moneyManager.pickRandomAmountOfCoins(chargeMoney));
     this.renderWithDatas();
   }
 
   renderWithDatas() {
     VendingMachineManageView.resetChargeInput();
     VendingMachineManageView.renderHoldingMoney(this.moneyManager.holdingMoney);
-    VendingMachineManageView.renderHoldingCoins(this.moneyManager.holdingCoins);
+    VendingMachineManageView.renderHoldingCoins(this.moneyManager.getCoinsAmount());
+    VendingMachineManageView.focusChargeInput();
   }
 }
 

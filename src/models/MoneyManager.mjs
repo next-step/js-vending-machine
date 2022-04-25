@@ -2,21 +2,23 @@ import { pickRandomInRange } from '../utils/number.js';
 import store from '../utils/store.js';
 import { STORE_KEY, ERROR_MESSAGE, STANDARD } from '../constants.js';
 
-const INITIAL_COINS = {
-  [STANDARD.COIN_500]: 0,
-  [STANDARD.COIN_100]: 0,
-  [STANDARD.COIN_50]: 0,
-  [STANDARD.COIN_10]: 0,
-};
-
 class MoneyManager {
   #holdingMoney;
 
-  #holdingCoins;
+  #coin500Amount;
+
+  #coin100Amount;
+
+  #coin50Amount;
+
+  #coin10Amount;
 
   constructor() {
     this.#holdingMoney = Number(store.getValue(STORE_KEY.HOLDING_MONEY, 0));
-    this.#holdingCoins = store.getValue(STORE_KEY.HOLDING_COINS, INITIAL_COINS);
+    this.#coin500Amount = store.getValue(STORE_KEY.COIN_500_AMOUNT, 0);
+    this.#coin100Amount = store.getValue(STORE_KEY.COIN_100_AMOUNT, 0);
+    this.#coin50Amount = store.getValue(STORE_KEY.COIN_50_AMOUNT, 0);
+    this.#coin10Amount = store.getValue(STORE_KEY.COIN_10_AMOUNT, 0);
   }
 
   get holdingMoney() {
@@ -30,18 +32,34 @@ class MoneyManager {
     store.setValue(STORE_KEY.HOLDING_MONEY, this.#holdingMoney);
   }
 
-  get holdingCoins() {
-    return this.#holdingCoins;
+  getCoinsAmount() {
+    return {
+      [STANDARD.COIN_500]: this.#coin500Amount,
+      [STANDARD.COIN_100]: this.#coin100Amount,
+      [STANDARD.COIN_50]: this.#coin50Amount,
+      [STANDARD.COIN_10]: this.#coin10Amount,
+    };
   }
 
-  set holdingCoins(coins) {
-    this.#holdingCoins = coins;
+  setCoinsAmount(coins) {
+    this.#coin500Amount += coins[STANDARD.COIN_500];
+    this.#coin100Amount += coins[STANDARD.COIN_100];
+    this.#coin50Amount += coins[STANDARD.COIN_50];
+    this.#coin10Amount += coins[STANDARD.COIN_10];
 
-    store.setValue(STORE_KEY.HOLDING_COINS, coins);
+    store.setValue(STORE_KEY.COIN_500_AMOUNT, this.#coin500Amount);
+    store.setValue(STORE_KEY.COIN_100_AMOUNT, this.#coin100Amount);
+    store.setValue(STORE_KEY.COIN_50_AMOUNT, this.#coin50Amount);
+    store.setValue(STORE_KEY.COIN_10_AMOUNT, this.#coin10Amount);
   }
 
   pickRandomAmountOfCoins(money) {
-    const coins = INITIAL_COINS;
+    const coins = {
+      [STANDARD.COIN_500]: 0,
+      [STANDARD.COIN_100]: 0,
+      [STANDARD.COIN_50]: 0,
+      [STANDARD.COIN_10]: 0,
+    };
 
     Object.keys(coins)
       .reverse()
