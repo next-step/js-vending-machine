@@ -3,7 +3,7 @@ import { routing } from '../router';
 const usePushState = (path) => {
   window.history.pushState('', '', path);
 
-  const paths = [''];
+  const paths = [];
   paths.push(path);
 
   const component = routing(paths);

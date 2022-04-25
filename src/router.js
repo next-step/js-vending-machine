@@ -3,10 +3,12 @@ import ProductManagement from './domains/products/management/views/ProductManage
 import productAppend from './domains/products/management/viewModel/productAppend';
 
 export const routing = (path) => {
+  const rootPath = path[0];
+
   let render;
   let eventListeners;
 
-  switch (path[1]) {
+  switch (rootPath) {
     case '':
     case 'product-management':
       render = ProductManagement;
