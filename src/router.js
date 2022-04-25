@@ -5,39 +5,35 @@ import productAppend from './domains/products/management/viewModel/productAppend
 export const routing = (path) => {
   const rootPath = path[0];
 
-  let render;
-  let eventListeners;
-
   switch (rootPath) {
     case '':
     case 'product-management':
-      render = ProductManagement;
-      eventListeners = productAppend;
+      return {
+        render: ProductManagement,
+        eventListeners: productAppend,
+      };
 
-      break;
     // TODO: Add components
     case 'charge-changes':
-      render = () => 'charge-changes';
-      eventListeners = () => {};
+      return {
+        render: () => 'charge-changes',
+        eventListeners: () => {},
+      };
 
-      break;
     // TODO: Add components
     case 'product-purchase':
-      render = () => 'product-purchase';
-      eventListeners = () => {};
+      return {
+        render: () => 'product-purchase',
+        eventListeners: () => {},
+      };
 
-      break;
     default:
-      render = ProductManagement;
-      eventListeners = productAppend;
-
       window.history.pushState('', '', '/');
+      return {
+        render: ProductManagement,
+        eventListeners: productAppend,
+      };
   }
-
-  return {
-    render,
-    eventListeners,
-  };
 };
 
 const getComponent = () => {
