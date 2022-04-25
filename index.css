@@ -113,10 +113,18 @@ button {
     border: 1px solid #afafaf;
     border-radius: 6px;
     padding: 0.3rem 0.45rem;
+    transition: 0.2s ease-in-out;
 }
 
-.selected {
+button:hover {
+    background-color: #aaaaaa;
+    color: #ffffff;
+}
+
+button.selected {
     border: 2px solid #c5c5c5;
+    background-color: #aaaaaa;
+    color: #ffffff;
     font-weight: 600;
 }
 
@@ -148,8 +156,16 @@ section p {
     width: 65%;
 }
 
+.vending-machine-wrapper input {
+    width: 100px;
+}
+
+#product-input-form input:not(:first-child) {
+    margin-top: 0.5rem;
+}
+
 #product-add-button {
-    margin-left: 0;
+    padding: 0.5rem;
     margin-top: 0.5rem;
     width: 78%;
 }
