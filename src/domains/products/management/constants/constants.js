@@ -1,0 +1,3 @@
+const DIVIDABLE_NUMBER = 10;
+
+export default DIVIDABLE_NUMBER;
