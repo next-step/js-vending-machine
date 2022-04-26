@@ -7,7 +7,7 @@ export const validateProduct = (product) => {
 
   if (priceLastNumber !== 0) {
     errorMessage = ERRORS.PRICE_UNIT;
-    return { errorMessage };
+    throw Error(errorMessage);
   }
 
   return { errorMessage };

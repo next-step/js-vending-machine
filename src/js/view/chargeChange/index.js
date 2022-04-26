@@ -18,12 +18,9 @@ class ChargeChange extends Component {
     const { store } = this.$props;
     const chargeChange = store.state[STORE_KEY.CHARGE_CHANGE];
     const amount = Number(document.getElementById('vending-machine-charge-input').value);
-    const { errorMessage } = validateAmount(amount);
 
     try {
-      if (errorMessage) {
-        throw Error(errorMessage);
-      }
+      validateAmount(amount);
 
       const coins = this.coinChange({ amount, coinList: chargeChange.coins });
       store.setState({

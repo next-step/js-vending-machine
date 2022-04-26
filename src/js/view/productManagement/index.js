@@ -26,15 +26,13 @@ class ProductManagement extends Component {
 
     this.setProductsState({ name, price, quantity });
     this.updateView();
+    e.target.reset();
   };
 
   setProductsState(product) {
     const { store } = this.$props;
-    const { errorMessage } = validateProduct(product);
     try {
-      if (errorMessage) {
-        throw Error(errorMessage);
-      }
+      validateProduct(product);
 
       const products = store.state.productManagement ?? [];
       const duplicatedProductIndex = products.findIndex((productItem) => productItem.name === product.name);
@@ -47,15 +45,9 @@ class ProductManagement extends Component {
         key: STORE_KEY.PRODUCT_MANAGEMENT,
         value: [...products],
       });
-
-      this.resetForm();
     } catch (err) {
       alert(err.message);
     }
-  }
-
-  resetForm() {
-    document.querySelector('form.product-container').reset();
   }
 
   setEvent() {
