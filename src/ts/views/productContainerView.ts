@@ -27,7 +27,7 @@ class ProductContainerView extends AbstractView<HTMLElement, Array<Product>> {
   }
 
   generateMarkup(products: Array<Product>): string {
-    const productHtml = (product: Product) => /* html */ `
+    const generateProductMarkup = (product: Product): string => /* html */ `
             <tr>
                 <th>${product.name}</th>
                 <th>${product.price}</th>
@@ -56,7 +56,7 @@ class ProductContainerView extends AbstractView<HTMLElement, Array<Product>> {
             </tr>            
         </thead>
         <tbody id="product-inventory-container">
-        ${products.map(productHtml).join('')}
+        ${products.map(generateProductMarkup).join('')}
         </tbody>
     </table>
 `;

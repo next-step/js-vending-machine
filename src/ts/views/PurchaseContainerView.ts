@@ -6,7 +6,7 @@ class ReturnContainerView extends AbstractView<HTMLElement, string> {
 
   render() {
     this.parentElement.innerHTML = '';
-    const markup = this.getHtml();
+    const markup = this.generateMarkup();
     this.parentElement.insertAdjacentHTML('afterbegin', markup);
   }
 
@@ -16,7 +16,7 @@ class ReturnContainerView extends AbstractView<HTMLElement, string> {
     this.parentElement.insertAdjacentHTML('afterbegin', markup);
   }
 
-  getHtml(): string {
+  generateMarkup(): string {
     return /* html */ `
         <h3>잔돈</h3>
         <button id="coin-return-button">반환하기</button>

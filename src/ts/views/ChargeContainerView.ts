@@ -25,7 +25,7 @@ class ChargeContainerView extends AbstractView<HTMLElement, Record<CoinKey, Coin
       return accPrice;
     }, 0);
 
-    const coinHtml = (coin: CoinObj) => {
+    const generateCoinMarkup = (coin: CoinObj): string => {
       return /* html */ ` <tr>
                     <td>${coin.value}원</td>
                     <td id="vending-machine-coin-500-quantity">${coin.count}</td>
@@ -52,7 +52,7 @@ class ChargeContainerView extends AbstractView<HTMLElement, Record<CoinKey, Coin
                 </tr>
             </thead>
             <tbody>
-                ${Object.values(coins).map(coinHtml).join('')}
+                ${Object.values(coins).map(generateCoinMarkup).join('')}
             </tbody>
         </table>
 `;
