@@ -2,10 +2,29 @@ import { getItem, setItem } from './utils/storage';
 import { PRODUCT_CONFIG } from './utils/config';
 import { ERROR } from './utils/message';
 import { ValidationError } from './utils/errorValidation';
+import { generateRandomNumber } from './utils/randomGenerator';
 import { PathType } from '../ts/router/pages';
 
 export const state: State = {
   products: [],
+  coins: {
+    COIN_500: {
+      value: 500,
+      count: 0,
+    },
+    COIN_100: {
+      value: 100,
+      count: 0,
+    },
+    COIN_50: {
+      value: 50,
+      count: 0,
+    },
+    COIN_10: {
+      value: 10,
+      count: 0,
+    },
+  },
 };
 
 export const loadData = <T extends State>(path: PathType): T => {
@@ -45,6 +64,27 @@ export const addProduct = (newProduct: Product): Array<Product> => {
     setItem('products', state.products);
 
     return state.products;
+  } catch (err) {
+    throw err;
+  }
+};
+
+export const chargeCoin = (inputPrice: number) => {
+  try {
+    while (inputPrice > 0) {
+      const randomCoinKey = <CoinKey>(
+        Object.keys(state.coins)[generateRandomNumber(0, Object.keys(state.coins).length - 1)]
+      );
+      const randomCoinObj = <CoinObj>state.coins[randomCoinKey];
+
+      if (inputPrice >= randomCoinObj.value) {
+        inputPrice -= randomCoinObj.value;
+        randomCoinObj.count += 1;
+      }
+    }
+
+    setItem('charge', state.coins);
+    return state.coins;
   } catch (err) {
     throw err;
   }
