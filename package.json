@@ -1,0 +1,11 @@
+{
+  "name": "js-vending-machine",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "git@nanu-github.com:nanuya/js-vending-machine.git",
+  "author": "bomee.yoon",
+  "license": "MIT",
+  "scripts": {
+    "test": "yarn cypress open"
+  }
+}

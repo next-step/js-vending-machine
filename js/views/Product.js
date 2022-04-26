@@ -1,0 +1,84 @@
+import { createFragmentWithTemplate, $ } from '../utils/dom.js';
+import { RANGE } from '../const/index.js';
+import service from '../service/product.js';
+
+const Product = ($app, store) => {
+  const $frag = createFragmentWithTemplate(productTemplate(RANGE));
+
+  const $form = $('form', $frag);
+  const $productList = $('#product-inventory-container', $frag);
+
+  const handleProductSubmit = (event) => {
+    event.preventDefault();
+    const productService = service(store.getState('products'));
+
+    try {
+      productService.add(Object.fromEntries(new FormData($form)));
+
+      store.dispatch({
+        products: productService.getProducts(),
+      });
+
+    } catch ({ target, message }) {
+      message && alert(message);
+      target && $form[target].focus();
+    }
+  };
+
+  const renderProductList = () => {
+    $productList.innerHTML =
+      store.getState('products')?.map(productRow).join('') || '';
+  };
+
+  const init = () => {
+    const products = store.getState('products');
+    products && renderProductList({ products });
+
+    store.subscribe(renderProductList);
+    $form.addEventListener('submit', handleProductSubmit);
+  };
+
+  init();
+
+  return {
+    $app,
+    $frag,
+  };
+};
+
+const productTemplate = ({ MAX_PRICE, MIN_PRICE, MAX_COUNT, MIN_COUNT }) => `
+  <h3>상품 추가하기</h3>
+  <form class="product-container">
+    <fieldset>
+      <input required="true" type="text" id="product-name-input" name="name" placeholder="상품명" />
+      <input required="true" type="number" id="product-price-input" name="price" placeholder="가격" min=${MIN_PRICE} max=${MAX_PRICE} />
+      <input required="true" type="number" id="product-quantity-input" name="count" placeholder="수량" min=${MIN_COUNT} max=${MAX_COUNT} />
+      <button type="submit" id="product-add-button">추가하기</button>
+    </fieldset>
+  </form>
+  <table class="product-inventory">
+    <colgroup>
+      <col style="width: 140px" />
+      <col style="width: 100px" />
+      <col style="width: 100px" />
+    </colgroup>
+    <thead>
+      <tr>
+        <th>상품명</th>
+        <th>가격</th>
+        <th>수량</th>
+      </tr>
+    </thead>
+    <tbody id="product-inventory-container"></tbody>
+  </table>
+`;
+
+const productRow = ({ name, price, count }) => `
+  <tr>
+    <td>${name}</td>
+    <td>${price}</td>
+    <td>${count}</td>
+  </tr>
+`;
+
+export default Product;
