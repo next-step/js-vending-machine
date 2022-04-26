@@ -50,11 +50,16 @@ Cypress.Commands.add('$vendingMachineChargeInput', () =>
 Cypress.Commands.add('$vendingMachineChargeSubmit', () =>
   cy.$app().get('#vending-machine-charge-button')
 );
-Cypress.Commands.add('$vendingMachineCoin', () =>
-  cy.$app().get('#coin-inventory-container > tr')
+Cypress.Commands.add('$vendingMachineChargeCoinList', () =>
+  cy.$app().get('td[id^=vending-machine-coin-][id$=-quantity]')
 );
 Cypress.Commands.add('$vendingMachineChargeAmount', () =>
   cy.$app().get('#vending-machine-charge-amount')
+);
+Cypress.Commands.add('findChargeCoin', (value) =>
+  cy
+    .$vendingMachineChargeCoinList()
+    .get(`#vending-machine-coin-${value}-quantity`)
 );
 
 describe('자판기', () => {
@@ -336,7 +341,7 @@ describe('자판기', () => {
 
     it('보유 금액과 보유 현황이 보인다.', () => {
       cy.$vendingMachineChargeAmount().should('be.visible');
-      cy.$vendingMachineCoin().should('be.visible');
+      cy.$vendingMachineChargeCoinList().should('be.exist');
     });
 
     describe('충전 금액 입력 테스트', () => {
@@ -412,6 +417,24 @@ describe('자판기', () => {
               .click()
               .then(() => {
                 cy.$vendingMachineChargeAmount().should('have.text', 1120);
+              });
+          });
+      });
+
+      it('보유금액이 변경된 경우 동전 보유 현황이 갱신된다.', () => {
+        cy.$vendingMachineChargeInput().type(120);
+        cy.$vendingMachineChargeSubmit()
+          .click()
+          .then(() => {
+            cy.$vendingMachineChargeAmount().should('have.text', 120);
+            cy.$vendingMachineChargeInput().type(1000);
+            cy.$vendingMachineChargeSubmit()
+              .click()
+              .then(() => {
+                cy.$vendingMachineChargeAmount().should('have.text', 1120);
+                cy.findChargeCoin(500).should('have.text', '2개');
+                cy.findChargeCoin(100).should('have.text', '1개');
+                cy.findChargeCoin(10).should('have.text', '2개');
               });
           });
       });
