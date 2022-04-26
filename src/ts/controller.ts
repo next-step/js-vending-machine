@@ -5,7 +5,7 @@ import { ValidationError } from './utils/errorValidation';
 import * as model from './model';
 import { router } from './router/router';
 
-const addProduct = function (product: Product) {
+const addProduct = (product: Product) => {
   try {
     const products: Array<Product> = model.addProduct(product);
     ProductContainerView.render(products);
@@ -21,7 +21,7 @@ const addProduct = function (product: Product) {
   }
 };
 
-const chargeCoin = function (coin: number) {
+const chargeCoin = (coin: number) => {
   try {
     const coins = model.chargeCoin(coin);
     ChargeContainerView.render(coins);
