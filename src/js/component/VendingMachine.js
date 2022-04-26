@@ -1,7 +1,15 @@
 import Change from "../domain/Change.js";
 import Products from "../domain/Products.js";
 import VendingMachineCharge from "../domain/VendingMachineCharge.js";
-import { CHARGE_ID, COINS_ID, getCharge, getProducts, PRODUCT_ID, setLocalStorage } from "../service/index.js";
+import {
+    CHANGE_ID,
+    CHARGE_ID,
+    COINS_ID,
+    getCharge,
+    getProducts,
+    PRODUCT_ID,
+    setLocalStorage,
+} from "../service/index.js";
 import Menus from "./Menus.js";
 import ProductManage from "./ProductManage.js";
 import ProductPurchase from "./ProductPurchase.js";
@@ -14,6 +22,7 @@ export default class VendingMachine {
     constructor() {
         this.products = new Products(getProducts());
         this.vendingMachineCharge = new VendingMachineCharge(getCharge());
+        this.change = new Change();
         new Menus({
             onProductManage: () => this.onProductManage(),
             onVendingMachineManage: () => this.#onVendingMachineManage(),
@@ -25,10 +34,10 @@ export default class VendingMachine {
         this.vendingMachineManage = new VendingMachineManage(this.vendingMachineCharge, {
             onVendingMachine: this.#onVendingMachineCharge.bind(this),
         });
-        this.productPurchase = new ProductPurchase(this.products, this.vendingMachineCharge, {
+        this.productPurchase = new ProductPurchase(this.products, this.vendingMachineCharge, this.change, {
             onChargeChange: this.onChargeChange.bind(this),
         });
-        this.change = new Change();
+
         this.onProductManage();
     }
 
@@ -50,6 +59,8 @@ export default class VendingMachine {
         try {
             this.change.validate(charge);
             this.change.value = charge;
+            this.productPurchase.setCharge();
+            setLocalStorage(CHANGE_ID, this.change.value);
         } catch (error) {
             alert(error.message);
         }

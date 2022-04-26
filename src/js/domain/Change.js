@@ -1,4 +1,5 @@
 import { ChangeException } from "../exception/ChangeException.js";
+import { getChange } from "../service/index.js";
 
 export default class Change {
     #change;
@@ -7,7 +8,7 @@ export default class Change {
     static CHARGE_UNIT = 10;
 
     constructor() {
-        this.#change = 0;
+        this.#change = getChange();
     }
 
     get value() {
