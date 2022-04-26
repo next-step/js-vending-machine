@@ -1,14 +1,39 @@
 import { VENDING_MACHINE } from './constants/vending-machine-constant.js';
 
+const COIN_LIST = [500, 100, 50, 10];
+
+const LOCALSTORAGE_VENDING_MACHINE_MANAGE_KEY =
+  'circlegivenVendingMachineManage';
+
+function getChargeAmountFromLocalStorage() {
+  return JSON.parse(
+    localStorage.getItem(LOCALSTORAGE_VENDING_MACHINE_MANAGE_KEY)
+  );
+}
+
+function updateChargeAmountFromLocalStorage(amount) {
+  localStorage.setItem(LOCALSTORAGE_VENDING_MACHINE_MANAGE_KEY, amount);
+}
+
 function isEmpty(value) {
   return value === undefined || value === null || value.trim() === '';
 }
 
 const VendingMachineManage = (function () {
-  let totalChargeAmount = 0;
+  let totalChargeAmount = getChargeAmountFromLocalStorage() ?? 0;
 
-  function chargingAmount(amount) {
-    totalChargeAmount += amount;
+  function updateChargeAmount(amount) {
+    totalChargeAmount += Number(amount);
+  }
+
+  function chargeCoinList() {
+    let remainChargeAmount = totalChargeAmount;
+    return COIN_LIST.reduce((result, coin) => {
+      const coinQuantity = Math.floor(remainChargeAmount / coin);
+      remainChargeAmount -= coinQuantity * coin;
+      result.push({ name: coin, quantity: coinQuantity });
+      return result;
+    }, []);
   }
 
   function validateChargeAmount(amount) {
@@ -30,11 +55,13 @@ const VendingMachineManage = (function () {
 
   function handleChargingCoin(amount) {
     validateChargeAmount(amount);
-    chargingAmount(Number(amount));
+    updateChargeAmount(amount);
+    updateChargeAmountFromLocalStorage(totalChargeAmount);
   }
 
   return {
     chargeAmount: () => totalChargeAmount,
+    chargeCoinList,
     chargingCoin: handleChargingCoin,
   };
 })();

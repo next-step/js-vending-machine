@@ -33,22 +33,6 @@ function vendingMachineManageTemplate() {
     </tr>
     </thead>
     <tbody id="coin-inventory-container">
-    <tr>
-      <td>500원</td>
-      <td id="vending-machine-coin-500-quantity"></td>
-    </tr>
-    <tr>
-      <td>100원</td>
-      <td id="vending-machine-coin-100-quantity"></td>
-    </tr>
-    <tr>
-      <td>50원</td>
-      <td id="vending-machine-coin-50-quantity"></td>
-    </tr>
-    <tr>
-      <td>10원</td>
-      <td id="vending-machine-coin-10-quantity"></td>
-    </tr>
     </tbody>
   </table>
   `
@@ -57,7 +41,19 @@ function vendingMachineManageTemplate() {
   return $template;
 }
 
-// function coinTemplate() {}
+function coinTemplate({ name, quantity }) {
+  const $template = new DocumentFragment();
+  const $tr = document.createElement('tr');
+  $tr.insertAdjacentHTML(
+    'afterbegin',
+    `
+    <td>${name}원</td>
+    <td id="vending-machine-coin-${name}-quantity">${quantity}개</td>
+  `
+  );
+  $template.append($tr);
+  return $template;
+}
 
 function $chargeAmountInput() {
   return document.querySelector('#vending-machine-charge-input');
@@ -67,16 +63,26 @@ function $chargeAmount() {
   return document.querySelector('#vending-machine-charge-amount');
 }
 
-const VendingMachineManageView = (function () {
-  function updateCoinList() {}
+function $chargeCoinInventory() {
+  return document.querySelector('#coin-inventory-container');
+}
 
+const VendingMachineManageView = (function () {
   function updateChargeAmount() {
     $chargeAmount().textContent = VendingMachineManage.chargeAmount();
   }
 
+  function updateChargeCoinList() {
+    $chargeCoinInventory().replaceChildren(
+      ...VendingMachineManage.chargeCoinList().map((chargeCoin) =>
+        coinTemplate(chargeCoin)
+      )
+    );
+  }
+
   function initialize() {
     updateChargeAmount();
-    updateCoinList();
+    updateChargeCoinList();
   }
 
   function initializeChargeFields() {
