@@ -1,12 +1,12 @@
-export default abstract class AbstractView<T extends HTMLElement, U extends Object> {
-  protected containerElement: T;
-  protected data!: U;
+export default abstract class AbstractView<Element extends HTMLElement, Obj extends Object> {
+  protected containerElement: Element;
+  protected data!: Obj;
 
   constructor() {
-    this.containerElement = document.querySelector('#app')! as T;
+    this.containerElement = document.querySelector('#app')! as Element;
   }
 
-  render(data: U): void {
+  render(data: Obj): void {
     this.clear();
 
     const markup = this.generateMarkup(data);
@@ -23,9 +23,9 @@ export default abstract class AbstractView<T extends HTMLElement, U extends Obje
     this.containerElement.innerHTML = '';
   }
 
-  generateMarkup(message: U): string {
+  generateMarkup(message: Obj): string {
     return /* html */ `
-      <div>${message}</div>
-    `;
+       <div>${message}</div>
+     `;
   }
 }

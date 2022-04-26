@@ -9,7 +9,7 @@ export function setItem(key: string, value: Object): void {
   }
 }
 
-export function getItem<T extends Object>(key: string): T {
+export function getItem<Obj extends Object>(key: string): Obj {
   try {
     const json = localStorage.getItem(key);
     if (json === null) throw new ValidationError(ERROR.NO_STORAGE_ITEM);

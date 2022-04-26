@@ -27,7 +27,7 @@ export const state: State = {
   },
 };
 
-export const loadData = <T extends State>(path: PathType): T => {
+export const loadData = <Obj extends State>(path: PathType): Obj => {
   try {
     const pageName = path.replace(/\//i, '');
     return getItem(pageName);
