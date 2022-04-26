@@ -1,13 +1,13 @@
-import { PageList, PAGE } from './pages';
+import { PageList, PathType, PageType, PAGE } from './pages';
 import * as model from '../model';
 
-
 const route = function (): void {
-  const path = location.hash.substring(1) || PAGE.products.path;
-  const currentView = PageList.find(page => path === page.path);
+  const path = <PathType>location.hash.substring(1) || PAGE.products.path;
+  const currentView = <PageType>PageList.find(page => path === page.path);
 
-  document.querySelectorAll(`a[href]`)?.forEach(el => el.classList.remove('active'));
-  document.querySelector(`a[href="${path}"]`)?.classList.add('active');
+  //TODO: is type guard 구문으로 바꾸기
+  document.querySelector('a.active')?.classList.remove('active');
+  document.querySelector(`a[href="#${path}"]`)?.classList.add('active');
 
   try {
     const data = model.loadData(path);
@@ -21,7 +21,7 @@ const route = function (): void {
 
     PAGE['error'].view.render();
   }
-}; 
+};
 
 export const router = () => {
   window.addEventListener('DOMContentLoaded', route);
