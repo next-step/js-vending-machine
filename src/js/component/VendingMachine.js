@@ -21,7 +21,7 @@ export default class VendingMachine {
 
     constructor() {
         this.products = new Products(getProducts());
-        this.vendingMachineCharge = new VendingMachineCharge(getCharge());
+        this.vendingMachineCharge = new VendingMachineCharge();
         this.change = new Change();
         new Menus({
             onProductManage: () => this.onProductManage(),
