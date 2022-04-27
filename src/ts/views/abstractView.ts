@@ -13,12 +13,6 @@ export default abstract class AbstractView<Element extends HTMLElement, Obj exte
     this.containerElement.insertAdjacentHTML('afterbegin', markup);
   }
 
-  renderError(errMsg: string = 'ERROR'): void {
-    const markup = `<h2>${errMsg}</h2>`;
-    this.clear();
-    this.containerElement.insertAdjacentHTML('afterbegin', markup);
-  }
-
   clear(): void {
     this.containerElement.innerHTML = '';
   }

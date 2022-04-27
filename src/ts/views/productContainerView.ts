@@ -11,12 +11,6 @@ class ProductContainerView extends AbstractView<HTMLElement, Array<Product>> {
     )! as HTMLFormElement;
   }
 
-  renderError(message: string): void {
-    this.render();
-    const markup = `<h3>${message}<h3>`;
-    this.formElement.insertAdjacentHTML('afterbegin', markup);
-  }
-
   subscribeAddProduct(addProductHandler: (product: Product) => void) {
     this.formElement?.addEventListener('submit', (event: Event | SubmitEvent) => {
       event.preventDefault();

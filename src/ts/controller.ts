@@ -14,10 +14,6 @@ const addProduct = (product: Product) => {
       alert(err.message);
       return;
     }
-
-    if (err instanceof Error) {
-      ProductContainerView.renderError(err.message);
-    }
   }
 };
 

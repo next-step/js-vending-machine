@@ -5,11 +5,6 @@ class ChargeContainerView extends AbstractView<HTMLElement, Record<CoinKey, Coin
     super.render(coins);
   }
 
-  renderError(message: string) {
-    const markup = `<h3>${message}<h3>`;
-    this.containerElement.insertAdjacentHTML('afterbegin', markup);
-  }
-
   subscribeChargeCoin(chargeCoinHandler: (coin: number) => void) {
     this.containerElement.addEventListener('submit', () => {
       const chargeAmount = <HTMLInputElement>(

@@ -10,12 +10,6 @@ class ReturnContainerView extends AbstractView<HTMLElement, string> {
     this.parentElement.insertAdjacentHTML('afterbegin', markup);
   }
 
-  renderError(message: string) {
-    this.render();
-    const markup = `<h3>${message}<h3>`;
-    this.parentElement.insertAdjacentHTML('afterbegin', markup);
-  }
-
   generateMarkup(): string {
     return /* html */ `
         <h3>잔돈</h3>

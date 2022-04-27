@@ -11,11 +11,10 @@ const route = (): void => {
 
   try {
     const data = model.loadData(path);
-
-    if (currentView) currentView.view.render(data);
+    currentView.view.render(data);
   } catch (err: Error | unknown) {
-    if (currentView && err instanceof Error) {
-      currentView.view.renderError(err.message);
+    if (currentView) {
+      currentView.view.render();
       return;
     }
 
