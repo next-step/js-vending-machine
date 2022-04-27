@@ -1,4 +1,4 @@
-import { ProductException } from "../exception/ProductException.js";
+import { productException } from "../exception/ProductException.js";
 
 export default class Product {
     static NAME_MIN_LENGTH = 1;
@@ -19,19 +19,19 @@ export default class Product {
 
     validate(name, price, quantity) {
         if (!name || name.trim().length < Product.NAME_MIN_LENGTH) {
-            throw ProductException.notExistProductName();
+            throw productException.notExistProductName();
         }
 
         if (price < Product.PRICE_MIN) {
-            throw ProductException.outOfRangePrice();
+            throw productException.outOfRangePrice();
         }
 
         if (price % Product.PRICE_UNIT !== 0) {
-            throw ProductException.notMatchPriceUnit();
+            throw productException.notMatchPriceUnit();
         }
 
         if (!quantity || quantity < Product.QUANTITY_MIN) {
-            throw ProductException.outOfRangeQuantity();
+            throw productException.outOfRangeQuantity();
         }
     }
 

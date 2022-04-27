@@ -1,6 +1,6 @@
 import Change from "../domain/Change.js";
 
-export const ChangeException = {
+export const changeException = {
     notExistCharge() {
         return new Error("충전할 금액을 입력해주세요.");
     },

@@ -1,4 +1,4 @@
-import { VendingMachineChargeException } from "../exception/VendingMachineChargeException.js";
+import { vendingMachineChargeException } from "../exception/VendingMachineChargeException.js";
 import { getCharge, getCoins } from "../service/index.js";
 
 export default class VendingMachineCharge {
@@ -16,15 +16,15 @@ export default class VendingMachineCharge {
 
     static validate(charge) {
         if (!charge) {
-            throw VendingMachineChargeException.notExistCharge();
+            throw vendingMachineChargeException.notExistCharge();
         }
 
         if (charge === VendingMachineCharge.MIN_CHARGE) {
-            throw VendingMachineChargeException.outOfRangeCharge();
+            throw vendingMachineChargeException.outOfRangeCharge();
         }
 
         if (charge % VendingMachineCharge.CHARGE_UNIT !== 0) {
-            throw VendingMachineChargeException.notMatchChargeUnit();
+            throw vendingMachineChargeException.notMatchChargeUnit();
         }
     }
 

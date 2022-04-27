@@ -1,4 +1,4 @@
-import { ChangeException } from "../exception/ChangeException.js";
+import { changeException } from "../exception/ChangeException.js";
 import { getChange } from "../service/index.js";
 
 export default class Change {
@@ -21,15 +21,15 @@ export default class Change {
 
     validate(charge) {
         if (!charge) {
-            throw ChangeException.notExistCharge();
+            throw changeException.notExistCharge();
         }
 
         if (charge % Change.CHARGE_UNIT !== 0) {
-            throw ChangeException.notMatchChargeUnit();
+            throw changeException.notMatchChargeUnit();
         }
 
         if (charge < Change.CHARGE_MIN) {
-            throw ChangeException.outOfRangeCharge();
+            throw changeException.outOfRangeCharge();
         }
     }
 }

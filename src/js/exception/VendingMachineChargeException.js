@@ -1,6 +1,6 @@
 import VendingMachineCharge from "../domain/VendingMachineCharge.js";
 
-export const VendingMachineChargeException = {
+export const vendingMachineChargeException = {
     notExistCharge() {
         return new Error("충전 금액을 입력해주세요.");
     },
