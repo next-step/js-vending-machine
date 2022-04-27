@@ -8,18 +8,14 @@ export default class Menus {
 
     constructor(props) {
         this.props = props;
-        this.mounted();
 
-        
+        document.querySelector("#menu-button-area").addEventListener("click", (event) => this.#onClickButton(event));
+
         this.#setSelectedMenu(Menus.PRODUCT_MANAGE);
     }
 
-    mounted() {
-        document.querySelector("#menu-button-area").addEventListener("click", (event) => this.#onClickButton(event))
-    }
-
     #onClickButton(event) {
-        switch(event.target.id) {
+        switch (event.target.id) {
             case Menus.PRODUCT_MANAGE: {
                 this.#setSelectedMenu(event.target.id);
                 this.props.onProductManage();
@@ -40,8 +36,8 @@ export default class Menus {
         }
     }
 
-    #setSelectedMenu(event) { 
-        if(!this.selectedMenu) this.selectedMenu = Menus.PRODUCT_MANAGE;
+    #setSelectedMenu(event) {
+        if (!this.selectedMenu) this.selectedMenu = Menus.PRODUCT_MANAGE;
 
         document.querySelector(`#${this.selectedMenu}`).classList.remove("selected");
         this.selectedMenu = event;
