@@ -28,11 +28,10 @@ const VendingMachineManage = (function () {
 
   function chargeCoinList() {
     let remainChargeAmount = totalChargeAmount;
-    return COIN_LIST.reduce((result, coin) => {
+    return COIN_LIST.map((coin) => {
       const coinQuantity = Math.floor(remainChargeAmount / coin);
       remainChargeAmount -= coinQuantity * coin;
-      result.push({ name: coin, quantity: coinQuantity });
-      return result;
+      return { name: coin, quantity: coinQuantity };
     }, []);
   }
 
