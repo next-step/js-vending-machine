@@ -3,7 +3,6 @@ class ProductInventory extends HTMLElement {
     super();
 
     const shadow = this.attachShadow({ mode: 'open' });
-    // FIXME : 리터럴 형식으로 리팩토링
     const table = document.createElement('table');
     table.setAttribute('class', 'product-inventory');
 
@@ -30,9 +29,6 @@ class ProductInventory extends HTMLElement {
     link.setAttribute('href', './index.css');
     this.shadowRoot.append(link, table);
   }
-
-  // MEMO lifeCycle
-  attributeChangedCallback(name, oldValue, newValue) {}
 }
 
 export default ProductInventory;
