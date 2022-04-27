@@ -1,0 +1,30 @@
+{
+    "name": "js-vending-machine",
+    "version": "1.0.0",
+    "description": "<p align=\"middle\" >\r   <img src=\"https://nextstep-storage.s3.ap-northeast-2.amazonaws.com/536baaa17ed346bb851cc9f663edb069\" width=\"400\">\r </p>\r   <h1 align=\"middle\">자바스크립트와 Cypress로 구현하는 자판기</h1>\r   <p align=\"middle\">\r     <img src=\"https://img.shields.io/badge/version-1.0.0-blue?style=flat-square\" alt=\"template version\"/>\r     <img src=\"https://img.shields.io/badge/language-html-red.svg?style=flat-square\"/>\r     <img src=\"https://img.shields.io/badge/language-css-blue.svg?style=flat-square\"/>\r     <img src=\"https://img.shields.io/badge/language-js-yellow.svg?style=flat-square\"/>\r     <img src=\"https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square\"/>\r   </p>\r </p>",
+    "main": "index.js",
+    "dependencies": {},
+    "devDependencies": {
+        "@babel/eslint-parser": "^7.17.0",
+        "cypress": "^9.5.4",
+        "eslint": "^8.13.0",
+        "eslint-config-prettier": "^8.5.0",
+        "eslint-plugin-cypress": "^2.12.1",
+        "eslint-plugin-prettier": "^4.0.0",
+        "prettier": "^2.6.2"
+    },
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1",
+        "cypress:open": "cypress open"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/Minsiki/js-vending-machine.git"
+    },
+    "author": "",
+    "license": "ISC",
+    "bugs": {
+        "url": "https://github.com/Minsiki/js-vending-machine/issues"
+    },
+    "homepage": "https://github.com/Minsiki/js-vending-machine#readme"
+}
