@@ -6,7 +6,7 @@ class Router extends HTMLElement {
 
     const shadow = this.attachShadow({ mode: 'open' });
 
-    const container = document.createElement('div');
+    const container = document.createElement('nav');
     container.setAttribute('id', 'router');
     container.innerHTML = String.raw`
       <button id="product-manage-menu">상품관리</button>
