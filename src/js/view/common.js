@@ -14,7 +14,3 @@ export class Component {
     this.updateView();
   }
 }
-
-export const printAlert = (message) => {
-  alert(message);
-};

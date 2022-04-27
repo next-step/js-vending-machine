@@ -1,4 +1,4 @@
-import { ERRORS } from '../../constants/productManagement/index.js';
+import { ERRORS } from '../../constants/index.js';
 
 export const validateProduct = (product) => {
   let errorMessage = '';
@@ -7,7 +7,7 @@ export const validateProduct = (product) => {
 
   if (priceLastNumber !== 0) {
     errorMessage = ERRORS.PRICE_UNIT;
-    return { errorMessage };
+    throw Error(errorMessage);
   }
 
   return { errorMessage };

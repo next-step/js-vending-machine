@@ -1,4 +1,4 @@
-import { ERRORS } from '../../src/js/constants/productManagement/index.js';
+import { COINS, ERRORS } from '../../src/js/constants/index.js';
 
 const typeProduct = ({ name, price, quantity }) => {
   cy.get('input').eq(0).type(name);
@@ -11,11 +11,27 @@ context('자판기 테스트 케이스', () => {
     cy.visit('http://localhost:5500/');
   });
 
-  it('최초 렌더링 시에, localStorage에 상품목록이 없다면 최초 상품 목록은 비워진 상태이다.', () => {
-    cy.clearLocalStorage().should((ls) => {
-      expect(ls.getItem('ns-vending-machine')).to.be.null;
+  context('최초 렌더링 시에, localStorage에 작업내역이 없다면', () => {
+    it('상품 목록은 비워진 상태이다.', () => {
+      cy.clearLocalStorage().should((ls) => {
+        expect(ls.getItem('ns-vending-machine')).to.be.null;
+      });
+
+      cy.get('#product-inventory-container').children().contains('상품리스트가 존재하지 않습니다.');
     });
-    cy.get('#product-inventory-container').children().contains('상품리스트가 존재하지 않습니다.');
+    it('잔돈은 0원이다.', () => {
+      cy.clearLocalStorage().should((ls) => {
+        expect(ls.getItem('ns-vending-machine')).to.be.null;
+      });
+
+      cy.get('#vending-machine-manage-menu').click();
+
+      cy.get('#vending-machine-charge-amount').contains('0');
+      cy.get('.cashbox-remaining tr').eq(1).should('contain', '0');
+      cy.get('.cashbox-remaining tr').eq(2).should('contain', '0');
+      cy.get('.cashbox-remaining tr').eq(3).should('contain', '0');
+      cy.get('.cashbox-remaining tr').eq(4).should('contain', '0');
+    });
   });
 
   context('상품을 추가하지 못하는 경우', () => {
@@ -114,6 +130,62 @@ context('자판기 테스트 케이스', () => {
           cy.get('td').eq(1).contains('10000');
           cy.get('td').eq(2).contains('5');
         });
+    });
+  });
+  context('잔돈 충전을 못하는 경우', () => {
+    it('충전금액이 10원으로 나누어 떨어지지 않는 경우 경고창 발생', () => {
+      cy.on('window:alert', cy.stub().as('alerted'));
+
+      cy.get('#vending-machine-manage-menu').click();
+      cy.get('#vending-machine-charge-input').type(111);
+      cy.get('#vending-machine-charge-button').click();
+
+      cy.get('@alerted').should('have.been.calledOnce').and('have.been.calledWith', ERRORS.AMOUNT_UNIT);
+    });
+  });
+
+  context('잔돈 충전이 정상동작하는 경우', () => {
+    it('자판기 동전 충전 버튼을 눌러 자판기가 보유한 금액을 충전할 수 있다.', () => {
+      cy.get('#vending-machine-manage-menu').click();
+      cy.get('#vending-machine-charge-input').type(1000);
+      cy.get('#vending-machine-charge-button').click();
+
+      cy.get('#vending-machine-charge-amount').should('contain', '1000');
+    });
+    it('잔돈을 누적하여 충전할 수 있다.', () => {
+      cy.get('#vending-machine-manage-menu').click();
+      cy.get('#vending-machine-charge-amount').should('contain', '1000');
+
+      cy.get('#vending-machine-charge-input').type(500);
+      cy.get('#vending-machine-charge-button').click();
+
+      cy.get('#vending-machine-charge-amount').should('contain', '1500');
+    });
+    it('자판기가 보유한 금액만큼 동전이 무작위로 생성된다.', () => {
+      let total = 0;
+      const coins = [COINS[500], COINS[100], COINS[50], COINS[10]];
+
+      cy.get('#vending-machine-manage-menu').click();
+      cy.get('#vending-machine-charge-input').type(1000);
+      cy.get('#vending-machine-charge-button').click();
+
+      cy.get('.cashbox-remaining tbody tr')
+        .each(($tr, index) => {
+          const price = coins[index] * Number($tr[0].children[1].innerText.slice(0, -1));
+          total += price;
+        })
+        .then(() => {
+          cy.get('#vending-machine-charge-amount').should('have.text', total);
+        });
+    });
+    it('다른 탭을 클릭하여도 잔돈은 유지 되어야 한다.', () => {
+      cy.get('#vending-machine-manage-menu').click();
+      cy.get('#vending-machine-charge-amount').should('contain', '2500');
+
+      cy.get('#product-manage-menu').click();
+      cy.get('#vending-machine-manage-menu').click();
+
+      cy.get('#vending-machine-charge-amount').should('contain', '2500');
     });
   });
 });
