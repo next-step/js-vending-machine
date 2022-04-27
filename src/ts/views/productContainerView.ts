@@ -18,7 +18,7 @@ class ProductContainerView extends AbstractView<HTMLElement, Array<Product>> {
   }
 
   subscribeAddProduct(addProductHandler: (product: Product) => void) {
-    this.containerElement.addEventListener('submit', (event: Event | SubmitEvent) => {
+    this.formElement?.addEventListener('submit', (event: Event | SubmitEvent) => {
       event.preventDefault();
       const dataArray = [...new FormData(this.formElement)];
       const product = Object.fromEntries(dataArray);
