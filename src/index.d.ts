@@ -14,3 +14,6 @@ declare interface State {
   products: Array<Product>;
   coins: Record<CoinKey, CoinObj>;
 }
+
+declare type StateTypes = State[keyof State];
+

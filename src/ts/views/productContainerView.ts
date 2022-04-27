@@ -3,7 +3,7 @@ import AbstractView from './abstractView';
 class ProductContainerView extends AbstractView<HTMLElement, Array<Product>> {
   private formElement!: HTMLFormElement;
 
-  render(products: Array<Product> = []) {
+  render(products: Array<Product>) {
     super.render(products);
 
     this.formElement = this.containerElement.querySelector(
