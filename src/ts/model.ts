@@ -30,7 +30,8 @@ export const state: State = {
 export const loadData = <Obj extends State>(path: PathType): Obj => {
   try {
     const pageName = path.replace(/\//i, '');
-    return getItem(pageName);
+    state[pageName] = getItem(pageName);
+    return state[pageName];
   } catch (err: unknown) {
     throw err;
   }
