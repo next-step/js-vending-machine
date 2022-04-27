@@ -1,0 +1,12 @@
+#purchase-money-charge-button {
+  padding: 0.5rem;
+}
+
+#coin-return-button {
+  margin-bottom: 1rem;
+}
+
+.cashbox-remaining {
+  width: 100%;
+  max-width: 300px;
+}

@@ -1,0 +1,9 @@
+.product-add-form input:not(:first-child) {
+	margin-top: 0.5rem;
+}
+
+#product-add-button {
+	padding: 0.5rem;
+	margin-top: 0.5rem;
+	width: 78%;
+}
