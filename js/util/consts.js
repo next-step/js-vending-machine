@@ -7,7 +7,6 @@ export const shadowDOMSelector = (webComponent, target) =>
 export const shadowDOMSelectorAll = (webComponent, target) =>
   selector(webComponent).shadowRoot.querySelectorAll(target);
 
-// 10원 단위 상수로 전환
 export const DEFAULT_PRICE_UNIT = 10;
 
 export const VALIDATE = {

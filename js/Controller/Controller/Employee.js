@@ -1,15 +1,8 @@
-import Product from '../../Model/Product/Product.js';
 import Storage from '../../Model/Store/Storage.js';
-import Validator from '../../Model/Validator.js';
-import { shadowDOMSelectorAll } from '../../util/consts.js';
-import Component from '../../View/index.js';
-import Controller from './Controller.refactor.js';
+import Component from '../../View/Component.js';
 
-class Employee extends Controller {
+class Employee {
   #storage = Storage.of();
-  constructor() {
-    super();
-  }
 
   isPassProductValidation(product) {
     const productInfoValidate = product.validate();
@@ -20,63 +13,72 @@ class Employee extends Controller {
     return true;
   }
 
+  display() {
+    const products = this.#storage.getStorageProduct;
+    const dom = Component.product.renderStorageItem(products);
+    Component.product.mount(dom);
+  }
+
+  static of() {
+    return new Employee();
+  }
+
+  /**
+   * @param {Class Product} product
+   * @instance {
+   *  name: {string}
+   *  price: {string}
+   *  quantity: {string}
+   * }
+   */
   update(product) {
-    const { getProductInfo } = product;
-
     if (!this.#storage.isPassStorageValidation()) {
-      this.#storage.setStorageProduct = [getProductInfo];
-
-      // TODO: View와 분리하기
-      const dom = Component.product.render('tr', {
-        product: getProductInfo,
-        tagName: 'td',
-      });
-      Component.product.mount(dom);
+      this.firstUpdateInventoryAndStorage(this.#storage, product.info);
       return;
     }
 
     const storageProduct = this.#storage.getStorageProduct;
-    if (this.includesSameProductToStorage(storageProduct, getProductInfo)) {
-      let order;
-      const newProducts = [...storageProduct].map((prevProduct, index) => {
-        if (prevProduct.name === getProductInfo.name) {
-          order = index;
-          return getProductInfo;
-        }
-        return prevProduct;
-      });
-
-      this.#storage.setStorageProduct = newProducts;
-      shadowDOMSelectorAll('product-inventory', 'tr')[
-        order + 1
-      ].childNodes.forEach((td, index) => {
-        td.textContent = Object.values(getProductInfo)[index];
-      });
-
+    if (
+      this.#storage.includeSameProductToStorage(storageProduct, product.info)
+    ) {
+      this.replaceInventoryAndStorage(product, storageProduct);
       return;
     }
 
-    // 같은게 없을 때 근데 스토리지에는 있음
+    this.updateInventoryAndStorage(product, storageProduct);
+  }
 
-    this.#storage.setStorageProduct = [...storageProduct, getProductInfo];
+  firstUpdateInventoryAndStorage(storage, info) {
+    storage.setStorageProduct = [info];
+
     const dom = Component.product.render('tr', {
-      product: getProductInfo,
+      product: info,
       tagName: 'td',
     });
     Component.product.mount(dom);
+    Component.product.dashboardInit();
   }
 
-  includesSameProductToStorage(storageProduct, newProduct) {
-    return storageProduct.some(
-      (prevProduct) => prevProduct.name === newProduct.name
+  replaceInventoryAndStorage(product, storageProduct) {
+    const { replacedProducts, order } = product.replaceDuplicatedProduct(
+      storageProduct,
+      product.info
     );
+
+    this.#storage.setStorageProduct = replacedProducts;
+
+    Component.product.replaceInventoryProduct(order, product.info);
+    Component.product.dashboardInit();
   }
 
-  updateInventory() {}
-  updateStorage() {}
-
-  static of() {
-    return new Employee();
+  updateInventoryAndStorage(product, storageProduct) {
+    this.#storage.setStorageProduct = [...storageProduct, product.info];
+    const dom = Component.product.render('tr', {
+      product: product.info,
+      tagName: 'td',
+    });
+    Component.product.mount(dom);
+    Component.product.dashboardInit();
   }
 }
 

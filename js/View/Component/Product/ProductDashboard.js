@@ -8,6 +8,16 @@ class ProductDashboard extends HTMLElement {
     const container = document.createElement('form');
     container.setAttribute('id', 'product-dashboard');
     container.innerHTML = String.raw`
+        <style>
+          form {
+            display: flex;
+            flex-direction: column;
+            width: 25rem;
+            height: 10rem;
+            align-items: center;
+            justify-content: space-between;
+          }
+        </style>
         <label for="product-name-input"></label>
         <input
           type="text"

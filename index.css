@@ -188,3 +188,7 @@ button:active {
 .cashbox-remaining th {
   border: 1px solid rgb(66, 66, 66);
 }
+
+vending-machine-router {
+  margin: 10px 0;
+}

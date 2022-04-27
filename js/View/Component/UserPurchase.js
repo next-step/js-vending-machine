@@ -1,4 +1,3 @@
-// TODO
 class UserPurchase extends HTMLElement {
   constructor() {
     super();
@@ -53,9 +52,6 @@ class UserPurchase extends HTMLElement {
     link.setAttribute('href', './index.css');
     this.shadowRoot.append(link, container);
   }
-
-  // MEMO lifeCycle
-  attributeChangedCallback(name, oldValue, newValue) {}
 }
 
 export default UserPurchase;

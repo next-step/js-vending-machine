@@ -22,6 +22,11 @@ const Validator = {
     isEmpty(storageProduct) {
       return storageProduct === null;
     },
+    isSameName(storageProduct, newProduct) {
+      return storageProduct.some(
+        (prevProduct) => prevProduct.name === newProduct.name
+      );
+    },
   },
 };
 

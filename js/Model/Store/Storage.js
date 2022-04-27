@@ -1,8 +1,6 @@
 import Validator from '../Validator.js';
 
 class Storage {
-  #item;
-
   /**
    * @param {string} product
    */
@@ -15,11 +13,11 @@ class Storage {
   }
 
   isPassStorageValidation() {
-    if (Validator.storage.isEmpty(this.getStorageProduct)) {
-      return false;
-    }
+    return Validator.storage.isEmpty(this.getStorageProduct) ? false : true;
+  }
 
-    return true;
+  includeSameProductToStorage(storageProduct, newProduct) {
+    return Validator.storage.isSameName(storageProduct, newProduct);
   }
 
   static of() {

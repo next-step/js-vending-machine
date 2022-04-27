@@ -1,8 +1,7 @@
 import { selector } from '../../util/consts.js';
-import Template from './Template.js';
 
-class VendingMachineManageMenu extends Template {
-  render() {
+class VendingMachineManageMenu {
+  mount() {
     selector('#app').innerHTML = String.raw`
     <h1>🧃 자판기 미션 🧃</h1>  
     <vending-machine-router></vending-machine-router>

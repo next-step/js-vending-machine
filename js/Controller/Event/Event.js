@@ -1,5 +1,4 @@
 import Product from '../../Model/Product/Product.js';
-import Component from '../../View/index.js';
 import ProductManageMenu from '../../View/Template/ProductManageMenu.js';
 import ProductPurchaseMenu from '../../View/Template/ProductPurchaseMenu.js';
 import VendingMachineManageMenu from '../../View/Template/VendingMachineManageMenu.js';
@@ -7,29 +6,26 @@ import Employee from '../Controller/Employee.js';
 
 const Event = (function () {
   const employee = Employee.of();
+
   return {
     router: {
       click(event) {
         if (event.target.id === 'product-manage-menu') {
-          ProductManageMenu.of().render();
-          Component.product.display();
+          ProductManageMenu.of().mount();
+          employee.display();
         }
 
         if (event.target.id === 'vending-machine-manage-menu') {
-          VendingMachineManageMenu.of().render();
+          VendingMachineManageMenu.of().mount();
         }
 
         if (event.target.id === 'product-purchase-menu') {
-          ProductPurchaseMenu.of().render();
+          ProductPurchaseMenu.of().mount();
         }
       },
     },
 
     product: {
-      keydown(event) {
-        console.log(event.target);
-      },
-
       submit(event) {
         event.preventDefault();
 
@@ -44,10 +40,7 @@ const Event = (function () {
           return;
         }
 
-        // 1. 같은 부분이 있다면 view 대체하기
-        // 2. localstorage에 최신화 하기
         employee.update(product);
-        //
       },
     },
   };

@@ -22,10 +22,6 @@ class Router extends HTMLElement {
 
     this.shadowRoot.append(link, container);
   }
-
-  // MEMO lifeCycle
-
-  attributeChangedCallback(name, oldValue, newValue) {}
 }
 
 export default Router;
