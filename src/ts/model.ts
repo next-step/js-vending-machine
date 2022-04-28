@@ -44,12 +44,15 @@ const sortProduct = (): void => {
 };
 
 const validateNewProduct = (newProduct: Product) => {
-  if (newProduct.price < PRODUCT_CONFIG.MIN_PRICE)
+  if (newProduct.price < PRODUCT_CONFIG.MIN_PRICE) {
     throw new ValidationError(ERROR.LESS_THAN_MIN_PRICE);
-  if (newProduct.quantity < PRODUCT_CONFIG.MIN_QUANTITY)
+  }
+  if (newProduct.quantity < PRODUCT_CONFIG.MIN_QUANTITY) {
     throw new ValidationError(ERROR.LESS_THAN_MIN_QUANTITY);
-  if (newProduct.price % PRODUCT_CONFIG.SHOULD_BE_DIVIDED !== 0)
+  }
+  if (newProduct.price % PRODUCT_CONFIG.SHOULD_BE_DIVIDED !== 0) {
     throw new ValidationError(ERROR.NOT_DIVIDED_PRICE);
+  }
 };
 
 export const addProduct = (newProduct: Product): Array<Product> => {
