@@ -1,0 +1,4 @@
+export const PURCHASE = {
+  MIN_CHARGING_COIN: 10,
+  STEP_CHARGING_COIN: 10,
+};
