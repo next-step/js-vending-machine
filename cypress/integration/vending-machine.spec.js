@@ -56,10 +56,14 @@ Cypress.Commands.add('$vendingMachineChargeCoinList', () =>
 Cypress.Commands.add('$vendingMachineChargeAmount', () =>
   cy.$app().get('#vending-machine-charge-amount')
 );
-Cypress.Commands.add('findChargeCoin', (value) =>
-  cy
-    .$vendingMachineChargeCoinList()
-    .get(`#vending-machine-coin-${value}-quantity`)
+Cypress.Commands.add('$productPurchaseAmountChargeInput', () =>
+  cy.$app().get('#charge-input')
+);
+Cypress.Commands.add('$productPurchaseAmountChargeSubmit', () =>
+  cy.$app().get('#charge-button')
+);
+Cypress.Commands.add('$productPurchaseChargeAmount', () =>
+  cy.$app().get('#charge-amount')
 );
 
 describe('자판기', () => {
@@ -454,6 +458,48 @@ describe('자판기', () => {
                     expect(amount).eq(1120);
                   });
               });
+          });
+      });
+    });
+  });
+
+  describe('상품구매 화면 테스트', () => {
+    beforeEach(() => {
+      cy.$productPurchaseMenu().click();
+    });
+
+    it('동전을 입력할 수 있는 폼이 보인다.', () => {
+      cy.$productPurchaseAmountChargeInput().should('be.visible');
+      cy.$productPurchaseAmountChargeSubmit().should('be.visible');
+    });
+
+    it('보유 금액이 보인다.', () => {
+      cy.$productPurchaseChargeAmount().should('be.visible');
+    });
+
+    describe('충전 금액 입력 테스트', () => {
+      it('충전 금액은 숫자만 입력이 가능하다.', () => {
+        cy.$productPurchaseAmountChargeInput().type('충전테스트');
+        cy.$productPurchaseAmountChargeInput().should('have.value', '');
+        cy.$productPurchaseAmountChargeInput().type('aafa ');
+        cy.$productPurchaseAmountChargeInput().should('have.value', '');
+        cy.$productPurchaseAmountChargeInput().type(12);
+        cy.$productPurchaseAmountChargeInput().should('have.value', 12);
+      });
+    });
+
+    describe('충전 테스트', () => {
+      it('충전금액을 입력하지 않고 충전하기를 눌렀을때 보유 금액이 변경되지 않는다.', () => {
+        cy.$productPurchaseAmountChargeSubmit()
+          .click()
+          .then(() => {
+            cy.$productPurchaseAmountChargeInput()
+              .invoke('prop', 'validity')
+              .should('deep.include', {
+                valueMissing: true,
+                valid: false,
+              });
+            cy.$productPurchaseChargeAmount().should('have.text', '0');
           });
       });
     });
