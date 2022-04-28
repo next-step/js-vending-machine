@@ -1,12 +1,9 @@
 import { PRODUCT } from './constants/product-constant.js';
 
-function isEmpty(value) {
-  return value === undefined || value === null || value.trim() === '';
-}
+const isEmpty = (value) =>
+  value === undefined || value === null || value.trim() === '';
 
-function isIncludeEmptyString(value) {
-  return (value ?? '').includes(' ');
-}
+const isIncludeEmptyString = (value) => (value ?? '').includes(' ');
 
 export default class Product {
   #name;

@@ -8,29 +8,26 @@ const $vendingMachineManageMenuSubmit = document.getElementById(
   'vending-machine-manage-menu'
 );
 
-function isProductManageContent(formId) {
-  return formId === FORM.PRODUCT;
-}
+const isProductManageContent = (formId) => formId === FORM.PRODUCT;
 
-function isVendingMachineManageContent(formId) {
-  return formId === FORM.VENDING_MACHINE;
-}
+const isVendingMachineManageContent = (formId) =>
+  formId === FORM.VENDING_MACHINE;
 
-function changeAppContents(template) {
+const changeAppContents = (template) => {
   $app.replaceChildren(template);
-}
+};
 
-function handleProductManageMenu() {
+const handleProductManageMenu = () => {
   changeAppContents(ProductManageView.contents());
   ProductManageView.initialize();
-}
+};
 
-function handleVendingMachineManageMenu() {
+const handleVendingMachineManageMenu = () => {
   changeAppContents(VendingMachineManageView.contents());
   VendingMachineManageView.initialize();
-}
+};
 
-function handleMenuContentSubmit(event) {
+const handleMenuContentSubmit = (event) => {
   const formId = event.target.id;
   if (isProductManageContent(formId)) {
     ProductManageView.handleProductAdd(event);
@@ -40,9 +37,9 @@ function handleMenuContentSubmit(event) {
   if (isVendingMachineManageContent(formId)) {
     VendingMachineManageView.handleChargingCoin(event);
   }
-}
+};
 
-function preventEmptyKeypress(event) {
+const preventEmptyKeypress = (event) => {
   if (event.target.tagName !== 'INPUT') {
     return;
   }
@@ -50,9 +47,9 @@ function preventEmptyKeypress(event) {
   if (event.code === 'Space') {
     event.preventDefault();
   }
-}
+};
 
-function eventBindings() {
+const eventBindings = () => {
   $productManageMenuSubmit.addEventListener('click', handleProductManageMenu);
   $vendingMachineManageMenuSubmit.addEventListener(
     'click',
@@ -60,11 +57,11 @@ function eventBindings() {
   );
   $app.addEventListener('submit', handleMenuContentSubmit);
   $app.addEventListener('keypress', preventEmptyKeypress);
-}
+};
 
-function initialize() {
+const initialize = () => {
   eventBindings();
   handleProductManageMenu();
-}
+};
 
 export default initialize;

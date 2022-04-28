@@ -2,7 +2,7 @@ import { FORM } from '../constants/content-constant.js';
 import { VENDING_MACHINE } from '../constants/vending-machine-constant.js';
 import VendingMachineManage from '../VendingMachineManage.js';
 
-function vendingMachineManageTemplate() {
+const vendingMachineManageTemplate = () => {
   const $template = new DocumentFragment();
   const $tempElement = document.createElement('div');
   $template.append($tempElement);
@@ -39,9 +39,9 @@ function vendingMachineManageTemplate() {
   );
   $tempElement.remove();
   return $template;
-}
+};
 
-function coinTemplate({ name, quantity }) {
+const coinTemplate = ({ name, quantity }) => {
   const $template = new DocumentFragment();
   const $tr = document.createElement('tr');
   $tr.insertAdjacentHTML(
@@ -56,44 +56,41 @@ function coinTemplate({ name, quantity }) {
   );
   $template.append($tr);
   return $template;
-}
+};
 
-function $chargeAmountInput() {
-  return document.querySelector('#vending-machine-charge-input');
-}
+const $chargeAmountInput = () =>
+  document.querySelector('#vending-machine-charge-input');
 
-function $chargeAmount() {
-  return document.querySelector('#vending-machine-charge-amount');
-}
+const $chargeAmount = () =>
+  document.querySelector('#vending-machine-charge-amount');
 
-function $chargeCoinInventory() {
-  return document.querySelector('#coin-inventory-container');
-}
+const $chargeCoinInventory = () =>
+  document.querySelector('#coin-inventory-container');
 
-const VendingMachineManageView = (function () {
-  function updateChargeAmount() {
+const VendingMachineManageView = (() => {
+  const updateChargeAmount = () => {
     $chargeAmount().textContent = VendingMachineManage.chargeAmount();
-  }
+  };
 
-  function updateChargeCoinList() {
+  const updateChargeCoinList = () => {
     $chargeCoinInventory().replaceChildren(
       ...VendingMachineManage.chargeCoinList().map((chargeCoin) =>
         coinTemplate(chargeCoin)
       )
     );
-  }
+  };
 
-  function initializeChargeFields() {
+  const initializeChargeFields = () => {
     $chargeAmountInput().value = null;
-  }
+  };
 
-  function initialize() {
+  const initialize = () => {
     updateChargeAmount();
     updateChargeCoinList();
     initializeChargeFields();
-  }
+  };
 
-  function handleChargingCoin(event) {
+  const handleChargingCoin = (event) => {
     event.preventDefault();
     try {
       VendingMachineManage.chargingCoin($chargeAmountInput().value);
@@ -101,11 +98,9 @@ const VendingMachineManageView = (function () {
     } catch (e) {
       alert(e.message);
     }
-  }
+  };
 
-  function contents() {
-    return vendingMachineManageTemplate();
-  }
+  const contents = () => vendingMachineManageTemplate();
 
   return { contents, initialize, handleChargingCoin };
 })();

@@ -2,7 +2,7 @@ import Product from '../Product.js';
 import ProductManage from '../ProductManage.js';
 import { PRODUCT } from '../constants/product-constant.js';
 
-function productManageTemplate() {
+const productManageTemplate = () => {
   const $template = new DocumentFragment();
   const $tempElement = document.createElement('div');
   $template.append($tempElement);
@@ -37,9 +37,9 @@ function productManageTemplate() {
   );
   $tempElement.remove();
   return $template;
-}
+};
 
-function productTemplate({ name, price, quantity }) {
+const productTemplate = ({ name, price, quantity }) => {
   const $template = new DocumentFragment();
   const $tr = document.createElement('tr');
   $tr.dataset.name = name;
@@ -55,44 +55,38 @@ function productTemplate({ name, price, quantity }) {
   );
   $template.append($tr);
   return $template;
-}
+};
 
-function $productForm() {
-  return document.querySelector('#product-form');
-}
+const $productForm = () => document.querySelector('#product-form');
 
-function $productNameInput() {
-  return $productForm().querySelector('#product-name-input');
-}
-function $productPriceInput() {
-  return $productForm().querySelector('#product-price-input');
-}
-function $productQuantityInput() {
-  return $productForm().querySelector('#product-quantity-input');
-}
+const $productNameInput = () =>
+  $productForm().querySelector('#product-name-input');
 
-function $productInventory() {
-  return document.querySelector('#product-inventory-container');
-}
+const $productPriceInput = () =>
+  $productForm().querySelector('#product-price-input');
 
-function convertFormDataToObject(formData) {
-  return Object.fromEntries(formData);
-}
+const $productQuantityInput = () =>
+  $productForm().querySelector('#product-quantity-input');
 
-const ProductManageView = (function () {
-  function updateProductList() {
+const $productInventory = () =>
+  document.querySelector('#product-inventory-container');
+
+const convertFormDataToObject = (formData) => Object.fromEntries(formData);
+
+const ProductManageView = (() => {
+  const updateProductList = () => {
     $productInventory().replaceChildren(
       ...ProductManage.list().map((product) => productTemplate(product))
     );
-  }
+  };
 
-  function initializeProductFields() {
+  const initializeProductFields = () => {
     $productNameInput().value = null;
     $productPriceInput().value = null;
     $productQuantityInput().value = null;
-  }
+  };
 
-  function handleProductAdd(event) {
+  const handleProductAdd = (event) => {
     event.preventDefault();
     try {
       ProductManage.addProduct(
@@ -103,15 +97,13 @@ const ProductManageView = (function () {
     } catch (e) {
       alert(e.message);
     }
-  }
+  };
 
-  function contents() {
-    return productManageTemplate();
-  }
+  const contents = () => productManageTemplate();
 
-  function initialize() {
+  const initialize = () => {
     updateProductList();
-  }
+  };
 
   return { contents, initialize, handleProductAdd };
 })();
