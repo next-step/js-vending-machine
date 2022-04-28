@@ -1,7 +1,7 @@
 import ProductContainerView from '../views/ProductContainerView';
 import ChargeContainerView from '../views/ChargeContainerView';
 import PurchaseContainerView from '../views/PurchaseContainerView';
-import ErrorPageView from '../views/ErrorPageView';
+import NotFoundView from '../views/NotFoundView';
 
 export const PAGE = {
   products: {
@@ -18,7 +18,7 @@ export const PAGE = {
   },
   error: {
     path: '/error',
-    view: ErrorPageView,
+    view: NotFoundView,
   },
 } as const;
 

@@ -1,10 +1,10 @@
 import AbstractView from './abstractView';
 
-class ErrorPageView extends AbstractView<HTMLElement, string> {
+class NotFoundView extends AbstractView<HTMLElement, string> {
   private errorMessage: string = '🚨 Not Found! 🚨';
 
-  render(message = this.errorMessage) {
-    super.render(message);
+  render() {
+    super.render(this.errorMessage);
   }
 
   generateMarkup(message: string) {
@@ -21,4 +21,4 @@ class ErrorPageView extends AbstractView<HTMLElement, string> {
   }
 }
 
-export default new ErrorPageView();
+export default new NotFoundView();
