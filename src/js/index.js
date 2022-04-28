@@ -1,4 +1,3 @@
-import MainView from './view/MainView.js';
+import initialize from './view/MainView.js';
 
-MainView.eventBindings();
-MainView.initialize();
+initialize();

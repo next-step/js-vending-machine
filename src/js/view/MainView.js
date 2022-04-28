@@ -1,50 +1,67 @@
 import ProductManageView from './ProductManageView.js';
+import VendingMachineManageView from './VendingMachineManageView.js';
 import { FORM } from '../constants/content-constant.js';
 
 const $app = document.querySelector('#app');
 const $productManageMenuSubmit = document.getElementById('product-manage-menu');
+const $vendingMachineManageMenuSubmit = document.getElementById(
+  'vending-machine-manage-menu'
+);
 
-const MainView = (function () {
-  function isProductManageContent(formId) {
-    return formId === FORM.PRODUCT;
+const isProductManageContent = (formId) => formId === FORM.PRODUCT;
+
+const isVendingMachineManageContent = (formId) =>
+  formId === FORM.VENDING_MACHINE;
+
+const changeAppContents = (template) => {
+  $app.replaceChildren(template);
+};
+
+const handleProductManageMenu = () => {
+  changeAppContents(ProductManageView.contents());
+  ProductManageView.initialize();
+};
+
+const handleVendingMachineManageMenu = () => {
+  changeAppContents(VendingMachineManageView.contents());
+  VendingMachineManageView.initialize();
+};
+
+const handleMenuContentSubmit = (event) => {
+  const formId = event.target.id;
+  if (isProductManageContent(formId)) {
+    ProductManageView.handleProductAdd(event);
+    return;
   }
 
-  function changeAppContents(template) {
-    $app.replaceChildren(template);
+  if (isVendingMachineManageContent(formId)) {
+    VendingMachineManageView.handleChargingCoin(event);
+  }
+};
+
+const preventEmptyKeypress = (event) => {
+  if (event.target.tagName !== 'INPUT') {
+    return;
   }
 
-  function handleProductManageMenu() {
-    changeAppContents(ProductManageView.contents());
-    ProductManageView.initialize();
+  if (event.code === 'Space') {
+    event.preventDefault();
   }
+};
 
-  function handleMenuContentSubmit(event) {
-    const formId = event.target.id;
-    if (isProductManageContent(formId)) {
-      ProductManageView.handleProductAdd(event);
-    }
-  }
+const eventBindings = () => {
+  $productManageMenuSubmit.addEventListener('click', handleProductManageMenu);
+  $vendingMachineManageMenuSubmit.addEventListener(
+    'click',
+    handleVendingMachineManageMenu
+  );
+  $app.addEventListener('submit', handleMenuContentSubmit);
+  $app.addEventListener('keypress', preventEmptyKeypress);
+};
 
-  function preventEmptyKeypress(event) {
-    if (event.target.tagName !== 'INPUT') {
-      return;
-    }
+const initialize = () => {
+  eventBindings();
+  handleProductManageMenu();
+};
 
-    if (event.code === 'Space') {
-      event.preventDefault();
-    }
-  }
-
-  function eventBindings() {
-    $productManageMenuSubmit.addEventListener('click', handleProductManageMenu);
-    $app.addEventListener('submit', handleMenuContentSubmit);
-    $app.addEventListener('keypress', preventEmptyKeypress);
-  }
-
-  function initialize() {
-    handleProductManageMenu();
-  }
-
-  return { initialize, eventBindings };
-})();
-export default MainView;
+export default initialize;

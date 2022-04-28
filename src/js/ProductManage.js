@@ -2,11 +2,10 @@ import Product from './Product.js';
 
 const LOCALSTORAGE_PRODUCT_MANAGE_KEY = 'circlegivenProductManage';
 
-function getProductListFromLocalStorage() {
-  return JSON.parse(localStorage.getItem(LOCALSTORAGE_PRODUCT_MANAGE_KEY));
-}
+const getProductListFromLocalStorage = () =>
+  JSON.parse(localStorage.getItem(LOCALSTORAGE_PRODUCT_MANAGE_KEY));
 
-function updateProductListFromLocalStorage(productList) {
+const updateProductListFromLocalStorage = (productList) => {
   localStorage.setItem(
     LOCALSTORAGE_PRODUCT_MANAGE_KEY,
     JSON.stringify(
@@ -15,28 +14,25 @@ function updateProductListFromLocalStorage(productList) {
       )
     )
   );
-}
+};
 
-const ProductManage = (function () {
+const ProductManage = (() => {
   let productList = getProductListFromLocalStorage() ?? [];
 
-  function isDuplicateProduct(product) {
-    return productList.some(
-      (addedProduct) => product.name === addedProduct.name
-    );
-  }
+  const isDuplicateProduct = (product) =>
+    productList.some((addedProduct) => product.name === addedProduct.name);
 
-  function updateProduct(product) {
+  const updateProduct = (product) => {
     productList = productList.map((addedProduct) =>
       product.name === addedProduct.name ? product : addedProduct
     );
-  }
+  };
 
-  function addProduct(product) {
+  const addProduct = (product) => {
     productList.push(product);
-  }
+  };
 
-  function handleAddProduct(product) {
+  const handleAddProduct = (product) => {
     if (product instanceof Product === false) {
       throw new Error('Product 형태가 아닙니다.');
     }
@@ -44,7 +40,7 @@ const ProductManage = (function () {
     // eslint-disable-next-line no-unused-expressions
     isDuplicateProduct(product) ? updateProduct(product) : addProduct(product);
     updateProductListFromLocalStorage(productList);
-  }
+  };
 
   return {
     list: () => productList,

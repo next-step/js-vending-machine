@@ -41,6 +41,26 @@ Cypress.Commands.add('clearProductFields', () => {
   cy.$productPriceInput().clear();
   cy.$productQuantityInput().clear();
 });
+Cypress.Commands.add('$vendingMachineWrapper', () =>
+  cy.$app().get('div.vending-machine-wrapper')
+);
+Cypress.Commands.add('$vendingMachineChargeInput', () =>
+  cy.$app().get('#vending-machine-charge-input')
+);
+Cypress.Commands.add('$vendingMachineChargeSubmit', () =>
+  cy.$app().get('#vending-machine-charge-button')
+);
+Cypress.Commands.add('$vendingMachineChargeCoinList', () =>
+  cy.$app().get('td[id^=vending-machine-coin-][id$=-quantity]')
+);
+Cypress.Commands.add('$vendingMachineChargeAmount', () =>
+  cy.$app().get('#vending-machine-charge-amount')
+);
+Cypress.Commands.add('findChargeCoin', (value) =>
+  cy
+    .$vendingMachineChargeCoinList()
+    .get(`#vending-machine-coin-${value}-quantity`)
+);
 
 describe('자판기', () => {
   beforeEach(() => {
@@ -56,6 +76,10 @@ describe('자판기', () => {
   });
 
   describe('상품관리 화면 테스트', () => {
+    beforeEach(() => {
+      cy.$productManageMenu().click();
+    });
+
     it('상품명, 가격, 수량을 입력할 수 있는 폼이 보인다.', () => {
       cy.$productContainer().should('be.visible');
       cy.$productNameInput().should('be.visible');
@@ -299,6 +323,137 @@ describe('자판기', () => {
               quantity: quantity1 + 10,
             }).should('be.exist');
             cy.$productList().should('have.length', 2);
+          });
+      });
+    });
+  });
+
+  describe('잔돈충전 화면 테스트', () => {
+    beforeEach(() => {
+      cy.$vendingMachineManageMenu().click();
+    });
+
+    it('동전을 입력할 수 있는 폼이 보인다.', () => {
+      cy.$vendingMachineWrapper().should('be.visible');
+      cy.$vendingMachineChargeInput().should('be.visible');
+      cy.$vendingMachineChargeSubmit().should('be.visible');
+    });
+
+    it('보유 금액과 보유 현황이 보인다.', () => {
+      cy.$vendingMachineChargeAmount().should('be.visible');
+      cy.$vendingMachineChargeCoinList().should('be.exist');
+      cy.$vendingMachineChargeCoinList().should('have.length', 4);
+    });
+
+    describe('충전 금액 입력 테스트', () => {
+      it('충전 금액은 숫자만 입력이 가능하다.', () => {
+        cy.$vendingMachineChargeInput().type('충전테스트');
+        cy.$vendingMachineChargeInput().should('have.value', '');
+        cy.$vendingMachineChargeInput().type('aafa ');
+        cy.$vendingMachineChargeInput().should('have.value', '');
+        cy.$vendingMachineChargeInput().type(12);
+        cy.$vendingMachineChargeInput().should('have.value', 12);
+      });
+    });
+
+    describe('충전 테스트', () => {
+      it('충전금액을 입력하지 않고 충전하기를 눌렀을때 보유 금액이 변경되지 않는다.', () => {
+        cy.$vendingMachineChargeSubmit()
+          .click()
+          .then(() => {
+            cy.$vendingMachineChargeInput()
+              .invoke('prop', 'validity')
+              .should('deep.include', {
+                valueMissing: true,
+                valid: false,
+              });
+          });
+      });
+
+      it('충전 금액은 최소값 100을 넘겨야된다.(99)', () => {
+        cy.$vendingMachineChargeInput().type(99);
+        cy.$vendingMachineChargeSubmit()
+          .click()
+          .then(() => {
+            cy.$vendingMachineChargeInput()
+              .invoke('prop', 'validity')
+              .should('deep.include', {
+                rangeUnderflow: true,
+                valid: false,
+              });
+          });
+      });
+
+      it('충전 금액은 10 단위여야한다.(121)', () => {
+        cy.$vendingMachineChargeInput().type(121);
+        cy.$vendingMachineChargeSubmit()
+          .click()
+          .then(() => {
+            cy.$vendingMachineChargeInput()
+              .invoke('prop', 'validity')
+              .should('deep.include', {
+                stepMismatch: true,
+                valid: false,
+              });
+          });
+      });
+
+      it('충전금액을 입력하고 충전하기를 누르면 보유 금액이 입력된 만큼 변경된다.', () => {
+        cy.$vendingMachineChargeInput().type(120);
+        cy.$vendingMachineChargeSubmit()
+          .click()
+          .then(() => {
+            cy.$vendingMachineChargeAmount().should('have.text', 120);
+          });
+      });
+
+      it('충전금액을 입력하고 충전하기를 누른후 다시 충전하면 기존 충전한 금액과 합산된다.', () => {
+        cy.$vendingMachineChargeInput().type(120);
+        cy.$vendingMachineChargeSubmit()
+          .click()
+          .then(() => {
+            cy.$vendingMachineChargeAmount().should('have.text', 120);
+            cy.$vendingMachineChargeInput().type(1000);
+            cy.$vendingMachineChargeSubmit()
+              .click()
+              .then(() => {
+                cy.$vendingMachineChargeAmount().should('have.text', 1120);
+              });
+          });
+      });
+
+      it('보유금액이 변경된 경우 동전 보유 현황이 갱신된다.', () => {
+        cy.$vendingMachineChargeInput().type(120);
+        cy.$vendingMachineChargeSubmit()
+          .click()
+          .then(() => {
+            cy.$vendingMachineChargeAmount().should('have.text', 120);
+            let amount = 0;
+            cy.$vendingMachineChargeCoinList()
+              .each(($chargeCoin) => {
+                const name = $chargeCoin.data('testName');
+                const quantity = $chargeCoin.data('testQuantity');
+                amount += quantity * name;
+              })
+              .then(() => {
+                expect(amount).eq(120);
+              });
+            cy.$vendingMachineChargeInput().type(1000);
+            cy.$vendingMachineChargeSubmit()
+              .click()
+              .then(() => {
+                cy.$vendingMachineChargeAmount().should('have.text', 1120);
+                let amount = 0;
+                cy.$vendingMachineChargeCoinList()
+                  .each(($chargeCoin) => {
+                    const name = $chargeCoin.data('testName');
+                    const quantity = $chargeCoin.data('testQuantity');
+                    amount += quantity * name;
+                  })
+                  .then(() => {
+                    expect(amount).eq(1120);
+                  });
+              });
           });
       });
     });
