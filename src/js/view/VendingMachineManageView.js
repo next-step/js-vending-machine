@@ -80,13 +80,14 @@ const VendingMachineManageView = (function () {
     );
   }
 
+  function initializeChargeFields() {
+    $chargeAmountInput().value = null;
+  }
+
   function initialize() {
     updateChargeAmount();
     updateChargeCoinList();
-  }
-
-  function initializeChargeFields() {
-    $chargeAmountInput().value = null;
+    initializeChargeFields();
   }
 
   function handleChargingCoin(event) {
@@ -94,7 +95,6 @@ const VendingMachineManageView = (function () {
     try {
       VendingMachineManage.chargingCoin($chargeAmountInput().value);
       initialize();
-      initializeChargeFields();
     } catch (e) {
       alert(e.message);
     }
