@@ -342,6 +342,7 @@ describe('자판기', () => {
     it('보유 금액과 보유 현황이 보인다.', () => {
       cy.$vendingMachineChargeAmount().should('be.visible');
       cy.$vendingMachineChargeCoinList().should('be.exist');
+      cy.$vendingMachineChargeCoinList().should('have.length', 4);
     });
 
     describe('충전 금액 입력 테스트', () => {
@@ -427,14 +428,31 @@ describe('자판기', () => {
           .click()
           .then(() => {
             cy.$vendingMachineChargeAmount().should('have.text', 120);
+            let amount = 0;
+            cy.$vendingMachineChargeCoinList()
+              .each(($chargeCoin) => {
+                const name = $chargeCoin.data('testName');
+                const quantity = $chargeCoin.data('testQuantity');
+                amount += quantity * name;
+              })
+              .then(() => {
+                expect(amount).eq(120);
+              });
             cy.$vendingMachineChargeInput().type(1000);
             cy.$vendingMachineChargeSubmit()
               .click()
               .then(() => {
                 cy.$vendingMachineChargeAmount().should('have.text', 1120);
-                cy.findChargeCoin(500).should('have.text', '2개');
-                cy.findChargeCoin(100).should('have.text', '1개');
-                cy.findChargeCoin(10).should('have.text', '2개');
+                let amount = 0;
+                cy.$vendingMachineChargeCoinList()
+                  .each(($chargeCoin) => {
+                    const name = $chargeCoin.data('testName');
+                    const quantity = $chargeCoin.data('testQuantity');
+                    amount += quantity * name;
+                  })
+                  .then(() => {
+                    expect(amount).eq(1120);
+                  });
               });
           });
       });
