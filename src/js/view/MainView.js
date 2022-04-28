@@ -67,4 +67,4 @@ function initialize() {
   handleProductManageMenu();
 }
 
-export { initialize };
+export default initialize;
