@@ -5,37 +5,37 @@ const COIN_LIST = [500, 100, 50, 10];
 const LOCALSTORAGE_VENDING_MACHINE_MANAGE_KEY =
   'circlegivenVendingMachineManage';
 
-function getChargeAmountFromLocalStorage() {
-  return JSON.parse(
-    localStorage.getItem(LOCALSTORAGE_VENDING_MACHINE_MANAGE_KEY)
-  );
-}
+const getChargeAmountFromLocalStorage = () =>
+  JSON.parse(localStorage.getItem(LOCALSTORAGE_VENDING_MACHINE_MANAGE_KEY));
 
-function updateChargeAmountFromLocalStorage(amount) {
+const updateChargeAmountFromLocalStorage = (amount) => {
   localStorage.setItem(LOCALSTORAGE_VENDING_MACHINE_MANAGE_KEY, amount);
-}
+};
 
-function isEmpty(value) {
-  return value === undefined || value === null || value.trim() === '';
-}
+const isEmpty = (value) =>
+  value === undefined || value === null || value.trim() === '';
 
-const VendingMachineManage = (function () {
+const shuffle = (list) => (list ?? []).sort(() => Math.random() - 0.5);
+
+const VendingMachineManage = (() => {
   let totalChargeAmount = getChargeAmountFromLocalStorage() ?? 0;
 
-  function updateChargeAmount(amount) {
+  const updateChargeAmount = (amount) => {
     totalChargeAmount += Number(amount);
-  }
+  };
 
-  function chargeCoinList() {
+  const chargeCoinList = () => {
     let remainChargeAmount = totalChargeAmount;
-    return COIN_LIST.map((coin) => {
-      const coinQuantity = Math.floor(remainChargeAmount / coin);
-      remainChargeAmount -= coinQuantity * coin;
-      return { name: coin, quantity: coinQuantity };
-    }, []);
-  }
+    return shuffle(COIN_LIST)
+      .map((coin) => {
+        const coinQuantity = Math.floor(remainChargeAmount / coin);
+        remainChargeAmount -= coinQuantity * coin;
+        return { name: coin, quantity: coinQuantity };
+      }, [])
+      .sort((prev, next) => next.name - prev.name);
+  };
 
-  function validateChargeAmount(amount) {
+  const validateChargeAmount = (amount) => {
     if (isEmpty(amount)) {
       throw new Error('충전금액은 필수값입니다.');
     }
@@ -50,13 +50,13 @@ const VendingMachineManage = (function () {
         `충전금액은 ${VENDING_MACHINE.STEP_CHARGING_COIN} 단위여야 합니다.`
       );
     }
-  }
+  };
 
-  function handleChargingCoin(amount) {
+  const handleChargingCoin = (amount) => {
     validateChargeAmount(amount);
     updateChargeAmount(amount);
     updateChargeAmountFromLocalStorage(totalChargeAmount);
-  }
+  };
 
   return {
     chargeAmount: () => totalChargeAmount,
