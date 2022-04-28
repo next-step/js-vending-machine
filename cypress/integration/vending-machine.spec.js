@@ -473,7 +473,7 @@ describe('자판기', () => {
       cy.$productPurchaseAmountChargeSubmit().should('be.visible');
     });
 
-    it('보유 금액이 보인다.', () => {
+    it('충전 금액이 보인다.', () => {
       cy.$productPurchaseChargeAmount().should('be.visible');
     });
 
@@ -489,7 +489,7 @@ describe('자판기', () => {
     });
 
     describe('충전 테스트', () => {
-      it('충전금액을 입력하지 않고 충전하기를 눌렀을때 보유 금액이 변경되지 않는다.', () => {
+      it('충전금액을 입력하지 않고 충전하기를 눌렀을때 충전금액이 변경되지 않는다.', () => {
         cy.$productPurchaseAmountChargeSubmit()
           .click()
           .then(() => {
@@ -499,7 +499,61 @@ describe('자판기', () => {
                 valueMissing: true,
                 valid: false,
               });
-            cy.$productPurchaseChargeAmount().should('have.text', '0');
+            cy.$productPurchaseChargeAmount().should('have.text', 0);
+          });
+      });
+
+      it('충전 금액은 최소값 10을 넘겨야된다.(9)', () => {
+        cy.$productPurchaseAmountChargeInput().type(9);
+        cy.$productPurchaseAmountChargeSubmit()
+          .click()
+          .then(() => {
+            cy.$productPurchaseAmountChargeInput()
+              .invoke('prop', 'validity')
+              .should('deep.include', {
+                rangeUnderflow: true,
+                valid: false,
+              });
+            cy.$productPurchaseChargeAmount().should('have.text', 0);
+          });
+      });
+
+      it('충전 금액은 10 단위여야한다.(121)', () => {
+        cy.$productPurchaseAmountChargeInput().type(121);
+        cy.$productPurchaseAmountChargeSubmit()
+          .click()
+          .then(() => {
+            cy.$productPurchaseAmountChargeInput()
+              .invoke('prop', 'validity')
+              .should('deep.include', {
+                stepMismatch: true,
+                valid: false,
+              });
+            cy.$productPurchaseChargeAmount().should('have.text', 0);
+          });
+      });
+
+      it('충전금액을 입력하고 충전하기를 누르면 충전 금액이 입력된 만큼 변경된다.', () => {
+        cy.$productPurchaseAmountChargeInput().type(120);
+        cy.$productPurchaseAmountChargeSubmit()
+          .click()
+          .then(() => {
+            cy.$productPurchaseChargeAmount().should('have.text', 120);
+          });
+      });
+
+      it('충전금액을 입력하고 충전하기를 누른후 다시 충전하면 기존 충전한 금액과 합산된다.', () => {
+        cy.$productPurchaseAmountChargeInput().type(120);
+        cy.$productPurchaseAmountChargeSubmit()
+          .click()
+          .then(() => {
+            cy.$productPurchaseChargeAmount().should('have.text', 120);
+            cy.$productPurchaseAmountChargeInput().type(1000);
+            cy.$productPurchaseAmountChargeSubmit()
+              .click()
+              .then(() => {
+                cy.$productPurchaseChargeAmount().should('have.text', 1120);
+              });
           });
       });
     });
