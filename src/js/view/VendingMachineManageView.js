@@ -48,7 +48,10 @@ function coinTemplate({ name, quantity }) {
     'afterbegin',
     `
     <td>${name}원</td>
-    <td id="vending-machine-coin-${name}-quantity">${quantity}개</td>
+    <td id="vending-machine-coin-${name}-quantity"
+        data-test-name="${name}"
+        data-test-quantity="${quantity}"
+    >${quantity}개</td>
   `
   );
   $template.append($tr);
