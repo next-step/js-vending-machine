@@ -1,4 +1,4 @@
-export default abstract class AbstractView<Element extends HTMLElement, Obj extends StateTypes> {
+export default abstract class AbstractView<Element extends HTMLElement, Obj extends Object> {
   protected containerElement: Element;
   protected data!: Obj;
 
@@ -6,7 +6,7 @@ export default abstract class AbstractView<Element extends HTMLElement, Obj exte
     this.containerElement = document.querySelector('#app')! as Element;
   }
 
-  render(data: StateTypes): void {
+  render(data: Obj): void {
     this.clear();
 
     const markup = this.generateMarkup(data);
@@ -17,7 +17,7 @@ export default abstract class AbstractView<Element extends HTMLElement, Obj exte
     this.containerElement.innerHTML = '';
   }
 
-  generateMarkup(message: StateTypes): string {
+  generateMarkup(message: Obj): string {
     return /* html */ `
        <div>${message}</div>
      `;
