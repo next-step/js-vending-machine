@@ -99,10 +99,14 @@ const ProductPurchaseView = (() => {
     $chargeAmount().textContent = ProductPurchase.chargeAmount();
   };
 
+  const initializeChargeFields = () => {
+    $chargeAmountInput().value = null;
+  };
+
   const initialize = () => {
     updateChargeAmount();
     updateProductList();
-    $chargeAmountInput().value = null;
+    initializeChargeFields();
   };
 
   const handleChargingAmount = (event) => {
