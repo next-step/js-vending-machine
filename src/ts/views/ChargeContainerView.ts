@@ -14,16 +14,22 @@ class ChargeContainerView extends AbstractView<HTMLElement, Record<CoinKey, Coin
     });
   }
 
-  generateMarkup(coins: Record<CoinKey, CoinObj>): string {
-    const coinSum = Object.values(coins).reduce((accPrice: number, cur: CoinObj) => {
+  isCoinExist = (coins: Record<CoinKey, CoinObj>): coins is Record<CoinKey, CoinObj> => {
+    return (coins as Record<CoinKey, CoinObj>) !== undefined;
+  };
+
+  calculateCoinsSum = (coins: Record<CoinKey, CoinObj>) => {
+    return Object.values(coins).reduce((accPrice: number, cur: CoinObj) => {
       accPrice += cur.value * cur.count;
       return accPrice;
     }, 0);
+  };
 
+  generateMarkup(coins: Record<CoinKey, CoinObj>): string {
     const generateCoinMarkup = (coin: CoinObj): string => {
       return /* html */ ` <tr>
                     <td>${coin.value}원</td>
-                    <td id="vending-machine-coin-500-quantity">${coin.count}</td>
+                    <td>${coin.count}</td>
                 </tr>`;
     };
 
@@ -33,7 +39,8 @@ class ChargeContainerView extends AbstractView<HTMLElement, Record<CoinKey, Coin
             <input type="number" name="amount" id="vending-machine-charge-input" autofocus required/>
             <button id="vending-machine-charge-button">충전하기</button>
         </form>
-        <p>보유 금액: <span id="vending-machine-charge-amount">${coinSum}</span>원</p>
+        <p>보유 금액: <span id="vending-machine-charge-amount">
+        ${this.isCoinExist(coins) ? this.calculateCoinsSum(coins) : 0}</span>원</p>
         <h3>동전 보유 현황</h3>
         <table class="cashbox-remaining">
             <colgroup>
@@ -47,7 +54,11 @@ class ChargeContainerView extends AbstractView<HTMLElement, Record<CoinKey, Coin
                 </tr>
             </thead>
             <tbody>
-                ${Object.values(coins).map(generateCoinMarkup).join('')}
+                ${
+                  this.isCoinExist(coins)
+                    ? Object.values(coins).map(generateCoinMarkup).join('')
+                    : ''
+                }
             </tbody>
         </table>
 `;
