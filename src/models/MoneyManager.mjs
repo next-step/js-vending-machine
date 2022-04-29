@@ -14,7 +14,7 @@ class MoneyManager {
   #coin10Amount;
 
   constructor() {
-    this.#holdingMoney = Number(store.getValue(STORE_KEY.HOLDING_MONEY, 0));
+    this.#holdingMoney = store.getValue(STORE_KEY.HOLDING_MONEY, 0);
     this.#coin500Amount = store.getValue(STORE_KEY.COIN_500_AMOUNT, 0);
     this.#coin100Amount = store.getValue(STORE_KEY.COIN_100_AMOUNT, 0);
     this.#coin50Amount = store.getValue(STORE_KEY.COIN_50_AMOUNT, 0);
@@ -22,13 +22,13 @@ class MoneyManager {
   }
 
   get holdingMoney() {
-    return Number(this.#holdingMoney);
+    return this.#holdingMoney;
   }
 
   set holdingMoney(money) {
     this.#validateChargeMoney(money);
 
-    this.#holdingMoney += Number(money);
+    this.#holdingMoney += +money;
     store.setValue(STORE_KEY.HOLDING_MONEY, this.#holdingMoney);
   }
 
