@@ -59,9 +59,9 @@ const handleMenuContentSubmit = (event) => {
   }
 };
 
-const handleContentsButton = ({ target }) => {
-  if (isProductPurchaseButton(target.className)) {
-    ProductPurchaseView.handlePurchaseProduct(target);
+const handleContentsButton = (event) => {
+  if (isProductPurchaseButton(event.target.className)) {
+    ProductPurchaseView.handlePurchaseProduct(event);
   }
 };
 

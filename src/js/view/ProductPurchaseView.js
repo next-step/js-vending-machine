@@ -119,8 +119,8 @@ const ProductPurchaseView = (() => {
     }
   };
 
-  const handlePurchaseProduct = (target) => {
-    const productElement = target.parentNode.parentNode;
+  const handlePurchaseProduct = (event) => {
+    const productElement = event.target.parentNode.parentNode;
     try {
       ProductPurchase.purchase(productElement.dataset);
       initialize();
