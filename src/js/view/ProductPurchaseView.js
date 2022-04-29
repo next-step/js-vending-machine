@@ -120,9 +120,9 @@ const ProductPurchaseView = (() => {
   };
 
   const handlePurchaseProduct = (target) => {
-    const product = target.parentNode.parentNode;
+    const productElement = target.parentNode.parentNode;
     try {
-      ProductPurchase.purchase(product.dataset);
+      ProductPurchase.purchase(productElement.dataset);
       initialize();
     } catch (e) {
       alert(e.message);
