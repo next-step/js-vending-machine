@@ -22,8 +22,8 @@ describe('잔돈 충전 탭 관련 테스트', () => {
       const alertStub = cy.stub();
       cy.on('window:alert', alertStub);
 
-      cy.get(`#${SELECTOR.VENDING_MACHINE_CHARGE_INPUT_ID}`).type('90');
-      cy.get(`#${SELECTOR.VENDING_MACHINE_CHARGE_BUTTON_ID}`)
+      cy.get(`#${SELECTOR.VENDING_MACHINE_CHARGE_INPUT_ID}`)
+        .type('90{enter}')
         .click()
         .then(() => {
           expect(alertStub.getCall(0)).to.be.calledWith(ERROR_MESSAGE.CHARGE_INPUT_HAVE_TO_OVER_100);
@@ -34,8 +34,8 @@ describe('잔돈 충전 탭 관련 테스트', () => {
       const alertStub = cy.stub();
       cy.on('window:alert', alertStub);
 
-      cy.get(`#${SELECTOR.VENDING_MACHINE_CHARGE_INPUT_ID}`).type('115');
-      cy.get(`#${SELECTOR.VENDING_MACHINE_CHARGE_BUTTON_ID}`)
+      cy.get(`#${SELECTOR.VENDING_MACHINE_CHARGE_INPUT_ID}`)
+        .type('115{enter}')
         .click()
         .then(() => {
           expect(alertStub.getCall(0)).to.be.calledWith(ERROR_MESSAGE.CHARGE_INPUT_HAVE_TO_DIVIDED_BY_10);
@@ -47,8 +47,7 @@ describe('잔돈 충전 탭 관련 테스트', () => {
     it('잔돈 충전 금액이 잘 입력되었으면 보유 금액에 잘 반영되어야 합니다.', () => {
       const CHARGE_MONEY = 200;
 
-      cy.get(`#${SELECTOR.VENDING_MACHINE_CHARGE_INPUT_ID}`).type(`${CHARGE_MONEY}`);
-      cy.get(`#${SELECTOR.VENDING_MACHINE_CHARGE_BUTTON_ID}`).click();
+      cy.get(`#${SELECTOR.VENDING_MACHINE_CHARGE_INPUT_ID}`).type(`${CHARGE_MONEY} {enter}`);
 
       cy.get(`#${SELECTOR.VENDING_MACHINE_CHARGE_AMOUNT_ID}`).should('have.text', CHARGE_MONEY);
     });
@@ -57,11 +56,8 @@ describe('잔돈 충전 탭 관련 테스트', () => {
       const CHARGE_MONEY = 200;
       const MORE_CHARGE_MONEY = 500;
 
-      cy.get(`#${SELECTOR.VENDING_MACHINE_CHARGE_INPUT_ID}`).type(`${CHARGE_MONEY}`);
-      cy.get(`#${SELECTOR.VENDING_MACHINE_CHARGE_BUTTON_ID}`).click();
-
-      cy.get(`#${SELECTOR.VENDING_MACHINE_CHARGE_INPUT_ID}`).type(`${MORE_CHARGE_MONEY}`);
-      cy.get(`#${SELECTOR.VENDING_MACHINE_CHARGE_BUTTON_ID}`).click();
+      cy.get(`#${SELECTOR.VENDING_MACHINE_CHARGE_INPUT_ID}`).type(`${CHARGE_MONEY} {enter}`);
+      cy.get(`#${SELECTOR.VENDING_MACHINE_CHARGE_INPUT_ID}`).type(`${MORE_CHARGE_MONEY} {enter}`);
 
       cy.get(`#${SELECTOR.VENDING_MACHINE_CHARGE_AMOUNT_ID}`).should('have.text', CHARGE_MONEY + MORE_CHARGE_MONEY);
     });

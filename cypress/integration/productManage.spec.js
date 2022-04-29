@@ -9,9 +9,8 @@ describe('상품 추가하기 탭 관련 테스트', () => {
       cy.on('window:alert', alertStub);
 
       cy.get(`#${SELECTOR.PRODUCT_PRICE_INPUT_ID}`).type(1000);
-      cy.get(`#${SELECTOR.PRODUCT_QUANTITY_INPUT_ID}`).type(5);
-      cy.get(`#${SELECTOR.PRODUCT_ADD_BUTTON_ID}`)
-        .click()
+      cy.get(`#${SELECTOR.PRODUCT_QUANTITY_INPUT_ID}`)
+        .type('5{enter}')
         .then(() => {
           expect(alertStub.getCall(0)).to.be.calledWith(ERROR_MESSAGE.REQUIRED_PRODUCT_NAME);
         });
@@ -24,8 +23,8 @@ describe('상품 추가하기 탭 관련 테스트', () => {
       cy.on('window:alert', alertStub);
 
       cy.get(`#${SELECTOR.PRODUCT_NAME_INPUT_ID}`).type('apple');
-      cy.get(`#${SELECTOR.PRODUCT_QUANTITY_INPUT_ID}`).type(5);
-      cy.get(`#${SELECTOR.PRODUCT_ADD_BUTTON_ID}`)
+      cy.get(`#${SELECTOR.PRODUCT_QUANTITY_INPUT_ID}`)
+        .type('5{enter}')
         .click()
         .then(() => {
           expect(alertStub.getCall(0)).to.be.calledWith(ERROR_MESSAGE.REQUIRED_PRODUCT_PRICE);
@@ -38,8 +37,8 @@ describe('상품 추가하기 탭 관련 테스트', () => {
 
       cy.get(`#${SELECTOR.PRODUCT_NAME_INPUT_ID}`).type('apple');
       cy.get(`#${SELECTOR.PRODUCT_PRICE_INPUT_ID}`).type(10);
-      cy.get(`#${SELECTOR.PRODUCT_QUANTITY_INPUT_ID}`).type(5);
-      cy.get(`#${SELECTOR.PRODUCT_ADD_BUTTON_ID}`)
+      cy.get(`#${SELECTOR.PRODUCT_QUANTITY_INPUT_ID}`)
+        .type('5{enter}')
         .click()
         .then(() => {
           expect(alertStub.getCall(0)).to.be.calledWith(ERROR_MESSAGE.PRODUCT_PRICE_HAVE_TO_OVER_100);
@@ -52,8 +51,8 @@ describe('상품 추가하기 탭 관련 테스트', () => {
 
       cy.get(`#${SELECTOR.PRODUCT_NAME_INPUT_ID}`).type('apple');
       cy.get(`#${SELECTOR.PRODUCT_PRICE_INPUT_ID}`).type(999);
-      cy.get(`#${SELECTOR.PRODUCT_QUANTITY_INPUT_ID}`).type(5);
-      cy.get(`#${SELECTOR.PRODUCT_ADD_BUTTON_ID}`)
+      cy.get(`#${SELECTOR.PRODUCT_QUANTITY_INPUT_ID}`)
+        .type('5{enter}')
         .click()
         .then(() => {
           expect(alertStub.getCall(0)).to.be.calledWith(ERROR_MESSAGE.PRODUCT_PRICE_HAVE_TO_DIVIDED_BY_10);
@@ -67,8 +66,8 @@ describe('상품 추가하기 탭 관련 테스트', () => {
       cy.on('window:alert', alertStub);
 
       cy.get(`#${SELECTOR.PRODUCT_NAME_INPUT_ID}`).type('hi');
-      cy.get(`#${SELECTOR.PRODUCT_PRICE_INPUT_ID}`).type(1000);
-      cy.get(`#${SELECTOR.PRODUCT_ADD_BUTTON_ID}`)
+      cy.get(`#${SELECTOR.PRODUCT_PRICE_INPUT_ID}`)
+        .type('1000{enter}')
         .click()
         .then(() => {
           expect(alertStub.getCall(0)).to.be.calledWith(ERROR_MESSAGE.REQUIRED_PRODUCT_QUANTITY);
@@ -81,8 +80,8 @@ describe('상품 추가하기 탭 관련 테스트', () => {
 
       cy.get(`#${SELECTOR.PRODUCT_NAME_INPUT_ID}`).type('hi');
       cy.get(`#${SELECTOR.PRODUCT_PRICE_INPUT_ID}`).type(1000);
-      cy.get(`#${SELECTOR.PRODUCT_QUANTITY_INPUT_ID}`).type(-1);
-      cy.get(`#${SELECTOR.PRODUCT_ADD_BUTTON_ID}`)
+      cy.get(`#${SELECTOR.PRODUCT_QUANTITY_INPUT_ID}`)
+        .type('-1{enter}')
         .click()
         .then(() => {
           expect(alertStub.getCall(0)).to.be.calledWith(ERROR_MESSAGE.PRODUCT_QUANTITY_HAVE_TO_OVER_1);
@@ -94,8 +93,7 @@ describe('상품 추가하기 탭 관련 테스트', () => {
     it('모든 데이터가 잘 입력되었다면 테이블에 상품이 추가됩니다.', () => {
       cy.get(`#${SELECTOR.PRODUCT_NAME_INPUT_ID}`).type('hello');
       cy.get(`#${SELECTOR.PRODUCT_PRICE_INPUT_ID}`).type(1000);
-      cy.get(`#${SELECTOR.PRODUCT_QUANTITY_INPUT_ID}`).type(5);
-      cy.get(`#${SELECTOR.PRODUCT_ADD_BUTTON_ID}`).click();
+      cy.get(`#${SELECTOR.PRODUCT_QUANTITY_INPUT_ID}`).type('5{enter}');
 
       cy.get(`#${SELECTOR.PRODUCT_INVENTORY_CONTAINER_ID}`)
         .first()
@@ -111,13 +109,11 @@ describe('상품 추가하기 탭 관련 테스트', () => {
     it('기존에 존재하던 상품이 추가되면 내용을 덮어씌웁니다.', () => {
       cy.get(`#${SELECTOR.PRODUCT_NAME_INPUT_ID}`).type('hello');
       cy.get(`#${SELECTOR.PRODUCT_PRICE_INPUT_ID}`).type(1000);
-      cy.get(`#${SELECTOR.PRODUCT_QUANTITY_INPUT_ID}`).type(5);
-      cy.get(`#${SELECTOR.PRODUCT_ADD_BUTTON_ID}`).click();
+      cy.get(`#${SELECTOR.PRODUCT_QUANTITY_INPUT_ID}`).type('5{enter}');
 
       cy.get(`#${SELECTOR.PRODUCT_NAME_INPUT_ID}`).type('hello');
       cy.get(`#${SELECTOR.PRODUCT_PRICE_INPUT_ID}`).type(10000);
-      cy.get(`#${SELECTOR.PRODUCT_QUANTITY_INPUT_ID}`).type(50);
-      cy.get(`#${SELECTOR.PRODUCT_ADD_BUTTON_ID}`).click();
+      cy.get(`#${SELECTOR.PRODUCT_QUANTITY_INPUT_ID}`).type('50{enter}');
 
       cy.get(`#${SELECTOR.PRODUCT_INVENTORY_CONTAINER_ID}`)
         .first()
