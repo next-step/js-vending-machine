@@ -86,24 +86,24 @@ const ProductManageView = (() => {
     $productQuantityInput().value = null;
   };
 
+  const initialize = () => {
+    updateProductList();
+    initializeProductFields();
+  };
+
   const handleProductAdd = (event) => {
     event.preventDefault();
     try {
       ProductManage.addProduct(
         new Product(convertFormDataToObject(new FormData(event.target)))
       );
-      updateProductList();
-      initializeProductFields();
+      initialize();
     } catch (e) {
       alert(e.message);
     }
   };
 
   const contents = () => productManageTemplate();
-
-  const initialize = () => {
-    updateProductList();
-  };
 
   return { contents, initialize, handleProductAdd };
 })();

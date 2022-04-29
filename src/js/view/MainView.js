@@ -2,6 +2,7 @@ import ProductManageView from './ProductManageView.js';
 import VendingMachineManageView from './VendingMachineManageView.js';
 import { FORM } from '../constants/content-constant.js';
 import ProductPurchaseView from './ProductPurchaseView.js';
+import { PRODUCT_PURCHASE_BUTTON } from '../constants/purchase-constant.js';
 
 const $app = document.querySelector('#app');
 const $productManageMenuSubmit = document.getElementById('product-manage-menu');
@@ -19,6 +20,9 @@ const isVendingMachineManageContent = (formId) =>
 
 const isProductPurchaseContent = (formId) => formId === FORM.PRODUCT_PURCHASE;
 
+const isProductPurchaseButton = (className) =>
+  className === PRODUCT_PURCHASE_BUTTON;
+
 const changeAppContents = (template) => {
   $app.replaceChildren(template);
 };
@@ -35,6 +39,7 @@ const handleVendingMachineManageMenu = () => {
 
 const handleProductPurchaseMenu = () => {
   changeAppContents(ProductPurchaseView.contents());
+  ProductPurchaseView.initialize();
 };
 
 const handleMenuContentSubmit = (event) => {
@@ -51,6 +56,12 @@ const handleMenuContentSubmit = (event) => {
 
   if (isProductPurchaseContent(formId)) {
     ProductPurchaseView.handleChargingAmount(event);
+  }
+};
+
+const handleContentsButton = ({ target }) => {
+  if (isProductPurchaseButton(target.className)) {
+    ProductPurchaseView.handlePurchaseProduct(target);
   }
 };
 
@@ -75,6 +86,7 @@ const eventBindings = () => {
     handleProductPurchaseMenu
   );
   $app.addEventListener('submit', handleMenuContentSubmit);
+  $app.addEventListener('click', handleContentsButton);
   $app.addEventListener('keypress', preventEmptyKeypress);
 };
 
