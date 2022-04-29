@@ -21,7 +21,11 @@ const VendingMachineManage = (() => {
   let totalChargeAmount = getChargeAmountFromLocalStorage() ?? 0;
 
   const updateChargeAmount = (amount) => {
-    totalChargeAmount += Number(amount);
+    totalChargeAmount = amount;
+  };
+
+  const chargingAmount = (amount) => {
+    updateChargeAmount(totalChargeAmount + Number(amount));
   };
 
   const chargeCoinList = () => {
@@ -54,7 +58,7 @@ const VendingMachineManage = (() => {
 
   const handleChargingCoin = (amount) => {
     validateChargeAmount(amount);
-    updateChargeAmount(amount);
+    chargingAmount(amount);
     updateChargeAmountFromLocalStorage(totalChargeAmount);
   };
 

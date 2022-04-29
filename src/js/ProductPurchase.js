@@ -1,11 +1,20 @@
 import { PURCHASE } from './constants/purchase-constant.js';
 import ProductManage from './ProductManage.js';
 
+const LOCALSTORAGE_PRODUCT_PURCHASE_KEY = 'circlegivenProductPurchase';
+
+const getAmountFromLocalStorage = () =>
+  JSON.parse(localStorage.getItem(LOCALSTORAGE_PRODUCT_PURCHASE_KEY));
+
+const updateAmountFromLocalStorage = (amount) => {
+  localStorage.setItem(LOCALSTORAGE_PRODUCT_PURCHASE_KEY, amount);
+};
+
 const isEmpty = (value) =>
   value === undefined || value === null || value.trim() === '';
 
 const ProductPurchase = (() => {
-  let totalChargeAmount = 0;
+  let totalChargeAmount = getAmountFromLocalStorage() ?? 0;
 
   const updateChargeAmount = (amount) => {
     totalChargeAmount = amount;
@@ -45,12 +54,14 @@ const ProductPurchase = (() => {
   const handleChargingAmount = (amount) => {
     validateChargeAmount(amount);
     chargingAmount(amount);
+    updateAmountFromLocalStorage(totalChargeAmount);
   };
 
   const handlePurchase = (product) => {
     validatePurchase(product.price);
     ProductManage.purchaseProduct(product.name);
     subtractAmount(product.price);
+    updateAmountFromLocalStorage(totalChargeAmount);
   };
 
   return {

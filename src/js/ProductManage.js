@@ -15,7 +15,7 @@ const updateProductListFromLocalStorage = (productList) => {
 };
 
 const ProductManage = (() => {
-  let productList = getProductListFromLocalStorage() ?? [];
+  let productList = getProductListFromLocalStorage();
 
   const isExistProduct = (product) =>
     productList.some((addedProduct) => product.name === addedProduct.name);
