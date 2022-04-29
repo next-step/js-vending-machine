@@ -31,22 +31,15 @@ class VendingMachineController {
 
   initEvents() {
     window.addEventListener('hashchange', this.handleHashChange.bind(this));
-    $(`#${SELECTOR.APP_ID}`).addEventListener('click', event => this.handleClickEvent(event));
     $(`#${SELECTOR.APP_ID}`).addEventListener('submit', event => this.handleSubmitEvent(event));
-  }
-
-  handleClickEvent(event) {
-    const targetId = event.target.id;
-
-    if (targetId === SELECTOR.PRODUCT_ADD_BUTTON_ID) this.productManageController.addProduct();
-    if (targetId === SELECTOR.VENDING_MACHINE_CHARGE_BUTTON_ID) this.vendingMachineManageController.chargeMoney();
   }
 
   handleSubmitEvent(event) {
     event.preventDefault();
-    const { submitter } = event.target;
+    const { id: submitterId } = event.submitter;
 
-    if (submitter === SELECTOR.VENDING_MACHINE_CHARGE_BUTTON_ID) this.vendingMachineManageController.chargeMoney();
+    if (submitterId === SELECTOR.PRODUCT_ADD_BUTTON_ID) this.productManageController.addProduct();
+    if (submitterId === SELECTOR.VENDING_MACHINE_CHARGE_BUTTON_ID) this.vendingMachineManageController.chargeMoney();
   }
 
   handleHashChange() {
