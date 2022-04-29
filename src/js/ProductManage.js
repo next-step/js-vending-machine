@@ -60,6 +60,7 @@ const ProductManage = (() => {
       enableEmptyQuantity: true,
     });
     updateProduct(changedProduct);
+    updateProductListFromLocalStorage(productList);
   };
 
   return {
