@@ -32,7 +32,7 @@ class ChargeContainerView extends AbstractView<HTMLElement, Record<CoinKey, Coin
     const generateCoinMarkup = (coin: CoinObj): string => {
       return /* html */ ` <tr>
                     <td>${coin.value}원</td>
-                    <td>${coin.count}</td>
+                    <td>${coin.count}개</td>
                 </tr>`;
     };
 
