@@ -37,7 +37,7 @@ export const loadData = <Obj extends StateTypes>(path: PathType): Obj => {
   }
 };
 
-const sortProduct = (): void => {
+const sortProduct = () => {
   state.products = Array.from(<Array<Product>>state.products).sort((a: Product, b: Product) => {
     return a.name.localeCompare(b.name) || a.price - b.price || b.quantity - a.quantity;
   });

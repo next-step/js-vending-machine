@@ -6,7 +6,7 @@ export default abstract class AbstractView<Element extends HTMLElement, Obj exte
     this.containerElement = document.querySelector('#app')! as Element;
   }
 
-  render(data: Obj): void {
+  render(data: Obj) {
     this.clear();
     this.renderDiff(data);
   }
@@ -15,7 +15,7 @@ export default abstract class AbstractView<Element extends HTMLElement, Obj exte
     return this.containerElement.querySelectorAll('*') === null;
   }
 
-  renderDiff(data: Obj): void {
+  renderDiff(data: Obj) {
     const markup = this.generateMarkup(data);
     const newDom = document.createRange().createContextualFragment(markup);
     const newElements = Array.from(newDom.querySelectorAll('*'));
@@ -34,7 +34,7 @@ export default abstract class AbstractView<Element extends HTMLElement, Obj exte
     });
   }
 
-  clear(): void {
+  clear() {
     this.containerElement.replaceChildren();
   }
 

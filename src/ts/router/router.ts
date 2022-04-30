@@ -1,7 +1,7 @@
 import { PageList, PathType, PageType, PAGE } from './pages';
 import * as model from '../model';
 
-const route = (): void => {
+const route = () => {
   const path = <PathType>location.hash.substring(1) || PAGE.products.path;
   const currentView = <PageType>PageList.find(page => path === page.path);
 

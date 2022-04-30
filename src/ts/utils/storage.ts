@@ -1,7 +1,7 @@
 import { ValidationError } from './errorValidation';
 import { ERROR } from './message';
 
-export const setItem = (key: string, value: Object): void => {
+export const setItem = (key: string, value: Object) => {
   try {
     localStorage.setItem(key, JSON.stringify(value));
   } catch (err) {
