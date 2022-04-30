@@ -28,6 +28,17 @@ caption {
   text-align: right;
 }
 
+table {
+  border: 10px dotted #555;
+  border-collapse: collapse;
+}
+
+thead{
+  background-color: var(--primary-color);
+  overflow: hidden;
+  color: #fff;
+  border-top: 11px solid #
+}
 
 .purchase-available,
 .product-inventory,
@@ -123,6 +134,7 @@ input[type='text'] {
   all: unset;
   font-size: 0.825rem;
   padding: 0.5rem;
+  margin : 0.4rem;
   background: white;
   text-align: left;
   border: 1px solid #afafaf;
@@ -205,10 +217,9 @@ button:active {
 .purchase-available,
 .cashbox-change,
 .product-inventory {
-  border-radius: 10px;
   border-collapse: collapse;
   border-style: hidden;
-  box-shadow: 0 0 0 1px rgb(66, 66, 66);
+  background-color: #d1f2f6;
 }
 
 .purchase-available td,
@@ -219,5 +230,5 @@ button:active {
 .product-inventory th,
 .cashbox-change th,
 .cashbox-remaining th {
-  border: 1px solid rgb(66, 66, 66);
+  border: 1px solid #fff;
 }
