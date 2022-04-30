@@ -5,7 +5,7 @@ const route = (): void => {
   const path = <PathType>location.hash.substring(1) || PAGE.products.path;
   const currentView = <PageType>PageList.find(page => path === page.path);
 
-  //TODO: is type guard 구문으로 바꾸기
+  // TODO: is type guard 구문으로 바꾸기
   document.querySelector('a.active')?.classList.remove('active');
   document.querySelector(`a[href="#${path}"]`)?.classList.add('active');
 
@@ -22,7 +22,9 @@ const route = (): void => {
   }
 };
 
-export const router = () => {
+const router = () => {
   window.addEventListener('DOMContentLoaded', route);
   window.addEventListener('hashchange', route);
 };
+
+export default router;

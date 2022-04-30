@@ -3,7 +3,6 @@ import ChargeContainerView from './views/ChargeContainerView';
 
 import { ValidationError } from './utils/errorValidation';
 import * as model from './model';
-import { router } from './router/router';
 
 const addProduct = (product: Product) => {
   try {
@@ -26,10 +25,8 @@ const chargeCoin = (coin: number) => {
   }
 };
 
-const init = () => {
+export default () => {
   ProductContainerView.subscribeAddProduct(addProduct);
   ChargeContainerView.subscribeChargeCoin(chargeCoin);
-  router();
 };
 
-init();
