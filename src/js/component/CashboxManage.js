@@ -1,11 +1,12 @@
-import VendingMachineCharge from "../domain/VendingMachineCharge.js";
+import Cashbox from "../domain/Cashbox.js";
 
-export default class VendingMachineManage {
-    constructor(vendingMachineCharge, props) {
-        this.vendingMachineCharge = vendingMachineCharge;
+export default class CashboxManage {
+    constructor(cashbox, props) {
+        this.cashbox = cashbox;
         this.props = props;
     }
-    setVendingMachineManage() {
+
+    initialize() {
         this.#render();
         this.#mounted();
     }
@@ -21,7 +22,7 @@ export default class VendingMachineManage {
             .addEventListener("submit", (event) => this.#onSubmitVendingMachineCharge(event));
     }
 
-    #onSubmitVendingMachineCharge(event) { 
+    #onSubmitVendingMachineCharge(event) {
         event.preventDefault();
         this.props.onVendingMachine(document.querySelector("#vending-machine-charge-input").value);
         document.querySelector("#vending-machine-charge-input").value = "";
@@ -34,16 +35,14 @@ export default class VendingMachineManage {
 
     #setHaveCharge() {
         document.querySelector("#vending-machine-charge-amount").replaceChildren();
-        document
-            .querySelector("#vending-machine-charge-amount")
-            .insertAdjacentText("afterbegin", this.vendingMachineCharge.charge);
+        document.querySelector("#vending-machine-charge-amount").insertAdjacentText("afterbegin", this.cashbox.charge);
     }
 
     #setHaveCoins() {
         let amount = 0;
 
-        VendingMachineCharge.COINS.forEach((coin) => {
-            amount = this.vendingMachineCharge.coins[coin];
+        Cashbox.COINS.forEach((coin) => {
+            amount = this.cashbox.coins[coin];
             if (amount !== 0) {
                 document.querySelector(`#vending-machine-coin-${coin}-quantity`).innerHTML = `${amount}개`;
             } else {
@@ -61,7 +60,7 @@ export default class VendingMachineManage {
                 <button id="vending-machine-charge-button">충전하기</button>
             </form>
         </div>
-        <p>보유 금액: <span id="vending-machine-charge-amount">${this.vendingMachineCharge.charge}</span>원</p>
+        <p>보유 금액: <span id="vending-machine-charge-amount">${this.cashbox.charge}</span>원</p>
         <h3>동전 보유 현황</h3>
         <table class="cashbox-remaining">
             <colgroup>
@@ -75,7 +74,7 @@ export default class VendingMachineManage {
                 </tr>
             </thead>
             <tbody>
-                ${VendingMachineCharge.COINS.map((coin) => this.#getCoinTemplate(coin)).join("")}
+                ${Cashbox.COINS.map((coin) => this.#getCoinTemplate(coin)).join("")}
             </tbody>
         </table>
         `;
@@ -86,7 +85,7 @@ export default class VendingMachineManage {
             <tr>
                 <td>${coin}원</td>
                 <td id="vending-machine-coin-${coin}-quantity">
-                ${this.vendingMachineCharge.coins[coin] === 0 ? "" : this.vendingMachineCharge.coins[coin] + "개"}
+                ${this.cashbox.coins[coin] === 0 ? "" : this.cashbox.coins[coin] + "개"}
                 </td>
             </tr>
         `;

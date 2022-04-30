@@ -7,7 +7,7 @@ export default class ProductManage {
         this.props = props;
     }
 
-    setProductManage() {
+    initialize() {
         this.#render();
         this.#mounted();
     }
@@ -23,12 +23,14 @@ export default class ProductManage {
         this.$productQuantityInput = document.querySelector("#product-quantity-input");
         this.$productcontainerForm = document.querySelector("#product-container-form");
 
-        document.querySelector("#product-input-form").addEventListener("submit", (event) => this.#onSubmitProduct(event));
+        document
+            .querySelector("#product-input-form")
+            .addEventListener("submit", (event) => this.#onSubmitProduct(event));
     }
 
     #onSubmitProduct(event) {
         event.preventDefault();
-    
+
         this.props.onAddProduct(
             this.$productNameInput.value,
             this.$productPriceInput.value,

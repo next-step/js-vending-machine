@@ -1,4 +1,4 @@
-import VendingMachineCharge from "../domain/VendingMachineCharge.js";
+import Cashbox from "../domain/Cashbox.js";
 
 export const PRODUCT_ID = "VENDING_MACHINE_PRODUCT";
 export const CHARGE_ID = "VENDING_MACHINE_CHARGE";
@@ -21,7 +21,7 @@ export const getCharge = () => {
 
 export const getCoins = () => {
     const coinsData = localStorage.getItem(COINS_ID);
-    return coinsData ? JSON.parse(coinsData) : VendingMachineCharge.getInitCoins();
+    return coinsData ? JSON.parse(coinsData) : Cashbox.getInitCoins();
 };
 
 export const getChange = () => {

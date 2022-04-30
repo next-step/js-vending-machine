@@ -1,4 +1,4 @@
-import VendingMachineCharge from "../domain/VendingMachineCharge.js";
+import VendingMachineCharge from "../domain/Cashbox.js";
 
 export default class ProductPurchase {
     products;
@@ -13,26 +13,33 @@ export default class ProductPurchase {
         this.props = props;
     }
 
-    render() {
+    initialize() {
+        this.#render();
+        this.#mounted();
+    }
+
+    #render() {
         document.querySelector("#app").replaceChildren();
         document.querySelector("#app").insertAdjacentHTML("afterbegin", this.#getTemplate());
     }
 
-    mounted() {
+    #mounted() {
         document.querySelector(`#charge-input-form`).addEventListener("submit", (event) => this.#onSubmit(event));
         document.querySelectorAll(".purchase-button").forEach((element) => {
-            console.log(111);
             element.addEventListener("click", (event) => this.onPurchase(event));
         });
+        document.querySelector("#coin-return-button").addEventListener("click", () => this.onCoinReturn());
     }
 
     onPurchase(event) {
-        console.log(event.target.dataset);
+        this.props.onPurchase(event.target.dataset.productName);
     }
 
     setCharge() {
         document.querySelector("#charge-amount").innerHTML = this.change.value;
     }
+
+    onCoinReturn() {}
 
     #onSubmit(event) {
         event.preventDefault();
@@ -49,6 +56,10 @@ export default class ProductPurchase {
         ${this.#getPurchaseProductTemplate()}
         ${this.#getChangeTemplate()}
         `;
+    }
+
+    setVendingMachineState() {
+        this.setCharge();
     }
 
     #getChargeTemplate() {

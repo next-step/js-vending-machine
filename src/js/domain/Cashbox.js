@@ -1,7 +1,7 @@
-import { vendingMachineChargeException } from "../exception/VendingMachineChargeException.js";
+import { cashboxException } from "../exception/CashboxException.js";
 import { getCharge, getCoins } from "../service/index.js";
 
-export default class VendingMachineCharge {
+export default class Cashbox {
     static MIN_CHARGE = 0;
     static CHARGE_UNIT = 10;
     static COINS = [500, 100, 50, 10];
@@ -16,15 +16,15 @@ export default class VendingMachineCharge {
 
     static validate(charge) {
         if (!charge) {
-            throw vendingMachineChargeException.notExistCharge();
+            throw cashboxException.notExistCharge();
         }
 
-        if (charge === VendingMachineCharge.MIN_CHARGE) {
-            throw vendingMachineChargeException.outOfRangeCharge();
+        if (charge === Cashbox.MIN_CHARGE) {
+            throw cashboxException.outOfRangeCharge();
         }
 
-        if (charge % VendingMachineCharge.CHARGE_UNIT !== 0) {
-            throw vendingMachineChargeException.notMatchChargeUnit();
+        if (charge % Cashbox.CHARGE_UNIT !== 0) {
+            throw cashboxException.notMatchChargeUnit();
         }
     }
 
@@ -39,9 +39,9 @@ export default class VendingMachineCharge {
 
     computeCharge(charge) {
         let remainCharge = charge;
-        let chargeCoin = VendingMachineCharge.getInitCoins();
+        let chargeCoin = Cashbox.getInitCoins();
 
-        VendingMachineCharge.COINS.forEach((coin) => {
+        Cashbox.COINS.forEach((coin) => {
             if (coin !== 10) {
                 chargeCoin[coin] = this.#getCoinAmount(remainCharge, coin);
                 remainCharge = remainCharge - coin * chargeCoin[coin];
@@ -63,7 +63,7 @@ export default class VendingMachineCharge {
     }
 
     setHaveCoins(chargeCoin) {
-        VendingMachineCharge.COINS.forEach((coin) => {
+        Cashbox.COINS.forEach((coin) => {
             this.#haveCoins[coin] += chargeCoin[coin];
         });
     }
