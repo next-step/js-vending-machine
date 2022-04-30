@@ -6,11 +6,14 @@ class ChargeContainerView extends AbstractView<HTMLElement, Record<CoinKey, Coin
   }
 
   subscribeChargeCoin(chargeCoinHandler: (coin: number) => void) {
-    this.containerElement.addEventListener('submit', () => {
-      const chargeAmount = <HTMLInputElement>(
-        this.containerElement.querySelector('input[name="amount"]')
-      );
-      chargeCoinHandler(chargeAmount.valueAsNumber);
+    this.containerElement.addEventListener('submit', (event: Event | SubmitEvent) => {
+      event.preventDefault();
+      if ((event.target.className = 'charge-form')) {
+        const dataArray = [...new FormData(event.target)];
+        const amount = Object.fromEntries(dataArray)['amount'];
+
+        chargeCoinHandler(amount);
+      }
     });
   }
 
@@ -35,7 +38,7 @@ class ChargeContainerView extends AbstractView<HTMLElement, Record<CoinKey, Coin
 
     return /* html */ `
         <h3>자판기 돈통 충전하기</h3>
-        <form class="vending-machine-wrapper">
+        <form class="charge-form">
             <input type="number" name="amount" id="vending-machine-charge-input" autofocus required/>
             <button id="vending-machine-charge-button">충전하기</button>
         </form>
