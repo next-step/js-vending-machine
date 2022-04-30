@@ -8,13 +8,34 @@ export default abstract class AbstractView<Element extends HTMLElement, Obj exte
 
   render(data: Obj): void {
     this.clear();
+    this.renderDiff(data);
+  }
 
+  isEverRendered() {
+    return this.containerElement.querySelectorAll('*') === null;
+  }
+
+  renderDiff(data: Obj): void {
     const markup = this.generateMarkup(data);
-    this.containerElement.insertAdjacentHTML('afterbegin', markup);
+    const newDom = document.createRange().createContextualFragment(markup);
+    const newElements = Array.from(newDom.querySelectorAll('*'));
+    const curElements = Array.from(this.containerElement.querySelectorAll('*'));
+
+    if (!this.isEverRendered()) {
+      this.containerElement.replaceChildren(newDom);
+      return;
+    }
+
+    newElements.forEach((el, i) => {
+      const curEl = curElements[i];
+      if (!el.isEqualNode(curEl) && el.firstChild?.nodeValue.trim() !== '') {
+        curEl.textContent = el.firstChild.textContent;
+      }
+    });
   }
 
   clear(): void {
-    this.containerElement.innerHTML = '';
+    this.containerElement.replaceChildren();
   }
 
   generateMarkup(message: Obj): string {
