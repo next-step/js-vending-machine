@@ -2,7 +2,7 @@
 
 :root {
   --primary-color: #00bcd4;
-  --danger-color : #dc3545;
+  --danger-color: #dc3545;
 }
 
 a {
@@ -14,14 +14,20 @@ a {
   padding: 0.3rem 0.45rem;
 }
 
-a.active{
+a.active {
   box-shadow: 0 0 0 0.15rem rgb(179, 237, 245);
 }
 
-a:hover{
+a:hover {
   background-color: var(--primary-color);
   color: #fff;
 }
+
+caption {
+  font-size: 0.8rem;
+  text-align: right;
+}
+
 
 .purchase-available,
 .product-inventory,
@@ -124,8 +130,8 @@ input[type='text'] {
   width: calc(100% - 6.125rem);
 }
 
-input:focus{
-    box-shadow: 0 0 0 0.2rem var(--primary-color);
+input:focus {
+  box-shadow: 0 0 0 0.2rem var(--primary-color);
 }
 
 #charge-button,
@@ -144,15 +150,14 @@ button {
   padding: 0.3rem 0.45rem;
 }
 
-button.active{
+button.active {
   box-shadow: 0 0 0 0.15rem rgb(179, 237, 245);
 }
 
-button:hover{
+button:hover {
   background-color: var(--primary-color);
   color: #fff;
 }
-
 
 section p {
   border: 1px dashed rgb(70, 70, 70);
@@ -216,4 +221,3 @@ button:active {
 .cashbox-remaining th {
   border: 1px solid rgb(66, 66, 66);
 }
-

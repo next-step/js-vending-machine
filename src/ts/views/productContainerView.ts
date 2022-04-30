@@ -37,6 +37,7 @@ class ProductContainerView extends AbstractView<HTMLElement, Array<Product>> {
         <button type="submit" id="product-add-button">추가하기</button>
     </form>
     <table class="product-inventory">
+        <caption> 상품은 이름, 가격, 수량 순으로 정렬됩니다. </caption>
         <colgroup>
             <col style="width: 140px" />
             <col style="width: 100px" />
