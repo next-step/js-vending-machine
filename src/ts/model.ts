@@ -1,5 +1,5 @@
 import { getItem, setItem } from './utils/storage';
-import { PRODUCT_CONFIG } from './utils/config';
+import { PRODUCT_CONFIG, COIN_CONFIG } from './utils/config';
 import { ERROR } from './utils/message';
 import { ValidationError } from './utils/errorValidation';
 import { generateRandomNumber } from './utils/randomGenerator';
@@ -45,13 +45,13 @@ const sortProduct = () => {
 
 const validateNewProduct = (newProduct: Product) => {
   if (newProduct.price < PRODUCT_CONFIG.MIN_PRICE) {
-    throw new ValidationError(ERROR.LESS_THAN_MIN_PRICE);
+    throw new ValidationError(ERROR.PRODUCT_LESS_THAN_MIN_PRICE);
   }
   if (newProduct.quantity < PRODUCT_CONFIG.MIN_QUANTITY) {
-    throw new ValidationError(ERROR.LESS_THAN_MIN_QUANTITY);
+    throw new ValidationError(ERROR.PRODUCT_LESS_THAN_MIN_QUANTITY);
   }
   if (newProduct.price % PRODUCT_CONFIG.SHOULD_BE_DIVIDED !== 0) {
-    throw new ValidationError(ERROR.NOT_DIVIDED_PRICE);
+    throw new ValidationError(ERROR.PRODUCT_NOT_DIVIDED_PRICE);
   }
 };
 
@@ -73,8 +73,19 @@ export const addProduct = (newProduct: Product): Array<Product> => {
   }
 };
 
+const validateCoin = (inputPrice: number) => {
+  if (inputPrice < COIN_CONFIG.MIN_PRICE) {
+    throw new ValidationError(ERROR.COIN_LESS_THAN_MIN_PRICE);
+  }
+  debugger;
+  if (inputPrice % COIN_CONFIG.SHOULD_BE_DIVIDED !== 0) {
+    throw new ValidationError(ERROR.COIN_NOT_DIVIDED_PRICE);
+  }
+};
+
 export const chargeCoin = (inputPrice: number) => {
   try {
+    validateCoin(inputPrice);
     while (inputPrice > 0) {
       const randomCoinKey = <CoinKey>(
         Object.keys(state.coins)[generateRandomNumber(0, Object.keys(state.coins).length - 1)]

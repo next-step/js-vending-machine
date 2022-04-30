@@ -21,7 +21,10 @@ const chargeCoin = (coin: number) => {
     const coins = model.chargeCoin(coin);
     ChargeContainerView.render(coins);
   } catch (err) {
-    console.log(err);
+    if (err instanceof ValidationError) {
+      alert(err.message);
+      return;
+    }
   }
 };
 
