@@ -1,45 +1,47 @@
-import Charge from "../domain/Charge.js";
-import Machine from "../domain/Machine.js";
+import Change from "../domain/Change.js";
 import Products from "../domain/Products.js";
-import Cashbox from "../domain/Cashbox.js";
-import { CHANGE_ID, CHARGE_ID, COINS_ID, getProducts, PRODUCT_ID, setLocalStorage } from "../service/index.js";
+import VendingMachineCharge from "../domain/VendingMachineCharge.js";
+import {
+    CHANGE_ID,
+    CHARGE_ID,
+    COINS_ID,
+    getCharge,
+    getProducts,
+    PRODUCT_ID,
+    setLocalStorage,
+} from "../service/index.js";
 import Menus from "./Menus.js";
 import ProductManage from "./ProductManage.js";
 import ProductPurchase from "./ProductPurchase.js";
-import CashboxManage from "./CashboxManage.js";
+import VendingMachineManage from "./VendingMachineManage.js";
 
 export default class VendingMachine {
     products;
-    cashbox;
-    charge;
+    change;
 
     constructor() {
         this.products = new Products(getProducts());
-        this.cashbox = new Cashbox();
-        this.charge = new Charge(this.cashbox);
+        this.vendingMachineCharge = new VendingMachineCharge(getCharge());
+        this.change = new Change();
         new Menus({
             onProductManage: () => this.onProductManage(),
             onVendingMachineManage: () => this.#onVendingMachineManage(),
             onProductPurchase: () => this.#onProductPurchase(),
         });
         this.productManage = new ProductManage(this.products, {
-            onAddProduct: (name, price, quantity) => this.onAddProduct(name, price, quantity),
+            onAddProduct: this.onAddProduct.bind(this),
         });
-        this.cashboxManage = new CashboxManage(this.cashbox, {
-            onVendingMachine: (charge) => this.#onVendingMachineCharge(charge),
+        this.vendingMachineManage = new VendingMachineManage(this.vendingMachineCharge, {
+            onVendingMachine: this.#onVendingMachineCharge.bind(this),
         });
-        this.productPurchase = new ProductPurchase(this.products, this.cashbox, this.charge, {
-            onChargeChange: (charge) => this.onChargeChange(charge),
-            onPurchase: (product) => this.#onPurchase(product),
-            onReturn: () => this.#onReturn(),
+        this.productPurchase = new ProductPurchase(this.products, this.vendingMachineCharge, this.change, {
+            onChargeChange: this.onChargeChange.bind(this),
         });
-        this.machine = new Machine(this.products, this.charge);
-
         this.onProductManage();
     }
 
     onProductManage() {
-        this.productManage.initialize();
+        this.productManage.setProductManage();
     }
 
     onAddProduct(name, price, quantity) {
@@ -54,21 +56,10 @@ export default class VendingMachine {
 
     onChargeChange(charge) {
         try {
-            this.charge.validate(charge);
-            this.charge.value = this.charge.value + charge;
+            this.change.validate(charge);
+            this.change.value = charge;
             this.productPurchase.setCharge();
-            setLocalStorage(CHANGE_ID, this.charge.value);
-        } catch (error) {
-            alert(error.message);
-        }
-    }
-
-    #onPurchase(product) {
-        try {
-            this.machine.onPurcharse(product);
-            this.productPurchase.setVendingMachineState(product);
-            setLocalStorage(CHANGE_ID, this.charge.value);
-            setLocalStorage(PRODUCT_ID, this.products.value);
+            setLocalStorage(CHANGE_ID, this.change.value);
         } catch (error) {
             alert(error.message);
         }
@@ -76,28 +67,22 @@ export default class VendingMachine {
 
     #onVendingMachineCharge(charge) {
         try {
-            Cashbox.validate(Number(charge));
-            this.cashbox.computeCharge(Number(charge));
-            this.cashboxManage.onSetVendingMachine();
-            setLocalStorage(CHARGE_ID, this.cashbox.charge);
-            setLocalStorage(COINS_ID, this.cashbox.coins);
+            VendingMachineCharge.validate(Number(charge));
+            this.vendingMachineCharge.computeCharge(Number(charge));
+            this.vendingMachineManage.onSetVendingMachine();
+            setLocalStorage(CHARGE_ID, this.vendingMachineCharge.charge);
+            setLocalStorage(COINS_ID, this.vendingMachineCharge.coins);
         } catch (error) {
             alert(error.message);
         }
     }
-
-    #onReturn() {
-        this.charge.onReturnChange();
-        this.productPurchase.setReturnState();
-        setLocalStorage(CHARGE_ID, this.cashbox.charge);
-        setLocalStorage(COINS_ID, this.cashbox.coins);
-    }
-
+  
     #onVendingMachineManage() {
-        this.cashboxManage.initialize();
+        this.vendingMachineManage.setVendingMachineManage();
     }
 
     #onProductPurchase() {
-        this.productPurchase.initialize();
+        this.productPurchase.render();
+        this.productPurchase.mounted();
     }
 }

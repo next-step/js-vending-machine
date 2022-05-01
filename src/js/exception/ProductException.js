@@ -1,6 +1,6 @@
 import Product from "../domain/Product.js";
 
-export const productException = {
+export const ProductException = {
     notExistProductName() {
         return new Error("상품명을 입력해주세요.");
     },

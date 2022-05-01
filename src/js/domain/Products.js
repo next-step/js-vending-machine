@@ -21,7 +21,11 @@ export default class Products {
         const findIndex = this.products.findIndex((product) => product.name === name);
 
         if (findIndex > -1) {
-            this.products[findIndex] = new Product(name, Number(price), Number(quantity)).data;
+            this.products[findIndex] = {
+                name,
+                price,
+                quantity,
+            };
             return;
         }
 
