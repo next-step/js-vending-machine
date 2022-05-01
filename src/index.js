@@ -1,3 +1,3 @@
-import { VendingMachineController } from './controllers/index.js';
+import VendingMachineController from './controllers/VendingMachineController.js';
 
 new VendingMachineController();

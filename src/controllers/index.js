@@ -1,4 +1,5 @@
-import VendingMachineController from './VendingMachineController.js';
 import ProductManageController from './ProductManageController.js';
+import VendingMachineManageController from './VendingMachineManageController.js';
+import ProductPurchaseController from './ProductPurchaseController.js';
 
-export { VendingMachineController, ProductManageController };
+export { ProductManageController, VendingMachineManageController, ProductPurchaseController };
