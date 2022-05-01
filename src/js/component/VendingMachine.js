@@ -16,7 +16,7 @@ export default class VendingMachine {
     constructor() {
         this.products = new Products(getProducts());
         this.cashbox = new Cashbox();
-        this.charge = new Charge();
+        this.charge = new Charge(this.cashbox);
         new Menus({
             onProductManage: () => this.onProductManage(),
             onVendingMachineManage: () => this.#onVendingMachineManage(),
@@ -31,6 +31,7 @@ export default class VendingMachine {
         this.productPurchase = new ProductPurchase(this.products, this.cashbox, this.charge, {
             onChargeChange: (charge) => this.onChargeChange(charge),
             onPurchase: (product) => this.#onPurchase(product),
+            onReturn: () => this.#onReturn(),
         });
         this.machine = new Machine(this.products, this.charge);
 
@@ -53,10 +54,10 @@ export default class VendingMachine {
 
     onChargeChange(charge) {
         try {
-            this.change.validate(charge);
-            this.change.value = charge;
+            this.charge.validate(charge);
+            this.charge.value = this.charge.value + charge;
             this.productPurchase.setCharge();
-            setLocalStorage(CHANGE_ID, this.change.value);
+            setLocalStorage(CHANGE_ID, this.charge.value);
         } catch (error) {
             alert(error.message);
         }
@@ -65,8 +66,9 @@ export default class VendingMachine {
     #onPurchase(product) {
         try {
             this.machine.onPurcharse(product);
-            this.productPurchase.setVendingMachineState();
+            this.productPurchase.setVendingMachineState(product);
             setLocalStorage(CHANGE_ID, this.charge.value);
+            setLocalStorage(PRODUCT_ID, this.products.value);
         } catch (error) {
             alert(error.message);
         }
@@ -82,6 +84,13 @@ export default class VendingMachine {
         } catch (error) {
             alert(error.message);
         }
+    }
+
+    #onReturn() {
+        this.charge.onReturnChange();
+        this.productPurchase.setReturnState();
+        setLocalStorage(CHARGE_ID, this.cashbox.charge);
+        setLocalStorage(COINS_ID, this.cashbox.coins);
     }
 
     #onVendingMachineManage() {

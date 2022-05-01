@@ -50,22 +50,41 @@ export default class Cashbox {
             }
         });
 
-        this.setHaveCoins(chargeCoin);
-        this.setHaveCharge(charge);
+        this.setIncreaseCashbox(chargeCoin, charge);
     }
 
     #getCoinAmount(remain, coin) {
         return remain >= coin ? Math.trunc(Math.random() * (remain / coin + 1)) : 0;
     }
 
-    setHaveCharge(charge) {
-        this.#haveCharge += charge;
+    setIncreaseCashbox(coins, charge) {
+        this.#setHaveCharge(charge);
+        this.#setHaveCoins(coins);
     }
 
-    setHaveCoins(chargeCoin) {
+    #setHaveCharge(charge) {
+        this.#haveCharge = this.#haveCharge + charge;
+    }
+
+    #setHaveCoins(chargeCoin) {
         Cashbox.COINS.forEach((coin) => {
             this.#haveCoins[coin] += chargeCoin[coin];
         });
+    }
+
+    setDecreaseCashbox(coins, charge) {
+        this.#setDecreaseCharge(charge);
+        this.#setDecreaseCoins(coins);
+    }
+
+    #setDecreaseCoins(coins) {
+        Cashbox.COINS.forEach((coin) => {
+            this.#haveCoins[coin] -= coins[coin];
+        });
+    }
+
+    #setDecreaseCharge(charge) {
+        this.#haveCharge = this.#haveCharge - charge;
     }
 
     get charge() {
