@@ -1,9 +1,13 @@
+<<<<<<< HEAD
 import { hasUncaughtExceptionCaptureCallback } from "process";
 
+=======
+>>>>>>> 2d93b03 (상품 등록 검증 로직 추가)
 describe("Vending Machine", () => {
     beforeEach(() => {
         cy.visit("../../index.html");
     });
+<<<<<<< HEAD
 
     describe("탭 클릭 시 해당 페이지로 이동해야한다.", () => {
         it("상품 관리 탭 클릭 시 상품 관리 탭으로 이동 ", () => {
@@ -90,4 +94,6 @@ describe("Vending Machine", () => {
         it("충전할 금액에 0이 입력되면 경고창을 출력한다.", () => {});
         it("충전할 금액이 10의 단위가 아닌 값이 입력되면 경고창을 출력한다.", () => {});
     });
+=======
+>>>>>>> 2d93b03 (상품 등록 검증 로직 추가)
 });

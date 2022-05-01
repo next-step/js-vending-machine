@@ -43,7 +43,6 @@ export default class VendingMachine {
     onProductManage() {
         this.productManage.setProductManage();
     }
-
     onAddProduct(name, price, quantity) {
         try {
             this.products.addProduct(name, price, quantity);
@@ -76,7 +75,7 @@ export default class VendingMachine {
             alert(error.message);
         }
     }
-  
+
     #onVendingMachineManage() {
         this.vendingMachineManage.setVendingMachineManage();
     }
