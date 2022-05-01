@@ -1,24 +1,23 @@
 export default class ProductManage {
     products;
     props;
-
     constructor(products, props) {
         this.products = products;
         this.props = props;
     }
-    setProductManage() {
+
+    initialize() {
         this.#render();
         this.#mounted();
     }
 
     #render() {
+        document.querySelector("#app").innerHTML = this.#getTemplate();
         document.querySelector("#app").replaceChildren();
         document.querySelector("#app").insertAdjacentHTML("afterbegin", this.#getTemplate());
     }
 
     #mounted() {
-        this.$productNameInput = document.querySelector("#product-name-input");
-        this.$productPriceInput = document.querySelector("#product-price-input");
         this.$productQuantityInput = document.querySelector("#product-quantity-input");
         this.$productcontainerForm = document.querySelector("#product-container-form");
 
@@ -30,11 +29,7 @@ export default class ProductManage {
     #onSubmitProduct(event) {
         event.preventDefault();
 
-        this.props.onAddProduct(
-            this.$productNameInput.value,
-            this.$productPriceInput.value,
-            this.$productQuantityInput.value
-        );
+        this.props.onAddProduct(this.$productNameInput.value, this.$productPriceInput.value);
     }
 
     onAddProduct() {
@@ -47,6 +42,11 @@ export default class ProductManage {
         if (document.querySelector(`[data-product-name="${this.$productNameInput.value}"]`)) {
             this.#replaceProduct(product);
         } else {
+            this.#appendProduct({
+                name: this.$productNameInput.value,
+                price: this.$productPriceInput.value,
+                quantity: this.$productQuantityInput.value,
+            });
             this.#appendProduct(product);
         }
 

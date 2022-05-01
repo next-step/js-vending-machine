@@ -1,5 +1,3 @@
-<<<<<<< HEAD
-
 import VendingMachineCharge from "../domain/VendingMachineCharge.js";
 
 export const PRODUCT_ID = "VENDING_MACHINE_PRODUCT";
@@ -30,12 +28,3 @@ export const getChange = () => {
     const changeData = localStorage.getItem(CHANGE_ID);
     return changeData ? Number(JSON.parse(changeData)) : 0;
 };
-=======
-export const setProducts = (products) => {
-    localStorage.setItem("product", products);
-}
-
-export const getProducts = () => {
-    return localStorage.getItem("product");
-}
->>>>>>> 2d93b03 (상품 등록 검증 로직 추가)
