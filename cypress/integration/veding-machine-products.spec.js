@@ -1,13 +1,15 @@
 describe('자판기 미션 테스트', () => {
-  context('[STEP1] 상품관리', () => {
+  context('상품관리 페이지', () => {
     beforeEach(() => {
-      cy.visit('/');
       // given - 상품 목록 화면 렌더링
-      cy.get('#product-manage-menu').click();
+      cy.visit('#/products');
     });
 
     it('0. 초기화면 - 상품관리, 잔돈 충전, 상품 구매 버튼과 상품 추가 탭이 노출된다.', () => {
-      cy.initialView();
+      cy.get('#product-manage-menu').should('be.visible');
+      cy.get('#vending-machine-manage-menu').should('be.visible');
+      cy.get('#product-manage-menu').should('be.visible');
+      cy.get('.product-container').should('be.visible');
     });
 
     it('1. 최소 상품 목록은 비워진 상태이다.', () => {
@@ -36,7 +38,7 @@ describe('자판기 미션 테스트', () => {
         .contains(item.quantity);
     });
 
-    it.only('3. 상품명, 금액, 수량은 공백이 불가능하다.', () => {
+    it('3. 상품명, 금액, 수량은 공백이 불가능하다.', () => {
       const item = {
         title: '아이스 아메리카노',
         price: 1500,
