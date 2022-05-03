@@ -1,5 +1,4 @@
 import { PageList, PathType, PageType, PAGE } from './pages';
-import * as model from '../state/store';
 
 const route = () => {
   const path = <PathType>location.hash.substring(1) || PAGE.products.path;
@@ -10,7 +9,7 @@ const route = () => {
   document.querySelector(`a[href="#${path}"]`)?.classList.add('active');
 
   try {
-    const data = model.loadData(path);
+    const data = currentView.props;
     currentView.view.render(data);
   } catch (err: Error | unknown) {
     if (currentView) {
