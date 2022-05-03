@@ -1,22 +1,32 @@
 import AbstractView from './abstractView';
+import { addProduct } from '../controller';
 
 class ProductContainerView extends AbstractView<HTMLElement, Array<Product>> {
   render(products: Array<Product>) {
     super.render(products);
+    this.subscribeAddProduct();
   }
 
-  subscribeAddProduct(addProductHandler: (product: Product) => void) {
-    this.containerElement.addEventListener('submit', (event: Event | SubmitEvent) => {
+  get productFormElement() {
+    return document.querySelector('.product-form');
+  }
+
+  isFormElement(target: any): target is HTMLFormElement {
+    return (target as HTMLFormElement) !== null;
+  }
+
+  subscribeAddProduct() {
+    if (!this.isFormElement(this.productFormElement)) return;
+
+    this.productFormElement.addEventListener('submit', (event: Event | SubmitEvent) => {
       event.preventDefault();
-      if (event.target.className === 'product-form') {
-        const dataArray = [...new FormData(event.target)];
-        const product = Object.fromEntries(dataArray);
-        addProductHandler(product);
-      }
+      const dataArray = [...new FormData(event.target)];
+      const product = Object.fromEntries(dataArray);
+      addProduct(product);
     });
   }
 
-  isProductsExist = (products: Array<Product>) => {
+  isProductsExist = (products: Array<Product>): products is Array<Product> => {
     return (products as Array<Product>) !== undefined;
   };
 

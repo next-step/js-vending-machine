@@ -1,19 +1,28 @@
 import AbstractView from './abstractView';
+import { chargeCoin } from '../controller';
 
 class ChargeContainerView extends AbstractView<HTMLElement, Record<CoinKey, CoinObj>> {
   render(coins: Record<CoinKey, CoinObj>) {
     super.render(coins);
+    this.subscribeChargeCoin();
   }
 
-  subscribeChargeCoin(chargeCoinHandler: (coin: number) => void) {
-    this.containerElement.addEventListener('submit', (event: Event | SubmitEvent) => {
-      event.preventDefault();
-      if ((event.target.className = 'charge-form')) {
-        const dataArray = [...new FormData(event.target)];
-        const amount = Object.fromEntries(dataArray)['amount'];
+  get chargeFormElement() {
+    return document.querySelector('.charge-form');
+  }
 
-        chargeCoinHandler(amount);
-      }
+  isFormElement(target: any): target is HTMLFormElement {
+    return (target as HTMLFormElement) !== null;
+  }
+
+  subscribeChargeCoin() {
+    if (!this.isFormElement(this.chargeFormElement)) return;
+
+    this.chargeFormElement.addEventListener('submit', (event: Event | SubmitEvent) => {
+      event.preventDefault();
+      const dataArray = [...new FormData(event.target)];
+      const amount = Object.fromEntries(dataArray)['amount'];
+      chargeCoin(amount);
     });
   }
 

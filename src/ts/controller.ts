@@ -4,9 +4,9 @@ import ChargeContainerView from './views/ChargeContainerView';
 import { ValidationError } from './utils/errorValidation';
 import * as model from './model';
 
-const addProduct = (product: Product) => {
+export const addProduct = (product: Product) => {
   try {
-    const products: Array<Product> = model.addProduct(product);
+    const products = model.addProduct(product);
     ProductContainerView.render(products);
   } catch (err: Error | unknown) {
     if (err instanceof ValidationError) {
@@ -16,7 +16,7 @@ const addProduct = (product: Product) => {
   }
 };
 
-const chargeCoin = (coin: number) => {
+export const chargeCoin = (coin: number) => {
   try {
     const coins = model.chargeCoin(coin);
     ChargeContainerView.render(coins);
@@ -27,9 +27,3 @@ const chargeCoin = (coin: number) => {
     }
   }
 };
-
-export default () => {
-  ProductContainerView.subscribeAddProduct(addProduct);
-  ChargeContainerView.subscribeChargeCoin(chargeCoin);
-};
-
