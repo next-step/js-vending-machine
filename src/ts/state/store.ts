@@ -1,9 +1,9 @@
-import { getItem, setItem } from './utils/storage';
-import { PRODUCT_CONFIG, COIN_CONFIG } from './utils/config';
-import { ERROR } from './utils/message';
-import { ValidationError } from './utils/errorValidation';
-import { generateRandomNumber } from './utils/randomGenerator';
-import { PathType } from '../ts/router/pages';
+import { getItem, setItem } from '../utils/storage';
+import { PRODUCT_CONFIG, COIN_CONFIG } from '../utils/config';
+import { ERROR } from '../utils/message';
+import { ValidationError } from '../utils/errorValidation';
+import { generateRandomNumber } from '../utils/randomGenerator';
+import { PathType } from '../router/pages';
 
 export const state: State = {
   products: [],
@@ -77,7 +77,7 @@ const validateCoin = (inputPrice: number) => {
   if (inputPrice < COIN_CONFIG.MIN_PRICE) {
     throw new ValidationError(ERROR.COIN_LESS_THAN_MIN_PRICE);
   }
-  debugger;
+
   if (inputPrice % COIN_CONFIG.SHOULD_BE_DIVIDED !== 0) {
     throw new ValidationError(ERROR.COIN_NOT_DIVIDED_PRICE);
   }

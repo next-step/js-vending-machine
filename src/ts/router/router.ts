@@ -1,5 +1,5 @@
 import { PageList, PathType, PageType, PAGE } from './pages';
-import * as model from '../model';
+import * as model from '../state/store';
 
 const route = () => {
   const path = <PathType>location.hash.substring(1) || PAGE.products.path;

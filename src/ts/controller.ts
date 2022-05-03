@@ -2,11 +2,12 @@ import ProductContainerView from './views/ProductContainerView';
 import ChargeContainerView from './views/ChargeContainerView';
 
 import { ValidationError } from './utils/errorValidation';
-import * as model from './model';
+import * as state from './state/store';
 
 export const addProduct = (product: Product) => {
   try {
-    const products = model.addProduct(product);
+    const products = state.addProduct(product);
+    debugger;
     ProductContainerView.render(products);
   } catch (err: Error | unknown) {
     if (err instanceof ValidationError) {
@@ -18,7 +19,7 @@ export const addProduct = (product: Product) => {
 
 export const chargeCoin = (coin: number) => {
   try {
-    const coins = model.chargeCoin(coin);
+    const coins = state.chargeCoin(coin);
     ChargeContainerView.render(coins);
   } catch (err) {
     if (err instanceof ValidationError) {
