@@ -10,8 +10,8 @@ export default class Product {
   #price;
   #quantity;
 
-  constructor({ name, price, quantity }) {
-    this.#validate({ name, price, quantity });
+  constructor({ name, price, quantity, enableEmptyQuantity }) {
+    this.#validate({ name, price, quantity, enableEmptyQuantity });
     this.#name = name.trim();
     this.#price = price;
     this.#quantity = quantity;
@@ -69,9 +69,11 @@ export default class Product {
     }
   }
 
-  #validate({ name, price, quantity }) {
+  #validate({ name, price, quantity, enableEmptyQuantity }) {
     this.#validateName(name);
     this.#validatePrice(price);
-    this.#validateQuantity(quantity);
+    if (enableEmptyQuantity !== true) {
+      this.#validateQuantity(quantity);
+    }
   }
 }

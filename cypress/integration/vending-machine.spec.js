@@ -56,10 +56,14 @@ Cypress.Commands.add('$vendingMachineChargeCoinList', () =>
 Cypress.Commands.add('$vendingMachineChargeAmount', () =>
   cy.$app().get('#vending-machine-charge-amount')
 );
-Cypress.Commands.add('findChargeCoin', (value) =>
-  cy
-    .$vendingMachineChargeCoinList()
-    .get(`#vending-machine-coin-${value}-quantity`)
+Cypress.Commands.add('$productPurchaseAmountChargeInput', () =>
+  cy.$app().get('#charge-input')
+);
+Cypress.Commands.add('$productPurchaseAmountChargeSubmit', () =>
+  cy.$app().get('#charge-button')
+);
+Cypress.Commands.add('$productPurchaseChargeAmount', () =>
+  cy.$app().get('#charge-amount')
 );
 
 describe('자판기', () => {
@@ -452,6 +456,186 @@ describe('자판기', () => {
                   })
                   .then(() => {
                     expect(amount).eq(1120);
+                  });
+              });
+          });
+      });
+    });
+  });
+
+  describe('상품구매 화면 테스트', () => {
+    beforeEach(() => {
+      cy.$productPurchaseMenu().click();
+    });
+
+    it('동전을 입력할 수 있는 폼이 보인다.', () => {
+      cy.$productPurchaseAmountChargeInput().should('be.visible');
+      cy.$productPurchaseAmountChargeSubmit().should('be.visible');
+    });
+
+    it('충전 금액이 보인다.', () => {
+      cy.$productPurchaseChargeAmount().should('be.visible');
+    });
+
+    describe('충전 금액 입력 테스트', () => {
+      it('충전 금액은 숫자만 입력이 가능하다.', () => {
+        cy.$productPurchaseAmountChargeInput().type('충전테스트');
+        cy.$productPurchaseAmountChargeInput().should('have.value', '');
+        cy.$productPurchaseAmountChargeInput().type('aafa ');
+        cy.$productPurchaseAmountChargeInput().should('have.value', '');
+        cy.$productPurchaseAmountChargeInput().type(12);
+        cy.$productPurchaseAmountChargeInput().should('have.value', 12);
+      });
+    });
+
+    describe('충전 테스트', () => {
+      it('충전금액을 입력하지 않고 충전하기를 눌렀을때 충전금액이 변경되지 않는다.', () => {
+        cy.$productPurchaseAmountChargeSubmit()
+          .click()
+          .then(() => {
+            cy.$productPurchaseAmountChargeInput()
+              .invoke('prop', 'validity')
+              .should('deep.include', {
+                valueMissing: true,
+                valid: false,
+              });
+            cy.$productPurchaseChargeAmount().should('have.text', 0);
+          });
+      });
+
+      it('충전 금액은 최소값 10을 넘겨야된다.(9)', () => {
+        cy.$productPurchaseAmountChargeInput().type(9);
+        cy.$productPurchaseAmountChargeSubmit()
+          .click()
+          .then(() => {
+            cy.$productPurchaseAmountChargeInput()
+              .invoke('prop', 'validity')
+              .should('deep.include', {
+                rangeUnderflow: true,
+                valid: false,
+              });
+            cy.$productPurchaseChargeAmount().should('have.text', 0);
+          });
+      });
+
+      it('충전 금액은 10 단위여야한다.(121)', () => {
+        cy.$productPurchaseAmountChargeInput().type(121);
+        cy.$productPurchaseAmountChargeSubmit()
+          .click()
+          .then(() => {
+            cy.$productPurchaseAmountChargeInput()
+              .invoke('prop', 'validity')
+              .should('deep.include', {
+                stepMismatch: true,
+                valid: false,
+              });
+            cy.$productPurchaseChargeAmount().should('have.text', 0);
+          });
+      });
+
+      it('충전금액을 입력하고 충전하기를 누르면 충전 금액이 입력된 만큼 변경된다.', () => {
+        cy.$productPurchaseAmountChargeInput().type(120);
+        cy.$productPurchaseAmountChargeSubmit()
+          .click()
+          .then(() => {
+            cy.$productPurchaseChargeAmount().should('have.text', 120);
+          });
+      });
+
+      it('충전금액을 입력하고 충전하기를 누른후 다시 충전하면 기존 충전한 금액과 합산된다.', () => {
+        cy.$productPurchaseAmountChargeInput().type(120);
+        cy.$productPurchaseAmountChargeSubmit()
+          .click()
+          .then(() => {
+            cy.$productPurchaseChargeAmount().should('have.text', 120);
+            cy.$productPurchaseAmountChargeInput().type(1000);
+            cy.$productPurchaseAmountChargeSubmit()
+              .click()
+              .then(() => {
+                cy.$productPurchaseChargeAmount().should('have.text', 1120);
+              });
+          });
+      });
+    });
+
+    describe('상품구매 테스트', () => {
+      beforeEach(() => {
+        cy.$productManageMenu()
+          .click()
+          .then(() => {
+            cy.$productNameInput().type('상품1');
+            cy.$productPriceInput().type(1000);
+            cy.$productQuantityInput().type(1);
+            cy.$productAddSubmit()
+              .click()
+              .then(() => {
+                cy.$productPurchaseMenu().click();
+              });
+          });
+      });
+
+      it('충전금액보다 큰 상품을 구매하는경우 구매할 수 없다는 경고창이 뜬다.', () => {
+        const alertStub = cy.stub();
+        cy.on('window:alert', alertStub);
+        cy.findProduct({ name: '상품1', price: 1000, quantity: 1 })
+          .should('be.exist')
+          .get('.purchase-button')
+          .click()
+          .then(() => {
+            expect(alertStub).to.be.called;
+          });
+      });
+
+      it('정상적인 상품 구매완료시 상품의 수량이 하나 줄어들고 충전금액이 상품금액만큼 줄어든다.', () => {
+        cy.$productPurchaseAmountChargeInput().type(1200);
+        cy.$productPurchaseAmountChargeSubmit()
+          .click()
+          .then(() => {
+            cy.$productPurchaseChargeAmount().should('have.text', 1200);
+            cy.findProduct({ name: '상품1', price: 1000, quantity: 1 })
+              .get('.purchase-button')
+              .click()
+              .then(() => {
+                cy.findProduct({
+                  name: '상품1',
+                  price: 1000,
+                  quantity: 0,
+                }).should('be.exist');
+                cy.$productPurchaseChargeAmount().should(
+                  'have.text',
+                  1200 - 1000
+                );
+              });
+          });
+      });
+
+      it('상품의 수량이 없는상태에서 구매를 한경우 경고창이 뜬다.', () => {
+        const alertStub = cy.stub();
+        cy.on('window:alert', alertStub);
+
+        cy.$productPurchaseAmountChargeInput().type(4000);
+        cy.$productPurchaseAmountChargeSubmit()
+          .click()
+          .then(() => {
+            cy.$productPurchaseChargeAmount().should('have.text', 4000);
+            cy.findProduct({ name: '상품1', price: 1000, quantity: 1 })
+              .get('.purchase-button')
+              .click()
+              .then(() => {
+                cy.$productPurchaseChargeAmount().should(
+                  'have.text',
+                  4000 - 1000
+                );
+                cy.findProduct({
+                  name: '상품1',
+                  price: 1000,
+                  quantity: 0,
+                }).should('be.exist');
+                cy.findProduct({ name: '상품1', price: 1000, quantity: 0 })
+                  .get('.purchase-button')
+                  .click()
+                  .then(() => {
+                    expect(alertStub).to.be.called;
                   });
               });
           });
