@@ -1,12 +1,24 @@
 import { PageList, PathType, PageType, PAGE } from './pages';
 
+const updateAnchorElement = (path: string) => {
+  const isAnchorElement = (anchorEl: Element | null): anchorEl is HTMLAnchorElement => {
+    return (anchorEl as HTMLAnchorElement) !== null;
+  };
+
+  const preActiveAnchor = document.querySelector('a.active');
+  const nextActiveAnchor = document.querySelector(`a[href="#${path}"]`);
+
+  if (isAnchorElement(preActiveAnchor)) {
+    preActiveAnchor.classList.remove('active');
+  }
+  if (isAnchorElement(nextActiveAnchor)) {
+    nextActiveAnchor.classList.add('active');
+  }
+};
+
 const route = () => {
   const path = <PathType>location.hash.substring(1) || PAGE.products.path;
   const currentView = <PageType>PageList.find(page => path === page.path);
-
-  // TODO: is type guard 구문으로 바꾸기
-  document.querySelector('a.active')?.classList.remove('active');
-  document.querySelector(`a[href="#${path}"]`)?.classList.add('active');
 
   try {
     const data = currentView.props;
@@ -19,6 +31,8 @@ const route = () => {
 
     PAGE['error'].view.render();
   }
+
+  updateAnchorElement(path);
 };
 
 const router = () => {
