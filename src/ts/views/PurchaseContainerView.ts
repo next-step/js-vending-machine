@@ -10,7 +10,7 @@ class ReturnContainerView extends AbstractView<HTMLElement, string> {
     this.parentElement.insertAdjacentHTML('afterbegin', markup);
   }
 
-  generateMarkup(): string {
+  generateMarkup() {
     return /* html */ `
         <h3>잔돈</h3>
         <button id="coin-return-button">반환하기</button>

@@ -30,8 +30,8 @@ class ProductContainerView extends AbstractView<HTMLElement, Array<Product>> {
     return (products as Array<Product>) !== undefined;
   };
 
-  generateMarkup(products: Array<Product>): string {
-    const generateProductMarkup = (product: Product): string => /* html */ `
+  generateMarkup(products: Array<Product>) {
+    const generateProductMarkup = (product: Product) => /* html */ `
             <tr>
                 <th>${product.name}</th>
                 <th>${product.price}</th>
