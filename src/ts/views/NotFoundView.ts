@@ -7,7 +7,7 @@ class NotFoundView extends AbstractView<HTMLElement, string> {
     super.render(this.errorMessage);
   }
 
-  generateMarkup(message: string) {
+  getMarkup(message: string) {
     return /* html */ `
     <section class="error-page-section">
       <h2>
