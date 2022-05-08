@@ -1,29 +1,43 @@
-import { PageList, PAGE } from './pages';
-import * as model from '../model';
+import { PageList, PathType, PageType, PAGE } from './pages';
 
-const route = function (): void {
-  let [, path] = location.hash.split('#');
-  if (!path) path = PAGE.products.path;
+const updateAnchorElement = (path: string) => {
+  const isAnchorElement = (anchorEl: Element | null): anchorEl is HTMLAnchorElement => {
+    return (anchorEl as HTMLAnchorElement) !== null;
+  };
 
-  const currentView = PageList.find(page => path === page.path);
-  document.querySelectorAll(`a[data-link]`)?.forEach(el => el.classList.remove('active'));
-  document.querySelector(`a[data-link="${path}"]`)?.classList.add('active');
+  const preActiveAnchor = document.querySelector('a.active');
+  const nextActiveAnchor = document.querySelector(`a[href="#${path}"]`);
 
-    try {
-      const data = model.loadData(path);
-
-      if (currentView) currentView.view.render(data);
-    } catch (err: Error | unknown) {
-      if (currentView && err instanceof Error) {
-        currentView.view.renderError(err.message);
-        return;
-      }
-
-      PAGE['error'].view.render();
-    }
+  if (isAnchorElement(preActiveAnchor)) {
+    preActiveAnchor.classList.remove('active');
+  }
+  if (isAnchorElement(nextActiveAnchor)) {
+    nextActiveAnchor.classList.add('active');
+  }
 };
 
-export const router = () => {
+const route = () => {
+  const path = <PathType>location.hash.substring(1) || PAGE.products.path;
+  const currentView = <PageType>PageList.find(page => path === page.path);
+
+  try {
+    const data = currentView.props;
+    currentView.view.render(data);
+  } catch (err: Error | unknown) {
+    if (currentView) {
+      currentView.view.render();
+      return;
+    }
+
+    PAGE['error'].view.render();
+  }
+
+  updateAnchorElement(path);
+};
+
+const router = () => {
   window.addEventListener('DOMContentLoaded', route);
   window.addEventListener('hashchange', route);
 };
+
+export default router;

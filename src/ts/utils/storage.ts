@@ -1,21 +1,20 @@
 import { ValidationError } from './errorValidation';
 import { ERROR } from './message';
 
-export function setItem(key: string, value: Object): void {
+export const setItem = (key: string, value: Object) => {
   try {
     localStorage.setItem(key, JSON.stringify(value));
   } catch (err) {
     console.log(err);
   }
-}
+};
 
-export function getItem<T extends Object>(key: string): T {
+export const getItem = <Obj extends Object>(key: string): Obj => {
   try {
     const json = localStorage.getItem(key);
     if (json === null) throw new ValidationError(ERROR.NO_STORAGE_ITEM);
-    const stored: T = JSON.parse(json);
-    return stored;
+    return JSON.parse(json);
   } catch (err) {
     throw err;
   }
-}
+};

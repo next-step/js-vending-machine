@@ -1,8 +1,8 @@
-@import './errorpage.css';
+@import './notFound.css';
 
 :root {
   --primary-color: #00bcd4;
-  --danger-color : #dc3545;
+  --danger-color: #dc3545;
 }
 
 a {
@@ -14,13 +14,30 @@ a {
   padding: 0.3rem 0.45rem;
 }
 
-a.active{
+a.active {
   box-shadow: 0 0 0 0.15rem rgb(179, 237, 245);
 }
 
-a:hover{
+a:hover {
   background-color: var(--primary-color);
   color: #fff;
+}
+
+caption {
+  font-size: 0.8rem;
+  text-align: right;
+}
+
+table {
+  border: 10px dotted #555;
+  border-collapse: collapse;
+}
+
+thead{
+  background-color: var(--primary-color);
+  overflow: hidden;
+  color: #fff;
+  border-top: 11px solid #
 }
 
 .purchase-available,
@@ -117,6 +134,7 @@ input[type='text'] {
   all: unset;
   font-size: 0.825rem;
   padding: 0.5rem;
+  margin : 0.4rem;
   background: white;
   text-align: left;
   border: 1px solid #afafaf;
@@ -124,8 +142,8 @@ input[type='text'] {
   width: calc(100% - 6.125rem);
 }
 
-input:focus{
-    box-shadow: 0 0 0 0.2rem var(--primary-color);
+input:focus {
+  box-shadow: 0 0 0 0.2rem var(--primary-color);
 }
 
 #charge-button,
@@ -144,15 +162,14 @@ button {
   padding: 0.3rem 0.45rem;
 }
 
-button.active{
+button.active {
   box-shadow: 0 0 0 0.15rem rgb(179, 237, 245);
 }
 
-button:hover{
+button:hover {
   background-color: var(--primary-color);
   color: #fff;
 }
-
 
 section p {
   border: 1px dashed rgb(70, 70, 70);
@@ -200,10 +217,9 @@ button:active {
 .purchase-available,
 .cashbox-change,
 .product-inventory {
-  border-radius: 10px;
   border-collapse: collapse;
   border-style: hidden;
-  box-shadow: 0 0 0 1px rgb(66, 66, 66);
+  background-color: #d1f2f6;
 }
 
 .purchase-available td,
@@ -214,6 +230,5 @@ button:active {
 .product-inventory th,
 .cashbox-change th,
 .cashbox-remaining th {
-  border: 1px solid rgb(66, 66, 66);
+  border: 1px solid #fff;
 }
-

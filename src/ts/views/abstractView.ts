@@ -1,36 +1,46 @@
-export default abstract class AbstractView<T extends HTMLElement, U extends Object> {
-  protected containerElement: T;
-  protected data!: U;
+export default abstract class AbstractView<ViewElement extends HTMLElement, Obj extends Object> {
+  protected containerElement: ViewElement;
+  protected data!: Obj;
 
   constructor() {
-    this.containerElement = document.querySelector('#app')! as T;
+    this.containerElement = document.querySelector('#app')! as ViewElement;
   }
 
-  render(data: U): void {
+  render(data: Obj) {
     this.clear();
-
-    const markup = this.generateMarkup(data);
-    this.containerElement.insertAdjacentHTML('afterbegin', markup);
+    this.renderDiff(data);
   }
 
-  renderError(err: Error | unknown): void {
-    let message = 'ERROR';
-    if (err instanceof Error) message = err.message;
-
-
-    const markup = `<h2>${message}</h2>`;
-
-    this.clear();
-    this.containerElement.insertAdjacentHTML('afterbegin', markup);
+  isEverRendered() {
+    return this.containerElement.querySelectorAll('*') === null;
   }
 
-  clear(): void {
-    this.containerElement.innerHTML = '';
+  renderDiff(data: Obj) {
+    const markup = this.getMarkup(data);
+    const newDom = document.createRange().createContextualFragment(markup);
+    const newElements = Array.from(newDom.querySelectorAll('*'));
+    const curElements = Array.from(this.containerElement.querySelectorAll('*'));
+
+    if (!this.isEverRendered()) {
+      this.containerElement.replaceChildren(newDom);
+      return;
+    }
+
+    newElements.forEach((el, i) => {
+      const curEl = curElements[i];
+      if (!el.isEqualNode(curEl) && el.firstChild?.nodeValue.trim() !== '') {
+        curEl.textContent = el.firstChild.textContent;
+      }
+    });
   }
 
-  generateMarkup(message: U): string {
+  clear() {
+    this.containerElement.replaceChildren();
+  }
+
+  getMarkup(message: Obj) {
     return /* html */ `
-      <div>${message}</div>
-    `;
+       <div>${message}</div>
+     `;
   }
 }

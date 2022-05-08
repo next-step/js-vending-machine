@@ -1,29 +1,58 @@
 import AbstractView from './abstractView';
+import { chargeCoin } from '../controller';
 
-// TODO: STEP2 잔돈 충전 구현 필요
-class ChargeContainerView extends AbstractView<HTMLElement, State> {
-  private parentElement = document.querySelector('#app')! as HTMLElement;
-
-  render() {
-    this.parentElement.innerHTML = '';
-    const markup = this.getHtml();
-    this.parentElement.insertAdjacentHTML('afterbegin', markup);
+class ChargeContainerView extends AbstractView<HTMLElement, Record<CoinKey, CoinObj>> {
+  render(coins: Record<CoinKey, CoinObj>) {
+    super.render(coins);
+    this.subscribeChargeCoin();
   }
 
-  renderError(message: string) {
-    this.render();
-    const markup = `<h3>${message}<h3>`;
-    this.parentElement.insertAdjacentHTML('afterbegin', markup);
+  get chargeFormElement() {
+    return document.querySelector('.charge-form');
   }
 
-  getHtml(): string {
+  isFormElement(target: any): target is HTMLFormElement {
+    return (target as HTMLFormElement) !== null;
+  }
+
+  subscribeChargeCoin() {
+    if (!this.isFormElement(this.chargeFormElement)) return;
+
+    this.chargeFormElement.addEventListener('submit', (event: Event | SubmitEvent) => {
+      event.preventDefault();
+      const dataArray = [...new FormData(event.target)];
+      const amount = Object.fromEntries(dataArray)['amount'];
+      chargeCoin(amount);
+    });
+  }
+
+  isCoinExist = (coins: Record<CoinKey, CoinObj>): coins is Record<CoinKey, CoinObj> => {
+    return (coins as Record<CoinKey, CoinObj>) !== undefined;
+  };
+
+  calculateCoinsSum = (coins: Record<CoinKey, CoinObj>) => {
+    return Object.values(coins).reduce((accPrice: number, cur: CoinObj) => {
+      accPrice += cur.value * cur.count;
+      return accPrice;
+    }, 0);
+  };
+
+  getMarkup(coins: Record<CoinKey, CoinObj>) {
+    const generateCoinMarkup = (coin: CoinObj) => {
+      return /* html */ ` <tr>
+                    <td>${coin.value}원</td>
+                    <td>${coin.count}개</td>
+                </tr>`;
+    };
+
     return /* html */ `
         <h3>자판기 돈통 충전하기</h3>
-        <div class="vending-maπchine-wrapper">
-            <input type="number" name="vending-machine-charge-amount" id="vending-machine-charge-input" autofocus />
+        <form class="charge-form">
+            <input type="number" name="amount" id="vending-machine-charge-input" autofocus required/>
             <button id="vending-machine-charge-button">충전하기</button>
-        </div>
-        <p>보유 금액: <span id="vending-machine-charge-amount">0</span>원</p>
+        </form>
+        <p>보유 금액: <span id="vending-machine-charge-amount">
+        ${this.isCoinExist(coins) ? this.calculateCoinsSum(coins) : 0}</span>원</p>
         <h3>동전 보유 현황</h3>
         <table class="cashbox-remaining">
             <colgroup>
@@ -37,22 +66,11 @@ class ChargeContainerView extends AbstractView<HTMLElement, State> {
                 </tr>
             </thead>
             <tbody>
-                <tr>
-                    <td>500원</td>
-                    <td id="vending-machine-coin-500-quantity"></td>
-                </tr>
-                <tr>
-                    <td>100원</td>
-                    <td id="vending-machine-coin-100-quantity"></td>
-                </tr>
-                <tr>
-                    <td>50원</td>
-                    <td id="vending-machine-coin-50-quantity"></td>
-                </tr>
-                <tr>
-                    <td>10원</td>
-                    <td id="vending-machine-coin-10-quantity"></td>
-                </tr>
+                ${
+                  this.isCoinExist(coins)
+                    ? Object.values(coins).map(generateCoinMarkup).join('')
+                    : ''
+                }
             </tbody>
         </table>
 `;
