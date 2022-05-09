@@ -7,7 +7,6 @@ import * as state from './state/store';
 export const addProduct = (product: Product) => {
   try {
     const products = state.addProduct(product);
-    debugger;
     ProductContainerView.render(products);
   } catch (err: Error | unknown) {
     if (err instanceof ValidationError) {
