@@ -26,7 +26,7 @@ class ChargeContainerView extends AbstractView<HTMLElement, Record<CoinKey, Coin
     });
   }
 
-  isCoinExist = (coins: Record<CoinKey, CoinObj>): coins is Record<CoinKey, CoinObj> => {
+  isExistCoin = (coins: Record<CoinKey, CoinObj>): coins is Record<CoinKey, CoinObj> => {
     return (coins as Record<CoinKey, CoinObj>) !== undefined;
   };
 
@@ -52,7 +52,7 @@ class ChargeContainerView extends AbstractView<HTMLElement, Record<CoinKey, Coin
             <button id="vending-machine-charge-button">충전하기</button>
         </form>
         <p>보유 금액: <span id="vending-machine-charge-amount">
-        ${this.isCoinExist(coins) ? this.calculateCoinsSum(coins) : 0}</span>원</p>
+        ${this.isExistCoin(coins) ? this.calculateCoinsSum(coins) : 0}</span>원</p>
         <h3>동전 보유 현황</h3>
         <table class="cashbox-remaining">
             <colgroup>
@@ -66,7 +66,7 @@ class ChargeContainerView extends AbstractView<HTMLElement, Record<CoinKey, Coin
                 </tr>
             </thead>
             <tbody>
-                ${this.isCoinExist(coins) ? Object.values(coins).map(getCoinMarkup).join('') : ''}
+                ${this.isExistCoin(coins) ? Object.values(coins).map(getCoinMarkup).join('') : ''}
             </tbody>
         </table>
 `;
