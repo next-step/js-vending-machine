@@ -64,14 +64,14 @@ export const chargeCoin = (inputPrice: number) => {
   try {
     validateCoin(inputPrice);
     while (inputPrice > 0) {
-      const randomCoinKey = <CoinKey>(
-        Object.keys(state.coins)[generateRandomNumber(0, Object.keys(state.coins).length - 1)]
-      );
-      const randomCoinObj = <CoinObj>state.coins[randomCoinKey];
+      const coinKeyRange = Object.keys(state.coins).length - 1;
+      const randomKeyNumber = generateRandomNumber(0, coinKeyRange);
+      const randomCoinKey = <CoinKey>Object.keys(state.coins)[randomKeyNumber];
+      const selectedCoin = <CoinObj>state.coins[randomCoinKey];
 
-      if (inputPrice >= randomCoinObj.value) {
-        inputPrice -= randomCoinObj.value;
-        randomCoinObj.count += 1;
+      if (inputPrice >= selectedCoin.value) {
+        inputPrice -= selectedCoin.value;
+        selectedCoin.count += 1;
       }
     }
 
