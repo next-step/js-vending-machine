@@ -1,6 +1,4 @@
-// store
 import { loadData } from '../state/store';
-// views
 import ProductContainerView from '../views/ProductContainerView';
 import ChargeContainerView from '../views/ChargeContainerView';
 import PurchaseContainerView from '../views/PurchaseContainerView';
