@@ -4,15 +4,17 @@ import ChargeContainerView from './views/ChargeContainerView';
 import { ValidationError } from './utils/errorValidation';
 import * as state from './state/store';
 
+
+const isValidationError = (err: Error | unknown): err is ValidationError => {
+  return err instanceof ValidationError;
+};
+
 export const addProduct = (product: Product) => {
   try {
     const products = state.addProduct(product);
     ProductContainerView.render(products);
   } catch (err: Error | unknown) {
-    if (err instanceof ValidationError) {
-      alert(err.message);
-      return;
-    }
+    if (isValidationError(err)) alert(err.message);
   }
 };
 
@@ -21,9 +23,6 @@ export const chargeCoin = (coin: number) => {
     const coins = state.chargeCoin(coin);
     ChargeContainerView.render(coins);
   } catch (err) {
-    if (err instanceof ValidationError) {
-      alert(err.message);
-      return;
-    }
+    if (isValidationError(err)) alert(err.message);    
   }
 };
