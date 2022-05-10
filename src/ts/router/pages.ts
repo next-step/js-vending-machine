@@ -41,7 +41,7 @@ export const PAGE: Record<PageKey, Page> = {
     view: NotFoundView,
     props: '',
   },
-};
+} as const;
 
 export const PageList = Object.values(PAGE);
 export type PageType = typeof PAGE[keyof typeof PAGE];
