@@ -38,7 +38,7 @@ class ChargeContainerView extends AbstractView<HTMLElement, Record<CoinKey, Coin
   };
 
   getMarkup(coins: Record<CoinKey, CoinObj>) {
-    const generateCoinMarkup = (coin: CoinObj) => {
+    const getCoinMarkup = (coin: CoinObj) => {
       return /* html */ ` <tr>
                     <td>${coin.value}원</td>
                     <td>${coin.count}개</td>
@@ -66,11 +66,7 @@ class ChargeContainerView extends AbstractView<HTMLElement, Record<CoinKey, Coin
                 </tr>
             </thead>
             <tbody>
-                ${
-                  this.isCoinExist(coins)
-                    ? Object.values(coins).map(generateCoinMarkup).join('')
-                    : ''
-                }
+                ${this.isCoinExist(coins) ? Object.values(coins).map(getCoinMarkup).join('') : ''}
             </tbody>
         </table>
 `;
