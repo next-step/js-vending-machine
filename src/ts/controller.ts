@@ -11,7 +11,7 @@ const isUerInputValidation = (err: Error | unknown): err is UserInputValidationE
 export const addProduct = (product: Product) => {
   try {
     const products = state.addProduct(product);
-    ProductContainerView.render(products);
+    ProductContainerView.render({ products });
   } catch (err: Error | unknown) {
     if (isUerInputValidation(err)) alert(err.message);
   }
@@ -20,7 +20,7 @@ export const addProduct = (product: Product) => {
 export const chargeCoin = (coin: number) => {
   try {
     const coins = state.chargeCoin(coin);
-    ChargeContainerView.render(coins);
+    ChargeContainerView.render({ coins });
   } catch (err) {
     if (isUerInputValidation(err)) alert(err.message);
   }

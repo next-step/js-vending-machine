@@ -2,7 +2,6 @@ import { validateNewProduct, validateCoin } from './validator';
 import { getItem, setItem } from '../utils/storage';
 import { ERROR } from '../utils/message';
 import { generateRandomNumber } from '../utils/randomGenerator';
-import { PathType } from '../router/pages';
 
 export const state: State = {
   products: [],
@@ -26,13 +25,12 @@ export const state: State = {
   },
 };
 
-export const loadData = <Obj extends StateTypes>(path: PathType): Obj => {
+export const loadData = (key: StateKeys): StateTypes => {
   try {
-    const pageName = path.replace(/\//i, '');
-    state[pageName] = getItem(pageName);
-    return state[pageName];
-  } catch (err: unknown) {
-    return [];
+    state[key] = getItem(key);
+    return getItem(key);
+  } catch (err: Error | unknown) {
+    throw err;
   }
 };
 
@@ -64,7 +62,7 @@ export const chargeCoin = (inputPrice: number) => {
   try {
     validateCoin(inputPrice);
     while (inputPrice > 0) {
-      const coinKeyRange = Object.keys(state.coins).length - 1;
+      const coinKeyRange = Reflect.ownKeys(state.coins).length - 1;
       const randomKeyNumber = generateRandomNumber(0, coinKeyRange);
       const randomCoinKey = <CoinKey>Object.keys(state.coins)[randomKeyNumber];
       const selectedCoin = <CoinObj>state.coins[randomCoinKey];
@@ -75,7 +73,7 @@ export const chargeCoin = (inputPrice: number) => {
       }
     }
 
-    setItem('charge', state.coins);
+    setItem('coins', state.coins);
     return state.coins;
   } catch (err) {
     throw err;

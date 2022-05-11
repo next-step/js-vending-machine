@@ -2,7 +2,7 @@ import AbstractView from './abstractView';
 import { addProduct } from '../controller';
 
 class ProductContainerView extends AbstractView<HTMLElement, Array<Product>> {
-  render(products: Array<Product>) {
+  render({ products }: { products: Array<Product> }) {
     super.render(products);
     this.subscribeAddProduct();
   }
@@ -31,7 +31,7 @@ class ProductContainerView extends AbstractView<HTMLElement, Array<Product>> {
   };
 
   getMarkup(products: Array<Product>) {
-    const generateProductMarkup = (product: Product) => /* html */ `
+    const getProductMarkup = (product: Product) => /* html */ `
             <tr>
                 <th>${product.name}</th>
                 <th>${product.price}</th>
@@ -61,7 +61,7 @@ class ProductContainerView extends AbstractView<HTMLElement, Array<Product>> {
             </tr>            
         </thead>
         <tbody id="product-inventory-container">
-        ${this.isExistProducts(products) ?? products.map(generateProductMarkup).join('')}
+        ${this.isExistProducts(products) ? products.map(getProductMarkup).join('') : ''}
         </tbody>
     </table>
 `;

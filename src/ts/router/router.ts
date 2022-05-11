@@ -25,7 +25,7 @@ const route = () => {
     currentView.view.render(data);
   } catch (err: Error | unknown) {
     if (currentView) {
-      currentView.view.render();
+      currentView.view.render(null);
       return;
     }
 

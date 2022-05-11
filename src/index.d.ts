@@ -16,4 +16,5 @@ declare interface State {
 }
 
 declare type StateTypes = State[keyof State];
+declare type StateKeys = keyof State;
 
