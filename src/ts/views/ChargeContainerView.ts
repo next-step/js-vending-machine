@@ -1,5 +1,6 @@
 import AbstractView from './abstractView';
 import { chargeCoin } from '../controller';
+import { isPredicatedElement } from '../utils/predicator';
 
 class ChargeContainerView extends AbstractView<HTMLElement> {
   render({ coins }: { coins: Record<CoinKey, CoinObj> }) {
@@ -11,12 +12,8 @@ class ChargeContainerView extends AbstractView<HTMLElement> {
     return document.querySelector('.charge-form');
   }
 
-  isFormElement(target: any): target is HTMLFormElement {
-    return (target as HTMLFormElement) !== null;
-  }
-
   subscribeChargeCoin() {
-    if (!this.isFormElement(this.chargeFormElement)) return;
+    if (!isPredicatedElement<HTMLFormElement>(this.chargeFormElement)) return;
 
     this.chargeFormElement.addEventListener('submit', (event: Event | SubmitEvent) => {
       event.preventDefault();

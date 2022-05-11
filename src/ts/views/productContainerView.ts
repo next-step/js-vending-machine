@@ -1,5 +1,6 @@
 import AbstractView from './abstractView';
 import { addProduct } from '../controller';
+import { isPredicatedElement } from '../utils/predicator';
 
 class ProductContainerView extends AbstractView<HTMLElement> {
   render({ products }: { products: Array<Product> }) {
@@ -11,12 +12,8 @@ class ProductContainerView extends AbstractView<HTMLElement> {
     return document.querySelector('.product-form');
   }
 
-  isFormElement(target: any): target is HTMLFormElement {
-    return (target as HTMLFormElement) !== null;
-  }
-
   subscribeAddProduct() {
-    if (!this.isFormElement(this.productFormElement)) return;
+    if (!isPredicatedElement<HTMLFormElement>(this.productFormElement)) return;
 
     this.productFormElement.addEventListener('submit', (event: Event | SubmitEvent) => {
       event.preventDefault();

@@ -1,17 +1,14 @@
 import { PageList, PathType, PageType, PAGE } from './pages';
+import { isPredicatedElement } from '../utils/predicator';
 
 const updateAnchorElement = (path: string) => {
-  const isAnchorElement = (anchorEl: Element | null): anchorEl is HTMLAnchorElement => {
-    return (anchorEl as HTMLAnchorElement) !== null;
-  };
-
   const preActiveAnchor = document.querySelector('a.active');
   const nextActiveAnchor = document.querySelector(`a[href="#${path}"]`);
 
-  if (isAnchorElement(preActiveAnchor)) {
+  if (isPredicatedElement(preActiveAnchor)) {
     preActiveAnchor.classList.remove('active');
   }
-  if (isAnchorElement(nextActiveAnchor)) {
+  if (isPredicatedElement(nextActiveAnchor)) {
     nextActiveAnchor.classList.add('active');
   }
 };
