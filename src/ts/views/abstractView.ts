@@ -5,6 +5,8 @@ export default abstract class AbstractView<ViewElement extends HTMLElement> {
     this.containerElement = document.querySelector('#app')! as ViewElement;
   }
 
+  abstract getMarkup(data: unknown): string;
+
   render(data: unknown) {
     this.clear();
     this.renderDiff(data);
@@ -35,11 +37,5 @@ export default abstract class AbstractView<ViewElement extends HTMLElement> {
 
   clear() {
     this.containerElement.replaceChildren();
-  }
-
-  getMarkup(message: unknown) {
-    return /* html */ `
-       <div>${message}</div>
-     `;
   }
 }
