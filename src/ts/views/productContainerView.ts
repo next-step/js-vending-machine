@@ -1,7 +1,7 @@
 import AbstractView from './abstractView';
 import { addProduct } from '../controller';
 
-class ProductContainerView extends AbstractView<HTMLElement, Array<Product>> {
+class ProductContainerView extends AbstractView<HTMLElement> {
   render({ products }: { products: Array<Product> }) {
     super.render(products);
     this.subscribeAddProduct();

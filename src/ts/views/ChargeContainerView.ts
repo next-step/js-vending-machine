@@ -1,7 +1,7 @@
 import AbstractView from './abstractView';
 import { chargeCoin } from '../controller';
 
-class ChargeContainerView extends AbstractView<HTMLElement, Record<CoinKey, CoinObj>> {
+class ChargeContainerView extends AbstractView<HTMLElement> {
   render({ coins }: { coins: Record<CoinKey, CoinObj> }) {
     super.render(coins);
     this.subscribeChargeCoin();

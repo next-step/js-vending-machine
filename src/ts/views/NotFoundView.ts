@@ -1,6 +1,6 @@
 import AbstractView from './abstractView';
 
-class NotFoundView extends AbstractView<HTMLElement, string> {
+class NotFoundView extends AbstractView<HTMLElement> {
   private errorMessage = '🚨 Not Found! 🚨';
 
   render() {

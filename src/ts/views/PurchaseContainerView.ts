@@ -1,13 +1,9 @@
 import AbstractView from './abstractView';
 
 //TODO: STEP3,4 - 잔돈 반환 구현 필요
-class ReturnContainerView extends AbstractView<HTMLElement, string> {
-  private parentElement = document.querySelector('#app')! as HTMLElement;
-
+class ReturnContainerView extends AbstractView<HTMLElement> {
   render() {
-    this.parentElement.innerHTML = '';
-    const markup = this.getMarkup();
-    this.parentElement.insertAdjacentHTML('afterbegin', markup);
+    super.render();
   }
 
   getMarkup() {
