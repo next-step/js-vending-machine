@@ -1,12 +1,11 @@
-export default abstract class AbstractView<ViewElement extends HTMLElement, Obj extends Object> {
+export default abstract class AbstractView<ViewElement extends HTMLElement> {
   protected containerElement: ViewElement;
-  protected data!: Obj;
 
   constructor() {
     this.containerElement = document.querySelector('#app')! as ViewElement;
   }
 
-  render(data: Obj) {
+  render(data: unknown) {
     this.clear();
     this.renderDiff(data);
   }
@@ -15,7 +14,7 @@ export default abstract class AbstractView<ViewElement extends HTMLElement, Obj 
     return this.containerElement.querySelectorAll('*') === null;
   }
 
-  renderDiff(data: Obj) {
+  renderDiff(data: unknown) {
     const markup = this.getMarkup(data);
     const newDom = document.createRange().createContextualFragment(markup);
     const newElements = Array.from(newDom.querySelectorAll('*'));
@@ -38,7 +37,7 @@ export default abstract class AbstractView<ViewElement extends HTMLElement, Obj 
     this.containerElement.replaceChildren();
   }
 
-  getMarkup(message: Obj) {
+  getMarkup(message: unknown) {
     return /* html */ `
        <div>${message}</div>
      `;
