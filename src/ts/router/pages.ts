@@ -22,14 +22,12 @@ export const PAGE: Record<PageKey, Page> = {
   products: {
     path: '/products',
     view: ProductContainerView,
-    props: {
-      products: loadData('products'),
-    },
+    props: loadData('products'),
   },
   charge: {
     path: '/charge',
     view: ChargeContainerView,
-    props: { coins: loadData('coins') },
+    props: loadData('coins'),
   },
   purchase: {
     path: '/purchase',

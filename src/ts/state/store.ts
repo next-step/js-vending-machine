@@ -25,12 +25,13 @@ export const state: State = {
   },
 };
 
-export const loadData = (key: StateKeys): StateTypes => {
+export const loadData = (key: StateKeys) => {
   try {
     state[key] = getItem(key);
     return getItem(key);
   } catch (err: Error | unknown) {
-    throw err;
+    console.error(err);
+    return null;
   }
 };
 

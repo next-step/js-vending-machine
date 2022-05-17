@@ -26,7 +26,7 @@ const route = () => {
       return;
     }
 
-    PAGE['error'].view.render();
+    PAGE['error'].view.render(null);
   }
 
   updateAnchorElement(path);

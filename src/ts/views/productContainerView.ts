@@ -3,7 +3,7 @@ import { addProduct } from '../controller';
 import { isPredicatedElement } from '../utils/predicator';
 
 class ProductContainerView extends AbstractView<HTMLElement> {
-  render({ products }: { products: Array<Product> }) {
+  render(products: Array<Product>) {
     super.render(products);
     this.subscribeAddProduct();
   }

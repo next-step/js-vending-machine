@@ -3,7 +3,7 @@ import { chargeCoin } from '../controller';
 import { isPredicatedElement } from '../utils/predicator';
 
 class ChargeContainerView extends AbstractView<HTMLElement> {
-  render({ coins }: { coins: Record<CoinKey, CoinObj> }) {
+  render(coins: Record<CoinKey, CoinObj> | null) {
     super.render(coins);
     this.subscribeChargeCoin();
   }
@@ -24,7 +24,7 @@ class ChargeContainerView extends AbstractView<HTMLElement> {
   }
 
   isExistCoin = (coins: Record<CoinKey, CoinObj>): coins is Record<CoinKey, CoinObj> => {
-    return (coins as Record<CoinKey, CoinObj>) !== undefined;
+    return (coins as Record<CoinKey, CoinObj>) !== null;
   };
 
   calculateCoinsSum = (coins: Record<CoinKey, CoinObj>) => {
