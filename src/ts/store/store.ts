@@ -43,36 +43,34 @@ export default class Store {
    * @returns {boolean}
    * @memberof Store
    */
-  dispatch(actionKey, payload) {
+  dispatch = (actionKey, payload) => {
     const self = this;
 
     //   check action exist
     if (typeof self.actions[actionKey] !== 'function') {
-      console.error(`${actionKey} doesn't exist`);
-      return false;
+      throw new Error(`${actionKey} doesn't exist`);
     }
 
     self.status = 'action';
 
-    self.actions[actionKey](self, payload);
+    return self.actions[actionKey](self, payload);
+  };
 
-    return true;
-  }
-
-  commit(mutationKey, payload) {
+  commit = (mutationKey, payload) => {
     const self = this;
 
     // check mutation exist
-    if (typeof self.mutation[mutationKey] === 'function') {
+    if (typeof self.mutations[mutationKey] !== 'function') {
       console.log(`MutationKey doesn't exist.`);
       return false;
     }
 
     self.status = 'mutation';
 
-    const newState = self.mutation[mutationKey](self.state, payload);
+    const newState = self.mutations[mutationKey](self.state, payload);
     self.state = Object.assign(self.state, newState);
 
     return true;
-  }
+  };
 }
+
