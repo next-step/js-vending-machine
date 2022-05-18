@@ -1,14 +1,74 @@
 import AbstractView from './abstractView';
+import { isPredicatedElement } from '../utils/predicator';
 
 //TODO: STEP3,4 - 잔돈 반환 구현 필요
 class ReturnContainerView extends AbstractView<HTMLElement> {
   render() {
-    super.render();
+    const products = this.store.dispatch('loadData', 'products');
+    const inputPrice = this.store.dispatch('loadData', 'inputPrice');
+    super.render({ products, inputPrice });
+    this.subscribeInputPrice();
   }
 
-  getMarkup() {
+  get priceInputFormElement() {
+    return document.querySelector('.inputPrice-form');
+  }
+
+  subscribeInputPrice() {
+    if (!isPredicatedElement<HTMLFormElement>(this.priceInputFormElement)) return;
+
+    this.priceInputFormElement.addEventListener('submit', event => {
+      event.preventDefault();
+      const inputPrice = event.target.elements['input-price'].valueAsNumber;
+      this.store.dispatch('increaseInputPrice', inputPrice);
+      this.render();
+    });
+  }
+
+  isExistProducts = (products: Array<Product>): products is Array<Product> => {
+    return (products as Array<Product>) !== undefined;
+  };
+
+  getMarkup({ products, inputPrice }) {
+    const getProductMarkup = (product: Product) => /* html */ `
+            <tr>
+                <th>${product.name}</th>
+                <th>${product.price}</th>
+                <th>${product.quantity}</th>
+                <th><button>구매하기</button></th>
+            </tr>`;
+
     return /* html */ `
-        <h3>잔돈</h3>
+    <h3>금액 투입</h3>
+    <form class="inputPrice-form">
+        <input type="number" id="input-price" name="input-price" placeholder="금액을 입력해주세요." required autofocus/>
+        <button type="submit" id="input-price-button">투입하기</button>
+        <div class="purchase-input-price">
+        <label>투입한 금액 : <span>${inputPrice}</span>원 </label>
+        
+    </div>
+    </form>
+        <table class="purchase-available">
+        <colgroup>
+            <col style="width: 140px" />
+            <col style="width: 100px" />
+            <col style="width: 100px" />
+            <col style="width: 100px" />
+        </colgroup>
+        <thead>
+            <tr>
+                <th>상품명</th>
+                <th>가격</th>
+                <th>수량</th>
+                <th>구매</th>
+            </tr>            
+        </thead>
+        <tbody id="purchase-available-container">
+        ${this.isExistProducts(products) ? products.map(getProductMarkup).join('') : ''}
+        </tbody>
+    </table>
+
+    <h3>잔돈</h3>
         <button id="coin-return-button">반환하기</button>
         <table class="cashbox-change">
             <colgroup>
