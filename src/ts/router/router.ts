@@ -18,11 +18,10 @@ const route = () => {
   const currentView = <PageType>PageList.find(page => path === page.path);
 
   try {
-    const data = currentView.props;
-    currentView.view.render(data);
+    currentView.view.render();
   } catch (err: Error | unknown) {
     if (currentView) {
-      currentView.view.render(null);
+      currentView.view.render();
       return;
     }
 

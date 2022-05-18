@@ -2,7 +2,8 @@ import AbstractView from './abstractView';
 import { isPredicatedElement } from '../utils/predicator';
 
 class ProductContainerView extends AbstractView<HTMLElement> {
-  render(products: Array<Product>) {
+  render() {
+    const products = this.store.dispatch('loadData', 'products');
     super.render(products);
     this.subscribeAddProduct();
   }
@@ -18,8 +19,8 @@ class ProductContainerView extends AbstractView<HTMLElement> {
       event.preventDefault();
       const dataArray = [...new FormData(event.target)];
       const product = Object.fromEntries(dataArray);
-      const result = this.store.dispatch('addProduct', product);
-      this.render(result);
+      this.store.dispatch('addProduct', product);
+      this.render();
     });
   }
 

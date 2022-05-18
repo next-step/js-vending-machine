@@ -6,6 +6,10 @@ export default {
     commit('loadInitialData');
   },
 
+  loadData({ state }, key: string) {
+    return state[key];
+  },
+
   addProduct({ state, commit }, newProduct: Product) {
     validateNewProduct(newProduct);
     commit('addProduct', newProduct);

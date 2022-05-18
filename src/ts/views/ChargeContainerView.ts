@@ -2,7 +2,8 @@ import AbstractView from './abstractView';
 import { isPredicatedElement } from '../utils/predicator';
 
 class ChargeContainerView extends AbstractView<HTMLElement> {
-  render(coins: Record<CoinKey, CoinObj> | null) {
+  render() {
+    const coins = this.store.dispatch('loadData', 'coins');
     super.render(coins);
     this.subscribeChargeCoin();
   }
@@ -18,8 +19,8 @@ class ChargeContainerView extends AbstractView<HTMLElement> {
       event.preventDefault();
       const dataArray = [...new FormData(event.target)];
       const amount = Object.fromEntries(dataArray)['amount'];
-      const coins = this.store.dispatch('chargeCoin', amount);
-      this.render(coins);
+      this.store.dispatch('chargeCoin', amount);
+      this.render();
     });
   };
 
