@@ -45,7 +45,7 @@ export const addProduct = (newProduct: Product): Array<Product> => {
   try {
     validateNewProduct(newProduct);
 
-    const products = state.products.filter(product => product.name !== newProduct.name);
+    const products = state.products?.filter(product => product.name !== newProduct.name) || [];
     state.products = [...products, newProduct];
 
     if (!state.products) throw Error(ERROR.FAIL_ADD_PRODUCT);
