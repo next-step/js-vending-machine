@@ -1,7 +1,9 @@
+import Store from '../store';
+
 export default abstract class AbstractView<ViewElement extends HTMLElement> {
   protected containerElement: ViewElement;
 
-  constructor() {
+  constructor(protected readonly store = Store) {
     this.containerElement = document.querySelector('#app')! as ViewElement;
   }
 
