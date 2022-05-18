@@ -1,6 +1,5 @@
-import { validateNewProduct, validateCoin } from './validator';
+import { validateCoin } from './validator';
 import { getItem, setItem } from '../utils/storage';
-import { ERROR } from '../utils/message';
 import { generateRandomNumber } from '../utils/randomGenerator';
 
 export const state: State = {
@@ -32,30 +31,6 @@ export const loadData = (key: StateKeys) => {
   } catch (err: Error | unknown) {
     console.error(err);
     return null;
-  }
-};
-
-const sortProduct = () => {
-  state.products = Array.from(<Array<Product>>state.products).sort((a: Product, b: Product) => {
-    return a.name.localeCompare(b.name) || a.price - b.price || b.quantity - a.quantity;
-  });
-};
-
-export const addProduct = (newProduct: Product): Array<Product> => {
-  try {
-    validateNewProduct(newProduct);
-
-    const products = state.products?.filter(product => product.name !== newProduct.name) || [];
-    state.products = [...products, newProduct];
-
-    if (!state.products) throw Error(ERROR.FAIL_ADD_PRODUCT);
-
-    sortProduct();
-    setItem('products', state.products);
-
-    return state.products;
-  } catch (err) {
-    throw err;
   }
 };
 
