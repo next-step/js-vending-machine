@@ -1,5 +1,4 @@
 import AbstractView from './abstractView';
-import { chargeCoin } from '../controller';
 import { isPredicatedElement } from '../utils/predicator';
 
 class ChargeContainerView extends AbstractView<HTMLElement> {
@@ -12,16 +11,17 @@ class ChargeContainerView extends AbstractView<HTMLElement> {
     return document.querySelector('.charge-form');
   }
 
-  subscribeChargeCoin() {
+  subscribeChargeCoin = () => {
     if (!isPredicatedElement<HTMLFormElement>(this.chargeFormElement)) return;
 
     this.chargeFormElement.addEventListener('submit', (event: Event | SubmitEvent) => {
       event.preventDefault();
       const dataArray = [...new FormData(event.target)];
       const amount = Object.fromEntries(dataArray)['amount'];
-      chargeCoin(amount);
+      const coins = this.store.dispatch('chargeCoin', amount);
+      this.render(coins);
     });
-  }
+  };
 
   isExistCoin = (coins: Record<CoinKey, CoinObj>): coins is Record<CoinKey, CoinObj> => {
     return (coins as Record<CoinKey, CoinObj>) !== null;

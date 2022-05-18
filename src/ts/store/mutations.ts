@@ -18,4 +18,16 @@ export default {
 
     setItem('products', state.products);
   },
+
+  addHoldingPrice(state: State, inputPrice: number) {
+    state.holdingPrice += Number(inputPrice);
+  },
+
+  addCoin(state: State, selectedCoinKey: CoinKey) {
+    state.coins[selectedCoinKey].count += 1;
+  },
+
+  saveCoins(state: State) {
+    setItem('coins', state.coins);
+  },
 };
