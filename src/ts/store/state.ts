@@ -1,6 +1,6 @@
 export default {
   products: [],
-  holdingPrice: 0,
+  inputPrice: 0,
   coins: {
     COIN_500: {
       value: 500,

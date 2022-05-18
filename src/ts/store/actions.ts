@@ -19,7 +19,6 @@ export default {
 
   chargeCoin({ state, commit }, inputPrice: number) {
     validateCoin(inputPrice);
-    commit('addHoldingPrice', inputPrice);
 
     while (inputPrice > 0) {
       const coinKeyRange = Reflect.ownKeys(state.coins).length - 1;
@@ -36,5 +35,9 @@ export default {
     commit('saveCoins');
 
     return state.coins;
+  },
+
+  increaseInputPrice({ commit }, inputPrice: number) {
+    commit('increaseInputPrice', inputPrice);
   },
 };
