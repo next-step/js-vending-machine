@@ -39,5 +39,6 @@ export default {
 
   increaseInputPrice({ commit }, inputPrice: number) {
     commit('increaseInputPrice', inputPrice);
+    commit('saveInputPrice');
   },
 };

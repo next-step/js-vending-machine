@@ -4,6 +4,7 @@ export default {
   loadInitialData(state: State) {
     state.products = getItem('products') ?? [];
     state.coins = getItem('coins');
+    state.inputPrice = getItem('inputPrice');
   },
 
   sortProduct(state: State) {
@@ -29,5 +30,9 @@ export default {
 
   increaseInputPrice(state: State, inputPrice: number) {
     state.inputPrice += inputPrice;
+  },
+
+  saveInputPrice(state: State) {
+    setItem('inputPrice', state.inputPrice);
   },
 };
