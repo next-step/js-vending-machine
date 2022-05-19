@@ -9,3 +9,9 @@ export const COIN_CONFIG = {
   MIN_PRICE: 100,
   SHOULD_BE_DIVIDED: 10,
 } as const;
+
+
+export const INPUT_PRICE_CONFIG = {
+  MIN_PRICE: 10,
+  SHOULD_BE_DIVIDED: 10,
+} as const;

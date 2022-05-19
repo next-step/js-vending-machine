@@ -1,4 +1,4 @@
-import { validateNewProduct, validateCoin } from '../state/validator';
+import { validateNewProduct, validateCoin, validateInputPrice } from '../state/validator';
 import { generateRandomNumber } from '../utils/randomGenerator';
 
 export default {
@@ -38,6 +38,7 @@ export default {
   },
 
   increaseInputPrice({ commit }, inputPrice: number) {
+    validateInputPrice(inputPrice);
     commit('increaseInputPrice', inputPrice);
     commit('saveInputPrice');
   },
