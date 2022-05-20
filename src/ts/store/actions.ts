@@ -1,8 +1,8 @@
 import {
-  validateNewProduct,
-  validateCoin,
-  validateInputPrice,
-  validateBuyProduct,
+  isValidForAddProduct,
+  isValidPriceForMakingCoin,
+  isValidInputPrice,
+  isValidProductQuantity,
   isValidPriceForBuyingProduct,
 } from '../state/validator';
 import { generateRandomNumber } from '../utils/randomGenerator';
@@ -17,14 +17,14 @@ export default {
   },
 
   addProduct({ state, commit }, newProduct: Product) {
-    validateNewProduct(newProduct);
+    isValidForAddProduct(newProduct);
     commit('addProduct', newProduct);
     commit('sortProduct');
     return state.products;
   },
 
   chargeCoin({ state, commit }, inputPrice: number) {
-    validateCoin(inputPrice);
+    isValidPriceForMakingCoin(inputPrice);
 
     while (inputPrice > 0) {
       const coinKeyRange = Reflect.ownKeys(state.coins).length - 1;
@@ -44,7 +44,7 @@ export default {
   },
 
   increaseInputPrice({ commit }, inputPrice: number) {
-    validateInputPrice(inputPrice);
+    isValidInputPrice(inputPrice);
     commit('increaseInputPrice', inputPrice);
     commit('saveInputPrice');
   },
@@ -53,7 +53,7 @@ export default {
     const product = state.products.find((product: Product) => product.name === productName);
     const price = state.inputPrice;
 
-    validateBuyProduct(product);
+    isValidProductQuantity(product);
     isValidPriceForBuyingProduct(product, price);
 
     commit('decreaseProductQuantity', product);

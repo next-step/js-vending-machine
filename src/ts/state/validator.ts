@@ -2,7 +2,7 @@ import { UserInputValidationError, InvalidStatusValidationError } from '../utils
 import { ERROR } from '../utils/message';
 import { PRODUCT_CONFIG, COIN_CONFIG, INPUT_PRICE_CONFIG } from '../utils/config';
 
-export const validateNewProduct = (newProduct: Product) => {
+export const isValidForAddProduct = (newProduct: Product) => {
   if (newProduct.price < PRODUCT_CONFIG.MIN_PRICE) {
     throw new UserInputValidationError(ERROR.PRODUCT_LESS_THAN_MIN_PRICE);
   }
@@ -14,7 +14,7 @@ export const validateNewProduct = (newProduct: Product) => {
   }
 };
 
-export const validateCoin = (inputPrice: number) => {
+export const isValidPriceForMakingCoin = (inputPrice: number) => {
   if (inputPrice < COIN_CONFIG.MIN_PRICE) {
     throw new UserInputValidationError(ERROR.COIN_LESS_THAN_MIN_PRICE);
   }
@@ -23,13 +23,13 @@ export const validateCoin = (inputPrice: number) => {
   }
 };
 
-export const validateInputPrice = (inputPrice: number) => {
+export const isValidInputPrice = (inputPrice: number) => {
   if (inputPrice % INPUT_PRICE_CONFIG.SHOULD_BE_DIVIDED !== 0) {
     throw new UserInputValidationError(ERROR.INPUT_PRICE_NOT_DIVIDED_PRICE);
   }
 };
 
-export const validateBuyProduct = (product: Product) => {
+export const isValidProductQuantity = (product: Product) => {
   if (product.quantity < 1) {
     throw new InvalidStatusValidationError(ERROR.PRODUCT_EMPTY);
   }
