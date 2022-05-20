@@ -34,3 +34,9 @@ export const validateBuyProduct = (product: Product) => {
     throw new InvalidStatusValidationError(ERROR.PRODUCT_EMPTY);
   }
 };
+
+export const isValidPriceForBuyingProduct = (product: Product, inputPrice: InputPrice) => {
+  if (product.price > inputPrice) {
+    throw new InvalidStatusValidationError(ERROR.PRODUCT_PRICE_GREATER_THAN_OWN);
+  }
+};
