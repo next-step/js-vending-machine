@@ -9,8 +9,8 @@ import { generateRandomNumber } from '../utils/randomGenerator';
 import { UserInputValidationError, InvalidStatusValidationError } from '../utils/errorValidation';
 
 export default {
-  loadInitialData({ commit }) {
-    commit('loadInitialData');
+  setInitialData({ commit }) {
+    commit('setInitialData');
   },
 
   loadData({ state }, key: string) {

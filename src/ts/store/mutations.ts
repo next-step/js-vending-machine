@@ -1,10 +1,10 @@
 import { getItem, setItem } from '../utils/storage';
 
 export default {
-  loadInitialData(state: State) {
-    state.products = getItem('products') ?? [];
-    state.coins = getItem('coins');
-    state.inputPrice = getItem('inputPrice');
+  setInitialData(state: State) {
+    state.products = getItem('products') ?? state.products;
+    state.coins = getItem('coins') ?? state.coins;
+    state.inputPrice = getItem('inputPrice') ?? state.inputPrice;
   },
 
   sortProduct(state: State) {

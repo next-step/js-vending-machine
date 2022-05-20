@@ -5,7 +5,7 @@ export default abstract class AbstractView<ViewElement extends HTMLElement> {
 
   constructor(protected readonly store = Store) {
     this.containerElement = document.querySelector('#app')! as ViewElement;
-    store.dispatch('loadInitialData');
+    store.dispatch('setInitialData');
   }
 
   abstract getMarkup(data: unknown): string;
