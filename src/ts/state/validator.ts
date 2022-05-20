@@ -1,4 +1,4 @@
-import { UserInputValidationError } from '../utils/errorValidation';
+import { UserInputValidationError, InvalidStatusValidationError } from '../utils/errorValidation';
 import { ERROR } from '../utils/message';
 import { PRODUCT_CONFIG, COIN_CONFIG, INPUT_PRICE_CONFIG } from '../utils/config';
 
@@ -26,5 +26,11 @@ export const validateCoin = (inputPrice: number) => {
 export const validateInputPrice = (inputPrice: number) => {
   if (inputPrice % INPUT_PRICE_CONFIG.SHOULD_BE_DIVIDED !== 0) {
     throw new UserInputValidationError(ERROR.INPUT_PRICE_NOT_DIVIDED_PRICE);
+  }
+};
+
+export const validateBuyProduct = (product: Product) => {
+  if (product.quantity < 1) {
+    throw new InvalidStatusValidationError(ERROR.PRODUCT_EMPTY);
   }
 };

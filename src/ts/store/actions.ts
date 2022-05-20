@@ -1,4 +1,9 @@
-import { validateNewProduct, validateCoin, validateInputPrice } from '../state/validator';
+import {
+  validateNewProduct,
+  validateCoin,
+  validateInputPrice,
+  validateBuyProduct,
+} from '../state/validator';
 import { generateRandomNumber } from '../utils/randomGenerator';
 
 export default {
@@ -45,6 +50,7 @@ export default {
 
   buyProduct({ state, commit }, productName: string) {
     const product = state.products.find((product: Product) => product.name === productName);
+    validateBuyProduct(product);
     commit('decreaseProductQuantity', product);
     commit('decreaseInputPrice', product.price);
     commit('saveInputPrice');

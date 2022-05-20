@@ -3,3 +3,9 @@ export class UserInputValidationError extends Error {
     super(message);
   }
 }
+
+export class InvalidStatusValidationError extends Error {
+  constructor(message: string) {
+    super(message);
+  }
+}
