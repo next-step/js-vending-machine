@@ -24,9 +24,6 @@ export const validateCoin = (inputPrice: number) => {
 };
 
 export const validateInputPrice = (inputPrice: number) => {
-  if (inputPrice < INPUT_PRICE_CONFIG.MIN_PRICE) {
-    throw new UserInputValidationError(ERROR.INPUT_PRICE_LESS_THAN_MIN_PRICE);
-  }
   if (inputPrice % INPUT_PRICE_CONFIG.SHOULD_BE_DIVIDED !== 0) {
     throw new UserInputValidationError(ERROR.INPUT_PRICE_NOT_DIVIDED_PRICE);
   }
