@@ -11,7 +11,11 @@ class ReturnContainerView extends AbstractView<HTMLElement> {
   }
 
   get priceInputFormElement() {
-    return document.querySelector('.inputPrice-form');
+    return document.querySelector('.inputPrice-form')! as HTMLInputElement;
+  }
+
+  get purchaseContainerElement() {
+    return document.getElementById('purchase-available-container')! as HTMLTableElement;
   }
 
   subscribeInputPrice() {
@@ -23,6 +27,13 @@ class ReturnContainerView extends AbstractView<HTMLElement> {
       this.store.dispatch('increaseInputPrice', inputPrice);
       this.render();
     });
+
+    this.purchaseContainerElement.addEventListener('click', event => {
+      event.preventDefault();
+      const productName = event.target.closest('tr').dataset['name'];
+      this.store.dispatch('buyProduct', productName);
+      this.render();
+    });
   }
 
   isExistProducts = (products: Array<Product>): products is Array<Product> => {
@@ -31,11 +42,11 @@ class ReturnContainerView extends AbstractView<HTMLElement> {
 
   getMarkup({ products, inputPrice }) {
     const getProductMarkup = (product: Product) => /* html */ `
-            <tr>
+            <tr data-name="${product.name}">
                 <th>${product.name}</th>
                 <th>${product.price}</th>
                 <th>${product.quantity}</th>
-                <th><button>구매하기</button></th>
+                <th><button class="purchase-btn">구매하기</button></th>
             </tr>`;
 
     return /* html */ `

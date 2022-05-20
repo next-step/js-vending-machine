@@ -20,6 +20,10 @@ export default {
     setItem('products', state.products);
   },
 
+  saveProducts(state: State) {
+    setItem('products', state.products);
+  },
+
   addCoin(state: State, selectedCoinKey: CoinKey) {
     state.coins[selectedCoinKey].count += 1;
   },
@@ -34,5 +38,13 @@ export default {
 
   saveInputPrice(state: State) {
     setItem('inputPrice', state.inputPrice);
+  },
+
+  decreaseProductQuantity(_state: State, product: Product) {
+    product.quantity -= 1;
+  },
+
+  decreaseInputPrice(state: State, productPrice: number) {
+    state.inputPrice -= productPrice;
   },
 };

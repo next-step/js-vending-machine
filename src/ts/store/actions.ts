@@ -42,4 +42,12 @@ export default {
     commit('increaseInputPrice', inputPrice);
     commit('saveInputPrice');
   },
+
+  buyProduct({ state, commit }, productName: string) {
+    const product = state.products.find((product: Product) => product.name === productName);
+    commit('decreaseProductQuantity', product);
+    commit('decreaseInputPrice', product.price);
+    commit('saveInputPrice');
+    commit('saveProducts');
+  },
 };
