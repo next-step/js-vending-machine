@@ -63,7 +63,7 @@ export default {
       commit('increaseInputPrice', inputPrice);
       commit('saveInputPrice');
     } catch (err) {
-      if (err instanceof InvalidStatusValidationError) {
+      if (err instanceof UserInputValidationError) {
         alert(err.message);
       }
     }
