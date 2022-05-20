@@ -1,7 +1,7 @@
 import AbstractView from './abstractView';
 import { isPredicatedElement } from '../utils/predicator';
 
-//TODO: STEP3,4 - 잔돈 반환 구현 필요
+//TODO: STEP4 - 잔돈 반환 구현 필요
 class ReturnContainerView extends AbstractView<HTMLElement> {
   render() {
     const products = this.store.dispatch('loadData', 'products');
@@ -43,74 +43,75 @@ class ReturnContainerView extends AbstractView<HTMLElement> {
   getMarkup({ products, inputPrice }) {
     const getProductMarkup = (product: Product) => /* html */ `
             <tr data-name="${product.name}">
-                <th>${product.name}</th>
-                <th>${product.price}</th>
-                <th>${product.quantity}</th>
-                <th><button class="purchase-btn">구매하기</button></th>
+                <td>${product.name}</td>
+                <td>${product.price}</td>
+                <td>${product.quantity}</td>
+                <td><button class="purchase-btn">구매하기</button></td>
             </tr>`;
 
     return /* html */ `
-    <h3>금액 투입</h3>
-    <form class="inputPrice-form">
-        <input type="number" id="input-price" name="input-price" placeholder="금액을 입력해주세요." required autofocus/>
-        <button type="submit" id="input-price-button">투입하기</button>
-        <div class="purchase-input-price">
-        <label>투입한 금액 : <span>${inputPrice}</span>원 </label>
-        
-    </div>
-    </form>
-        <table class="purchase-available">
-        <colgroup>
-            <col style="width: 140px" />
-            <col style="width: 100px" />
-            <col style="width: 100px" />
-            <col style="width: 100px" />
-        </colgroup>
-        <thead>
-            <tr>
-                <th>상품명</th>
-                <th>가격</th>
-                <th>수량</th>
-                <th>구매</th>
-            </tr>            
-        </thead>
-        <tbody id="purchase-available-container">
-        ${this.isExistProducts(products) ? products.map(getProductMarkup).join('') : ''}
-        </tbody>
-    </table>
+    <div class="grid grid--2-rows">
 
-    <h3>잔돈</h3>
-        <button id="coin-return-button">반환하기</button>
-        <table class="cashbox-change">
-            <colgroup>
-                <col />
-                <col />
-            </colgroup>
-            <thead>
-                <tr>
-                    <th>동전</th>
-                    <th>개수</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>500원</td>
-                    <td id="coin-500-quantity"></td>
-                </tr>
-                <tr>
-                    <td>100원</td>
-                    <td id="coin-100-quantity"></td>
-                </tr>
-                <tr>
-                    <td>50원</td>
-                    <td id="coin-50-quantity"></td>
-                </tr>
-                <tr>
-                    <td>10원</td>
-                    <td id="coin-10-quantity"></td>
-                </tr>
-            </tbody>
-        </table>
+      <div>      
+        <h3>금액 투입</h3>
+        <form class="inputPrice-form">
+          <input type="number" id="input-price" name="input-price" placeholder="금액을 입력해주세요." required autofocus/>
+          <button type="submit" id="input-price-button">투입하기</button>
+          <div class="purchase-input-price">
+            <label>투입한 금액 : <span>${inputPrice}</span>원 </label>
+          </div>
+      </form>
+      <table class="purchase-available fixed_header">
+          <thead>
+              <tr>
+                  <th>상품명</th>
+                  <th>가격</th>
+                  <th>수량</th>
+                  <th>구매</th>
+              </tr>            
+          </thead>
+          <tbody id="purchase-available-container">
+          ${this.isExistProducts(products) ? products.map(getProductMarkup).join('') : ''}
+          </tbody>
+      </table>
+      </div>
+
+      <div>
+      <h3>잔돈</h3>
+          <button id="coin-return-button">반환하기</button>
+          <table class="cashbox-change">
+              <colgroup>
+                  <col />
+                  <col />
+              </colgroup>
+              <thead>
+                  <tr>
+                      <th>동전</th>
+                      <th>개수</th>
+                  </tr>
+              </thead>
+              <tbody>
+                  <tr>
+                      <td>500원</td>
+                      <td id="coin-500-quantity">0개</td>
+                  </tr>
+                  <tr>
+                      <td>100원</td>
+                      <td id="coin-100-quantity">0개</td>
+                  </tr>
+                  <tr>
+                      <td>50원</td>
+                      <td id="coin-50-quantity">0개</td>
+                  </tr>
+                  <tr>
+                      <td>10원</td>
+                      <td id="coin-10-quantity">0개</td>
+                  </tr>
+              </tbody>
+          </table>
+      <div>
+
+    </div>
 `;
   }
 }

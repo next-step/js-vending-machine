@@ -2,6 +2,7 @@
 
 :root {
   --primary-color: #00bcd4;
+  --secondary-color: #d1f2f6;
   --danger-color: #dc3545;
 }
 
@@ -31,13 +32,13 @@ caption {
 table {
   border: 10px dotted #555;
   border-collapse: collapse;
+  margin: 0 auto;
 }
 
-thead{
+thead {
   background-color: var(--primary-color);
   overflow: hidden;
   color: #fff;
-  border-top: 11px solid #
 }
 
 .purchase-available,
@@ -129,12 +130,16 @@ section:last-child {
   align-items: center;
 }
 
+form {
+  width: 100%;
+}
+
 input[type='number'],
 input[type='text'] {
   all: unset;
   font-size: 0.825rem;
   padding: 0.5rem;
-  margin : 0.4rem;
+  margin: 0.4rem;
   background: white;
   text-align: left;
   border: 1px solid #afafaf;
@@ -231,4 +236,58 @@ button:active {
 .cashbox-change th,
 .cashbox-remaining th {
   border: 1px solid #fff;
+}
+
+.grid {
+  display: grid;
+  row-gap: 1rem;
+  justify-content: center;
+  grid-template-columns: 500px;
+}
+
+.grid--2-row {
+  grid-template-rows: repeat(2, 1fr);
+}
+
+.fixed_header {
+  width: 400px;
+  table-layout: fixed;
+  border-collapse: collapse;
+  border: 2px solid #fff;
+}
+
+.fixed_header thead {
+  background-color: var(--primary-color);
+}
+
+.fixed_header th,
+.fixed_header td {
+  width: 12rem;
+  word-break: break-all;
+}
+
+.fixed_header th {
+  padding: 10px 5px;
+  border: 1px solid #fff;
+}
+
+.fixed_header td {
+  height: 2rem;
+  border: 1px solid #fff;
+  background-color: var(--secondary-color);
+}
+
+.fixed_header tbody {
+  display: block;
+  width: 100%;
+  overflow: auto;
+  height: 10rem;
+}
+
+.fixed_header thead tr {
+  display: block;
+}
+
+.fixed_header .height-l {
+  height: 15rem;
 }

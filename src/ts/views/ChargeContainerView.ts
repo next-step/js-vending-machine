@@ -44,13 +44,21 @@ class ChargeContainerView extends AbstractView<HTMLElement> {
     };
 
     return /* html */ `
+    <div class="grid grid--2-rows">
+
+      <div>      
         <h3>자판기 돈통 충전하기</h3>
         <form class="charge-form">
             <input type="number" name="amount" id="vending-machine-charge-input" autofocus required/>
             <button id="vending-machine-charge-button">충전하기</button>
         </form>
         <p>보유 금액: <span id="vending-machine-charge-amount">
-        ${this.isExistCoin(coins) ? this.calculateCoinsSum(coins) : 0}</span>원</p>
+        ${
+          this.isExistCoin(coins) ? this.calculateCoinsSum(coins) : 0
+        }</span>원</p>
+      </div>
+
+      <div>
         <h3>동전 보유 현황</h3>
         <table class="cashbox-remaining">
             <colgroup>
@@ -64,9 +72,17 @@ class ChargeContainerView extends AbstractView<HTMLElement> {
                 </tr>
             </thead>
             <tbody>
-                ${this.isExistCoin(coins) ? Object.values(coins).map(getCoinMarkup).join('') : ''}
+                ${
+                  this.isExistCoin(coins)
+                    ? Object.values(coins).map(getCoinMarkup).join('')
+                    : ''
+                }
             </tbody>
         </table>
+      </div>
+
+    </div>
+
 `;
   }
 }
