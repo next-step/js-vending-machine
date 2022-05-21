@@ -1,12 +1,18 @@
+type StoreStatus = 'action' | 'mutation' | 'resting';
+
 export default class Store {
+  private status: StoreStatus;
+  private actions;
+  private mutations;
+  private state;
+
   constructor(params) {
+    this.actions = params.actions || {};
+    this.mutations = params.mutations || {};
+    this.state = params.state || {};
+    this.status = 'resting';
+
     let self = this;
-
-    self.actions = {};
-    self.mutations = {};
-    self.state = {};
-
-    self.status = 'resting';
 
     if (params.hasOwnProperty('actions')) {
       self.actions = params.actions;
@@ -44,7 +50,7 @@ export default class Store {
    * @returns {boolean}
    * @memberof Store
    */
-  dispatch = (actionKey, payload) => {
+  dispatch = (actionKey: string, payload: unknown) => {
     const self = this;
 
     if (typeof self.actions[actionKey] !== 'function') {
@@ -56,7 +62,7 @@ export default class Store {
     return self.actions[actionKey](self, payload);
   };
 
-  commit = (mutationKey, payload) => {
+  commit = (mutationKey: string, payload: unknown) => {
     const self = this;
 
     if (typeof self.mutations[mutationKey] !== 'function') {
@@ -69,4 +75,3 @@ export default class Store {
     self.state = Object.assign(self.state, newState);
   };
 }
-
