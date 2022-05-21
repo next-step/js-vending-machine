@@ -24,10 +24,6 @@ class ProductContainerView extends AbstractView<HTMLElement> {
     });
   }
 
-  isExistProducts = (products: Array<Product>): products is Array<Product> => {
-    return (products as Array<Product>) !== undefined;
-  };
-
   getMarkup(products: Array<Product>) {
     const getProductMarkup = (product: Product) => /* html */ `
             <tr>
@@ -60,7 +56,7 @@ class ProductContainerView extends AbstractView<HTMLElement> {
                 </tr>            
             </thead>
             <tbody id="product-inventory-container" class="height-l">
-            ${this.isExistProducts(products) ?? products.map(getProductMarkup).join('')}
+             ${products.map(getProductMarkup).join('')}
             </tbody>
         </table>
       </div>
