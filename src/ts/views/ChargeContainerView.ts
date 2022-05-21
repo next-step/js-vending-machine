@@ -53,9 +53,7 @@ class ChargeContainerView extends AbstractView<HTMLElement> {
             <button id="vending-machine-charge-button">충전하기</button>
         </form>
         <p>보유 금액: <span id="vending-machine-charge-amount">
-        ${
-          this.isExistCoin(coins) ? this.calculateCoinsSum(coins) : 0
-        }</span>원</p>
+        ${this.isExistCoin(coins) ?? this.calculateCoinsSum(coins)}</span>원</p>
       </div>
 
       <div>
@@ -72,11 +70,7 @@ class ChargeContainerView extends AbstractView<HTMLElement> {
                 </tr>
             </thead>
             <tbody>
-                ${
-                  this.isExistCoin(coins)
-                    ? Object.values(coins).map(getCoinMarkup).join('')
-                    : ''
-                }
+                ${this.isExistCoin(coins) ?? Object.values(coins).map(getCoinMarkup).join('')}
             </tbody>
         </table>
       </div>

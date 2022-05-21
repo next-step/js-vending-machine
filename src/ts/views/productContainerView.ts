@@ -60,7 +60,7 @@ class ProductContainerView extends AbstractView<HTMLElement> {
                 </tr>            
             </thead>
             <tbody id="product-inventory-container" class="height-l">
-            ${this.isExistProducts(products) ? products.map(getProductMarkup).join('') : ''}
+            ${this.isExistProducts(products) ?? products.map(getProductMarkup).join('')}
             </tbody>
         </table>
       </div>

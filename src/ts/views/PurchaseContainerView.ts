@@ -71,7 +71,7 @@ class ReturnContainerView extends AbstractView<HTMLElement> {
               </tr>            
           </thead>
           <tbody id="purchase-available-container">
-          ${this.isExistProducts(products) ? products.map(getProductMarkup).join('') : ''}
+          ${this.isExistProducts(products) ?? products.map(getProductMarkup).join('')}
           </tbody>
       </table>
       </div>
