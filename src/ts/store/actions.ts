@@ -13,9 +13,11 @@ import {
 } from '../utils/errorValidation';
 
 export default {
-  setInitialData({ commit }) {
+  loadInitialState({ commit }) {
     try {
-      commit('loadInitialData');
+      commit('loadProducts');
+      commit('loadCoins');
+      commit('loadInputPrice');
     } catch (err) {
       if (err instanceof NoDataError) {
         commit('setInitialData');

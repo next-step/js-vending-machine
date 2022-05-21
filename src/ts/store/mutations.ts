@@ -1,10 +1,16 @@
 import { getItem, setItem } from '../utils/storage';
 
 export default {
-  loadInitialData(state: State) {
-    state.products = getItem('products') ?? state.products;
-    state.coins = getItem('coins') ?? state.coins;
-    state.inputPrice = getItem('inputPrice') ?? state.inputPrice;
+  loadProducts(state: State) {
+    state.products = getItem('products') || state.products;
+  },
+
+  loadCoins(state: State) {
+    state.coins = getItem('coins') || state.coins;
+  },
+
+  loadInputPrice(state: State) {
+    state.inputPrice = getItem('inputPrice') || state.inputPrice;
   },
 
   setInitialData(state: State) {
