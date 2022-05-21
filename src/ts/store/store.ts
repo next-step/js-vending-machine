@@ -18,14 +18,16 @@ export default class Store {
 
     self.state = new Proxy(params.state || {}, {
       set(state, key, value) {
+
+        if (self.status !== 'mutation') {
+          console.warn(`Status is not 'mutation'. State can be modified only 'mutation' status.`);
+          return;
+        }
+
         // set value
         state[key] = value;
         // trace action
-        console.log(`stateChange : ${key}: ${value}`);
-
-        if (self.status !== 'mutation') {
-          console.warn(`Use mutation key to mutate.`);
-        }
+        console.log(`stateChange : ${key} changed to ${JSON.stringify(value)}`);
 
         self.status = 'resting';
 
