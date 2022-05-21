@@ -12,13 +12,13 @@ export default class Store {
     this.state = params.state || {};
     this.status = 'resting';
 
-    let self = this;
+    const self = this;
 
-    self.state = new Proxy(params.state || {}, {
+    self.state = new Proxy(this.state || {}, {
       set(state, key, value) {
         if (self.status !== 'mutation') {
           console.warn(`Status is not 'mutation'. State can be modified only 'mutation' status.`);
-          return;
+          return false;
         }
 
         state[key] = value;
