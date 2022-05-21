@@ -6,11 +6,21 @@ import {
   isValidPriceForBuyingProduct,
 } from '../state/validator';
 import { generateRandomNumber } from '../utils/randomGenerator';
-import { UserInputValidationError, InvalidStatusValidationError } from '../utils/errorValidation';
+import {
+  UserInputValidationError,
+  InvalidStatusValidationError,
+  NoDataError,
+} from '../utils/errorValidation';
 
 export default {
   setInitialData({ commit }) {
-    commit('setInitialData');
+    try {
+      commit('loadInitialData');
+    } catch (err) {
+      if (err instanceof NoDataError) {
+        commit('setInitialData');
+      }
+    }
   },
 
   loadData({ state }, key: string) {
