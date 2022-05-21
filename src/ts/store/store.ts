@@ -60,16 +60,13 @@ export default class Store {
     const self = this;
 
     if (typeof self.mutations[mutationKey] !== 'function') {
-      console.log(`MutationKey doesn't exist.`);
-      return false;
+      throw new Error(`${mutationKey} doesn't exist`);
     }
 
     self.status = 'mutation';
 
     const newState = self.mutations[mutationKey](self.state, payload);
     self.state = Object.assign(self.state, newState);
-
-    return true;
   };
 }
 
