@@ -14,14 +14,6 @@ export default class Store {
 
     let self = this;
 
-    if (params.hasOwnProperty('actions')) {
-      self.actions = params.actions;
-    }
-
-    if (params.hasOwnProperty('mutations')) {
-      self.mutations = params.mutations;
-    }
-
     self.state = new Proxy(params.state || {}, {
       set(state, key, value) {
         if (self.status !== 'mutation') {
