@@ -129,5 +129,78 @@ describe('자판기 미션 테스트', () => {
                     expect(text.trim()).to.equal((inputPrice1 + inputPrice2).toString());
                 });
         });
+
+        context('9. 사용자는 충전한 금액을 바탕으로 상품을 구매할 수 있다.', () => {
+            beforeEach(() => {
+                // given 상품
+                cy.visit('#/products');
+                const item1 = {
+                    title: '아이스 아메리카노',
+                    price: 4000,
+                    quantity: 2,
+                };
+                const item2 = {
+                    title: '딸기 요거트 블렌디드',
+                    price: 16000,
+                    quantity: 2,
+                };
+                cy.typeProductItem(item1).type('{enter}');
+                cy.typeProductItem(item2).type('{enter}');
+
+                cy.visit('#/purchase');
+                const inputPrice = 10000;
+                cy.get('#input-price').type(inputPrice).type('{enter}');
+            });
+
+            it('9-1. 상품 구매에 성공하면, 충전한 금액이 상품 금액만큼 차감 된다. 상품 수량도 차감 된다.', () => {
+                cy.get('[data-name="아이스 아메리카노"]').children().last().click();
+
+                cy.get('[data-name="아이스 아메리카노"]')
+                    .children()
+                    .eq(2)
+                    .invoke('text')
+                    .then(text => {
+                        expect(text).to.equal('1');
+                    });
+
+                cy.get('.purchase-input-price')
+                    .find('span')
+                    .invoke('text')
+                    .then(text => {
+                        expect(text).to.equal('6000');
+                    });
+            });
+
+            it('9-3. 수량이 0인 상품은 구매할 수 없다.', () => {
+                cy.get('[data-name="아이스 아메리카노"]').children().last().click();
+                cy.get('[data-name="아이스 아메리카노"]').children().last().click();
+
+                const alertStub = cy.stub();
+                cy.on('window:alert', alertStub);
+
+                cy.get('[data-name="아이스 아메리카노"]')
+                    .children()
+                    .last()
+                    .click()
+                    .then(() => {
+                        expect(alertStub).to.be.calledWith('상품이 남아있지 않습니다. 😅;');
+                    });
+            });
+
+            it('9-3. 구매하려는 상품 가격이 보유하고 있는 금액보다 높은 경우 상품을 구매할 수 없다.', () => {
+                const alertStub = cy.stub();
+                cy.on('window:alert', alertStub);
+
+                cy.get('[data-name="딸기 요거트 블렌디드"]')
+                    .children()
+                    .last()
+                    .click()
+                    .then(() => {
+                        expect(alertStub).to.be.calledWith(
+                            '상품을 구매하기 위한 충전 금액이 부족합니다. \n금액을 더 투입해주세요! 💰',
+                        );
+                    });
+            });
+        });
     });
 });
