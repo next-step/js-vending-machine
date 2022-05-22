@@ -5,14 +5,14 @@ class ChargeContainerView extends AbstractView<HTMLElement> {
   render() {
     const coins = this.store.dispatch('loadData', 'coins');
     super.render(coins);
-    this.subscribeChargeCoin();
+    this.setEvent();
   }
 
   get chargeFormElement() {
     return document.querySelector('.charge-form');
   }
 
-  subscribeChargeCoin = () => {
+  setEvent = () => {
     if (!isPredicatedElement<HTMLFormElement>(this.chargeFormElement)) return;
 
     this.chargeFormElement.addEventListener('submit', (event: Event | SubmitEvent) => {

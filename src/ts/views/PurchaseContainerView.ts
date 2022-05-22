@@ -7,7 +7,7 @@ class ReturnContainerView extends AbstractView<HTMLElement> {
     const products = this.store.dispatch('loadData', 'products');
     const inputPrice = this.store.dispatch('loadData', 'inputPrice');
     super.render({ products, inputPrice });
-    this.subscribeInputPrice();
+    this.setEvent();
   }
 
   get priceInputFormElement() {
@@ -18,7 +18,7 @@ class ReturnContainerView extends AbstractView<HTMLElement> {
     return document.getElementById('purchase-available-container')! as HTMLTableElement;
   }
 
-  subscribeInputPrice() {
+  setEvent() {
     if (!isPredicatedElement<HTMLFormElement>(this.priceInputFormElement)) return;
 
     this.priceInputFormElement.addEventListener('submit', event => {

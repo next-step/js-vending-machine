@@ -9,6 +9,7 @@ export default abstract class AbstractView<ViewElement extends HTMLElement> {
   }
 
   abstract getMarkup(data: unknown): string;
+  abstract setEvent(): void;
 
   render(data: unknown) {
     this.clear();

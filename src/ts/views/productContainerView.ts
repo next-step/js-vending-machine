@@ -5,14 +5,14 @@ class ProductContainerView extends AbstractView<HTMLElement> {
   render() {
     const products = this.store.dispatch('loadData', 'products');
     super.render(products);
-    this.subscribeAddProduct();
+    this.setEvent();
   }
 
   get productFormElement() {
     return document.querySelector('.product-form');
   }
 
-  subscribeAddProduct() {
+  setEvent() {
     if (!isPredicatedElement<HTMLFormElement>(this.productFormElement)) return;
 
     this.productFormElement.addEventListener('submit', (event: Event | SubmitEvent) => {
