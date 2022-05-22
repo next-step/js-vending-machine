@@ -35,7 +35,7 @@ class ProductContainerView extends AbstractView<HTMLElement> {
     return /* html */ `
     <div class="grid grid--2-rows">
 
-      <div>
+      <div class="product-container">
         <h3>상품 추가하기</h3>
         <form class="product-form">
             <input type="text" id="product-name-input" name="name" placeholder="상품명" required autofocus/>
