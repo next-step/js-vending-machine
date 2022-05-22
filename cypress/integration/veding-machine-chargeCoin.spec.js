@@ -1,5 +1,5 @@
 describe('자판기 미션 테스트', () => {
-    context('상품 관리 페이지', () => {
+    context('잔돈 돈통 충전 페이지', () => {
         beforeEach(() => {
             // given - 상품 관리 화면 렌더링
             cy.visit('#/charge');
@@ -107,7 +107,7 @@ describe('자판기 미션 테스트', () => {
             cy.get('.cashbox-remaining').find('tbody tr').contains('10원');
         });
 
-        it.only('7. 동전의 개수를 나타내는 정보는 {개수}개 형식으로 나타낸다.', () => {
+        it('7. 동전의 개수를 나타내는 정보는 {개수}개 형식으로 나타낸다.', () => {
             // given - 초기 보유 금액은 1000원이 충전된 상태이다.
             cy.get('#vending-machine-charge-input').type(1000).type('{enter}');
 
