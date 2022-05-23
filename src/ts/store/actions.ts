@@ -4,7 +4,7 @@ import {
   isValidInputPrice,
   isValidProductQuantity,
   isValidPriceForBuyingProduct,
-} from '../state/validator';
+} from './validator';
 import { generateRandomNumber } from '../utils/randomGenerator';
 import {
   UserInputValidationError,
