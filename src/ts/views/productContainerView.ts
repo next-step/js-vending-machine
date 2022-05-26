@@ -13,8 +13,7 @@ class ProductContainerView extends AbstractView<HTMLElement> {
   }
 
   setEvent() {
-    if (!isPredicatedElement<HTMLFormElement>(this.productFormElement)) return;
-
+    if (!isPredicatedElement(this.productFormElement)) return;
     this.productFormElement.addEventListener('submit', (event: Event | SubmitEvent) => {
       event.preventDefault();
       const dataArray = [...new FormData(event.target)];

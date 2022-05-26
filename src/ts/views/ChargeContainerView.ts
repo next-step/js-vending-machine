@@ -13,7 +13,7 @@ class ChargeContainerView extends AbstractView<HTMLElement> {
   }
 
   setEvent = () => {
-    if (!isPredicatedElement<HTMLFormElement>(this.chargeFormElement)) return;
+    if (!isPredicatedElement(this.chargeFormElement)) return;
 
     this.chargeFormElement.addEventListener('submit', (event: Event | SubmitEvent) => {
       event.preventDefault();

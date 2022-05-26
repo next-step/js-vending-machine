@@ -19,7 +19,7 @@ class ReturnContainerView extends AbstractView<HTMLElement> {
   }
 
   setEvent() {
-    if (!isPredicatedElement<HTMLFormElement>(this.priceInputFormElement)) return;
+    if (!isPredicatedElement(this.priceInputFormElement)) return;
 
     this.priceInputFormElement.addEventListener('submit', event => {
       event.preventDefault();
