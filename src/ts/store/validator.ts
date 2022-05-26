@@ -1,6 +1,6 @@
 import { UserInputValidationError, InvalidStatusValidationError } from '../utils/errorValidation';
-import { ERROR } from '../utils/message';
-import { PRODUCT_CONFIG, COIN_CONFIG, INPUT_PRICE_CONFIG } from '../utils/config';
+import { ERROR } from '../config/message';
+import { PRODUCT_CONFIG, COIN_CONFIG, INPUT_PRICE_CONFIG } from '../config/configuration';
 
 export const isValidForAddProduct = (newProduct: Product) => {
   if (newProduct.price < PRODUCT_CONFIG.MIN_PRICE) {

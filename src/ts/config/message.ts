@@ -1,4 +1,4 @@
-import { PRODUCT_CONFIG, COIN_CONFIG } from './config';
+import { PRODUCT_CONFIG, COIN_CONFIG } from './configuration';
 
 export const ERROR = {
   PRODUCT_LESS_THAN_MIN_PRICE: `상품 가격은 최소 ${PRODUCT_CONFIG.MIN_PRICE}원 이상이어야 합니다!`,
@@ -14,4 +14,3 @@ export const ERROR = {
   NO_PRODUCT_ITEM: '🎁 상품을 추가해주세요!🎁 ',
   FAIL_ADD_PRODUCT: '상품 등록에 실패했습니다. 😢',
 } as const;
-

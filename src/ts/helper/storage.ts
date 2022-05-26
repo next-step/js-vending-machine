@@ -1,5 +1,5 @@
-import { NoDataError } from './errorValidation';
-import { ERROR } from './message';
+import { NoDataError } from '../utils/errorValidation';
+import { ERROR } from '../config/message';
 
 export const setItem = (key: string, value: Object) => {
   try {

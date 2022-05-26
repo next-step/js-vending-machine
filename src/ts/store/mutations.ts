@@ -1,4 +1,4 @@
-import { getItem, setItem } from '../utils/storage';
+import { getItem, setItem } from '../helper/storage';
 
 export default {
   loadProducts(state: State) {
