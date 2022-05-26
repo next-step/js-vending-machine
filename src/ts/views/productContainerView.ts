@@ -2,17 +2,13 @@ import AbstractView from './abstractView';
 import { isPredicatedElement } from '../utils/predicator';
 
 class ProductContainerView extends AbstractView<HTMLElement> {
-  render() {
+  override render() {
     const products = this.store.dispatch('loadData', 'products');
     super.render(products);
     this.setEvent();
   }
 
-  get productFormElement() {
-    return document.querySelector('.product-form');
-  }
-
-  setEvent() {
+  override setEvent() {
     if (!isPredicatedElement(this.productFormElement)) return;
     this.productFormElement.addEventListener('submit', (event: Event | SubmitEvent) => {
       event.preventDefault();
@@ -21,6 +17,10 @@ class ProductContainerView extends AbstractView<HTMLElement> {
       this.store.dispatch('addProduct', product);
       this.render();
     });
+  }
+
+  get productFormElement() {
+    return document.querySelector('.product-form');
   }
 
   getMarkup(products: Array<Product>) {

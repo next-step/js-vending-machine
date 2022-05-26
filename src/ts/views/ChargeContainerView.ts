@@ -2,17 +2,13 @@ import AbstractView from './abstractView';
 import { isPredicatedElement } from '../utils/predicator';
 
 class ChargeContainerView extends AbstractView<HTMLElement> {
-  render() {
+  override render() {
     const coins = this.store.dispatch('loadData', 'coins');
     super.render(coins);
     this.setEvent();
   }
 
-  get chargeFormElement() {
-    return document.querySelector('.charge-form');
-  }
-
-  setEvent = () => {
+  override setEvent = () => {
     if (!isPredicatedElement(this.chargeFormElement)) return;
 
     this.chargeFormElement.addEventListener('submit', (event: Event | SubmitEvent) => {
@@ -23,6 +19,10 @@ class ChargeContainerView extends AbstractView<HTMLElement> {
       this.render();
     });
   };
+
+  get chargeFormElement() {
+    return document.querySelector('.charge-form');
+  }
 
   calculateCoinsSum = (coins: Record<CoinKey, CoinObj>) => {
     return Object.values(coins).reduce((accPrice: number, cur: CoinObj) => {

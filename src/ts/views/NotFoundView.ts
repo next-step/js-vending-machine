@@ -1,6 +1,10 @@
 import AbstractView from './abstractView';
 
 class NotFoundView extends AbstractView<HTMLElement> {
+  override setEvent(): never {
+    throw new Error("NotFoundView doesn't' need event.");
+  }
+
   private errorMessage = '🚨 Not Found! 🚨';
 
   render() {

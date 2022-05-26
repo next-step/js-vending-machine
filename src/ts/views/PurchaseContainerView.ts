@@ -3,22 +3,14 @@ import { isPredicatedElement } from '../utils/predicator';
 
 //TODO: STEP4 - 잔돈 반환 구현 필요
 class ReturnContainerView extends AbstractView<HTMLElement> {
-  render() {
+  override render() {
     const products = this.store.dispatch('loadData', 'products');
     const inputPrice = this.store.dispatch('loadData', 'inputPrice');
     super.render({ products, inputPrice });
     this.setEvent();
   }
 
-  get priceInputFormElement() {
-    return document.querySelector('.inputPrice-form')! as HTMLInputElement;
-  }
-
-  get purchaseContainerElement() {
-    return document.getElementById('purchase-available-container')! as HTMLTableElement;
-  }
-
-  setEvent() {
+  override setEvent() {
     if (!isPredicatedElement(this.priceInputFormElement)) return;
 
     this.priceInputFormElement.addEventListener('submit', event => {
@@ -34,6 +26,14 @@ class ReturnContainerView extends AbstractView<HTMLElement> {
       this.store.dispatch('buyProduct', productName);
       this.render();
     });
+  }
+
+  get priceInputFormElement() {
+    return document.querySelector('.inputPrice-form')! as HTMLInputElement;
+  }
+
+  get purchaseContainerElement() {
+    return document.getElementById('purchase-available-container')! as HTMLTableElement;
   }
 
   getMarkup({ products, inputPrice }) {
