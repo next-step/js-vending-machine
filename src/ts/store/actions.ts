@@ -7,9 +7,10 @@ import {
 } from './validator';
 import { generateRandomNumber } from '../utils/randomGenerator';
 import { isPredicatedError } from '../utils/predicator';
+import { Store } from '../store';
 
 export default {
-  loadInitialState({ commit }) {
+  loadInitialState({ commit }: Store) {
     try {
       commit('loadProducts');
       commit('loadCoins');
@@ -21,11 +22,11 @@ export default {
     }
   },
 
-  loadData({ state }, key: string) {
+  loadData({ state }: Store, key: string) {
     return state[key];
   },
 
-  addProduct({ state, commit }, newProduct: Product) {
+  addProduct({ state, commit }: Store, newProduct: Product) {
     try {
       isValidForAddProduct(newProduct);
       commit('addProduct', newProduct);
@@ -38,7 +39,7 @@ export default {
     }
   },
 
-  chargeCoin({ state, commit }, inputPrice: number) {
+  chargeCoin({ state, commit }: Store, inputPrice: number) {
     try {
       isValidPriceForMakingCoin(inputPrice);
 
@@ -64,7 +65,7 @@ export default {
     }
   },
 
-  increaseInputPrice({ commit }, inputPrice: number) {
+  increaseInputPrice({ commit }: Store, inputPrice: number) {
     try {
       isValidInputPrice(inputPrice);
 
@@ -77,7 +78,7 @@ export default {
     }
   },
 
-  buyProduct({ state, commit }, productName: string) {
+  buyProduct({ state, commit }: Store, productName: string) {
     try {
       const product = state.products.find((product: Product) => product.name === productName);
       const price = state.inputPrice;
