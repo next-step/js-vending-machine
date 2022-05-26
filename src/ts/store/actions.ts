@@ -6,11 +6,7 @@ import {
   isValidPriceForBuyingProduct,
 } from './validator';
 import { generateRandomNumber } from '../utils/randomGenerator';
-import {
-  UserInputValidationError,
-  InvalidStatusValidationError,
-  NoDataError,
-} from '../utils/errorValidation';
+import { isPredicatedError } from '../utils/predicator';
 
 export default {
   loadInitialState({ commit }) {
@@ -19,7 +15,7 @@ export default {
       commit('loadCoins');
       commit('loadInputPrice');
     } catch (err) {
-      if (err instanceof NoDataError) {
+      if (isPredicatedError(err)) {
         commit('setInitialData');
       }
     }
@@ -36,7 +32,7 @@ export default {
       commit('sortProduct');
       return state.products;
     } catch (err) {
-      if (err instanceof UserInputValidationError) {
+      if (isPredicatedError(err)) {
         alert(err.message);
       }
     }
@@ -62,7 +58,7 @@ export default {
 
       return state.coins;
     } catch (err) {
-      if (err instanceof UserInputValidationError) {
+      if (isPredicatedError(err)) {
         alert(err.message);
       }
     }
@@ -75,7 +71,7 @@ export default {
       commit('increaseInputPrice', inputPrice);
       commit('saveInputPrice');
     } catch (err) {
-      if (err instanceof UserInputValidationError) {
+      if (isPredicatedError(err)) {
         alert(err.message);
       }
     }
@@ -94,7 +90,7 @@ export default {
       commit('saveInputPrice');
       commit('saveProducts');
     } catch (err) {
-      if (err instanceof InvalidStatusValidationError) {
+      if (isPredicatedError(err)) {
         alert(err.message);
       }
     }

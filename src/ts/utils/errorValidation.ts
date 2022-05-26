@@ -15,3 +15,6 @@ export class NoDataError extends Error {
     super(message);
   }
 }
+
+export type CustomErrorType = UserInputValidationError | InvalidStatusValidationError | NoDataError;
+export const CustomErrors = [UserInputValidationError, InvalidStatusValidationError, NoDataError];
