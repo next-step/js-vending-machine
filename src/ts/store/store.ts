@@ -1,6 +1,11 @@
 type StoreStatus = 'action' | 'mutation' | 'resting';
 
-export default class Store {
+export interface StoreInterface {
+  commit: (mutationKey: string, payload?: unknown) => void;
+  dispatch: (actionKey: string, payload?: unknown) => State[StateKeys];
+}
+
+export const Store = class implements StoreInterface {
   private status: StoreStatus;
   private actions;
   private mutations;
@@ -32,16 +37,6 @@ export default class Store {
     });
   }
 
-  /**
-   * @description
-   * Dispatcher for action
-   * - Look in the actions collection and run the action, if success to find it.
-   *
-   * @param {string} actionKey
-   * @param {mixed} payload
-   * @returns {boolean}
-   * @memberof Store
-   */
   dispatch = (actionKey: string, payload: unknown) => {
     const self = this;
 
@@ -66,4 +61,4 @@ export default class Store {
     const newState = self.mutations[mutationKey](self.state, payload);
     self.state = Object.assign(self.state, newState);
   };
-}
+};

@@ -7,10 +7,10 @@ import {
 } from './validator';
 import { generateRandomNumber } from '../utils/randomGenerator';
 import { isPredicatedError } from '../utils/predicator';
-import { Store } from '../store';
+import { StoreInterface } from './store';
 
 export default {
-  loadInitialState({ commit }: Store) {
+  loadInitialState({ commit }: StoreInterface) {
     try {
       commit('loadProducts');
       commit('loadCoins');
@@ -22,11 +22,11 @@ export default {
     }
   },
 
-  loadData({ state }: Store, key: string) {
+  loadData({ state }: StoreInterface, key: string) {
     return state[key];
   },
 
-  addProduct({ state, commit }: Store, newProduct: Product) {
+  addProduct({ state, commit }: StoreInterface, newProduct: Product) {
     try {
       isValidForAddProduct(newProduct);
       commit('addProduct', newProduct);
@@ -39,7 +39,7 @@ export default {
     }
   },
 
-  chargeCoin({ state, commit }: Store, inputPrice: number) {
+  chargeCoin({ state, commit }: StoreInterface, inputPrice: number) {
     try {
       isValidPriceForMakingCoin(inputPrice);
 
@@ -65,7 +65,7 @@ export default {
     }
   },
 
-  increaseInputPrice({ commit }: Store, inputPrice: number) {
+  increaseInputPrice({ commit }: StoreInterface, inputPrice: number) {
     try {
       isValidInputPrice(inputPrice);
 
@@ -78,7 +78,7 @@ export default {
     }
   },
 
-  buyProduct({ state, commit }: Store, productName: string) {
+  buyProduct({ state, commit }: StoreInterface, productName: string) {
     try {
       const product = state.products.find((product: Product) => product.name === productName);
       const price = state.inputPrice;
