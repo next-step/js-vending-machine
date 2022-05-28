@@ -1,15 +1,16 @@
 type StoreStatus = 'action' | 'mutation' | 'resting';
 
 export interface StoreInterface {
+  state: State;
   commit: (mutationKey: string, payload?: unknown) => void;
-  dispatch: (actionKey: string, payload?: unknown) => State[StateKeys];
+  dispatch: (actionKey: string, payload?: unknown) => unknown;
 }
 
 export const Store = class implements StoreInterface {
+  state: State;
   private status: StoreStatus;
   private actions;
   private mutations;
-  private state;
 
   constructor(params) {
     this.actions = params.actions || {};
@@ -20,7 +21,7 @@ export const Store = class implements StoreInterface {
     const self = this;
 
     self.state = new Proxy(this.state || {}, {
-      set(state, key, value) {
+      set(state, key: StateKeys, value) {
         if (self.status !== 'mutation') {
           console.warn(`Status is not 'mutation'. State can be modified only 'mutation' status.`);
           return false;

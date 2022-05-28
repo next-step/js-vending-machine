@@ -22,7 +22,7 @@ export default {
     }
   },
 
-  loadData({ state }: StoreInterface, key: string) {
+  loadData({ state }: StoreInterface, key: StateKeys) {
     return state[key];
   },
 
