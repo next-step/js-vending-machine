@@ -2,7 +2,7 @@ import AbstractView from './abstractView';
 import { isPredicatedElement } from '../utils/predicator';
 
 //TODO: STEP4 - 잔돈 반환 구현 필요
-class ReturnContainerView extends AbstractView<HTMLElement> {
+class ReturnContainerView extends AbstractView {
   override render() {
     const products = this.store.dispatch('loadData', 'products');
     const inputPrice = this.store.dispatch('loadData', 'inputPrice');
@@ -29,11 +29,11 @@ class ReturnContainerView extends AbstractView<HTMLElement> {
   }
 
   get priceInputFormElement() {
-    return document.querySelector('.inputPrice-form')! as HTMLInputElement;
+    return document.querySelector('.inputPrice-form');
   }
 
   get purchaseContainerElement() {
-    return document.getElementById('purchase-available-container')! as HTMLTableElement;
+    return document.getElementById('purchase-available-container');
   }
 
   getMarkup({ products, inputPrice }) {

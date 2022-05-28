@@ -1,7 +1,7 @@
 import AbstractView from './abstractView';
 import { isPredicatedElement } from '../utils/predicator';
 
-class ProductContainerView extends AbstractView<HTMLElement> {
+class ProductContainerView extends AbstractView {
   override render() {
     const products = this.store.dispatch('loadData', 'products');
     super.render(products);

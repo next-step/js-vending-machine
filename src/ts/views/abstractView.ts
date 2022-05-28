@@ -1,10 +1,11 @@
 import Store from '../store';
+import { isPredicatedElement } from '../utils/predicator';
 
-export default abstract class AbstractView<ViewElement extends HTMLElement> {
-  protected containerElement: ViewElement;
+export default abstract class AbstractView {
+  protected containerElement: HTMLElement | null;
 
   constructor(protected readonly store = Store) {
-    this.containerElement = document.querySelector('#app')! as ViewElement;
+    this.containerElement = document.querySelector('#app');
     store.dispatch('loadInitialState');
   }
 
@@ -17,10 +18,14 @@ export default abstract class AbstractView<ViewElement extends HTMLElement> {
   }
 
   isEverRendered() {
+    if (!isPredicatedElement(this.containerElement)) return new Error('There is no container.');
+
     return this.containerElement.querySelectorAll('*') === null;
   }
 
   renderDiff(data: unknown) {
+    if (!isPredicatedElement(this.containerElement)) return new Error('There is no container.');
+
     const markup = this.getMarkup(data);
     const newDom = document.createRange().createContextualFragment(markup);
     const newElements = Array.from(newDom.querySelectorAll('*'));
@@ -40,6 +45,8 @@ export default abstract class AbstractView<ViewElement extends HTMLElement> {
   }
 
   clear() {
+    if (!isPredicatedElement(this.containerElement)) return new Error('There is no container.');
+
     this.containerElement.replaceChildren();
   }
 }
