@@ -1,3 +1,4 @@
+import type Store from './store';
 import {
   isValidForAddProduct,
   isValidPriceForMakingCoin,
@@ -8,11 +9,10 @@ import {
 import { generateRandomNumber } from '../utils/randomGenerator';
 import { isPredicatedError } from '../utils/predicator';
 
-import type { StoreInterface } from './store';
-import Store from './store';
+type ActionContextType = 'state' | 'commit';
 
 export default {
-  loadInitialState({ commit }: StoreInterface) {
+  loadInitialState({ commit }: Readonly<Pick<Store, ActionContextType>>) {
     try {
       commit('loadProducts');
       commit('loadCoins');
@@ -24,11 +24,12 @@ export default {
     }
   },
 
-  loadData({ state }: Pick<Store, 'state'>, key: keyof State) {
+  loadData({ state }: Readonly<Pick<Store, ActionContextType>>, key: keyof State) {
+    state.inputPrice = 1000;
     return state[key];
   },
 
-  addProduct({ state, commit }: Pick<Store, 'state' | 'commit' | 'dispatch'>, newProduct: Product) {
+  addProduct({ state, commit }: Readonly<Pick<Store, ActionContextType>>, newProduct: Product) {
     try {
       isValidForAddProduct(newProduct);
       commit('addProduct', newProduct);
@@ -41,7 +42,7 @@ export default {
     }
   },
 
-  chargeCoin({ state, commit }: Pick<Store, 'state' | 'commit'>, inputPrice: number) {
+  chargeCoin({ state, commit }: Readonly<Pick<Store, ActionContextType>>, inputPrice: number) {
     try {
       isValidPriceForMakingCoin(inputPrice);
 
@@ -67,7 +68,7 @@ export default {
     }
   },
 
-  increaseInputPrice({ commit }: Pick<Store, 'commit'>, inputPrice: number) {
+  increaseInputPrice({ commit }: Readonly<Pick<Store, ActionContextType>>, inputPrice: number) {
     try {
       isValidInputPrice(inputPrice);
 
@@ -80,7 +81,7 @@ export default {
     }
   },
 
-  buyProduct({ state, commit }: Pick<Store, 'state' | 'commit'>, productName: string) {
+  buyProduct({ state, commit }: Readonly<Pick<Store, ActionContextType>>, productName: string) {
     try {
       const product = state.products.find((product: Product) => product.name === productName);
       const price = state.inputPrice;
