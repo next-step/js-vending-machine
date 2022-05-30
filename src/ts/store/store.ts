@@ -4,8 +4,8 @@ import type Mutations from './mutations';
 type StoreStatus = 'action' | 'mutation' | 'resting';
 
 export interface StoreInterface {
-  readonly commit: <T>(mutationKey: string, payload?: T) => void;
-  readonly dispatch: <T>(actionKey: string, payload?: T) => void;
+  readonly commit: <T>(mutationKey: keyof typeof Mutations, payload?: T) => void;
+  readonly dispatch: <T>(actionKey: keyof typeof Actions, payload?: T) => unknown;
 }
 
 export default class implements StoreInterface {
@@ -40,7 +40,7 @@ export default class implements StoreInterface {
     });
   }
 
-  dispatch = <T>(actionKey: string, payload: T) => {
+  dispatch = <T>(actionKey: keyof typeof Actions, payload: T): unknown => {
     const self = this;
 
     if (typeof self.actions[actionKey] !== 'function') {
@@ -52,7 +52,7 @@ export default class implements StoreInterface {
     return self.actions[actionKey](self, payload);
   };
 
-  commit = (mutationKey: string, payload?: unknown) => {
+  commit = <T>(mutationKey: keyof typeof Mutations, payload?: T) => {
     const self = this;
 
     if (typeof self.mutations[mutationKey] !== 'function') {
