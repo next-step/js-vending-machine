@@ -12,10 +12,7 @@ declare type CoinObj = {
 
 declare interface State {
   products: Array<Product>;
-  coins: Record<CoinKey, CoinObj>;
   inputPrice: number;
+  coins: Record<CoinKey, CoinObj>;
 }
-
-declare type StateTypes = State[keyof State];
-declare type StateKeys = keyof State;
 

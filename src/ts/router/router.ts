@@ -1,4 +1,5 @@
-import { PageList, PathType, PageType, PAGE } from './pages';
+import type { PathType, PageType } from './pages';
+import { PageList, PAGE } from './pages';
 import { isPredicatedElement } from '../utils/predicator';
 
 const updateAnchorElement = (path: string) => {
