@@ -25,7 +25,6 @@ export default {
   },
 
   loadData({ state }: Readonly<Pick<Store, ActionContextType>>, key: keyof State) {
-    state.inputPrice = 1000;
     return state[key];
   },
 
