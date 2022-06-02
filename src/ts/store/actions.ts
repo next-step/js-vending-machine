@@ -8,6 +8,7 @@ import {
 } from './validator';
 import { generateRandomNumber } from '../utils/randomGenerator';
 import { isPredicatedError } from '../utils/predicator';
+import { createNotification } from '../utils/createNoti';
 
 type ActionContextType = 'state' | 'commit';
 
@@ -36,7 +37,7 @@ export default {
       return state.products;
     } catch (err) {
       if (isPredicatedError(err)) {
-        alert(err.message);
+        createNotification(err.message);
       }
     }
   },
@@ -62,7 +63,7 @@ export default {
       return state.coins;
     } catch (err) {
       if (isPredicatedError(err)) {
-        alert(err.message);
+        createNotification(err.message);
       }
     }
   },
@@ -75,7 +76,7 @@ export default {
       commit('saveInputPrice');
     } catch (err) {
       if (isPredicatedError(err)) {
-        alert(err.message);
+        createNotification(err.message);
       }
     }
   },
@@ -94,7 +95,7 @@ export default {
       commit('saveProducts');
     } catch (err) {
       if (isPredicatedError(err)) {
-        alert(err.message);
+        createNotification(err.message);
       }
     }
   },

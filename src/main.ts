@@ -4,22 +4,27 @@ import { isPredicatedElement } from './ts/utils/predicator';
 
 class App {
   constructor(router = Router, component = Component) { 
-    const body = document.querySelector('body');      
-    const template = /* html */ `
+    this.render();
+    component();
+    router(); 
+  }
+
+  private get template() {
+    return /* html */ `
     <nav-component></nav-component>
     <div id="app"></div>
+    <toast-component></toast-component>
     `;
+  }
 
-    const newDom = document.createRange().createContextualFragment(template);
-    
+  private render() {
+    const body = document.querySelector('body');      
+    const newDom = document.createRange().createContextualFragment(this.template);
+  
     if (!isPredicatedElement(body)) {
       throw new Error('Dom content is not loaded');
     }
-  
     body.replaceChildren(newDom);
-  
-    component();
-    router(); 
   }
 }
 

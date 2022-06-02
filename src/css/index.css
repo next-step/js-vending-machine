@@ -2,6 +2,7 @@
 @import './nav.css';
 @import './table.css';
 @import './general.css';
+@import './toast.css';
 :root {
     --primary-color: #00bcd4;
     --secondary-color: #d1f2f6;

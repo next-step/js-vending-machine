@@ -12,7 +12,7 @@ export default class NavigationComponent extends HTMLElement {
     return this.querySelector('nav');    
   }
 
-  render() {
+  private render() {
     this.innerHTML = /* html */ `
         <nav>
         <h2>
