@@ -32,9 +32,9 @@ class ProductContainerView extends AbstractView {
             </tr>`;
 
     return /* html */ `
-    <div class="grid grid--2-rows">
+    <main class="grid grid--2-rows">
 
-      <div class="product-container">
+      <section class="product-container">
         <h3>상품 추가하기</h3>
         <form class="product-form">
             <input type="text" id="product-name-input" name="name" placeholder="상품명" required autofocus/>
@@ -42,10 +42,10 @@ class ProductContainerView extends AbstractView {
             <input type="number" id="product-quantity-input" name="quantity" placeholder="수량" required />
             <button type="submit" id="product-add-button">추가하기</button>
         </form>
-      </div>
+      </section>
 
-      <div>
-        <table class="product-inventory fixed_header">
+      <section>
+        <table class="product-inventory">
             <caption> 상품은 이름, 가격, 수량 순으로 정렬됩니다. </caption>
             <thead>
                 <tr>
@@ -58,9 +58,9 @@ class ProductContainerView extends AbstractView {
              ${products.map(getProductMarkup).join('')}
             </tbody>
         </table>
-      </div>
+      </section>
 
-    </div>
+    </main>
 `;
   }
 }

@@ -1,0 +1,28 @@
+caption {
+    font-size: 0.8rem;
+    text-align: right;
+}
+
+table {
+    border-collapse: collapse;
+    border-style: hidden;
+    background-color: #d1f2f6;
+}
+
+thead {
+    background-color: var(--primary-color);
+    overflow: hidden;
+    color: #fff;
+}
+
+td,
+th {
+    overflow-wrap: break-word;
+    border-color: #fff;
+    border-style: solid;
+    border-width: 1px;
+    font-family: Arial, sans-serif;
+    font-size: 14px;
+    padding: 10px 5px;
+    word-break: normal;
+}

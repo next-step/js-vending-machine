@@ -46,18 +46,18 @@ class ReturnContainerView extends AbstractView {
             </tr>`;
 
     return /* html */ `
-    <div class="grid grid--2-rows">
+    <main class="grid grid--2-rows">
 
-      <div>      
+      <section>      
         <h3>금액 투입</h3>
         <form class="inputPrice-form">
           <input type="number" id="input-price" name="input-price" placeholder="금액을 입력해주세요." required autofocus/>
           <button type="submit" id="input-price-button">투입하기</button>
           <div class="purchase-input-price">
-            <label>투입한 금액 : <span>${inputPrice}</span>원 </label>
+            <p>투입한 금액 : <em>${inputPrice}</em>원 </p>
           </div>
       </form>
-      <table class="purchase-available fixed_header">
+      <table class="purchase-available">
           <thead>
               <tr>
                   <th>상품명</th>
@@ -70,9 +70,9 @@ class ReturnContainerView extends AbstractView {
           ${products.map(getProductMarkup).join('')}
           </tbody>
       </table>
-      </div>
+      </section>
 
-      <div>
+      <section>
       <h3>잔돈</h3>
           <button id="coin-return-button">반환하기</button>
           <table class="cashbox-change">
@@ -105,9 +105,9 @@ class ReturnContainerView extends AbstractView {
                   </tr>
               </tbody>
           </table>
-      <div>
+      <section>
 
-    </div>
+    </section>
 `;
   }
 }
