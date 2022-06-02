@@ -24,19 +24,16 @@
 // -- This will overwrite an existing command --
 // Cypress.Commands.overwrite('visit', (originalFn, url, options) => { ... })
 
-Cypress.Commands.add('calledInvalidMessage', message => {
-  const alertStub = cy.stub();
-  cy.on('window:alert', alertStub);
-
-  cy.get('#product-add-button')
-    .click()
-    .then(() => {
-      expect(alertStub).to.be.calledWith(message);
-    });
-});
 
 Cypress.Commands.add('typeProductItem', ({ title, price, quantity }) => {
-  cy.get('#product-name-input').type(title);
-  cy.get('#product-price-input').type(price);
-  cy.get('#product-quantity-input').type(quantity);
+    cy.get('#product-name-input').type(title);
+    cy.get('#product-price-input').type(price);
+    cy.get('#product-quantity-input').type(quantity);
 });
+
+
+Cypress.Commands.add('checkNotification', (message) => {
+    cy.get('#toasts').children().last().invoke('text').then(text => {
+        expect(text.trim()).to.equal(message);
+    });
+})

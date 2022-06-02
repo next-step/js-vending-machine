@@ -1,3 +1,5 @@
+import { ERROR } from '../../src/ts/config/message'
+
 describe('자판기 미션 테스트', () => {
     context('상품관리 페이지', () => {
         beforeEach(() => {
@@ -71,18 +73,15 @@ describe('자판기 미션 테스트', () => {
                 price: 3000,
                 quantity: 0,
             };
+
             cy.typeProductItem(item);
             cy.get('#product-add-button').click();
-
-            // then - 해당 에러 문구가 등장한다.
-            const alertStub = cy.stub();
-            cy.on('window:alert', alertStub);
 
             // then - 해당 에러 문구가 등장한다.
             cy.typeProductItem(item)
                 .type('{enter}')
                 .then(() => {
-                    expect(alertStub).to.be.calledWith('상품 수량은 1개 이상이어야 합니다!');
+                    cy.checkNotification(ERROR.PRODUCT_LESS_THAN_MIN_QUANTITY)
                 });
         });
 
@@ -97,14 +96,11 @@ describe('자판기 미션 테스트', () => {
             cy.typeProductItem(item);
             cy.get('#product-add-button').click();
 
-            const alertStub = cy.stub();
-            cy.on('window:alert', alertStub);
-
             // then - 해당 에러 문구가 등장한다.
             cy.typeProductItem(item)
                 .type('{enter}')
                 .then(() => {
-                    expect(alertStub).to.be.calledWith('상품 가격은 최소 100원 이상이어야 합니다!');
+                    cy.checkNotification(ERROR.PRODUCT_LESS_THAN_MIN_PRICE)
                 });
         });
 
@@ -116,13 +112,10 @@ describe('자판기 미션 테스트', () => {
                 quantity: 5,
             };
 
-            const alertStub = cy.stub();
-            cy.on('window:alert', alertStub);
-
             cy.typeProductItem(item)
                 .type('{enter}')
                 .then(() => {
-                    expect(alertStub).to.be.calledWith('상품 가격은 10원 단위로 나누어 떨어져야합니다!');
+                    cy.checkNotification(ERROR.PRODUCT_NOT_DIVIDED_PRICE)
                 });
         });
 
@@ -133,8 +126,11 @@ describe('자판기 미션 테스트', () => {
                 price: 3000,
                 quantity: 5,
             };
+
             cy.get('.product-inventory tr').should('have.length', 1);
+
             cy.typeProductItem(item);
+
             cy.get('#product-add-button').click();
             cy.get('.product-inventory tr').should('have.length', 2);
 
@@ -153,7 +149,9 @@ describe('자판기 미션 테스트', () => {
                 price: 3000,
                 quantity: 5,
             };
+
             cy.typeProductItem(item1);
+
             cy.get('#product-add-button').click();
             cy.get('.product-inventory tr').should('have.length', 2);
 

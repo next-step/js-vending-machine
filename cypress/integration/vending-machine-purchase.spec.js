@@ -1,5 +1,9 @@
+import { ERROR } from '../../src/ts/config/message'
+
 describe('자판기 미션 테스트', () => {
+
     context('상품 구매 페이지', () => {
+
         beforeEach(() => {
             // given - 상품 구매 화면 렌더링
             cy.visit('#/purchase');
@@ -68,14 +72,12 @@ describe('자판기 미션 테스트', () => {
                 //then - 충전 실패에 대한 alert 나온다. 충전 금액은 0이다.
 
                 const inputPrice = 33;
-                const alertStub = cy.stub();
-                cy.on('window:alert', alertStub);
 
                 cy.get('#input-price')
                     .type(inputPrice)
                     .type('{enter}')
                     .then(() => {
-                        expect(alertStub).to.be.calledWith('충전 금액은 10원 단위로 나누어 떨어져야합니다!');
+                        cy.checkNotification('충전 금액은 10원 단위로 나누어 떨어져야합니다!')
                     });
 
                 cy.get('.purchase-input-price')
@@ -114,6 +116,7 @@ describe('자판기 미션 테스트', () => {
             beforeEach(() => {
                 // given 상품
                 cy.visit('#/products');
+
                 const item1 = {
                     title: '아이스 아메리카노',
                     price: 4000,
@@ -124,6 +127,7 @@ describe('자판기 미션 테스트', () => {
                     price: 16000,
                     quantity: 2,
                 };
+
                 cy.typeProductItem(item1).type('{enter}');
                 cy.typeProductItem(item2).type('{enter}');
 
@@ -155,30 +159,23 @@ describe('자판기 미션 테스트', () => {
                 cy.get('[data-name="아이스 아메리카노"]').children().last().click();
                 cy.get('[data-name="아이스 아메리카노"]').children().last().click();
 
-                const alertStub = cy.stub();
-                cy.on('window:alert', alertStub);
-
                 cy.get('[data-name="아이스 아메리카노"]')
                     .children()
                     .last()
                     .click()
                     .then(() => {
-                        expect(alertStub).to.be.calledWith('상품이 남아있지 않습니다. 😅;');
+                        cy.checkNotification(ERROR.PRODUCT_EMPTY)
                     });
             });
 
             it('9-3. 구매하려는 상품 가격이 보유하고 있는 금액보다 높은 경우 상품을 구매할 수 없다.', () => {
-                const alertStub = cy.stub();
-                cy.on('window:alert', alertStub);
 
                 cy.get('[data-name="딸기 요거트 블렌디드"]')
                     .children()
                     .last()
                     .click()
                     .then(() => {
-                        expect(alertStub).to.be.calledWith(
-                            '상품을 구매하기 위한 충전 금액이 부족합니다. \n금액을 더 투입해주세요! 💰',
-                        );
+                        cy.checkNotification(ERROR.PRODUCT_PRICE_GREATER_THAN_OWN)
                     });
             });
         });

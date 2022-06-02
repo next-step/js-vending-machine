@@ -1,3 +1,5 @@
+import { ERROR } from '../../src/ts/config/message'
+
 describe('자판기 미션 테스트', () => {
     context('잔돈 돈통 충전 페이지', () => {
         beforeEach(() => {
@@ -52,13 +54,12 @@ describe('자판기 미션 테스트', () => {
 
             // when, then - 100원 미만을 입력하면 에러 문구가 등장한다.
             const chargeInput = 50;
-            const alertStub = cy.stub();
-            cy.on('window:alert', alertStub);
+
             cy.get('#vending-machine-charge-input')
                 .type(chargeInput)
                 .type('{enter}')
                 .then(() => {
-                    expect(alertStub).to.be.calledWith('충전 금액은 최소 100원 이상이어야 합니다!');
+                    cy.checkNotification(ERROR.COIN_LESS_THAN_MIN_PRICE)
                 });
 
             //then - 잔돈이 초기 금액과 동일하다.
