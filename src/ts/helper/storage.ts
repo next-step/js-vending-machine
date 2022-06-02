@@ -5,7 +5,7 @@ export const setItem = (key: string, value: Record<string, unknown>) => {
   try {
     localStorage.setItem(key, JSON.stringify(value));
   } catch (err) {
-    console.log(err);
+    throw new Error('Fail to set Item in LocalStorage.');
   }
 };
 

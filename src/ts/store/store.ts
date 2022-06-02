@@ -31,8 +31,6 @@ export default class implements StoreInterface {
 
         state[key] = value;
 
-        console.log(`stateChange : ${key} changed to ${JSON.stringify(value)}`);
-
         self.status = 'resting';
 
         return true;

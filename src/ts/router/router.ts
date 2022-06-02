@@ -26,15 +26,14 @@ const route = () => {
       return;
     }
 
-    PAGE['error'].view.render(null);
+    PAGE['error'].view.render();
   }
 
   updateAnchorElement(path);
 };
 
-const router = () => {
+export default () => {
   window.addEventListener('DOMContentLoaded', route);
   window.addEventListener('hashchange', route);
 };
 
-export default router;

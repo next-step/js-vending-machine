@@ -2,11 +2,12 @@ import Store from '../store';
 import { isPredicatedElement } from '../utils/predicator';
 
 export default abstract class AbstractView {
-  protected containerElement: HTMLElement | null;
-
   constructor(protected readonly store = Store) {
-    this.containerElement = document.querySelector('#app');
     store.dispatch('loadInitialState');
+  }
+
+  protected get containerElement () {
+    return document.querySelector('#app');    
   }
 
   abstract getMarkup(data: unknown): string;
