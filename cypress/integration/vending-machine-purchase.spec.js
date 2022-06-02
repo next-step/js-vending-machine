@@ -15,7 +15,7 @@ describe('자판기 미션 테스트', () => {
             it('1-1. 상품 구매 페이지 에서 최초 충전 금액은 0원이다.', () => {
                 // then - 최초 충전 금액은 0원이다.
                 cy.get('.purchase-input-price')
-                    .find('span')
+                    .find('em')
                     .invoke('text')
                     .then(text => {
                         expect(text).to.equal('0');
@@ -55,7 +55,7 @@ describe('자판기 미션 테스트', () => {
                 const inputPrice = 3000;
                 cy.get('#input-price').type(inputPrice).type('{enter}');
                 cy.get('.purchase-input-price')
-                    .find('span')
+                    .find('em')
                     .invoke('text')
                     .then(text => {
                         expect(text.trim()).to.equal(inputPrice.toString());
@@ -79,7 +79,7 @@ describe('자판기 미션 테스트', () => {
                     });
 
                 cy.get('.purchase-input-price')
-                    .find('span')
+                    .find('em')
                     .invoke('text')
                     .then(text => {
                         expect(text.trim()).to.equal('0');
@@ -88,7 +88,7 @@ describe('자판기 미션 테스트', () => {
 
             it('2-4. 자판기가 보유한 금액은 {금액}원 형식으로 나타낸다.', () => {
                 // then - 보유 금액 단위는 '원'으로 표기된다.
-                cy.get('.purchase-input-price').find('label').contains('원');
+                cy.get('.purchase-input-price').contains('원');
             });
 
             it('2-5. 금액은 누적으로 충전이 가능하다.', () => {
@@ -102,7 +102,7 @@ describe('자판기 미션 테스트', () => {
                 cy.get('#input-price').type(inputPrice2).type('{enter}');
 
                 cy.get('.purchase-input-price')
-                    .find('span')
+                    .find('em')
                     .invoke('text')
                     .then(text => {
                         expect(text.trim()).to.equal((inputPrice1 + inputPrice2).toString());
@@ -144,7 +144,7 @@ describe('자판기 미션 테스트', () => {
                     });
 
                 cy.get('.purchase-input-price')
-                    .find('span')
+                    .find('em')
                     .invoke('text')
                     .then(text => {
                         expect(text).to.equal('6000');
