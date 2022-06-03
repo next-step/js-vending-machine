@@ -1,4 +1,4 @@
-import Store from '../store';
+import Store from '../store/index';
 import { isPredicatedElement } from '../utils/predicator';
 
 export default abstract class AbstractView {

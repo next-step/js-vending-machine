@@ -15,9 +15,9 @@ export default class implements StoreInterface {
   private mutations;
 
   constructor(params: { actions: typeof Actions; mutations: typeof Mutations; state: State }) {
-    this.actions = params.actions || {};
-    this.mutations = params.mutations || {};
-    this.state = params.state || {};
+    this.actions = params.actions;
+    this.mutations = params.mutations;
+    this.state = params.state;
     this.status = 'resting';
 
     const self = this;
@@ -25,7 +25,7 @@ export default class implements StoreInterface {
     self.state = new Proxy(this.state || {}, {
       set(state, key: keyof State, value) {
         if (self.status !== 'mutation') {
-          console.warn(`Status is not 'mutation'. State can be modified only 'mutation' status.`);
+          console.warn('Status is not \'mutation\'. State can be modified only \'mutation\' status.');
           return false;
         }
 
@@ -38,7 +38,7 @@ export default class implements StoreInterface {
     });
   }
 
-  dispatch = <T>(actionKey: keyof typeof Actions, payload: T): unknown => {
+  dispatch = <T>(actionKey: keyof typeof Actions, payload?: T): unknown => {
     const self = this;
 
     if (typeof self.actions[actionKey] !== 'function') {
