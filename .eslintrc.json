@@ -1,0 +1,17 @@
+{
+    "root": true,
+    "env": {
+        "browser": true,
+        "commonjs": true,
+        "es2021": true
+    },
+    "parser": "@typescript-eslint/parser",
+    "plugins": ["@typescript-eslint"],
+    "extends": ["eslint:recommended", "plugin:@typescript-eslint/recommended"],
+    "rules": {
+        "no-console": "off",
+        "quotes": ["error", "single"],
+        "semi": ["error", "always"],
+        "indent": ["error", 2 ]
+    }
+}

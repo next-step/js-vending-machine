@@ -1,21 +1,32 @@
-export default abstract class AbstractView<ViewElement extends HTMLElement, Obj extends Object> {
-  protected containerElement: ViewElement;
-  protected data!: Obj;
+import Store from '../store/index';
+import { isPredicatedElement } from '../utils/predicator';
 
-  constructor() {
-    this.containerElement = document.querySelector('#app')! as ViewElement;
+export default abstract class AbstractView {
+  constructor(protected readonly store = Store) {
+    store.dispatch('loadInitialState');
   }
 
-  render(data: Obj) {
+  protected get containerElement () {
+    return document.querySelector('#app');    
+  }
+
+  abstract getMarkup(data: unknown): string;
+  abstract setEvent(): void;
+
+  render(data: unknown) {
     this.clear();
     this.renderDiff(data);
   }
 
   isEverRendered() {
+    if (!isPredicatedElement(this.containerElement)) return new Error('There is no container.');
+
     return this.containerElement.querySelectorAll('*') === null;
   }
 
-  renderDiff(data: Obj) {
+  renderDiff(data: unknown) {
+    if (!isPredicatedElement(this.containerElement)) return new Error('There is no container.');
+
     const markup = this.getMarkup(data);
     const newDom = document.createRange().createContextualFragment(markup);
     const newElements = Array.from(newDom.querySelectorAll('*'));
@@ -35,12 +46,8 @@ export default abstract class AbstractView<ViewElement extends HTMLElement, Obj 
   }
 
   clear() {
-    this.containerElement.replaceChildren();
-  }
+    if (!isPredicatedElement(this.containerElement)) return new Error('There is no container.');
 
-  getMarkup(message: Obj) {
-    return /* html */ `
-       <div>${message}</div>
-     `;
+    this.containerElement.replaceChildren();
   }
 }

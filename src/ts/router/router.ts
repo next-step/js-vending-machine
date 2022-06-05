@@ -1,17 +1,15 @@
-import { PageList, PathType, PageType, PAGE } from './pages';
+import type { PathType, PageType } from './pages';
+import { PageList, PAGE } from './pages';
+import { isPredicatedElement } from '../utils/predicator';
 
 const updateAnchorElement = (path: string) => {
-  const isAnchorElement = (anchorEl: Element | null): anchorEl is HTMLAnchorElement => {
-    return (anchorEl as HTMLAnchorElement) !== null;
-  };
-
   const preActiveAnchor = document.querySelector('a.active');
   const nextActiveAnchor = document.querySelector(`a[href="#${path}"]`);
 
-  if (isAnchorElement(preActiveAnchor)) {
+  if (isPredicatedElement(preActiveAnchor)) {
     preActiveAnchor.classList.remove('active');
   }
-  if (isAnchorElement(nextActiveAnchor)) {
+  if (isPredicatedElement(nextActiveAnchor)) {
     nextActiveAnchor.classList.add('active');
   }
 };
@@ -21,8 +19,7 @@ const route = () => {
   const currentView = <PageType>PageList.find(page => path === page.path);
 
   try {
-    const data = currentView.props;
-    currentView.view.render(data);
+    currentView.view.render();
   } catch (err: Error | unknown) {
     if (currentView) {
       currentView.view.render();
@@ -35,9 +32,8 @@ const route = () => {
   updateAnchorElement(path);
 };
 
-const router = () => {
+export default () => {
   window.addEventListener('DOMContentLoaded', route);
   window.addEventListener('hashchange', route);
 };
 
-export default router;
