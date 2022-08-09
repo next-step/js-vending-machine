@@ -16,6 +16,10 @@
   },
   "homepage": "https://github.com/ag502/js-vending-machine#readme",
   "devDependencies": {
-    "live-server": "^1.2.2"
+    "eslint": "^8.21.0",
+    "eslint-config-prettier": "^8.5.0",
+    "eslint-plugin-prettier": "^4.2.1",
+    "live-server": "^1.2.2",
+    "prettier": "^2.7.1"
   }
 }
