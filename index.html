@@ -9,10 +9,13 @@
 	</head>
 
 	<body>
-		<button id="product-manage-menu">상품 관리</button>
-		<button id="vending-machine-manage-menu">잔돈충전</button>
-		<button id="product-purchase-menu">상품 구매</button>
+		<div id="tab-btn-wrapper">
+			<button id="product-manage-menu" data-tab-number="1">상품 관리</button>
+			<button id="vending-machine-manage-menu" data-tab-number="2">잔돈충전</button>
+			<button id="product-purchase-menu" data-tab-number="3">상품 구매</button>
+		</div>
 
 		<div id="app"></div>
+		<script src="./js/index.js" type="module"></script>
 	</body>
 </html>

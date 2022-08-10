@@ -22,7 +22,7 @@ class ProductManageController extends AbstractObservable {
 
 	handleAddProduct(productInfo) {
 		this.productManageModel.addProdcut(productInfo);
-		this.notify(NOTIFY_KEY.ADD_PRODUCT, productInfo);
+		this.notify(NOTIFY_KEY.ADD_PRODUCT, this.productManageModel.products);
 	}
 }
 

@@ -3,6 +3,7 @@ import AbstractObserver from "../../util/observer/AbstractObserver.js";
 import ProductManageController from "../../Controller/ProductManageController.js";
 
 import { $ } from "../../util/dom.js";
+import { NOTIFY_KEY } from "../../util/constants.js";
 
 class ProductManageView extends AbstractObserver {
 	constructor(target) {
@@ -12,8 +13,7 @@ class ProductManageView extends AbstractObserver {
 		this.initObserver();
 	}
 
-	static getTemplate() {
-		return /* html */ `
+	static productManageTemplate = /* html */ `
             <div class="product-manage-tab">
                 <div class="product-container">
                     <h3>상품 추가하기</h3>
@@ -39,6 +39,15 @@ class ProductManageView extends AbstractObserver {
                     </tbody>
                 </table>
             </div>
+        `;
+
+	static productItem(productName, productPrice, productQuantity) {
+		return /* html */ `
+            <tr>
+                <td>${productName}</td>
+                <td>${productPrice}</td>
+                <td>${productQuantity}</td>
+            </tr>
         `;
 	}
 
@@ -74,8 +83,6 @@ class ProductManageView extends AbstractObserver {
 			productQuantity,
 		};
 
-		console.log(productInfo);
-
 		if (!this.isProductInfoValid(productInfo)) {
 			alert("모든 값은 필수 입니다");
 			return;
@@ -88,15 +95,34 @@ class ProductManageView extends AbstractObserver {
 		}
 	};
 
+	renderProductList(products) {
+		const $productList = [...products]
+			.map(([productName, { productPrice, productQuantity }]) =>
+				ProductManageView.productItem(productName, productPrice, productQuantity)
+			)
+			.join("");
+
+		this.$productTableBody.insertAdjacentHTML("beforeend", $productList);
+	}
+
 	render() {
 		const $producrManageTab = $(".product-manage-tab");
 
 		if ($producrManageTab) this.$target.removeChild($producrManageTab);
 
-		this.$target.insertAdjacentHTML("beforeend", ProductManageView.getTemplate());
+		this.$target.insertAdjacentHTML("beforeend", ProductManageView.productManageTemplate);
 
 		this.bindDom();
 		this.bindEvent();
+	}
+
+	update(key, ...args) {
+		switch (key) {
+			case NOTIFY_KEY.ADD_PRODUCT: {
+				this.renderProductList(...args);
+				break;
+			}
+		}
 	}
 }
 
