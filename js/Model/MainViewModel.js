@@ -5,6 +5,10 @@ class MainViewModel {
 		this.#currentTabNumber = -1;
 	}
 
+	get currentTabNumber() {
+		return this.#currentTabNumber;
+	}
+
 	setCurrentTab(tabNumber) {
 		this.#currentTabNumber = tabNumber;
 	}
