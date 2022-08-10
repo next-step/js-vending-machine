@@ -21,8 +21,10 @@ class MainViewController extends AbstractObservable {
 	}
 
 	handleChangeTab(tabNumber) {
+		if (tabNumber === this.mainViewModel.currentTabNumber) return;
+
 		this.mainViewModel.setCurrentTab(tabNumber);
-		this.notify(NOTIFY_KEY.CHANGE_TAB, tabNumber, 2);
+		this.notify(NOTIFY_KEY.CHANGE_TAB, tabNumber);
 	}
 }
 
