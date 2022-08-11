@@ -1,3 +1,7 @@
+import { LOCAL_STORAGE_PRODUCT_KEY } from "../util/constants.js";
+
+import { addItem } from "../../js/util/localstorage.js";
+
 class ProductManageModel {
 	#products;
 
@@ -9,11 +13,13 @@ class ProductManageModel {
 		return this.#products;
 	}
 
-	addProdcut({ productName, productPrice, productQuantity }) {
-		if (productPrice < 0 || productQuantity < 0) {
-			throw new Error("0 이상의 값을 입력해 주세요");
-		}
+	set products(products) {
+		this.#products = products;
+	}
+
+	addProduct({ productName, productPrice, productQuantity }) {
 		this.products.set(productName, { productPrice, productQuantity });
+		addItem(LOCAL_STORAGE_PRODUCT_KEY, Array.from(this.#products));
 	}
 }
 

@@ -1,5 +1,6 @@
 import AbstractObserver from "../../util/observer/AbstractObserver.js";
 
+import MainViewController from "../../Controller/MainViewController.js";
 import ProductManageController from "../../Controller/ProductManageController.js";
 
 import { $ } from "../../util/dom.js";
@@ -54,6 +55,9 @@ class ProductManageView extends AbstractObserver {
 	initObserver() {
 		this.productManageController = ProductManageController;
 		this.productManageController.registerObserver(this);
+
+		this.mainViewController = MainViewController;
+		this.mainViewController.registerObserver(this);
 	}
 
 	bindDom() {
@@ -110,7 +114,8 @@ class ProductManageView extends AbstractObserver {
 
 	update(key, ...args) {
 		switch (key) {
-			case NOTIFY_KEY.ADD_PRODUCT: {
+			case NOTIFY_KEY.ADD_PRODUCT:
+			case NOTIFY_KEY.FETCH_PRODUCT: {
 				this.renderProductList(...args);
 				break;
 			}

@@ -46,7 +46,7 @@ class ProductManageController extends AbstractObservable {
 	handleAddProduct(productInfo) {
 		this.#isProductValid(productInfo);
 
-		this.productManageModel.addProdcut(productInfo);
+		this.productManageModel.addProduct(productInfo);
 		this.notify(NOTIFY_KEY.ADD_PRODUCT, this.productManageModel.products);
 	}
 }
