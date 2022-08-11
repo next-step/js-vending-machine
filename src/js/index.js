@@ -1,6 +1,19 @@
+/**
+ * 요구사항
+ * - 새로고침시에도 가장 최근에 작업한 정보를 불러와야함
+ *  - 최근 탭, 최그 탭에 해당하는 최신 정보 관리 필요
+ *
+ *
+ *
+ */
+
+import store from "./store/index.js";
 function App() {
   this.currentTap = "product-manage-menu";
   this.init = () => {
+    if (store.getCurrentTab()) {
+      this.currentTap = store.getCurrentTab();
+    }
     render();
     initEventListeners();
   };
@@ -48,6 +61,7 @@ function App() {
       );
       if (isNavButton) {
         this.currentTap = e.target.id;
+        store.setCurrentTab(e.target.id);
         render();
       }
     });
