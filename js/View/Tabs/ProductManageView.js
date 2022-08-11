@@ -102,6 +102,7 @@ class ProductManageView extends AbstractObserver {
 			)
 			.join("");
 
+		this.$productTableBody.innerHTML = "";
 		this.$productTableBody.insertAdjacentHTML("beforeend", $productList);
 	}
 
