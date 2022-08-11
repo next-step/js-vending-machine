@@ -68,10 +68,6 @@ class ProductManageView extends AbstractObserver {
 		this.$productAddBtn.addEventListener("click", this.onAddProduct);
 	}
 
-	isProductInfoValid({ productName, productPrice, productQuantity }) {
-		return productName && !isNaN(productPrice) && !isNaN(productQuantity);
-	}
-
 	onAddProduct = () => {
 		const productName = this.$productNameInput.value;
 		const productPrice = this.$productPriceInput.valueAsNumber;
@@ -82,11 +78,6 @@ class ProductManageView extends AbstractObserver {
 			productPrice,
 			productQuantity,
 		};
-
-		if (!this.isProductInfoValid(productInfo)) {
-			alert("모든 값은 필수 입니다");
-			return;
-		}
 
 		try {
 			this.productManageController.handleAddProduct(productInfo);
