@@ -5,12 +5,12 @@ function App() {
 
   this.currentTap = "product-manage-menu";
   this.menu = {
-    "product-manage-menu": [
-      { name: "orange", price: 300, count: 2 },
-      { name: "apple", price: 500, count: 2 },
-    ],
-    "vending-machine-manage-menu": [],
-    "product-purchase-menu": [],
+    "product-manage-menu": {
+      orange: { price: 300, count: 2 },
+      apple: { price: 400, count: 1 },
+    },
+    "vending-machine-manage-menu": {},
+    "product-purchase-menu": {},
   };
 
   this.init = () => {
@@ -25,7 +25,7 @@ function App() {
   };
 
   const productManagerMenuTemplate = () => {
-    return `
+    return /* html */ `
     <h3>상품 추가하기</h3>
     <form class="product-container" id="product-container-form">
       <input type="text" id="product-name-input" placeholder="상품명" autofocus required/>
@@ -52,25 +52,21 @@ function App() {
     `;
   };
 
-  const productInventoryTemplate = (name, price, count) => {
-    return `
+  const productInventoryTemplate = (name, value) => {
+    return /* html */ `
     <tr>
       <td>${name}</td>
-      <td>${price}</td>
-      <td>${count}</td>
+      <td>${value.price}</td>
+      <td>${value.count}</td>
     </tr>
     `;
   };
 
   const productManagerMenuRenderer = () => {
     document.querySelector("#app").innerHTML = productManagerMenuTemplate();
-    const template = this.menu[this.currentTap]
-      .map((product) => {
-        return productInventoryTemplate(
-          product.name,
-          product.price,
-          product.count
-        );
+    const template = Object.keys(this.menu[this.currentTap])
+      .map((key) => {
+        return productInventoryTemplate(key, this.menu[this.currentTap][key]);
       })
       .join("");
     document
@@ -86,7 +82,7 @@ function App() {
     document.querySelector("#app").innerHTML = `product-purchase-menu`;
   };
 
-  const mapView = () => {
+  const render = () => {
     switch (this.currentTap) {
       case "product-manage-menu":
         return productManagerMenuRenderer();
@@ -95,10 +91,6 @@ function App() {
       case "product-purchase-menu":
         return productPurchaseMenu();
     }
-  };
-
-  const render = () => {
-    mapView();
   };
 
   const testProductPrice = (price) => {
