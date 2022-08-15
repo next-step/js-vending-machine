@@ -9,6 +9,9 @@
 
 import store from "./store/index.js";
 function App() {
+  const MIN_PRODUCT_PRICE = 100;
+  const MIN_PRODUCT_COUNT = 1;
+
   this.currentTap = "product-manage-menu";
   this.init = () => {
     if (store.getCurrentTab()) {
@@ -23,13 +26,14 @@ function App() {
       case "product-manage-menu":
         return `
         <h3>상품 추가하기</h3>
-        <div class="product-container">
-          <input type="text" id="product-name-input" placeholder="상품명" />
-          <input type="number" id="product-price-input" placeholder="가격" />
-          <input type="number" id="product-quantity-input" placeholder="수량" />
+        <form class="product-container">
+          <input type="text" id="product-name-input" placeholder="상품명" autofocus required/>
+          <input type="number" id="product-price-input" placeholder="가격" min=${MIN_PRODUCT_PRICE} required/>
+          <input type="number" id="product-quantity-input" placeholder="수량" min=${MIN_PRODUCT_COUNT} required/>
           <button id="product-add-button">추가하기</button>
-        </div>
+        </form>
         <table class="product-inventory">
+        <h3>상품 현황</h3>
           <colgroup>
             <col style="width: 140px" />
             <col style="width: 100px" />
