@@ -1,18 +1,10 @@
-/**
- * 요구사항
- * - 새로고침시에도 가장 최근에 작업한 정보를 불러와야함
- *  - 최근 탭, 최그 탭에 해당하는 최신 정보 관리 필요
- *
- *
- *
- */
-
 import store from "./store/index.js";
 function App() {
   const MIN_PRODUCT_PRICE = 100;
   const MIN_PRODUCT_COUNT = 1;
 
   this.currentTap = "product-manage-menu";
+  this.productManageMenu = {};
   this.init = () => {
     if (store.getCurrentTab()) {
       this.currentTap = store.getCurrentTab();
@@ -20,17 +12,16 @@ function App() {
     render();
     initEventListeners();
   };
-
   const mapView = () => {
     switch (this.currentTap) {
       case "product-manage-menu":
         return `
         <h3>상품 추가하기</h3>
-        <form class="product-container">
+        <form class="product-container" id="product-container-form">
           <input type="text" id="product-name-input" placeholder="상품명" autofocus required/>
           <input type="number" id="product-price-input" placeholder="가격" min=${MIN_PRODUCT_PRICE} required/>
           <input type="number" id="product-quantity-input" placeholder="수량" min=${MIN_PRODUCT_COUNT} required/>
-          <button id="product-add-button">추가하기</button>
+          <button type="submit" id="product-add-button" form="product-container-form">추가하기</button>
         </form>
         <table class="product-inventory">
         <h3>상품 현황</h3>
@@ -58,6 +49,19 @@ function App() {
   const render = () => {
     document.querySelector("#app").innerHTML = mapView();
   };
+
+  const testProductPrice = (price) => {
+    return price % 10 == 0;
+  };
+  const addProduct = (event) => {
+    event.preventDefault();
+    if (!testProductPrice(event.target.children[1].value)) {
+      alert("상품의 가격은 10원으로 나누어 떨어져야합니다.");
+      return;
+    }
+
+    //onkeypress="return event.charCode != 32"event.target.form[0].valu
+  };
   const initEventListeners = () => {
     document.querySelector("nav").addEventListener("click", (e) => {
       const isNavButton = e.target.classList.contains(
@@ -69,6 +73,9 @@ function App() {
         render();
       }
     });
+    document
+      .querySelector("#product-container-form")
+      .addEventListener("submit", addProduct);
   };
 }
 
