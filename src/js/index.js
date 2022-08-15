@@ -5,10 +5,7 @@ function App() {
 
   this.currentTap = "product-manage-menu";
   this.menu = {
-    "product-manage-menu": {
-      orange: { price: 300, count: 2 },
-      apple: { price: 400, count: 1 },
-    },
+    "product-manage-menu": {},
     "vending-machine-manage-menu": {},
     "product-purchase-menu": {},
   };
@@ -103,6 +100,12 @@ function App() {
       alert("상품의 가격은 10원으로 나누어 떨어져야합니다.");
       return;
     }
+    this.menu[this.currentTap][event.target.children[0].value] = {
+      price: event.target.children[1].value,
+      count: event.target.children[2].value,
+    };
+    store.setTabState(this.menu);
+    render();
   };
 
   const initEventListeners = () => {
