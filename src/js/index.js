@@ -52,8 +52,30 @@ function App() {
     `;
   };
 
+  const productInventoryTemplate = (name, price, count) => {
+    return `
+    <tr>
+      <td>${name}</td>
+      <td>${price}</td>
+      <td>${count}</td>
+    </tr>
+    `;
+  };
+
   const productManagerMenuRenderer = () => {
     document.querySelector("#app").innerHTML = productManagerMenuTemplate();
+    const template = this.menu[this.currentTap]
+      .map((product) => {
+        return productInventoryTemplate(
+          product.name,
+          product.price,
+          product.count
+        );
+      })
+      .join("");
+    document
+      .querySelector("#product-inventory-container")
+      .insertAdjacentHTML("beforeend", template);
   };
 
   const vendingMachineManageMenu = () => {
