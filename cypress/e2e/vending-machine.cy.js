@@ -7,7 +7,6 @@ describe("lotto", () => {
     cy.get("#product-name-input").type("orange");
     cy.get("#product-price-input").type(300);
     cy.get("#product-quantity-input").type(6);
-
     cy.get("#product-add-button").click();
     cy.get("#product-inventory-container tr")
       .last()
@@ -25,7 +24,6 @@ describe("lotto", () => {
     cy.get("#product-name-input").type("apple");
     cy.get("#product-price-input").type(333);
     cy.get("#product-quantity-input").type(6);
-
     cy.get("#product-add-button")
       .click()
       .then(() => {
@@ -33,5 +31,23 @@ describe("lotto", () => {
           "상품의 가격은 10원으로 나누어 떨어져야합니다."
         );
       });
+  });
+
+  it("상품 목록은 탭을 이동하여도 기존의 상품 목록이 유지되어야 한다.", () => {
+    cy.get("#product-name-input").type("orange");
+    cy.get("#product-price-input").type(300);
+    cy.get("#product-quantity-input").type(6);
+    cy.get("#product-add-button").click();
+
+    cy.get("#vending-machine-manage-menu").click();
+    cy.get("#product-manage-menu").click();
+
+    cy.get("#product-inventory-container tr")
+      .last()
+      .contains("orange")
+      .siblings()
+      .contains(300)
+      .siblings()
+      .contains(6);
   });
 });
