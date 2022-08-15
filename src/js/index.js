@@ -4,7 +4,7 @@ function App() {
   const MIN_PRODUCT_COUNT = 1;
 
   this.currentTap = "product-manage-menu";
-  this.menu = {
+  this.state = {
     "product-manage-menu": {},
     "vending-machine-manage-menu": {},
     "product-purchase-menu": {},
@@ -15,7 +15,7 @@ function App() {
       this.currentTap = store.getCurrentTab();
     }
     if (store.getTabState()) {
-      this.menu = store.getTabState();
+      this.state = store.getTabState();
     }
     render();
     initEventListeners();
@@ -61,9 +61,9 @@ function App() {
 
   const productManagerMenuRenderer = () => {
     document.querySelector("#app").innerHTML = productManagerMenuTemplate();
-    const template = Object.keys(this.menu[this.currentTap])
+    const template = Object.keys(this.state[this.currentTap])
       .map((key) => {
-        return productInventoryTemplate(key, this.menu[this.currentTap][key]);
+        return productInventoryTemplate(key, this.state[this.currentTap][key]);
       })
       .join("");
     document
@@ -100,11 +100,11 @@ function App() {
       alert("상품의 가격은 10원으로 나누어 떨어져야합니다.");
       return;
     }
-    this.menu[this.currentTap][event.target.children[0].value] = {
+    this.state[this.currentTap][event.target.children[0].value] = {
       price: event.target.children[1].value,
       count: event.target.children[2].value,
     };
-    store.setTabState(this.menu);
+    store.setTabState(this.state);
     render();
   };
 
