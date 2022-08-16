@@ -1,11 +1,14 @@
 import store from "../store/index.js";
+import ProductManageMenuService from "../Service/ProductManageMenuService.js";
 class ProductManageMenuRenderer {
   static MIN_PRODUCT_PRICE = 100;
   static MIN_PRODUCT_COUNT = 1;
   #app;
+  #productManageMenuService;
 
   constructor($app) {
     this.#app = $app;
+    this.#productManageMenuService = new ProductManageMenuService();
     this.initRenderer();
     this.initEventListener();
   }
@@ -62,16 +65,17 @@ class ProductManageMenuRenderer {
       .insertAdjacentHTML("beforeend", template);
   }
 
-  testProductPrice(price) {
-    return price % 10 == 0;
-  }
-
   addProduct = (event) => {
     event.preventDefault();
-    if (!this.testProductPrice(event.target.children[1].value)) {
+    if (
+      !this.#productManageMenuService.testProductPrice(
+        event.target.children[1].value
+      )
+    ) {
       alert("상품의 가격은 10원으로 나누어 떨어져야합니다.");
       return;
     }
+
     const state = store.getTabState();
     state[store.getCurrentTab()][event.target.children[0].value] = {
       price: event.target.children[1].value,
