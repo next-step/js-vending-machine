@@ -1,4 +1,3 @@
-import store from "../store/index.js";
 import ProductManageMenuService from "../Service/ProductManageMenuService.js";
 class ProductManageMenuRenderer {
   static MIN_PRODUCT_PRICE = 100;
@@ -51,15 +50,18 @@ class ProductManageMenuRenderer {
 
   initRenderer() {
     this.#app.innerHTML = ProductManageMenuRenderer.productManagerMenuTemplate;
-    if (!store.getTabState()[store.getCurrentTab()]) return;
-    const template = Object.keys(store.getTabState()[store.getCurrentTab()])
+
+    if (!this.#productManageMenuService.getProducts()) return;
+
+    const template = Object.keys(this.#productManageMenuService.getProducts())
       .map((key) => {
         return ProductManageMenuRenderer.productInventoryTemplate(
           key,
-          store.getTabState()[store.getCurrentTab()][key]
+          this.#productManageMenuService.getProducts()[key]
         );
       })
       .join("");
+
     document
       .querySelector("#product-inventory-container")
       .insertAdjacentHTML("beforeend", template);
@@ -68,20 +70,16 @@ class ProductManageMenuRenderer {
   addProduct = (event) => {
     event.preventDefault();
 
-    if (
-      !this.#productManageMenuService.testProductPrice(
-        event.target.children[1].value
-      )
-    ) {
+    const name = event.target.children[0].value;
+    const price = event.target.children[1].value;
+    const count = event.target.children[2].value;
+
+    if (!this.#productManageMenuService.testProductPrice(price)) {
       alert("상품의 가격은 10원으로 나누어 떨어져야합니다.");
       return;
     }
 
-    this.#productManageMenuService.addProduct(
-      event.target.children[0].value,
-      event.target.children[1].value,
-      event.target.children[2].value
-    );
+    this.#productManageMenuService.addProduct(name, price, count);
     this.initRenderer();
   };
 

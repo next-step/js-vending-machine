@@ -12,5 +12,9 @@ class RroductManageMenuService {
     };
     store.setTabState(state);
   }
+
+  getProducts() {
+    return store.getTabState()[store.getCurrentTab()];
+  }
 }
 export default RroductManageMenuService;
