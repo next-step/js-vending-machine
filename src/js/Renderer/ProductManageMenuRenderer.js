@@ -67,6 +67,7 @@ class ProductManageMenuRenderer {
 
   addProduct = (event) => {
     event.preventDefault();
+
     if (
       !this.#productManageMenuService.testProductPrice(
         event.target.children[1].value
@@ -76,12 +77,11 @@ class ProductManageMenuRenderer {
       return;
     }
 
-    const state = store.getTabState();
-    state[store.getCurrentTab()][event.target.children[0].value] = {
-      price: event.target.children[1].value,
-      count: event.target.children[2].value,
-    };
-    store.setTabState(state);
+    this.#productManageMenuService.addProduct(
+      event.target.children[0].value,
+      event.target.children[1].value,
+      event.target.children[2].value
+    );
     this.initRenderer();
   };
 
