@@ -5,8 +5,6 @@ import ProductManageMenuRenderer from "./ProductManageMenuRenderer.js";
 
 class MainRenderer {
   #app;
-  static MIN_PRODUCT_PRICE = 100;
-  static MIN_PRODUCT_COUNT = 1;
 
   constructor($app) {
     this.#app = $app;
@@ -19,9 +17,9 @@ class MainRenderer {
       case "product-manage-menu":
         return new ProductManageMenuRenderer(this.#app);
       case "vending-machine-manage-menu":
-        return new VendingMachineManageMenuRenderer(this.#app).initRenderer();
+        return new VendingMachineManageMenuRenderer(this.#app);
       case "product-purchase-menu":
-        return new ProductPurchaseMenuRenderer(this.#app).initRenderer();
+        return new ProductPurchaseMenuRenderer(this.#app);
     }
   }
   initEventListener() {
