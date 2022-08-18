@@ -5,6 +5,7 @@ export const MENU_TAB = {
 };
 
 export const PRODUCT_MANAGE_MENU = {
+  PRODUCT_FORM: "product-container-form",
   NAME_INPUT: `product-name-input`,
   PRICE_INPUT: "product-price-input",
   QUANTITY_INPUT: "product-quantity-input",
@@ -12,6 +13,7 @@ export const PRODUCT_MANAGE_MENU = {
   NAME_LIST_CLASS: ".product-manage-name",
   PRICE_LIST_CLASS: ".product-manage-price",
   QUANTITY_LIST_CLASS: ".product-manage-quantity",
+  INVENTORY_CLASS: ".product-inventory",
 };
 
 export const PRODUCT_PURCHASE_MENU = {
@@ -39,10 +41,13 @@ export const PRODUCT_PURCHASE_MENU = {
 
 export const VM_MANAGE_MENU = {
   //동전을 무작위로 생성하는 기능은 `/lib/` 내부의 랜덤 유틸 중 `Random.pick` 메서드를 활용해서 구현한다.
+  CONTAINER: ".purchase-container",
+  CHARGE_FORM: "vending-machine-form",
   CHARGE_INPUT: "vending-machine-charge-input",
   CHARGE_BTN: "vending-machine-charge-button",
   CHARGE_CHECK: "vending-machine-charge-amount",
 
+  RETURN_BTN: "coin-return-button",
   FIVE_HUNDRED_WON: "vending-machine-coin-500-quantity",
   ONE_HUNDRED_WON: "vending-machine-coin-100-quantity",
   FIFTY_WON: "vending-machine-coin-50-quantity",
