@@ -1,15 +1,17 @@
 import store from "../util/store/store.js";
 
 export default class VendingMachineMenuService {
+  constructor() {
+    this.state = store.getCurrentTabState();
+  }
+
   addPrice($price) {
     const state = store.getTabState();
     state[store.getCurrentTab()]["amount"] = $price;
     store.setTabState(state);
   }
 
-  getPrice() {
-    return store.getTabState()[store.getCurrentTab()]["amount"];
-  }
+  setState() {}
 
   calculateInput($price) {
     let 오백원갯수 = 0,
@@ -37,7 +39,9 @@ export default class VendingMachineMenuService {
     store.setTabState(state);
   }
 
-  getResult() {
-    return store.getTabState()[store.getCurrentTab()]["result"];
+  getCurrentTabState() {
+    const currentTabState = store.getCurrentTabState();
+    const price = currentTabState["amount"] || 0;
+    const result = currentTabState["result"] || null;
   }
 }

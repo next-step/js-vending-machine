@@ -11,6 +11,9 @@ const store = {
   getTabState() {
     return JSON.parse(window.localStorage.getItem("state"));
   },
+  getCurrentTabState() {
+    return this.getTabState()[this.getCurrentTab()];
+  },
 };
 
 export default store;

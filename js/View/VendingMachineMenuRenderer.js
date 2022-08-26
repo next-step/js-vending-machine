@@ -7,6 +7,7 @@ export class VendingMachineMenuRenderer {
   constructor($app) {
     this.app = $app;
     this.vendingMachineMenuService = new VendingMachineMenuService();
+    this.state = store.getCurrentTabState();
 
     this.initRenderer("", {});
     this.initEventListener();
@@ -68,12 +69,12 @@ export class VendingMachineMenuRenderer {
   initRenderer() {
     removeAllChild(this.app);
 
-    const price = this.vendingMachineMenuService.getPrice();
-    const result = this.vendingMachineMenuService.getResult();
-
     this.app.insertAdjacentHTML(
       "afterbegin",
-      VendingMachineMenuRenderer.template(price || "", result || "")
+      VendingMachineMenuRenderer.template(
+        this.state["amount"] || "",
+        this.state["result"] || ""
+      )
     );
   }
 
@@ -85,7 +86,7 @@ export class VendingMachineMenuRenderer {
   }
 
   returnCoins() {
-    const price = this.vendingMachineMenuService.getPrice();
+    const price = this.state["amount"];
     const result = this.vendingMachineMenuService.calculateInput(price);
     this.vendingMachineMenuService.addResult(result);
     this.initRenderer();
