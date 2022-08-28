@@ -7,6 +7,8 @@ import { MENU_TAB } from "../util/constants.js";
 export class MainRenderer {
   constructor($app) {
     this.app = $app;
+    this.ProductManageMenuRenderer = new ProductManageMenuRenderer($app);
+    this.VendingMachineMenuRenderer = new VendingMachineMenuRenderer($app);
 
     this.initStorage();
     this.initRenderer();
@@ -26,9 +28,9 @@ export class MainRenderer {
   initRenderer() {
     switch (store.getCurrentTab()) {
       case MENU_TAB.PRODUCT_MANAGE:
-        return new ProductManageMenuRenderer(this.app);
+        return ProductManageMenuRenderer;
       case MENU_TAB.VM_MANAGE:
-        return new VendingMachineMenuRenderer(this.app);
+        return VendingMachineMenuRenderer;
       case MENU_TAB.PRODUCT_PURCHASE:
         return;
     }
