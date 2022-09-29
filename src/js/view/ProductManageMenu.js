@@ -1,7 +1,12 @@
+import { checkPriceUnit, checkValidation } from '../validate/index.js';
+import ProductManageMenuService from '../service/ProductManageMenuService.js';
+import { ERROR_MESSAGE, MIN_PRODUCT } from '../constants/index.js';
+
 class ProductManageMenu {
   constructor($app) {
     this.app = $app;
     this.initRenderer();
+    this.initEventListener();
   }
 
   productManagerMenuTemplate = `
@@ -30,8 +35,53 @@ class ProductManageMenu {
     </table>
     `;
 
+  static productInventoryTemplate(name, value) {
+    return `
+    <tr>
+      <td>${name}</td>
+      <td>${value.price}</td>
+      <td>${value.count}</td>
+    </tr>
+    `;
+  }
+
   initRenderer() {
     this.app.innerHTML = this.productManagerMenuTemplate;
+    const $productInventoryContainer = document.querySelector('#product-inventory-container');
+
+    const getState = ProductManageMenuService.getProductListState();
+    if (!getState) return;
+
+    const productMenuTemplate = Object.keys(getState)
+      .map(tabId =>
+        ProductManageMenu.productInventoryTemplate(tabId, ProductManageMenuService.getProductListState()[tabId])
+      )
+      .join('');
+
+    $productInventoryContainer.insertAdjacentHTML('beforeend', productMenuTemplate);
+  }
+
+  addProductList = e => {
+    e.preventDefault();
+
+    const { children } = e.target;
+
+    const [name, price, count] = children;
+
+    try {
+      const inputCondition = checkPriceUnit(price.value);
+      checkValidation(inputCondition, ERROR_MESSAGE.INVALID_UNIT);
+
+      ProductManageMenuService.setProductListState(name.value, price.value, count.value);
+      this.initRenderer();
+    } catch (error) {
+      alert(error.message);
+    }
+  };
+
+  initEventListener() {
+    const $productForm = document.querySelector('#product-container-form');
+    $productForm.addEventListener('submit', this.addProductList);
   }
 }
 export default ProductManageMenu;

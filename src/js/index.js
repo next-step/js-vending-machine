@@ -1,8 +1,8 @@
 import LocalStorage from './storage/index.js';
+import ProductManageMenu from './view/ProductManageMenu.js';
+import VendingMachineManageMenu from './view/VendingMachineManageMenu.js';
+import ProductPurchaseMenu from './view/ProductPurchaseMenu.js';
 import { MENU } from './constants/index.js';
-import ProductManageMenu from './view/ProductManageMenu';
-import VendingMachineManageMenu from './view/VendingMachineManageMenu';
-import ProductPurchaseMenu from './view/ProductPurchaseMenu';
 
 const $app = document.querySelector('#app');
 const $navigation = document.querySelector('.navigation');
