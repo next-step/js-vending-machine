@@ -35,7 +35,7 @@ class ProductManageMenu {
     </table>
     `;
 
-  static productInventoryTemplate(name, value) {
+  static addProductInventoryTemplate(name, value) {
     return `
     <tr>
       <td>${name}</td>
@@ -54,7 +54,7 @@ class ProductManageMenu {
 
     const productMenuTemplate = Object.keys(getState)
       .map(tabId =>
-        ProductManageMenu.productInventoryTemplate(tabId, ProductManageMenuService.getProductListState()[tabId])
+        ProductManageMenu.addProductInventoryTemplate(tabId, ProductManageMenuService.getProductListState()[tabId])
       )
       .join('');
 
