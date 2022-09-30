@@ -1,3 +1,7 @@
+const NAME = {
+  PRODUCT_INPUT: 'product-input',
+};
+
 const MENU = {
   BUTTON_CLASSNAME: 'button-menu',
   PRODUCT_MANAGE: 'product-manage-menu',
@@ -14,4 +18,4 @@ const ERROR_MESSAGE = {
   INVALID_UNIT: '상품의 가격 단위는 10원으로 나누어떨어져야 합니다.',
 };
 
-export { MENU, MIN_PRODUCT, ERROR_MESSAGE };
+export { NAME, MENU, MIN_PRODUCT, ERROR_MESSAGE };

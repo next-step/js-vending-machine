@@ -1,6 +1,6 @@
 import { checkPriceUnit, checkValidation } from '../validate/index.js';
 import ProductManageMenuService from '../service/ProductManageMenuService.js';
-import { ERROR_MESSAGE, MIN_PRODUCT } from '../constants/index.js';
+import { ERROR_MESSAGE, MIN_PRODUCT, NAME } from '../constants/index.js';
 
 class ProductManageMenu {
   constructor($app) {
@@ -12,9 +12,9 @@ class ProductManageMenu {
   productManagerMenuTemplate = `
     <h3>상품 추가하기</h3>
     <form class="product-container" id="product-container-form">
-      <input type="text" id="product-name-input" placeholder="상품명" autofocus required/>
-      <input type="number" id="product-price-input" placeholder="가격" min=${MIN_PRODUCT.PRICE} required/>
-      <input type="number" id="product-quantity-input" placeholder="수량" min=${MIN_PRODUCT.COUNT} required/>
+      <input name="product-input" type="text" id="product-name-input" placeholder="상품명" autofocus required/>
+      <input name="product-input" type="number" id="product-price-input" placeholder="가격" min=${MIN_PRODUCT.PRICE} required/>
+      <input name="product-input" type="number" id="product-quantity-input" placeholder="수량" min=${MIN_PRODUCT.COUNT} required/>
       <button type="submit" id="product-add-button">추가하기</button>
     </form>
     <table class="product-inventory">
@@ -64,15 +64,15 @@ class ProductManageMenu {
   addProductList = e => {
     e.preventDefault();
 
-    const { children } = e.target;
+    const productInputValue = new FormData(e.target).getAll(NAME.PRODUCT_INPUT);
 
-    const [name, price, count] = children;
+    const [name, price, count] = productInputValue;
 
     try {
-      const inputCondition = checkPriceUnit(price.value);
+      const inputCondition = checkPriceUnit(price);
       checkValidation(inputCondition, ERROR_MESSAGE.INVALID_UNIT);
 
-      ProductManageMenuService.setProductListState(name.value, price.value, count.value);
+      ProductManageMenuService.setProductListState(name, price, count);
       this.initRenderer();
     } catch (error) {
       alert(error.message);
