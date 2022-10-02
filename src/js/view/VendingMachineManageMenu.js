@@ -53,9 +53,7 @@ class VendingMachineManageMenu {
     </table>
     `;
 
-  initRenderer() {
-    this.app.innerHTML = this.vendingMachineManageMenuTemplate;
-
+  static changeRenderer() {
     const $vendingMachineChargeAmount = document.querySelector('#vending-machine-charge-amount');
     $vendingMachineChargeAmount.textContent = ProductManageMenuService.getCurrentTabState()[STORAGE_KEY.AMOUNT];
 
@@ -65,9 +63,17 @@ class VendingMachineManageMenu {
       const { price } = element.dataset;
       element.textContent = `${ProductManageMenuService.getCurrentTabState()[STORAGE_KEY.COINS][price]}개`;
     });
+
+    const $vendingMachineForm = document.querySelector('#vending-machine-form');
+    $vendingMachineForm.reset();
   }
 
-  chargeMoneyBox = e => {
+  initRenderer() {
+    this.app.innerHTML = this.vendingMachineManageMenuTemplate;
+    VendingMachineManageMenu.changeRenderer();
+  }
+
+  chargeMoneyBox(e) {
     e.preventDefault();
 
     const vendingMachinePrice = new FormData(e.target).get(MENU.VENDING_MACHINE_CHARGE_CLASSNAME);
@@ -83,11 +89,11 @@ class VendingMachineManageMenu {
         VendingMachineManageMenuService.getCoinsNumber(formattingPrice)
       );
 
-      this.initRenderer();
+      VendingMachineManageMenu.changeRenderer();
     } catch (error) {
       alert(error.message);
     }
-  };
+  }
 
   initEventListener() {
     const $vendingMachineForm = document.querySelector('#vending-machine-form');

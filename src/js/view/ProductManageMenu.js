@@ -74,6 +74,7 @@ class ProductManageMenu {
       checkValidation(inputCondition, ERROR_MESSAGE.INVALID_PRODUCT_UNIT);
 
       ProductManageMenuService.setProductListState(removeSpaces(name), price, count);
+      window.location.reload(); // TODO
       this.initRenderer();
     } catch (error) {
       alert(error.message);
