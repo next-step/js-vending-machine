@@ -1,4 +1,6 @@
-import { MIN_PRODUCT } from '../constants/index.js';
+import { ERROR_MESSAGE, MENU, MIN_PRODUCT } from '../constants/index.js';
+import { checkPriceUnit, checkValidation } from '../validate/index.js';
+import VendingMachineManageMenuService from '../service/VendingMachineManageMenuService.js';
 
 class VendingMachineManageMenu {
   constructor($app) {
@@ -53,7 +55,27 @@ class VendingMachineManageMenu {
     this.app.innerHTML = this.vendingMachineManageMenuTemplate;
   }
 
-  initEventListener() {}
+  chargeMoneyBox = e => {
+    e.preventDefault();
+
+    const vendingMachinePrice = new FormData(e.target).get(MENU.VENDING_MACHINE_CHARGE_CLASSNAME);
+
+    try {
+      const inputCondition = checkPriceUnit(vendingMachinePrice);
+      checkValidation(inputCondition, ERROR_MESSAGE.INVALID_CHARGE_UNIT);
+
+      VendingMachineManageMenuService.setChargePriceState(vendingMachinePrice);
+
+      this.initRenderer();
+    } catch (error) {
+      alert(error.message);
+    }
+  };
+
+  initEventListener() {
+    const $vendingMachineForm = document.querySelector('#vending-machine-form');
+    $vendingMachineForm.addEventListener('submit', this.chargeMoneyBox.bind(this));
+  }
 }
 
 export default VendingMachineManageMenu;
