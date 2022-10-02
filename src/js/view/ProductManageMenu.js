@@ -62,7 +62,7 @@ class ProductManageMenu {
     $productInventoryContainer.insertAdjacentHTML('beforeend', productMenuTemplate);
   }
 
-  addProductList = e => {
+  addProductList(e) {
     e.preventDefault();
 
     const productInputValue = new FormData(e.target).getAll(NAME.PRODUCT_INPUT);
@@ -71,18 +71,18 @@ class ProductManageMenu {
 
     try {
       const inputCondition = checkPriceUnit(price);
-      checkValidation(inputCondition, ERROR_MESSAGE.INVALID_UNIT);
+      checkValidation(inputCondition, ERROR_MESSAGE.INVALID_PRODUCT_UNIT);
 
       ProductManageMenuService.setProductListState(removeSpaces(name), price, count);
       this.initRenderer();
     } catch (error) {
       alert(error.message);
     }
-  };
+  }
 
   initEventListener() {
     const $productForm = document.querySelector('#product-container-form');
-    $productForm.addEventListener('submit', this.addProductList);
+    $productForm.addEventListener('submit', this.addProductList.bind(this));
   }
 }
 export default ProductManageMenu;
