@@ -1,3 +1,19 @@
+import { COINS, MENU } from '../constants/index.js';
+
+const initState = {
+  [MENU.PRODUCT_MANAGE]: {},
+  [MENU.VENDING_MACHINE_MANAGE]: {
+    amount: 0,
+    coins: {
+      [COINS.FIVE_H]: 0,
+      [COINS.ONE_H]: 0,
+      [COINS.FIFTY]: 0,
+      [COINS.TEN]: 0,
+    },
+  },
+  [MENU.PRODUCT_PURCHASE]: {},
+};
+
 class Storage {
   static setCurrentTab(tab) {
     localStorage.setItem('tab', tab);
@@ -12,13 +28,7 @@ class Storage {
   }
 
   static getStateData() {
-    return (
-      JSON.parse(localStorage.getItem('state')) || {
-        'product-manage-menu': {},
-        'vending-machine-manage-menu': {},
-        'product-purchase-menu': {},
-      }
-    );
+    return JSON.parse(localStorage.getItem('state')) || initState;
   }
 }
 
