@@ -1,6 +1,7 @@
 import { checkPriceUnit, checkValidation } from '../validate/index.js';
 import ProductManageMenuService from '../service/ProductManageMenuService.js';
 import { ERROR_MESSAGE, MIN_PRODUCT, NAME } from '../constants/index.js';
+import { removeSpaces } from '../utils/index.js';
 
 class ProductManageMenu {
   constructor($app) {
@@ -72,7 +73,7 @@ class ProductManageMenu {
       const inputCondition = checkPriceUnit(price);
       checkValidation(inputCondition, ERROR_MESSAGE.INVALID_UNIT);
 
-      ProductManageMenuService.setProductListState(name, price, count);
+      ProductManageMenuService.setProductListState(removeSpaces(name), price, count);
       this.initRenderer();
     } catch (error) {
       alert(error.message);
