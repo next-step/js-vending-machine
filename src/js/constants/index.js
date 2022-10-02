@@ -3,7 +3,9 @@ const NAME = {
 };
 
 const MENU = {
+  VENDING_MACHINE_CHARGE_CLASSNAME: 'vending-machine-charge-amount',
   BUTTON_CLASSNAME: 'button-menu',
+
   PRODUCT_MANAGE: 'product-manage-menu',
   VENDING_MACHINE_MANAGE: 'vending-machine-manage-menu',
   PRODUCT_PURCHASE: 'product-purchase-menu',
