@@ -1,12 +1,14 @@
-import { ERROR_MESSAGE, MENU, MIN_PRODUCT } from '../constants/index.js';
+import { ERROR_MESSAGE, MENU, MIN_PRODUCT, STORAGE_KEY } from '../constants/index.js';
 import { checkPriceUnit, checkValidation } from '../validate/index.js';
 import VendingMachineManageMenuService from '../service/VendingMachineManageMenuService.js';
+import ProductManageMenuService from '../service/ProductManageMenuService.js';
 
 class VendingMachineManageMenu {
   constructor($app) {
     this.app = $app;
     this.initRenderer();
     this.initEventListener();
+    this.vendingManageService = new VendingMachineManageMenuService();
   }
 
   vendingMachineManageMenuTemplate = `
@@ -14,7 +16,7 @@ class VendingMachineManageMenu {
     <div class="vending-machine-wrapper">
       <form id="vending-machine-form">
         <input name="vending-machine-charge-amount" type="number" id="vending-machine-charge-input" min=${MIN_PRODUCT.PRICE} autofocus placeholder="자판기가 보유할 금액"/>
-        <button id="vending-machine-charge-button">충전하기</button>
+        <button type="submit" id="vending-machine-charge-button">충전하기</button>
       </form>
     </div>
     <p>보유 금액: <span id="vending-machine-charge-amount">0</span>원</p>
@@ -33,19 +35,19 @@ class VendingMachineManageMenu {
       <tbody>
         <tr>
           <td>500원</td>
-          <td id="vending-machine-coin-500-quantity">{coin500}</td>
+          <td id="vending-machine-coin-500-quantity" data-price="500">0</td>
         </tr>
         <tr>
           <td>100원</td>
-          <td id="vending-machine-coin-100-quantity">{coin100}</td>
+          <td id="vending-machine-coin-100-quantity" data-price="100">0</td>
         </tr>
         <tr>
           <td>50원</td>
-          <td id="vending-machine-coin-50-quantity">{coin50}</td>
+          <td id="vending-machine-coin-50-quantity" data-price="50">0</td>
         </tr>
         <tr>
           <td>10원</td>
-          <td id="vending-machine-coin-10-quantity">{coin10}</td>
+          <td id="vending-machine-coin-10-quantity" data-price="10">0</td>
         </tr>
       </tbody>
     </table>
@@ -53,18 +55,33 @@ class VendingMachineManageMenu {
 
   initRenderer() {
     this.app.innerHTML = this.vendingMachineManageMenuTemplate;
+
+    const $vendingMachineChargeAmount = document.querySelector('#vending-machine-charge-amount');
+    $vendingMachineChargeAmount.textContent = ProductManageMenuService.getCurrentTabState()[STORAGE_KEY.AMOUNT];
+
+    const $coinTable = document.querySelectorAll('[data-price]');
+
+    $coinTable.forEach(element => {
+      const { price } = element.dataset;
+      element.textContent = `${ProductManageMenuService.getCurrentTabState()[STORAGE_KEY.COINS][price]}개`;
+    });
   }
 
   chargeMoneyBox = e => {
     e.preventDefault();
 
     const vendingMachinePrice = new FormData(e.target).get(MENU.VENDING_MACHINE_CHARGE_CLASSNAME);
+    const formattingPrice = parseInt(vendingMachinePrice, 10);
 
     try {
-      const inputCondition = checkPriceUnit(vendingMachinePrice);
+      const inputCondition = checkPriceUnit(formattingPrice);
       checkValidation(inputCondition, ERROR_MESSAGE.INVALID_CHARGE_UNIT);
 
-      VendingMachineManageMenuService.setChargePriceState(vendingMachinePrice);
+      this.vendingManageService.setHoldingAmount(formattingPrice);
+      this.vendingManageService.setCoinsAmount(
+        formattingPrice,
+        VendingMachineManageMenuService.getCoinsNumber(formattingPrice)
+      );
 
       this.initRenderer();
     } catch (error) {
