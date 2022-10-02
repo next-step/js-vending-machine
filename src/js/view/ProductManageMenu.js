@@ -50,12 +50,12 @@ class ProductManageMenu {
     this.app.innerHTML = this.productManagerMenuTemplate;
     const $productInventoryContainer = document.querySelector('#product-inventory-container');
 
-    const getState = ProductManageMenuService.getProductListState();
+    const getState = ProductManageMenuService.getCurrentTabState();
     if (!getState) return;
 
     const productMenuTemplate = Object.keys(getState)
       .map(tabId =>
-        ProductManageMenu.addProductInventoryTemplate(tabId, ProductManageMenuService.getProductListState()[tabId])
+        ProductManageMenu.addProductInventoryTemplate(tabId, ProductManageMenuService.getCurrentTabState()[tabId])
       )
       .join('');
 
@@ -70,7 +70,7 @@ class ProductManageMenu {
     const [name, price, count] = productInputValue;
 
     try {
-      const inputCondition = checkPriceUnit(price);
+      const inputCondition = checkPriceUnit(parseInt(price, 10));
       checkValidation(inputCondition, ERROR_MESSAGE.INVALID_PRODUCT_UNIT);
 
       ProductManageMenuService.setProductListState(removeSpaces(name), price, count);

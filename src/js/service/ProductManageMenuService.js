@@ -10,7 +10,7 @@ class ProductManageMenuService {
     Storage.setStateData(state);
   }
 
-  static getProductListState() {
+  static getCurrentTabState() {
     return Storage.getStateData()[Storage.getCurrentTab()];
   }
 }
