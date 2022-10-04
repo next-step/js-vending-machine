@@ -4,12 +4,13 @@ import { coinRandomRange } from '../utils/index.js';
 
 class VendingMachineManageMenuService {
   constructor() {
-    this.state = Storage.getStateData();
-    this.coinState = this.state[Storage.getCurrentTab()][STORAGE_KEY.COINS];
+    this.stateData = Storage.getStateData();
+    this.getStateByCurrentTab = Storage.getStateData()[Storage.getCurrentTab()];
+    this.coinState = this.getStateByCurrentTab[STORAGE_KEY.COINS];
   }
 
   setHoldingAmount(price) {
-    this.state[Storage.getCurrentTab()][STORAGE_KEY.AMOUNT] += price;
+    this.getStateByCurrentTab[STORAGE_KEY.AMOUNT] += price;
   }
 
   setCoinsAmount(price, coins) {
@@ -18,7 +19,7 @@ class VendingMachineManageMenuService {
     this.coinState[COINS.ONE_HUNDRED] += coins[COINS.ONE_HUNDRED];
     this.coinState[COINS.FIVE_HUNDRED] += coins[COINS.FIVE_HUNDRED];
 
-    Storage.setStateData(this.state);
+    Storage.setStateData(this.stateData);
   }
 
   static getCoinsNumber(price) {
