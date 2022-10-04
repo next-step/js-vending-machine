@@ -5,8 +5,8 @@ const initState = {
   [MENU.VENDING_MACHINE_MANAGE]: {
     amount: 0,
     coins: {
-      [COINS.FIVE_H]: 0,
-      [COINS.ONE_H]: 0,
+      [COINS.FIVE_HUNDRED]: 0,
+      [COINS.ONE_HUNDRED]: 0,
       [COINS.FIFTY]: 0,
       [COINS.TEN]: 0,
     },

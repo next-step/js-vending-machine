@@ -26,8 +26,8 @@ const STORAGE_KEY = {
 };
 
 const COINS = {
-  FIVE_H: 500,
-  ONE_H: 100,
+  FIVE_HUNDRED: 500,
+  ONE_HUNDRED: 100,
   FIFTY: 50,
   TEN: 10,
 };

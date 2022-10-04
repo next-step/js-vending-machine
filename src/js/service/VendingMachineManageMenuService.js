@@ -15,16 +15,16 @@ class VendingMachineManageMenuService {
   setCoinsAmount(price, coins) {
     this.coinState[COINS.TEN] += coins[COINS.TEN];
     this.coinState[COINS.FIFTY] += coins[COINS.FIFTY];
-    this.coinState[COINS.ONE_H] += coins[COINS.ONE_H];
-    this.coinState[COINS.FIVE_H] += coins[COINS.FIVE_H];
+    this.coinState[COINS.ONE_HUNDRED] += coins[COINS.ONE_HUNDRED];
+    this.coinState[COINS.FIVE_HUNDRED] += coins[COINS.FIVE_HUNDRED];
 
     Storage.setStateData(this.state);
   }
 
   static getCoinsNumber(price) {
     const coins = {
-      [COINS.FIVE_H]: 0,
-      [COINS.ONE_H]: 0,
+      [COINS.FIVE_HUNDRED]: 0,
+      [COINS.ONE_HUNDRED]: 0,
       [COINS.FIFTY]: 0,
       [COINS.TEN]: 0,
     };
