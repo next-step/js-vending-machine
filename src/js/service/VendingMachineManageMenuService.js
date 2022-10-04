@@ -5,7 +5,7 @@ import { coinRandomRange } from '../utils/index.js';
 class VendingMachineManageMenuService {
   constructor() {
     this.stateData = Storage.getStateData();
-    this.getStateByCurrentTab = Storage.getStateData()[Storage.getCurrentTab()];
+    this.getStateByCurrentTab = this.stateData[Storage.getCurrentTab()];
     this.coinState = this.getStateByCurrentTab[STORAGE_KEY.COINS];
   }
 
