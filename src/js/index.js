@@ -16,7 +16,7 @@ const renderTab = () => {
     case MENU.PRODUCT_PURCHASE:
       return new ProductPurchaseMenu($app);
     default:
-      return null;
+      return new ProductManageMenu($app);
   }
 };
 
