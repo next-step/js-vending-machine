@@ -43,6 +43,8 @@ class ProductManageMenu {
       this.initRenderer();
     } catch (error) {
       alert(error.message);
+      const priceInput = document.querySelector('#product-price-input');
+      priceInput.focus();
     }
   }
 
