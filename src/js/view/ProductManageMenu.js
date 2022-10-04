@@ -65,9 +65,7 @@ class ProductManageMenu {
   addProductList(e) {
     e.preventDefault();
 
-    const productInputValue = new FormData(e.target).getAll(NAME.PRODUCT_INPUT);
-
-    const [name, price, count] = productInputValue;
+    const [name, price, count] = new FormData(e.target).getAll(NAME.PRODUCT_INPUT);
 
     try {
       const inputCondition = checkPriceUnit(parseInt(price, 10));
