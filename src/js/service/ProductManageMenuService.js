@@ -1,9 +1,9 @@
 import Storage from '../storage/index.js';
 
 class ProductManageMenuService {
-  static setProductListState(name, price, count) {
+  static setProductListState({ noBlankName, price, count }) {
     const state = Storage.getStateData();
-    state[Storage.getCurrentTab()][name] = {
+    state[Storage.getCurrentTab()][noBlankName] = {
       price,
       count,
     };

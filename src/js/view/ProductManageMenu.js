@@ -65,14 +65,18 @@ class ProductManageMenu {
   addProductList(e) {
     e.preventDefault();
 
-    const [name, price, count] = new FormData(e.target).getAll(NAME.PRODUCT_INPUT);
+    const productInputValue = new FormData(e.target).getAll(NAME.PRODUCT_INPUT);
+
+    const [name, price, count] = productInputValue;
 
     try {
       const inputCondition = checkPriceUnit(parseInt(price, 10));
       checkValidation(inputCondition, ERROR_MESSAGE.INVALID_PRODUCT_UNIT);
 
-      ProductManageMenuService.setProductListState(removeSpaces(name), price, count);
-      window.location.reload(); // TODO
+      const noBlankName = removeSpaces(name);
+
+      ProductManageMenuService.setProductListState({ noBlankName, price, count });
+      // window.location.reload();
       this.initRenderer();
     } catch (error) {
       alert(error.message);
