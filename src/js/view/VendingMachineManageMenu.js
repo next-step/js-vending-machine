@@ -76,7 +76,7 @@ class VendingMachineManageMenu {
   chargeMoneyBox(e) {
     e.preventDefault();
 
-    const vendingMachinePrice = new FormData(e.target).get(MENU.VENDING_MACHINE_CHARGE_CLASSNAME);
+    const vendingMachinePrice = new FormData(e.target).get(MENU.VENDING_MACHINE_CHARGE);
     const formattingPrice = parseInt(vendingMachinePrice, 10);
 
     try {
