@@ -24,11 +24,11 @@ class Storage {
   }
 
   static setStateData(state) {
-    localStorage.setItem('state', JSON.stringify(state));
+    localStorage.setItem('vendingMachineState', JSON.stringify(state));
   }
 
   static getStateData() {
-    return JSON.parse(localStorage.getItem('state')) || initState;
+    return JSON.parse(localStorage.getItem('vendingMachineState')) || initState;
   }
 }
 

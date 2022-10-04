@@ -21,7 +21,9 @@ const renderTab = () => {
 };
 
 $navigation.addEventListener('click', e => {
-  if (e.target.classList.contains(MENU.BUTTON)) {
+  const { className } = e.target;
+
+  if (className === MENU.BUTTON) {
     LocalStorage.setCurrentTab(e.target.id);
     renderTab();
   }
