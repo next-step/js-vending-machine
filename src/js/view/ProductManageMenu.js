@@ -50,7 +50,7 @@ class ProductManageMenu {
 
   initEventListener() {
     const $productForm = document.querySelector('#product-container-form');
-    $productForm.addEventListener('submit', this.addProductList.bind(this));
+    $productForm.addEventListener('submit', e => this.addProductList.bind(this)(e));
   }
 }
 export default ProductManageMenu;
