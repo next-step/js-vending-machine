@@ -15,7 +15,6 @@ class VendingMachineManageMenu {
   static changeRenderer() {
     const $vendingMachineChargeAmount = document.querySelector('#vending-machine-charge-amount');
     $vendingMachineChargeAmount.textContent = ProductManageMenuService.getCurrentTabState()[STORAGE_KEY.AMOUNT];
-
     const $coinTable = document.querySelectorAll('[data-price]');
 
     $coinTable.forEach(element => {

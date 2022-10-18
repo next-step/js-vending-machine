@@ -38,7 +38,7 @@ class VendingMachineManageMenuService {
         price -= randomAmount * coin;
       });
 
-    coins[COINS.TEN] += Math.floor(price / COINS.TEN);
+    coins[COINS.TEN] += price / COINS.TEN;
     return coins;
   }
 }

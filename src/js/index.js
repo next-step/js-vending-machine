@@ -21,10 +21,10 @@ const renderTab = () => {
 };
 
 $navigation.addEventListener('click', e => {
-  const { className } = e.target;
+  const { className, id } = e.target;
 
   if (className === MENU.BUTTON) {
-    LocalStorage.setCurrentTab(e.target.id);
+    LocalStorage.setCurrentTab(id);
     renderTab();
   }
 });
