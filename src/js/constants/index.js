@@ -1,5 +1,6 @@
 const NAME = {
   PRODUCT_INPUT: 'product-input',
+  PURCHASE_AMOUNT: 'purchase-amount',
 };
 
 const MENU = {
@@ -17,12 +18,14 @@ const MIN_PRODUCT = {
 
 const ERROR_MESSAGE = {
   INVALID_PRODUCT_UNIT: '상품의 가격 단위는 10원으로 나누어떨어져야 합니다.',
-  INVALID_CHARGE_UNIT: '충전 단위는 10원으로 나누어떨어져야 합니다.',
+  INVALID_CHARGE_UNIT: '충전금액은 10원으로 나누어 떨어져야 합니다.',
+  INVALID_CHARGE_INSERT_UNIT: '투입금액은 10원으로 나누어 떨어져야 합니다.',
 };
 
 const STORAGE_KEY = {
   AMOUNT: 'amount',
   COINS: 'coins',
+  PURCHASE_PRICE: 'purchasePrice',
 };
 
 const COINS = {
