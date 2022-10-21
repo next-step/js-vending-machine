@@ -11,7 +11,9 @@ const initState = {
       [COINS.TEN]: 0,
     },
   },
-  [MENU.PRODUCT_PURCHASE]: {},
+  [MENU.PRODUCT_PURCHASE]: {
+    purchasePrice: 0,
+  },
 };
 
 class Storage {
