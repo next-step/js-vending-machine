@@ -13,6 +13,12 @@ const initState = {
   },
   [MENU.PRODUCT_PURCHASE]: {
     purchasePrice: 0,
+    returnRemains: {
+      [COINS.FIVE_HUNDRED]: 0,
+      [COINS.ONE_HUNDRED]: 0,
+      [COINS.FIFTY]: 0,
+      [COINS.TEN]: 0,
+    },
   },
 };
 
