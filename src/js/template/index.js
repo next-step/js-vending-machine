@@ -1,4 +1,4 @@
-import { MIN_PRODUCT } from '../constants/index.js';
+import { COINS, MIN_PRODUCT } from '../constants/index.js';
 
 const productManagerMenuTemplate = `
     <h3>상품 추가하기</h3>
@@ -78,7 +78,6 @@ const generateProductInventoryTemplate = (name, value) => `
 
 const generateProductPurchaseTemplate = (name, value) => {
   const isDisabledButton = value.count === 0;
-
   return `
     <tr>
       <td>${name}</td>
@@ -91,7 +90,26 @@ const generateProductPurchaseTemplate = (name, value) => {
     `;
 };
 
-const productPurchaseMenuTemplate = productMenuTemplate => `<h3>금액 투입</h3>
+const generateCashBoxChangeTemplate = remains => `
+    <tr>
+        <td>500원</td>
+        <td id="coin-500-remains">${remains[COINS.FIVE_HUNDRED]}</td>
+    </tr>
+    <tr>
+        <td>100원</td>
+        <td id="coin-100-remains">${remains[COINS.ONE_HUNDRED]}</td>
+    </tr>
+    <tr>
+        <td>50원</td>
+        <td id="coin-50-remains">${remains[COINS.FIFTY]}</td>
+    </tr>
+    <tr>
+        <td>10원</td>
+        <td id="coin-10-remains">${remains[COINS.TEN]}</td>
+    </tr>
+    `;
+
+const productPurchaseMenuTemplate = (productMenuTemplate, remains) => `<h3>금액 투입</h3>
     <div class="purchase-container">
 	  <div class="purchase-wrapper">
         <form id="product-purchase-form">
@@ -135,23 +153,8 @@ const productPurchaseMenuTemplate = productMenuTemplate => `<h3>금액 투입</h
         			<th>개수</th>
         		</tr>
         	</thead>
-        	<tbody>
-        		<tr>
-        			<td>500원</td>
-        			<td id="coin-500-reamins">0</td>
-        		</tr>
-        		<tr>
-        			<td>100원</td>
-        			<td id="coin-100-reamins">0</td>
-        		</tr>
-        		<tr>
-        			<td>50원</td>
-        			<td id="coin-50-reamins">0</td>
-        		</tr>
-        		<tr>
-        			<td>10원</td>
-        			<td id="coin-10-reamins">0</td>
-        		</tr>
+        	<tbody id="cashbox-table">
+        	  ${remains}
         	</tbody>
         </table>
       `;
@@ -161,5 +164,6 @@ export {
   vendingMachineManageMenuTemplate,
   generateProductInventoryTemplate,
   generateProductPurchaseTemplate,
+  generateCashBoxChangeTemplate,
   productPurchaseMenuTemplate,
 };
