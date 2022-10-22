@@ -1,4 +1,5 @@
 import Storage from '../storage/index.js';
+import { generateProductInventoryTemplate } from '../template/index.js';
 
 class ProductManageMenuService {
   static setProductListState({ noBlankName, price, count }) {
@@ -12,6 +13,12 @@ class ProductManageMenuService {
 
   static getCurrentTabState() {
     return Storage.getStateData()[Storage.getCurrentTab()];
+  }
+
+  static getProductMenuTemplate(products) {
+    return Object.keys(products)
+      .map(tabId => generateProductInventoryTemplate(tabId, products[tabId]))
+      .join('');
   }
 }
 export default ProductManageMenuService;

@@ -2,7 +2,7 @@ import { checkPriceUnit, checkValidation } from '../validate/index.js';
 import ProductManageMenuService from '../service/ProductManageMenuService.js';
 import { ERROR_MESSAGE, NAME } from '../constants/index.js';
 import { removeSpaces } from '../utils/index.js';
-import { generateProductInventoryTemplate, productManagerMenuTemplate } from '../template/index.js';
+import { productManagerMenuTemplate } from '../template/index.js';
 
 class ProductManageMenu {
   constructor($app) {
@@ -11,21 +11,22 @@ class ProductManageMenu {
     this.initEventListener();
   }
 
-  initRenderer() {
-    this.app.innerHTML = productManagerMenuTemplate;
-    const $productInventoryContainer = document.querySelector('#product-inventory-container');
-
+  static changeRenderer() {
     const getState = ProductManageMenuService.getCurrentTabState();
     if (!getState) return;
 
-    const productMenuTemplate = Object.keys(getState)
-      .map(tabId => generateProductInventoryTemplate(tabId, ProductManageMenuService.getCurrentTabState()[tabId]))
-      .join('');
-
-    $productInventoryContainer.insertAdjacentHTML('beforeend', productMenuTemplate);
+    const $productInventoryContainer = document.querySelector('#product-inventory-container');
+    const $productContainer = document.querySelector('.product-container');
+    $productInventoryContainer.innerHTML = ProductManageMenuService.getProductMenuTemplate(getState);
+    $productContainer.reset();
   }
 
-  addProductList(e) {
+  initRenderer() {
+    this.app.innerHTML = productManagerMenuTemplate;
+    ProductManageMenu.changeRenderer();
+  }
+
+  static addProductList(e) {
     e.preventDefault();
 
     const productInputValue = new FormData(e.target).getAll(NAME.PRODUCT_INPUT);
@@ -39,8 +40,7 @@ class ProductManageMenu {
       const noBlankName = removeSpaces(name);
 
       ProductManageMenuService.setProductListState({ noBlankName, price, count });
-      window.location.reload();
-      this.initRenderer();
+      ProductManageMenu.changeRenderer();
     } catch (error) {
       alert(error.message);
       const priceInput = document.querySelector('#product-price-input');
@@ -50,7 +50,7 @@ class ProductManageMenu {
 
   initEventListener() {
     const $productForm = document.querySelector('#product-container-form');
-    $productForm.addEventListener('submit', e => this.addProductList.bind(this)(e));
+    $productForm.addEventListener('submit', e => ProductManageMenu.addProductList.bind(this)(e));
   }
 }
 export default ProductManageMenu;
