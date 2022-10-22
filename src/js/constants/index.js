@@ -29,6 +29,9 @@ const STORAGE_KEY = {
   AMOUNT: 'amount',
   COINS: 'coins',
   PURCHASE_PRICE: 'purchasePrice',
+  RETURN_REMAINS: 'returnRemains',
+  PRICE: 'price',
+  COUNT: 'count',
 };
 
 const COINS = {
