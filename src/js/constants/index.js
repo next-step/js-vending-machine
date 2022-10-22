@@ -20,6 +20,7 @@ const ERROR_MESSAGE = {
   INVALID_PRODUCT_UNIT: '상품의 가격 단위는 10원으로 나누어떨어져야 합니다.',
   INVALID_CHARGE_UNIT: '충전금액은 10원으로 나누어 떨어져야 합니다.',
   INVALID_CHARGE_INSERT_UNIT: '투입금액은 10원으로 나누어 떨어져야 합니다.',
+  INVALID_INSERT_COIN: '투입금액이 상품의 가격보다 적습니다. 금액을 더 투입하세요.',
 };
 
 const STORAGE_KEY = {

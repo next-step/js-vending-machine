@@ -76,14 +76,20 @@ const generateProductInventoryTemplate = (name, value) => `
     </tr>
     `;
 
-const generateProductPurchaseTemplate = (name, value) => `
+const generateProductPurchaseTemplate = (name, value) => {
+  const isDisabledButton = value.count === 0;
+
+  return `
     <tr>
       <td>${name}</td>
       <td>${value.price}</td>
       <td>${value.count}</td>
-      <td><button class="purchase-product-button" data-product="${name}">구매하기</button></td>
+      <td><button class="purchase-product-button" data-product=${name} ${
+    isDisabledButton && 'disabled'
+  }>구매하기</button></td>
     </tr>
     `;
+};
 
 const productPurchaseMenuTemplate = productMenuTemplate => `<h3>금액 투입</h3>
     <div class="purchase-container">

@@ -182,3 +182,10 @@ button:active {
 .cashbox-remaining th {
   border: 1px solid rgb(66, 66, 66);
 }
+
+button:disabled {
+  border: 1px solid #999999;
+  background-color: #cccccc;
+  color: #666666;
+  cursor: not-allowed;
+}
