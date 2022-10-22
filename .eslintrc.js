@@ -27,6 +27,7 @@ module.exports = {
     'cypress/no-pause': 'error',
     'import/no-extraneous-dependencies': ['error', { devDependencies: true }],
     'dot-notation': 'off',
-    "no-param-reassign": 0
+    'no-param-reassign': 0,
+    'no-continue': 'off',
   },
 };
