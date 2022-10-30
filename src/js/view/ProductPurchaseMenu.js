@@ -65,7 +65,7 @@ class ProductPurchaseMenu {
     const { className, dataset } = e.target;
     if (className !== 'purchase-product-button') return;
     const { product } = dataset;
-    this.productPurchaseService.setButProduct(product);
+    this.productPurchaseService.setBuyProduct(product);
     ProductPurchaseMenu.changeRenderer();
   }
 

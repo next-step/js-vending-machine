@@ -38,7 +38,7 @@ class ProductPurchaseService {
     Storage.setStateData(this.stateData);
   }
 
-  setButProduct(product) {
+  setBuyProduct(product) {
     const count = parseInt(this.stateData[MENU.PRODUCT_MANAGE][product][STORAGE_KEY.COUNT], 10);
     const price = parseInt(this.stateData[MENU.PRODUCT_MANAGE][product][STORAGE_KEY.PRICE], 10);
     const { purchasePrice } = this.getStateByCurrentTab;
