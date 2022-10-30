@@ -2,6 +2,10 @@
   --white: #fff;
   --background-white: #f4f3f5;
   --box-shadow-color: #d8d8d8;
+  --clicked-backround : #9b1cba;
+  --disabled-border :#999999;
+  --disabled-border-background :#cccc;
+  --disabled-border-color :#666666;
 }
 
 .purchase-available,
@@ -184,13 +188,13 @@ button:active {
 }
 
 button:disabled {
-  border: 1px solid #999999;
-  background-color: #cccccc;
-  color: #666666;
+  border: 1px solid var(--disabled-border);
+  background-color: var(--disabled-border-background);
+  color: var(--disabled-border-color);
   cursor: not-allowed;
 }
 
 .button-menu.clicked {
-  background-color: #9b1cba;
-  color: #fff;
+  background-color: var(--clicked-backround);
+  color: var(--white);
 }
