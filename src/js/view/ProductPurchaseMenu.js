@@ -1,9 +1,9 @@
-import Storage from '../storage/index.js';
 import { getCashBoxChangeTemplateTable, productPurchaseMenuTemplate } from '../template/index.js';
-import { ERROR_MESSAGE, MENU, NAME, STORAGE_KEY } from '../constants/index.js';
+import { ERROR_MESSAGE, NAME, STORAGE_KEY } from '../constants/index.js';
 import { checkEmptyPrice, checkPriceUnit, checkValidation } from '../validate/index.js';
 import ProductPurchaseService from '../service/ProductPurchaseService.js';
-import ProductManageMenuService from '../service/ProductManageMenuService.js';
+import StorageService from '../service/StorageService.js';
+import Storage from '../storage/index.js';
 
 class ProductPurchaseMenu {
   constructor($app) {
@@ -16,25 +16,24 @@ class ProductPurchaseMenu {
   static changeRenderer() {
     const $purchaseAmount = document.querySelector('#purchase-amount');
     const $productInventoryContainer = document.querySelector('#product-inventory-container');
-    const $cashboxTable = document.querySelector('#cashbox-table');
+    const $cashBoxTable = document.querySelector('#cashbox-table');
     const $productPurchaseForm = document.querySelector('#product-purchase-form');
 
-    const getProductManage = Storage.getStateData()[MENU.PRODUCT_MANAGE];
+    const getProductManage = StorageService.getProductManageMenu();
 
-    $purchaseAmount.textContent = ProductManageMenuService.getCurrentTabState()[STORAGE_KEY.PURCHASE_PRICE];
+    $purchaseAmount.textContent = StorageService.getProductPurchase(Storage.getStateData(), STORAGE_KEY.PURCHASE_PRICE);
     $productInventoryContainer.innerHTML = ProductPurchaseService.getProductPurchaseTemplate(getProductManage);
-    $cashboxTable.innerHTML = getCashBoxChangeTemplateTable(
-      Storage.getStateData()[MENU.PRODUCT_PURCHASE][STORAGE_KEY.RETURN_REMAINS]
+    $cashBoxTable.innerHTML = getCashBoxChangeTemplateTable(
+      StorageService.getProductPurchase(Storage.getStateData(), STORAGE_KEY.RETURN_REMAINS)
     );
-
     $productPurchaseForm.reset();
   }
 
   initRenderer() {
-    const products = Storage.getStateData()[MENU.PRODUCT_MANAGE];
+    const products = StorageService.getProductManageMenu();
     const productMenuTemplate = ProductPurchaseService.getProductPurchaseTemplate(products);
     const cashBoxChangeTemplate = getCashBoxChangeTemplateTable(
-      Storage.getStateData()[MENU.PRODUCT_PURCHASE][STORAGE_KEY.RETURN_REMAINS]
+      StorageService.getProductPurchase(Storage.getStateData(), STORAGE_KEY.RETURN_REMAINS)
     );
 
     this.app.innerHTML = productPurchaseMenuTemplate(productMenuTemplate, cashBoxChangeTemplate);
@@ -70,8 +69,8 @@ class ProductPurchaseMenu {
 
   returnRemain() {
     try {
-      const { purchasePrice } = Storage.getStateData()[MENU.PRODUCT_PURCHASE];
-      const { amount } = Storage.getStateData()[MENU.VENDING_MACHINE_MANAGE];
+      const purchasePrice = StorageService.getProductPurchase(Storage.getStateData(), STORAGE_KEY.PURCHASE_PRICE);
+      const { amount } = StorageService.getAmountState(Storage.getStateData());
       const purchasePriceCondition = checkEmptyPrice(purchasePrice);
       const amountPriceCondition = checkEmptyPrice(amount);
 

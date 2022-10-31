@@ -1,16 +1,17 @@
 import Storage from '../storage/index.js';
 import { COINS, STORAGE_KEY } from '../constants/index.js';
 import { coinRandomRange } from '../utils/index.js';
+import StorageService from './StorageService.js';
 
 class VendingMachineManageMenuService {
   constructor() {
     this.stateData = Storage.getStateData();
-    this.getStateByCurrentTab = this.stateData[Storage.getCurrentTab()];
-    this.coinState = this.getStateByCurrentTab[STORAGE_KEY.COINS];
+    this.amount = StorageService.getAmountState(this.stateData);
+    this.coinState = StorageService.getVendingMachineManageMenu(this.stateData, STORAGE_KEY.COINS);
   }
 
   setHoldingAmount(price) {
-    this.getStateByCurrentTab[STORAGE_KEY.AMOUNT] += price;
+    this.amount[STORAGE_KEY.AMOUNT] += price;
   }
 
   setCoinsAmount(price, coins) {

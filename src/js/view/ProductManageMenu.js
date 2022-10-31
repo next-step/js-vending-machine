@@ -3,6 +3,7 @@ import ProductManageMenuService from '../service/ProductManageMenuService.js';
 import { ERROR_MESSAGE, NAME } from '../constants/index.js';
 import { removeSpaces } from '../utils/index.js';
 import { productManagerMenuTemplate } from '../template/index.js';
+import StorageService from '../service/StorageService.js';
 
 class ProductManageMenu {
   constructor($app) {
@@ -12,7 +13,7 @@ class ProductManageMenu {
   }
 
   static changeRenderer() {
-    const getState = ProductManageMenuService.getCurrentTabState();
+    const getState = StorageService.getProductManageMenu();
     if (!getState) return;
 
     const $productInventoryContainer = document.querySelector('#product-inventory-container');
@@ -39,7 +40,7 @@ class ProductManageMenu {
 
       const noBlankName = removeSpaces(name);
 
-      ProductManageMenuService.setProductListState({ noBlankName, price, count });
+      StorageService.setProductManageMenu({ noBlankName, price, count });
       ProductManageMenu.changeRenderer();
     } catch (error) {
       alert(error.message);

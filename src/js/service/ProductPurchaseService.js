@@ -1,6 +1,7 @@
 import Storage from '../storage/index.js';
 import { COINS, ERROR_MESSAGE, MENU, STORAGE_KEY } from '../constants/index.js';
 import { getCashBoxChangeTemplateTable, getProductPurchaseTemplateTableRow } from '../template/index.js';
+import StorageService from './StorageService.js';
 
 class ProductPurchaseService {
   constructor() {
@@ -55,9 +56,9 @@ class ProductPurchaseService {
   }
 
   remainService() {
-    let { purchasePrice } = this.stateData[MENU.PRODUCT_PURCHASE];
-    const { returnRemains } = this.stateData[MENU.PRODUCT_PURCHASE];
-    const { coins } = this.stateData[MENU.VENDING_MACHINE_MANAGE];
+    let purchasePrice = StorageService.getProductPurchase(this.stateData, STORAGE_KEY.PURCHASE_PRICE);
+    const returnRemains = StorageService.getProductPurchase(this.stateData, STORAGE_KEY.RETURN_REMAINS);
+    const coins = StorageService.getVendingMachineManageMenu(this.stateData, STORAGE_KEY.COINS);
 
     const remains = {
       [COINS.FIVE_HUNDRED]: 0,

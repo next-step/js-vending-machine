@@ -5,8 +5,8 @@ const NAME = {
 
 const MENU = {
   BUTTON: 'button-menu',
-  VENDING_MACHINE_CHARGE: 'vending-machine-charge-amount',
   PRODUCT_MANAGE: 'product-manage-menu',
+  VENDING_MACHINE_CHARGE: 'vending-machine-charge-amount',
   VENDING_MACHINE_MANAGE: 'vending-machine-manage-menu',
   PRODUCT_PURCHASE: 'product-purchase-menu',
 };
