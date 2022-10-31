@@ -62,10 +62,9 @@ class ProductPurchaseMenu {
   }
 
   buyProduct(e) {
-    const { className, dataset } = e.target;
+    const { className, name } = e.target;
     if (className !== 'purchase-product-button') return;
-    const { product } = dataset;
-    this.productPurchaseService.setBuyProduct(product);
+    this.productPurchaseService.setBuyProduct(name);
     ProductPurchaseMenu.changeRenderer();
   }
 

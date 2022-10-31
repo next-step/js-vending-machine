@@ -83,9 +83,7 @@ const generateProductPurchaseTemplate = (name, value) => {
       <td>${name}</td>
       <td>${value.price}</td>
       <td>${value.count}</td>
-      <td><button class="purchase-product-button" data-product=${name} ${
-    isDisabledButton && 'disabled'
-  }>구매하기</button></td>
+      <td><button name=${name} class="purchase-product-button" ${isDisabledButton && 'disabled'}>구매하기</button></td>
     </tr>
     `;
 };

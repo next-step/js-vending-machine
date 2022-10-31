@@ -38,14 +38,14 @@ class ProductPurchaseService {
     Storage.setStateData(this.stateData);
   }
 
-  setBuyProduct(product) {
-    const count = parseInt(this.stateData[MENU.PRODUCT_MANAGE][product][STORAGE_KEY.COUNT], 10);
-    const price = parseInt(this.stateData[MENU.PRODUCT_MANAGE][product][STORAGE_KEY.PRICE], 10);
+  setBuyProduct(productName) {
+    const count = parseInt(this.stateData[MENU.PRODUCT_MANAGE][productName][STORAGE_KEY.COUNT], 10);
+    const price = parseInt(this.stateData[MENU.PRODUCT_MANAGE][productName][STORAGE_KEY.PRICE], 10);
     const { purchasePrice } = this.getStateByCurrentTab;
 
     if (count > 0 && purchasePrice >= price) {
       this.getStateByCurrentTab[STORAGE_KEY.PURCHASE_PRICE] -= price;
-      this.stateData[MENU.PRODUCT_MANAGE][product][STORAGE_KEY.COUNT] -= 1;
+      this.stateData[MENU.PRODUCT_MANAGE][productName][STORAGE_KEY.COUNT] -= 1;
       Storage.setStateData(this.stateData);
     } else {
       alert(ERROR_MESSAGE.INVALID_INSERT_COIN);
