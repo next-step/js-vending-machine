@@ -1,5 +1,5 @@
 import Storage from '../storage/index.js';
-import { generateCashBoxChangeTemplate, productPurchaseMenuTemplate } from '../template/index.js';
+import { getCashBoxChangeTemplateTable, productPurchaseMenuTemplate } from '../template/index.js';
 import { ERROR_MESSAGE, MENU, NAME, STORAGE_KEY } from '../constants/index.js';
 import { checkEmptyPrice, checkPriceUnit, checkValidation } from '../validate/index.js';
 import ProductPurchaseService from '../service/ProductPurchaseService.js';
@@ -23,7 +23,7 @@ class ProductPurchaseMenu {
 
     $purchaseAmount.textContent = ProductManageMenuService.getCurrentTabState()[STORAGE_KEY.PURCHASE_PRICE];
     $productInventoryContainer.innerHTML = ProductPurchaseService.getProductPurchaseTemplate(getProductManage);
-    $cashboxTable.innerHTML = generateCashBoxChangeTemplate(
+    $cashboxTable.innerHTML = getCashBoxChangeTemplateTable(
       Storage.getStateData()[MENU.PRODUCT_PURCHASE][STORAGE_KEY.RETURN_REMAINS]
     );
 
@@ -33,7 +33,7 @@ class ProductPurchaseMenu {
   initRenderer() {
     const products = Storage.getStateData()[MENU.PRODUCT_MANAGE];
     const productMenuTemplate = ProductPurchaseService.getProductPurchaseTemplate(products);
-    const cashBoxChangeTemplate = generateCashBoxChangeTemplate(
+    const cashBoxChangeTemplate = getCashBoxChangeTemplateTable(
       Storage.getStateData()[MENU.PRODUCT_PURCHASE][STORAGE_KEY.RETURN_REMAINS]
     );
 

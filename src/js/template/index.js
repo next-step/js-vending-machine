@@ -68,7 +68,7 @@ const vendingMachineManageMenuTemplate = `
     </table>
     `;
 
-const generateProductInventoryTemplate = (name, value) => `
+const getProductInventoryTemplateRow = (name, value) => `
     <tr>
       <td>${name}</td>
       <td>${value.price}</td>
@@ -76,7 +76,7 @@ const generateProductInventoryTemplate = (name, value) => `
     </tr>
     `;
 
-const generateProductPurchaseTemplate = (name, value) => {
+const getProductPurchaseTemplateTableRow = (name, value) => {
   const isDisabledButton = value.count === 0;
   return `
     <tr>
@@ -88,7 +88,7 @@ const generateProductPurchaseTemplate = (name, value) => {
     `;
 };
 
-const generateCashBoxChangeTemplate = remains => `
+const getCashBoxChangeTemplateTable = remains => `
     <tr>
         <td>500원</td>
         <td id="coin-500-remains">${remains[COINS.FIVE_HUNDRED]}</td>
@@ -160,8 +160,8 @@ const productPurchaseMenuTemplate = (productMenuTemplate, remains) => `<h3>금�
 export {
   productManagerMenuTemplate,
   vendingMachineManageMenuTemplate,
-  generateProductInventoryTemplate,
-  generateProductPurchaseTemplate,
-  generateCashBoxChangeTemplate,
+  getProductInventoryTemplateRow,
+  getProductPurchaseTemplateTableRow,
+  getCashBoxChangeTemplateTable,
   productPurchaseMenuTemplate,
 };

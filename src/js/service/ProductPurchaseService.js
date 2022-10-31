@@ -1,6 +1,6 @@
 import Storage from '../storage/index.js';
 import { COINS, ERROR_MESSAGE, MENU, STORAGE_KEY } from '../constants/index.js';
-import { generateCashBoxChangeTemplate, generateProductPurchaseTemplate } from '../template/index.js';
+import { getCashBoxChangeTemplateTable, getProductPurchaseTemplateTableRow } from '../template/index.js';
 
 class ProductPurchaseService {
   constructor() {
@@ -10,13 +10,13 @@ class ProductPurchaseService {
 
   static getProductPurchaseTemplate(products) {
     return Object.keys(products)
-      .map(tabId => generateProductPurchaseTemplate(tabId, products[tabId]))
+      .map(tabId => getProductPurchaseTemplateTableRow(tabId, products[tabId]))
       .join('');
   }
 
   static getChangeBoxTemplate(remains) {
     return Object.keys(remains)
-      .map(tabId => generateCashBoxChangeTemplate(tabId, remains[tabId]))
+      .map(tabId => getCashBoxChangeTemplateTable(tabId, remains[tabId]))
       .join('');
   }
 

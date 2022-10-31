@@ -1,5 +1,5 @@
 import Storage from '../storage/index.js';
-import { generateProductInventoryTemplate } from '../template/index.js';
+import { getProductInventoryTemplateRow } from '../template/index.js';
 
 class ProductManageMenuService {
   static setProductListState({ noBlankName, price, count }) {
@@ -17,7 +17,7 @@ class ProductManageMenuService {
 
   static getProductMenuTemplate(products) {
     return Object.keys(products)
-      .map(tabId => generateProductInventoryTemplate(tabId, products[tabId]))
+      .map(tabId => getProductInventoryTemplateRow(tabId, products[tabId]))
       .join('');
   }
 }
