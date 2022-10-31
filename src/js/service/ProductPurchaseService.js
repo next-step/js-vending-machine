@@ -75,6 +75,7 @@ class ProductPurchaseService {
         COIN_VALUE_500 -= 1;
         coins[COIN_KEY_500] -= 1;
         remains[COIN_KEY_500] += 1;
+        continue;
       }
 
       if (purchasePrice >= COIN_KEY_100 && COIN_VALUE_100 > 0) {
@@ -99,6 +100,10 @@ class ProductPurchaseService {
         coins[COIN_KEY_10] -= 1;
         remains[COIN_KEY_10] += 1;
         continue;
+      }
+
+      if (purchasePrice > 0) {
+        break;
       }
     }
 
