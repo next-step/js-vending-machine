@@ -55,7 +55,7 @@ class VendingMachineManageMenu {
 
   initEventListener() {
     const $vendingMachineForm = document.querySelector('#vending-machine-form');
-    $vendingMachineForm.addEventListener('submit', e => this.chargeMoneyBox.bind(this)(e));
+    $vendingMachineForm.addEventListener('submit', this.chargeMoneyBox.bind(this));
   }
 }
 

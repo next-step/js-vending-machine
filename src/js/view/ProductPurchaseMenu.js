@@ -90,8 +90,8 @@ class ProductPurchaseMenu {
     const $productInventoryContainer = document.querySelector('#product-inventory-container');
     const $coinReturnButton = document.querySelector('#coin-return-button');
 
-    $productPurchaseForm.addEventListener('submit', e => this.insertAmount.bind(this)(e));
-    $productInventoryContainer.addEventListener('click', e => this.buyProduct.bind(this)(e));
+    $productPurchaseForm.addEventListener('submit', this.insertAmount.bind(this));
+    $productInventoryContainer.addEventListener('click', this.buyProduct.bind(this));
     $coinReturnButton.addEventListener('click', () => this.returnRemain());
   }
 }
