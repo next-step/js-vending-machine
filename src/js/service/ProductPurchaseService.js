@@ -43,7 +43,9 @@ class ProductPurchaseService {
     const price = parseInt(this.stateData[MENU.PRODUCT_MANAGE][productName][STORAGE_KEY.PRICE], 10);
     const { purchasePrice } = this.getStateByCurrentTab;
 
-    if (count > 0 && purchasePrice >= price) {
+    const purchasableCondition = count > 0 && purchasePrice >= price;
+
+    if (purchasableCondition) {
       this.getStateByCurrentTab[STORAGE_KEY.PURCHASE_PRICE] -= price;
       this.stateData[MENU.PRODUCT_MANAGE][productName][STORAGE_KEY.COUNT] -= 1;
       Storage.setStateData(this.stateData);
