@@ -1,4 +1,4 @@
-import { MIN_PRODUCT } from '../constants/index.js';
+import { COINS, MIN_PRODUCT } from '../constants/index.js';
 
 const productManagerMenuTemplate = `
     <h3>상품 추가하기</h3>
@@ -68,7 +68,7 @@ const vendingMachineManageMenuTemplate = `
     </table>
     `;
 
-const generateProductInventoryTemplate = (name, value) => `
+const getProductInventoryTemplateRow = (name, value) => `
     <tr>
       <td>${name}</td>
       <td>${value.price}</td>
@@ -76,4 +76,92 @@ const generateProductInventoryTemplate = (name, value) => `
     </tr>
     `;
 
-export { productManagerMenuTemplate, vendingMachineManageMenuTemplate, generateProductInventoryTemplate };
+const getProductPurchaseTemplateTableRow = (name, value) => {
+  const isDisabledButton = value.count === 0;
+  return `
+    <tr>
+      <td>${name}</td>
+      <td>${value.price}</td>
+      <td>${value.count}</td>
+      <td><button name=${name} class="purchase-product-button" ${isDisabledButton && 'disabled'}>구매하기</button></td>
+    </tr>
+    `;
+};
+
+const getCashBoxChangeTemplateTable = remains => `
+    <tr>
+        <td>500원</td>
+        <td id="coin-500-remains">${remains[COINS.FIVE_HUNDRED]}</td>
+    </tr>
+    <tr>
+        <td>100원</td>
+        <td id="coin-100-remains">${remains[COINS.ONE_HUNDRED]}</td>
+    </tr>
+    <tr>
+        <td>50원</td>
+        <td id="coin-50-remains">${remains[COINS.FIFTY]}</td>
+    </tr>
+    <tr>
+        <td>10원</td>
+        <td id="coin-10-remains">${remains[COINS.TEN]}</td>
+    </tr>
+    `;
+
+const productPurchaseMenuTemplate = (productMenuTemplate, remains) => `<h3>금액 투입</h3>
+    <div class="purchase-container">
+	  <div class="purchase-wrapper">
+        <form id="product-purchase-form">
+	      <input type="number" name="purchase-amount" id="purchase-input" min="10" autofocus/>
+	      <button id="purchase-button">투입하기</button>
+        </form>
+	  </div>
+	  <p>투입한 금액: <span id="purchase-amount">0</span>원</p>
+    </div>
+      <h3>구매할 수 있는 상품 현황</h3>
+      <table class="product-inventory">
+          <colgroup>
+              <col style="width: 140px"/>
+              <col style="width: 100px"/>
+              <col style="width: 100px"/>
+              <col style="width: 100px"/>
+          </colgroup>
+          <thead>
+              <tr>
+                  <th>상품명</th>
+                  <th>가격</th>
+                  <th>수량</th>
+                  <th>구매</th>
+              </tr>
+          </thead>
+          <tbody id="product-inventory-container">
+             ${productMenuTemplate}
+          </tbody>
+      </table>
+
+        <h3>잔돈</h3>
+        <button id="coin-return-button">반환하기</button>
+        <table class="cashbox-change">
+        	<colgroup>
+        		<col />
+        		<col />
+        	</colgroup>
+        	<thead>
+        		<tr>
+        			<th>동전</th>
+        			<th>개수</th>
+        		</tr>
+        	</thead>
+        	<tbody id="cashbox-table">
+        	  ${remains}
+        	</tbody>
+        </table>
+      `;
+
+export {
+  productManagerMenuTemplate,
+  vendingMachineManageMenuTemplate,
+  getProductInventoryTemplateRow,
+  getProductPurchaseTemplateTableRow,
+  getCashBoxChangeTemplateTable,
+  productPurchaseMenuTemplate,
+};

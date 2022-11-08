@@ -1,8 +1,9 @@
 import { ERROR_MESSAGE, MENU, STORAGE_KEY } from '../constants/index.js';
 import { checkPriceUnit, checkValidation } from '../validate/index.js';
 import VendingMachineManageMenuService from '../service/VendingMachineManageMenuService.js';
-import ProductManageMenuService from '../service/ProductManageMenuService.js';
 import { vendingMachineManageMenuTemplate } from '../template/index.js';
+import StorageService from '../service/StorageService.js';
+import storage from '../storage/index.js';
 
 class VendingMachineManageMenu {
   constructor($app) {
@@ -14,13 +15,17 @@ class VendingMachineManageMenu {
 
   static changeRenderer() {
     const $vendingMachineChargeAmount = document.querySelector('#vending-machine-charge-amount');
-    $vendingMachineChargeAmount.textContent = ProductManageMenuService.getCurrentTabState()[STORAGE_KEY.AMOUNT];
-
+    $vendingMachineChargeAmount.textContent = StorageService.getVendingMachineManageMenu(
+      storage.getStateData(),
+      STORAGE_KEY.AMOUNT
+    );
     const $coinTable = document.querySelectorAll('[data-price]');
 
     $coinTable.forEach(element => {
       const { price } = element.dataset;
-      element.textContent = `${ProductManageMenuService.getCurrentTabState()[STORAGE_KEY.COINS][price]}개`;
+      element.textContent = `${
+        StorageService.getVendingMachineManageMenu(storage.getStateData(), STORAGE_KEY.COINS)[price]
+      }개`;
     });
 
     const $vendingMachineForm = document.querySelector('#vending-machine-form');
@@ -56,7 +61,7 @@ class VendingMachineManageMenu {
 
   initEventListener() {
     const $vendingMachineForm = document.querySelector('#vending-machine-form');
-    $vendingMachineForm.addEventListener('submit', e => this.chargeMoneyBox.bind(this)(e));
+    $vendingMachineForm.addEventListener('submit', this.chargeMoneyBox.bind(this));
   }
 }
 

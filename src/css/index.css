@@ -2,6 +2,10 @@
   --white: #fff;
   --background-white: #f4f3f5;
   --box-shadow-color: #d8d8d8;
+  --clicked-backround : #9b1cba;
+  --disabled-border :#999999;
+  --disabled-border-background :#cccc;
+  --disabled-border-color :#666666;
 }
 
 .purchase-available,
@@ -181,4 +185,16 @@ button:active {
 .cashbox-change th,
 .cashbox-remaining th {
   border: 1px solid rgb(66, 66, 66);
+}
+
+button:disabled {
+  border: 1px solid var(--disabled-border);
+  background-color: var(--disabled-border-background);
+  color: var(--disabled-border-color);
+  cursor: not-allowed;
+}
+
+.button-menu.clicked {
+  background-color: var(--clicked-backround);
+  color: var(--white);
 }
