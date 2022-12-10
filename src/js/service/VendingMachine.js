@@ -1,11 +1,12 @@
 import { ALERT_MESSAGE } from './constant.js';
 import { removeSpace } from '../util/string.js';
-import ValidationError from './ValidationError.js';
 import { isAmountValid, isNameValid, isPriceValid } from './validator.js';
+import ValidationError from './ValidationError.js';
 
 /**
  * @typedef {Object} VendingMachine
- * @property {VendingMachineItem} items
+ * @property {function} getItems
+ * @property {function} addItem
  */
 
 /**
@@ -16,7 +17,7 @@ import { isAmountValid, isNameValid, isPriceValid } from './validator.js';
  * @property {number} amount
  */
 
-export default class VendingMachine {
+class VendingMachine {
   #items = [];
 
   reset() {
@@ -27,6 +28,10 @@ export default class VendingMachine {
     this.reset();
   }
 
+  /**
+   *
+   * @returns {VendingMachineItem[]}
+   */
   getItems() {
     return this.#items;
   }
@@ -36,7 +41,7 @@ export default class VendingMachine {
    * @param {VendingMachineItem} vendingMachineItem
    */
   addItem({ name, price, amount }) {
-    this.#validateItem(item);
+    this.#validateItem({ name, price, amount });
     const item = this.#items.find((item) => item.name === name) || {
       index: this.#items.length,
       name: removeSpace(name),
@@ -55,13 +60,15 @@ export default class VendingMachine {
    */
   #validateItem({ name, price, amount }) {
     if (!isNameValid(name)) {
-      throw new ValidationError(ALERT_MESSAGE.VALIDATION.PRODUCTION.NAME_BLANK);
+      throw new ValidationError(ALERT_MESSAGE.VALIDATION.PRODUCT.NAME_BLANK);
     }
     if (!isPriceValid(price)) {
-      throw new ValidationError(ALERT_MESSAGE.VALIDATION.PRODUCTION.PRICE);
+      throw new ValidationError(ALERT_MESSAGE.VALIDATION.PRODUCT.PRICE);
     }
     if (!isAmountValid(amount)) {
-      throw new ValidationError(ALERT_MESSAGE.VALIDATION.PRODUCTION.AMOUNT);
+      throw new ValidationError(ALERT_MESSAGE.VALIDATION.PRODUCT.AMOUNT);
     }
   }
 }
+
+export const vendingMachine = new VendingMachine();

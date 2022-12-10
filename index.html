@@ -9,6 +9,7 @@
   </head>
 
   <body>
+    <h1>🥤자판기🥤</h1>
     <button type="button" id="product-manage-menu">상품 관리</button>
     <button type="button" id="vending-machine-manage-menu">잔돈충전</button>
     <button type="button" id="product-purchase-menu">상품 구매</button>
@@ -18,15 +19,15 @@
         <form>
           <fieldset>
             <h2>상품 추가하기</h2>
-            <input type="text" class="input-inline" placeholder="상품명" />
-            <input type="number" class="input-inline" placeholder="가격" />
-            <input type="number" class="input-inline" placeholder="수량" />
+            <input type="text" id="product-name-input" class="input-inline" placeholder="상품명" />
+            <input type="number" id="product-price-input" class="input-inline" placeholder="가격" />
+            <input type="number" id="product-amount-input" class="input-inline" placeholder="수량" />
             <button type="button" id="product-add-button">추가하기</button>
           </fieldset>
         </form>
         <article>
           <h2>상품 현황</h2>
-          <table>
+          <table id="vending-machine-products-table">
             <thead>
               <tr>
                 <th>상품명</th>
