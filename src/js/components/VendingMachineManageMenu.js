@@ -74,7 +74,7 @@ export default class VendingMachineManageMenu {
     this.#renderState();
   }
 
-  handleChargeButtonClick() {
+  #handleChargeButtonClick() {
     try {
       const charge = $(SELECTOR.VENDING_MACHINE_CHARGE_INPUT).valueAsNumber;
       validateVendingMachineCharge(charge);
@@ -87,7 +87,7 @@ export default class VendingMachineManageMenu {
   }
 
   #bindEvents() {
-    $(SELECTOR.VENDING_MACHINE_CHARGE_BUTTON).addEventListener('click', this.handleChargeButtonClick.bind(this));
+    $(SELECTOR.VENDING_MACHINE_CHARGE_BUTTON).addEventListener('click', this.#handleChargeButtonClick.bind(this));
   }
 
   #renderState() {
@@ -141,6 +141,6 @@ export default class VendingMachineManageMenu {
   }
 
   #render() {
-    $(SELECTOR.APP).innerHTML = this.#getTemplate(this.#state);
+    $(SELECTOR.APP).innerHTML = this.#getTemplate();
   }
 }
