@@ -44,14 +44,14 @@
         <form>
           <fieldset>
             <h2>자판기 동전 충전하기</h2>
-            <input type="text" class="input-inline" placeholder="자판기가 보유할 금액" />
+            <input type="number" id="charge-amount-input" class="input-inline" placeholder="자판기가 보유할 금액" />
             <button type="button" id="vending-machine-charge-button">충전하기</button>
-            <p>보유 금액: <span class="text-charge-amount"></span></p>
+            <p>보유 금액: <span id="text-charge-amount"></span></p>
           </fieldset>
         </form>
         <article>
           <h2>자판기가 보유한 동전</h2>
-          <table>
+          <table id="vending-machine-charge-amount">
             <thead>
               <tr>
                 <th>동전</th>
@@ -61,19 +61,19 @@
             <tbody>
               <tr>
                 <td>500원</td>
-                <td>0개</td>
+                <td></td>
               </tr>
               <tr>
                 <td>100원</td>
-                <td>4개</td>
+                <td></td>
               </tr>
               <tr>
                 <td>50원</td>
-                <td>1개</td>
+                <td></td>
               </tr>
               <tr>
                 <td>10원</td>
-                <td>0개</td>
+                <td></td>
               </tr>
             </tbody>
           </table>

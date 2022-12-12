@@ -1,8 +1,34 @@
 import { VENDING_MACHINE_CONSTANT } from './constant.js';
 
-const MIN_PRICE = VENDING_MACHINE_CONSTANT.PRODUCT.MIN_PRICE;
-const MULTIPLE_PRICE = VENDING_MACHINE_CONSTANT.PRODUCT.MULTIPLE_PRICE;
-const MIN_AMOUNT = VENDING_MACHINE_CONSTANT.PRODUCT.MIN_AMOUNT;
+const PRODUCT_MIN_PRICE = VENDING_MACHINE_CONSTANT.PRODUCT.MIN_PRICE;
+const PRODUCT_MULTIPLE_PRICE = VENDING_MACHINE_CONSTANT.PRODUCT.MULTIPLE_PRICE;
+const PRODUCT_MIN_AMOUNT = VENDING_MACHINE_CONSTANT.PRODUCT.MIN_AMOUNT;
+
+const CHARGE_MIN_AMOUNT = VENDING_MACHINE_CONSTANT.CHANGES.MIN_AMOUNT;
+const CHARGE_MULTIPLE = VENDING_MACHINE_CONSTANT.CHANGES.MULTIPLE;
+
+/**
+ *
+ * @param {number} n
+ * @returns
+ */
+const isInteger = (n) => !isNaN(n) && Number.isInteger(n);
+
+/**
+ *
+ * @param {number} n
+ * @param {number} multiple
+ * @returns {boolean}
+ */
+const isMultipleOf = (n, multiple) => n % multiple === 0;
+
+/**
+ *
+ * @param {number} n
+ * @param {number} minValue
+ * @returns
+ */
+const isGreaterThan = (n, minValue) => n >= minValue;
 
 /**
  *
@@ -13,14 +39,21 @@ export const isNameValid = (name) => (name || '').length > 1;
 /**
  *
  * @param {number} price
- * @returns {boolean}
  */
 export const isPriceValid = (price) =>
-  !isNaN(price) && Number.isInteger(price) && price >= MIN_PRICE && price % MULTIPLE_PRICE === 0;
+  isInteger(price) && isGreaterThan(price, PRODUCT_MIN_PRICE) && isMultipleOf(price, PRODUCT_MULTIPLE_PRICE);
 
 /**
  *
  * @param {number} amount
  * @returns
  */
-export const isAmountValid = (amount) => !isNaN(amount) && Number.isInteger(amount) && amount >= MIN_AMOUNT;
+export const isAmountValid = (amount) => isInteger(amount) && isGreaterThan(amount, PRODUCT_MIN_AMOUNT);
+
+/**
+ *
+ * @param {number} amount
+ * @returns
+ */
+export const isInsertedCoinsValid = (amount) =>
+  isInteger(amount) && isGreaterThan(amount, CHARGE_MIN_AMOUNT) && isMultipleOf(amount, CHARGE_MULTIPLE);

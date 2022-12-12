@@ -1,12 +1,15 @@
 import { ALERT_MESSAGE, VENDING_MACHINE_CONSTANT } from './constant.js';
 import { removeSpace } from '../util/string.js';
-import { isAmountValid, isNameValid, isPriceValid } from './validator.js';
+import { isAmountValid, isInsertedCoinsValid, isNameValid, isPriceValid } from './validator.js';
 import ValidationError from './ValidationError.js';
 
 /**
  * @typedef {Object} VendingMachine
- * @property {function} getItems
+ * @property {function} getProducts
+ * @property {function} getChanges
+ * @property {function} getTotalChanges
  * @property {function} addItem
+ * @property {function} insertCoins
  */
 
 /**
@@ -18,12 +21,12 @@ import ValidationError from './ValidationError.js';
  */
 
 class VendingMachine {
-  #items;
+  #products;
   #changes;
 
   reset() {
-    this.#items = [];
-    this.#changes = VENDING_MACHINE_CONSTANT.CHANGES.reduce(
+    this.#products = [];
+    this.#changes = VENDING_MACHINE_CONSTANT.CHANGES.UNITS.reduce(
       (result, unit) => ({
         ...result,
         [unit]: 0,
@@ -40,8 +43,8 @@ class VendingMachine {
    *
    * @returns {VendingMachineItem[]}
    */
-  getItems() {
-    return this.#items;
+  getProducts() {
+    return this.#products;
   }
 
   /**
@@ -57,9 +60,9 @@ class VendingMachine {
    * @param {VendingMachineItem} vendingMachineItem
    */
   addItem({ name, price, amount }) {
-    this.#validateItem({ name, price, amount });
-    const item = this.#items.find((item) => item.name === name) || {
-      index: this.#items.length,
+    this.#validateProduct({ name, price, amount });
+    const item = this.#products.find((item) => item.name === name) || {
+      index: this.#products.length,
       name: removeSpace(name),
     };
     const newItem = {
@@ -67,14 +70,16 @@ class VendingMachine {
       price,
       amount,
     };
-    this.#items = [...this.#items.filter((item) => item.name !== name), newItem].sort((a, b) => a.index - b.index);
+    this.#products = [...this.#products.filter((item) => item.name !== name), newItem].sort(
+      (a, b) => a.index - b.index
+    );
   }
 
   /**
    *
    * @param {VendingMachineItem} vendingMachineItem
    */
-  #validateItem({ name, price, amount }) {
+  #validateProduct({ name, price, amount }) {
     if (!isNameValid(name)) {
       throw new ValidationError(ALERT_MESSAGE.VALIDATION.PRODUCT.NAME_BLANK);
     }
@@ -112,11 +117,18 @@ class VendingMachine {
     return Object.keys(this.#changes).reduce((total, unit) => total + Number(unit) * this.#changes[unit], 0);
   }
 
+  #validateCoins(amount) {
+    if (!isInsertedCoinsValid(amount)) {
+      throw new ValidationError(ALERT_MESSAGE.VALIDATION.CHARGE_AMOUNT);
+    }
+  }
+
   /**
    *
    * @param {number} amount
    */
   insertCoins(amount) {
+    this.#validateCoins(amount);
     const insertedCoins = this.#getCoins(amount);
     this.#changes = Object.keys(insertedCoins).reduce(
       (result, unit) => {

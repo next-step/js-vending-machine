@@ -4,7 +4,9 @@ export const VENDING_MACHINE_CONSTANT = {
     MIN_PRICE: 100,
     MULTIPLE_PRICE: 10,
   },
-  CHANGES: [500, 100, 50, 10],
+  CHANGES: { UNITS: [500, 100, 50, 10], MIN_AMOUNT: 100, MULTIPLE: 10 },
+  MONEY_UNIT: '원',
+  COINS_POSTFIX: '개',
 };
 
 export const ALERT_MESSAGE = {
@@ -14,5 +16,6 @@ export const ALERT_MESSAGE = {
       PRICE: '상품의 최소 금액은 100원 이상이며 10으로 나누어 떨어져야 합니다',
       AMOUNT: '상품의 최소 수량은 1개 이상입니다',
     },
+    CHARGE_AMOUNT: '최소 충전 금액은 100원이며, 10원으로 나누어 떨어지는 금액으로만 충전할 수 있습니다',
   },
 };

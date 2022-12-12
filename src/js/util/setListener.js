@@ -1,3 +1,4 @@
+import ValidationError from '../service/ValidationError.js';
 import { vendingMachine } from '../service/vendingmachine.js';
 import { querySelector } from '../ui/element.js';
 import { removeSpace } from './string.js';
@@ -9,7 +10,17 @@ import { removeSpace } from './string.js';
  * @returns
  */
 export const setClickEventListenerWithVendingMachine = (selector, callback) =>
-  querySelector(selector).addEventListener('click', () => callback(vendingMachine));
+  querySelector(selector).addEventListener('click', () => {
+    try {
+      callback(vendingMachine);
+    } catch (error) {
+      if (error instanceof ValidationError) {
+        alert(error.message);
+        return;
+      }
+      console.error(error);
+    }
+  });
 
 /**
  *
@@ -19,7 +30,10 @@ export const setClickEventListenerWithVendingMachine = (selector, callback) =>
  */
 export const setEnterEventListener = (selector, callback) =>
   querySelector(selector).addEventListener('keypress', (event) => {
-    if (event.key === 'Enter') callback(vendingMachine);
+    if (event.key === 'Enter') {
+      callback(vendingMachine);
+      event.preventDefault();
+    }
   });
 
 export const setChangeRemovingSpaceListener = (selector) => {
