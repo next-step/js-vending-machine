@@ -1,7 +1,7 @@
 import { ERROR_MESSAGE } from '../../src/js/constants/errorMessage';
 import { SELECTOR } from '../../src/js/constants/selector';
 
-const INDEX = {
+const PRODUCT_INDEX = {
   NAME: 0,
   PRICE: 1,
   QUANTITY: 2,
@@ -92,11 +92,11 @@ describe('상품관리 탭을 테스트한다.', () => {
       cy.get(SELECTOR.PRODUCT_INVENTORY_CONTAINER)
         .children()
         .each(($tr) => {
-          if ($tr.children()[INDEX.NAME].textContent !== 'hot6') return;
+          if ($tr.children()[PRODUCT_INDEX.NAME].textContent !== 'hot6') return;
 
-          expect($tr.children()[INDEX.NAME].textContent).to.equal(hot6.name);
-          expect(Number($tr.children()[INDEX.PRICE].textContent)).to.equal(hot6.price);
-          expect(Number($tr.children()[INDEX.QUANTITY].textContent)).to.equal(hot6.quantity);
+          expect($tr.children()[PRODUCT_INDEX.NAME].textContent).to.equal(hot6.name);
+          expect(Number($tr.children()[PRODUCT_INDEX.PRICE].textContent)).to.equal(hot6.price);
+          expect(Number($tr.children()[PRODUCT_INDEX.QUANTITY].textContent)).to.equal(hot6.quantity);
         });
 
       const modifiedHot6 = { name: 'hot6', price: 1500, quantity: 5 };
@@ -105,11 +105,11 @@ describe('상품관리 탭을 테스트한다.', () => {
       cy.get(SELECTOR.PRODUCT_INVENTORY_CONTAINER)
         .children()
         .each(($tr) => {
-          if ($tr.children()[INDEX.NAME].textContent !== 'hot6') return;
+          if ($tr.children()[PRODUCT_INDEX.NAME].textContent !== 'hot6') return;
 
-          expect($tr.children()[INDEX.NAME].textContent).to.equal(modifiedHot6.name);
-          expect(Number($tr.children()[INDEX.PRICE].textContent)).to.equal(modifiedHot6.price);
-          expect(Number($tr.children()[INDEX.QUANTITY].textContent)).to.equal(modifiedHot6.quantity);
+          expect($tr.children()[PRODUCT_INDEX.NAME].textContent).to.equal(modifiedHot6.name);
+          expect(Number($tr.children()[PRODUCT_INDEX.PRICE].textContent)).to.equal(modifiedHot6.price);
+          expect(Number($tr.children()[PRODUCT_INDEX.QUANTITY].textContent)).to.equal(modifiedHot6.quantity);
         });
     });
 
@@ -125,9 +125,9 @@ describe('상품관리 탭을 테스트한다.', () => {
       cy.get(SELECTOR.PRODUCT_INVENTORY_CONTAINER)
         .children()
         .each(($tr, idx) => {
-          expect($tr.children()[INDEX.NAME].textContent).to.equal(products[idx].name);
-          expect(Number($tr.children()[INDEX.PRICE].textContent)).to.equal(products[idx].price);
-          expect(Number($tr.children()[INDEX.QUANTITY].textContent)).to.equal(products[idx].quantity);
+          expect($tr.children()[PRODUCT_INDEX.NAME].textContent).to.equal(products[idx].name);
+          expect(Number($tr.children()[PRODUCT_INDEX.PRICE].textContent)).to.equal(products[idx].price);
+          expect(Number($tr.children()[PRODUCT_INDEX.QUANTITY].textContent)).to.equal(products[idx].quantity);
         });
     });
 
@@ -143,9 +143,9 @@ describe('상품관리 탭을 테스트한다.', () => {
       cy.get(SELECTOR.PRODUCT_INVENTORY_CONTAINER)
         .children()
         .each(($el, idx) => {
-          expect($el.children()[INDEX.NAME].textContent).to.equal(products[idx].name);
-          expect(Number($el.children()[INDEX.PRICE].textContent)).to.equal(products[idx].price);
-          expect(Number($el.children()[INDEX.QUANTITY].textContent)).to.equal(products[idx].quantity);
+          expect($el.children()[PRODUCT_INDEX.NAME].textContent).to.equal(products[idx].name);
+          expect(Number($el.children()[PRODUCT_INDEX.PRICE].textContent)).to.equal(products[idx].price);
+          expect(Number($el.children()[PRODUCT_INDEX.QUANTITY].textContent)).to.equal(products[idx].quantity);
         });
 
       cy.get(SELECTOR.VENDING_MACHINE_MANAGE_MENU).click();
@@ -154,10 +154,95 @@ describe('상품관리 탭을 테스트한다.', () => {
       cy.get(SELECTOR.PRODUCT_INVENTORY_CONTAINER)
         .children()
         .each(($el, idx) => {
-          expect($el.children()[INDEX.NAME].textContent).to.equal(products[idx].name);
-          expect(Number($el.children()[INDEX.PRICE].textContent)).to.equal(products[idx].price);
-          expect(Number($el.children()[INDEX.QUANTITY].textContent)).to.equal(products[idx].quantity);
+          expect($el.children()[PRODUCT_INDEX.NAME].textContent).to.equal(products[idx].name);
+          expect(Number($el.children()[PRODUCT_INDEX.PRICE].textContent)).to.equal(products[idx].price);
+          expect(Number($el.children()[PRODUCT_INDEX.QUANTITY].textContent)).to.equal(products[idx].quantity);
         });
+    });
+  });
+});
+
+describe('잔돈 충전 탭을 테스트한다.', () => {
+  context('잔돈 충전을 할 때', () => {
+    beforeEach(() => {
+      cy.get(SELECTOR.VENDING_MACHINE_MANAGE_MENU).click();
+    });
+    it('최초의 자판기 보유 금액은 0원이고, 각 동전의 개수는 0개이다.', () => {
+      cy.get(SELECTOR.VENDING_MACHINE_CHARGE_AMOUNT).should('have.text', '0');
+
+      cy.get(SELECTOR.VENDING_MACHINE_COIN_500_QUANTITY).should('have.text', '0개');
+      cy.get(SELECTOR.VENDING_MACHINE_COIN_100_QUANTITY).should('have.text', '0개');
+      cy.get(SELECTOR.VENDING_MACHINE_COIN_50_QUANTITY).should('have.text', '0개');
+      cy.get(SELECTOR.VENDING_MACHINE_COIN_10_QUANTITY).should('have.text', '0개');
+    });
+
+    it('최소 충전 금액은 100원이다.', () => {
+      const alertStub = cy.stub();
+      cy.on('window:alert', alertStub);
+
+      cy.addCharge(50).then(() => {
+        expect(alertStub.getCall(0)).to.be.calledWith(ERROR_MESSAGE.INVALID_VENDING_MACHINE_MIN_CHARGE);
+      });
+    });
+
+    it('충전 금액은 10원으로 나누어 떨어지는 금액만 충전이 가능하다.', () => {
+      const alertStub = cy.stub();
+      cy.on('window:alert', alertStub);
+
+      cy.addCharge(1045).then(() => {
+        expect(alertStub.getCall(0)).to.be.calledWith(ERROR_MESSAGE.INVALID_VENDING_MACHINE_CHARGE_UNIT);
+      });
+    });
+
+    it('자판기가 보유한 금액은 {금액}원 형식으로 나타낸다', () => {
+      cy.addCharge(1200);
+
+      cy.get(SELECTOR.VENDING_MACHINE_CHARGE_AMOUNT).should('have.text', '1200');
+    });
+
+    it('잔돈은 누적하여 충전할 수 있다', () => {
+      cy.addCharge(1200);
+
+      cy.get(SELECTOR.VENDING_MACHINE_CHARGE_AMOUNT).should('have.text', '1200');
+
+      cy.addCharge(1800);
+
+      cy.get(SELECTOR.VENDING_MACHINE_CHARGE_AMOUNT).should('have.text', '3000');
+    });
+
+    // it('자판기가 보유한 금액 만큼의 동전이 무작위로 생성된다.', () => {
+    //   cy.get(SELECTOR.VENDING_MACHINE_CHARGE_INPUT).type(5000);
+    //   cy.get(SELECTOR.VENDING_MACHINE_CHARGE_BUTTON).click();
+    //   // 생성된 동전 개수를 객체에 담아서 변수에 저장
+
+    //   // 초기화
+    //   cy.visit('index.html');
+    //   cy.get(SELECTOR.VENDING_MACHINE_MANAGE_MENU).click();
+
+    //   cy.get(SELECTOR.VENDING_MACHINE_CHARGE_INPUT).type(5000);
+    //   cy.get(SELECTOR.VENDING_MACHINE_CHARGE_BUTTON).click();
+    //   // 생성된 동전 개수를 객체에 담아서 변수에 저장
+
+    //   // 2개의 변수를 비교하여 다르면, 무작위로 생성되었다고 가정한다.
+    // });
+
+    it('자판기가 보유한 동전의 개수는 {개수}개 형식으로 나타낸다', () => {
+      cy.addCharge(1760);
+
+      cy.checkCoinFormat(SELECTOR.VENDING_MACHINE_COIN_500_QUANTITY);
+      cy.checkCoinFormat(SELECTOR.VENDING_MACHINE_COIN_100_QUANTITY);
+      cy.checkCoinFormat(SELECTOR.VENDING_MACHINE_COIN_50_QUANTITY);
+      cy.checkCoinFormat(SELECTOR.VENDING_MACHINE_COIN_10_QUANTITY);
+    });
+
+    it('다른 탭을 클릭해도 자판기가 보유한 금액은 유지된다.', () => {
+      cy.addCharge(1000);
+      cy.get(SELECTOR.VENDING_MACHINE_CHARGE_AMOUNT).should('have.text', '1000');
+
+      cy.get(SELECTOR.PRODUCT_MANAGE_MENU).click();
+      cy.get(SELECTOR.VENDING_MACHINE_MANAGE_MENU).click();
+
+      cy.get(SELECTOR.VENDING_MACHINE_CHARGE_AMOUNT).should('have.text', '1000');
     });
   });
 });
