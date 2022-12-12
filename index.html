@@ -9,11 +9,12 @@
   </head>
 
   <body>
-    <h1>🥤자판기🥤</h1>
-    <button type="button" id="product-manage-menu">상품 관리</button>
-    <button type="button" id="vending-machine-manage-menu">잔돈충전</button>
-    <button type="button" id="product-purchase-menu">상품 구매</button>
-
+    <header>
+      <h1>🥤자판기🥤</h1>
+      <button type="button" id="product-manage-menu">상품 관리</button>
+      <button type="button" id="vending-machine-manage-menu">잔돈충전</button>
+      <button type="button" id="product-purchase-menu">상품 구매</button>
+    </header>
     <div id="app">
       <section id="section-managing-product" class="section-tab">
         <form>
@@ -30,28 +31,22 @@
           <table id="vending-machine-products-table">
             <thead>
               <tr>
-                <th>상품명</th>
+                <th class="column-wide">상품명</th>
                 <th>가격</th>
                 <th>수량</th>
               </tr>
             </thead>
-            <tbody>
-              <tr>
-                <td>콜라</td>
-                <td>1500</td>
-                <td>20</td>
-              </tr>
-            </tbody>
+            <tbody></tbody>
           </table>
         </article>
       </section>
-      <section id="section-managing-change" class="section-tab">
+      <section id="section-managing-charge" class="section-tab hidden">
         <form>
           <fieldset>
             <h2>자판기 동전 충전하기</h2>
             <input type="text" class="input-inline" placeholder="자판기가 보유할 금액" />
             <button type="button" id="vending-machine-charge-button">충전하기</button>
-            <p>보유 금액: <span class="text-change-amount"></span></p>
+            <p>보유 금액: <span class="text-charge-amount"></span></p>
           </fieldset>
         </form>
         <article>

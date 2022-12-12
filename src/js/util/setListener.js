@@ -8,7 +8,7 @@ import { removeSpace } from './string.js';
  * @param {function} callback
  * @returns
  */
-export const setClickEventListener = (selector, callback) =>
+export const setClickEventListenerWithVendingMachine = (selector, callback) =>
   querySelector(selector).addEventListener('click', () => callback(vendingMachine));
 
 /**

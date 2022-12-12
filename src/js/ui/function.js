@@ -28,3 +28,14 @@ export const renderProduct = (vendingMachine) => {
   }, '');
   querySelector(ELEMENT.TABLE.VENDING_MACHINE_PRODUCT_TBODY).innerHTML = innerHTML;
 };
+
+/**
+ *
+ * @param {string} tabElementSelector
+ */
+export const showTab = (tabElement) => {
+  const tabs = Object.values(ELEMENT.TABS);
+  tabs.forEach((tab) => {
+    tab === tabElement ? querySelector(tab).classList.remove('hidden') : querySelector(tab).classList.add('hidden');
+  });
+};

@@ -1,9 +1,15 @@
 import ValidationError from './service/ValidationError.js';
-import { ELEMENT } from './ui/element.js';
-import { addProduct, clearInputs, renderProduct } from './ui/function.js';
-import { setChangeRemovingSpaceListener, setClickEventListener } from './util/setListener.js';
+import { ELEMENT, querySelector } from './ui/element.js';
+import { addProduct, clearInputs, renderProduct, showTab } from './ui/function.js';
+import { setChangeRemovingSpaceListener, setClickEventListenerWithVendingMachine } from './util/setListener.js';
 
-setClickEventListener(
+Object.keys(ELEMENT.TAB_BUTTON).forEach((key) => {
+  const tabButtonSelector = ELEMENT.TAB_BUTTON[key];
+  const tabSelector = ELEMENT.TABS[key];
+  querySelector(tabButtonSelector).addEventListener('click', () => showTab(tabSelector));
+});
+
+setClickEventListenerWithVendingMachine(
   ELEMENT.BUTTON.PRODUCT_ADD,
   /**
    * @param {import('./service/vendingmachine.js').VendingMachine} vendingMachine
@@ -20,5 +26,4 @@ setClickEventListener(
     }
   }
 );
-
 setChangeRemovingSpaceListener(ELEMENT.INPUT.PRODUCT_NAME);

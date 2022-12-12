@@ -6,14 +6,16 @@ body {
   overflow-wrap: break-word;
   font-size: 1.0625rem;
   overflow-anchor: none;
-  background-color: #f4f3f5;
 }
 
-section {
-  width: 35rem;
+header,
+.section-tab {
+  text-align: left;
+  width: 35vw;
+  margin: 0 auto;
 }
 
-section:last-child {
+.section-tab:last-child {
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -26,4 +28,32 @@ section:last-child {
   flex-direction: column;
   justify-content: center;
   align-items: center;
+}
+
+fieldset,
+article {
+  margin: 0;
+  padding: 0;
+  border: 0 none;
+  width: 100%;
+}
+
+table {
+  border-collapse: collapse;
+}
+
+th,
+td {
+  border: 1px solid #555;
+  text-align: center;
+  min-width: 80px;
+  height: 40px;
+}
+
+.column-wide {
+  min-width: 160px;
+}
+
+.hidden {
+  display: none !important;
 }
