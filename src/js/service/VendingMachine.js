@@ -1,4 +1,4 @@
-import { ALERT_MESSAGE } from './constant.js';
+import { ALERT_MESSAGE, VENDING_MACHINE_CONSTANT } from './constant.js';
 import { removeSpace } from '../util/string.js';
 import { isAmountValid, isNameValid, isPriceValid } from './validator.js';
 import ValidationError from './ValidationError.js';
@@ -18,10 +18,18 @@ import ValidationError from './ValidationError.js';
  */
 
 class VendingMachine {
-  #items = [];
+  #items;
+  #changes;
 
   reset() {
     this.#items = [];
+    this.#changes = VENDING_MACHINE_CONSTANT.CHANGES.reduce(
+      (result, unit) => ({
+        ...result,
+        [unit]: 0,
+      }),
+      {}
+    );
   }
 
   constructor() {
@@ -34,6 +42,14 @@ class VendingMachine {
    */
   getItems() {
     return this.#items;
+  }
+
+  /**
+   *
+   * @returns {Object}
+   */
+  getChanges() {
+    return this.#changes;
   }
 
   /**
@@ -68,6 +84,46 @@ class VendingMachine {
     if (!isAmountValid(amount)) {
       throw new ValidationError(ALERT_MESSAGE.VALIDATION.PRODUCT.AMOUNT);
     }
+  }
+
+  /**
+   *
+   * @param {number} amount
+   * @returns {Object}
+   */
+  #getCoins(amount) {
+    const changes = Object.keys(this.#changes).sort((a, b) => Number(b) - Number(a));
+    return changes.reduce((result, unit) => {
+      let count = 0;
+      while (amount) {
+        if (unit == 0) continue;
+        if (amount - unit >= 0) {
+          amount -= unit;
+          count += 1;
+          continue;
+        }
+        break;
+      }
+      return { ...result, [unit]: count };
+    }, {});
+  }
+
+  getTotalChanges() {
+    return Object.keys(this.#changes).reduce((total, unit) => total + Number(unit) * this.#changes[unit], 0);
+  }
+
+  /**
+   *
+   * @param {number} amount
+   */
+  insertCoins(amount) {
+    const insertedCoins = this.#getCoins(amount);
+    this.#changes = Object.keys(insertedCoins).reduce(
+      (result, unit) => {
+        return { ...result, [unit]: insertedCoins[unit] + this.#changes[unit] };
+      },
+      { ...this.#changes }
+    );
   }
 }
 

@@ -4,6 +4,7 @@ export const VENDING_MACHINE_CONSTANT = {
     MIN_PRICE: 100,
     MULTIPLE_PRICE: 10,
   },
+  CHANGES: [500, 100, 50, 10],
 };
 
 export const ALERT_MESSAGE = {
