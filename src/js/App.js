@@ -1,5 +1,6 @@
 /* eslint-disable class-methods-use-this */
-import ProductManagement from './components/ProductManagement.js';
+import ProductManageMenu from './components/ProductManageMenu.js';
+import VendingMachineManageMenu from './components/VendingMachineManageMenu.js';
 import { SELECTOR } from './constants/selector.js';
 import { $ } from './utils/dom.js';
 
@@ -8,36 +9,38 @@ class App {
     category: 'product-manage-menu',
   };
 
-  #productManagement = new ProductManagement();
+  #productManageMenu = new ProductManageMenu();
+
+  #vendingMachineManageMenu = new VendingMachineManageMenu();
 
   init() {
     this.#render();
-    this.bindEvents();
+    this.#bindEvents();
   }
 
   #render() {
     if (this.#state.category === 'product-manage-menu') {
-      this.#productManagement.init();
+      this.#productManageMenu.init();
     }
 
     if (this.#state.category === 'vending-machine-manage-menu') {
-      $(SELECTOR.APP).innerHTML = '<div>hi</div>';
+      this.#vendingMachineManageMenu.init();
     }
 
     if (this.#state.category === 'product-purchase-menu') {
-      $(SELECTOR.APP).innerHTML = '<div>hi</div>';
+      $(SELECTOR.APP).innerHTML = '<div>product-purchase-menu</div>';
     }
   }
 
-  handleCategoryClick(e) {
+  #handleCategoryClick(e) {
     const { id } = e.target;
 
     this.#state.category = id;
     this.#render();
   }
 
-  bindEvents() {
-    $(SELECTOR.VENDING_MACHINE_CATEGORIES).addEventListener('click', this.handleCategoryClick.bind(this));
+  #bindEvents() {
+    $(SELECTOR.VENDING_MACHINE_CATEGORIES).addEventListener('click', this.#handleCategoryClick.bind(this));
   }
 }
 

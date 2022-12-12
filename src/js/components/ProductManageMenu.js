@@ -3,7 +3,7 @@ import { $ } from '../utils/dom.js';
 import { validateProductName, validateProductPrice, validateProductQuantity } from '../utils/validation.js';
 
 /* eslint-disable class-methods-use-this */
-export default class ProductManagement {
+export default class ProductManageMenu {
   #state = {
     products: [],
   };
@@ -20,18 +20,18 @@ export default class ProductManagement {
     this.#state = {
       products: JSON.parse(localStorage.getItem('products')) ?? [],
     };
-    this.render();
-    this.renderProductList();
-    this.bindEvents();
+    this.#render();
+    this.#renderState();
+    this.#bindEvents();
   }
 
-  resetInput() {
+  #resetInput() {
     $(SELECTOR.PRODUCT_NAME_INPUT).value = '';
     $(SELECTOR.PRODUCT_PRICE_INPUT).value = '';
     $(SELECTOR.PRODUCT_QUANTITY_INPUT).value = '';
   }
 
-  handleProductAddButtonClick() {
+  #handleProductAddButtonClick() {
     try {
       const name = $(SELECTOR.PRODUCT_NAME_INPUT).value;
       validateProductName(name);
@@ -44,34 +44,34 @@ export default class ProductManagement {
 
       const product = { name, price, quantity };
 
-      this.addProduct(product);
-      this.resetInput();
+      this.#addProduct(product);
+      this.#resetInput();
     } catch (error) {
       alert(error.message);
     }
   }
 
-  addProduct(product) {
+  #addProduct(product) {
     const targetIndex = this.#state.products.findIndex((stateProduct) => stateProduct.name === product.name);
+    const isNotExist = targetIndex === -1;
 
-    if (targetIndex === -1) {
+    if (isNotExist) {
       this.#state.products.push(product);
-      this.renderProductList();
       localStorage.setItem('products', JSON.stringify(this.#state.products));
+      this.#renderState();
       return;
     }
 
     this.#state.products.splice(targetIndex, 1, product);
-
     localStorage.setItem('products', JSON.stringify(this.#state.products));
-    this.renderProductList();
+    this.#renderState();
   }
 
-  bindEvents() {
-    $(SELECTOR.PRODUCT_ADD_BUTTON).addEventListener('click', this.handleProductAddButtonClick.bind(this));
+  #bindEvents() {
+    $(SELECTOR.PRODUCT_ADD_BUTTON).addEventListener('click', this.#handleProductAddButtonClick.bind(this));
   }
 
-  renderProductList() {
+  #renderState() {
     const template = this.#state.products
       .map((product) => {
         return `
@@ -85,10 +85,10 @@ export default class ProductManagement {
       })
       .join('');
 
-    $('#product-inventory-container').innerHTML = template;
+    $(SELECTOR.PRODUCT_INVENTORY_CONTAINER).innerHTML = template;
   }
 
-  getTemplate() {
+  #getTemplate() {
     return `<h3>상품 추가하기</h3>
     <div class="product-container">
       <input type="text" id="product-name-input" placeholder="상품명" />
@@ -114,7 +114,7 @@ export default class ProductManagement {
     </table>`;
   }
 
-  render() {
-    $(SELECTOR.APP).innerHTML = this.getTemplate();
+  #render() {
+    $(SELECTOR.APP).innerHTML = this.#getTemplate();
   }
 }

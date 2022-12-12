@@ -22,3 +22,8 @@ export const validateProductQuantity = (productQuantity) => {
   validate(!isEmpty(productQuantity), ERROR_MESSAGE.EMPTY_INPUT);
   validate(productQuantity >= 1, ERROR_MESSAGE.INVALID_PRODUCT_MIN_QUANTITY);
 };
+
+export const validateVendingMachineCharge = (charge) => {
+  validate(charge >= 100, ERROR_MESSAGE.INVALID_VENDING_MACHINE_MIN_CHARGE);
+  validate(charge % 10 === 0, ERROR_MESSAGE.INVALID_VENDING_MACHINE_CHARGE_UNIT);
+};
