@@ -1,4 +1,5 @@
 // eslint-disable-next-line no-unused-vars
+import { VENDING_MACHINE_CONSTANT } from '../service/constant.js';
 import { vendingMachine } from '../service/vendingmachine.js';
 import { ELEMENT, querySelector } from './element.js';
 
@@ -63,8 +64,8 @@ export const renderChargeAmount = (vendingMachine) => {
   const coinArray = Object.keys(coins).sort((a, b) => Number(b) - Number(a));
   const innerHTML = coinArray.reduce((result, unit) => {
     const row = `<tr>
-      <td>${unit}원</td>
-      <td>${coins[unit]}개</td>
+      <td>${unit}${VENDING_MACHINE_CONSTANT.MONEY_UNIT}</td>
+      <td>${coins[unit]}${VENDING_MACHINE_CONSTANT.COINS_POSTFIX}</td>
     </tr>`;
     return result + row;
   }, '');

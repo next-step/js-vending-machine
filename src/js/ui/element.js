@@ -31,8 +31,8 @@ export const ELEMENT = {
     CHARGE_AMOUNT: '#charge-amount-input',
   },
   TABLE: {
-    VENDING_MACHINE_PRODUCT_TBODY: '#vending-machine-products-table tbody',
-    VENDING_MACHINE_CHARGE_AMOUNT: '#vending-machine-charge-amount tbody',
+    VENDING_MACHINE_PRODUCT_TBODY: '#vending-machine-products-table > tbody',
+    VENDING_MACHINE_CHARGE_AMOUNT: '#vending-machine-charge-amount > tbody',
   },
   TAB_BUTTON: {
     MANAGING_PRODUCT: '#product-manage-menu',

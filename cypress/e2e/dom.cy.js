@@ -1,4 +1,4 @@
-import { ALERT_MESSAGE } from '../../src/js/service/constant';
+import { ALERT_MESSAGE, VENDING_MACHINE_CONSTANT } from '../../src/js/service/constant';
 import { ELEMENT } from '../../src/js/ui/element';
 import { removeSpace } from '../../src/js/util/string';
 
@@ -87,6 +87,63 @@ describe('자판기 요구사항을 점검한다', () => {
       productInput.forEach((keyword) => {
         cy.get(ELEMENT.TABLE.VENDING_MACHINE_PRODUCT_TBODY).contains(keyword);
       });
+    });
+  });
+
+  describe('잔동 충전 요구사항을 점검한다', () => {
+    const UNITS = VENDING_MACHINE_CONSTANT.CHANGES.UNITS;
+    const MONEY_UNIT = VENDING_MACHINE_CONSTANT.MONEY_UNIT;
+    const COINS_POSTFIX = VENDING_MACHINE_CONSTANT.COINS_POSTFIX;
+
+    beforeEach(() => {
+      cy.get(ELEMENT.TAB_BUTTON.MANAGING_CHARGE).click();
+    });
+
+    const validateChanges = (amount, changes = [0, 0, 0, 0]) => {
+      cy.get(ELEMENT.SPAN.CHARGE_AMOUNT).should('have.text', amount);
+      UNITS.forEach((unit, index) => {
+        cy.get(`${ELEMENT.TABLE.VENDING_MACHINE_CHARGE_AMOUNT} > tr:nth-child(${index + 1}) > td:first-child`).contains(
+          unit + MONEY_UNIT
+        );
+        cy.get(
+          `${ELEMENT.TABLE.VENDING_MACHINE_CHARGE_AMOUNT} > tr:nth-child(${index + 1}) > td:nth-child(2)`
+        ).contains(changes[index] + COINS_POSTFIX);
+      });
+    };
+
+    it('잔돈 충전 탭에서 450원을 입력하면 100원X4개, 50원X1개의 동전이 충전된다', () => {
+      const amount = 450;
+      const unitsAbout450 = [0, 4, 1, 0];
+
+      cy.get(ELEMENT.INPUT.CHARGE_AMOUNT).type(amount);
+      cy.get(ELEMENT.BUTTON.CHARGE_AMOUNT).click();
+
+      validateChanges(amount, unitsAbout450);
+    });
+
+    it('잔돈이 올바르게 누적되는지 점검한다', () => {
+      const first = { amount: 450, accumulatedAmount: 450, accumulatedChanges: [0, 4, 1, 0] };
+      const second = { amount: 200, accumulatedAmount: 650, accumulatedChanges: [0, 6, 1, 0] };
+
+      const cases = [first, second];
+      cases.forEach(({ amount, accumulatedAmount, accumulatedChanges }) => {
+        cy.get(ELEMENT.INPUT.CHARGE_AMOUNT).type(amount);
+        cy.get(ELEMENT.BUTTON.CHARGE_AMOUNT).click();
+        validateChanges(accumulatedAmount, accumulatedChanges);
+      });
+    });
+
+    it('잔돈 충전 후 다른 탭을 클릭하더라도 자판기가 보유한 금액은 유지되어야 한다', () => {
+      const amount = 450;
+      const unitsAbout450 = [0, 4, 1, 0];
+
+      cy.get(ELEMENT.INPUT.CHARGE_AMOUNT).type(amount);
+      cy.get(ELEMENT.BUTTON.CHARGE_AMOUNT).click();
+
+      cy.get(ELEMENT.TAB_BUTTON.MANAGING_PRODUCT).click();
+      cy.get(ELEMENT.TAB_BUTTON.MANAGING_CHARGE).click();
+
+      validateChanges(amount, unitsAbout450);
     });
   });
 });
