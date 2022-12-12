@@ -1,6 +1,5 @@
 // eslint-disable-next-line no-unused-vars
 import { VENDING_MACHINE_CONSTANT } from '../service/constant.js';
-import { vendingMachine } from '../service/vendingmachine.js';
 import { ELEMENT, querySelector } from './element.js';
 
 const inputName = querySelector(ELEMENT.INPUT.PRODUCT_NAME);

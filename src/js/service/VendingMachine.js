@@ -101,7 +101,6 @@ class VendingMachine {
     return changes.reduce((result, unit) => {
       let count = 0;
       while (amount) {
-        if (unit == 0) continue;
         if (amount - unit >= 0) {
           amount -= unit;
           count += 1;
