@@ -17,6 +17,7 @@
 
 .product-inventory {
 	width: 340px;
+	margin: 0 auto;
 }
 
 .purchase-available {
@@ -87,8 +88,8 @@ section:last-child {
 	align-items: center;
 }
 
-input[type='number'],
-input[type='text'] {
+input[type="number"],
+input[type="text"] {
 	all: unset;
 	font-size: 0.825rem;
 	padding: 0.5rem;
