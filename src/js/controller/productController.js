@@ -36,9 +36,6 @@ export const typeProductQuantity = ({ quantity }) => {
 
 export const addProduct = () => {
   const { products, typedProduct } = model.getState();
-  // const isValidAddProduction = !typedProduct.name || !typedProduct.price || !typedProduct.quantity;
-  console.log(typedProduct);
-  // if (!isValidAddProduction) return;
 
   const newProducts = [...products, typedProduct];
 
