@@ -1,49 +1,63 @@
 import { DEFAULT_TYPED_PRODUCT } from '../../constants/index.js';
-import veningMachineModel from '../model/index.js';
-import {
-  renderProductInputElements,
-  renderProductList,
-  renderProductNameInput,
-  renderProductPriceInput,
-  renderProductQuantityInput,
-} from '../view/productView.js';
 
-const model = veningMachineModel;
+class ProductController {
+  constructor({ model, view }) {
+    this.model = model;
+    this.view = view;
+  }
 
-export const typeProductName = ({ name }) => {
-  const currentState = model.getState();
+  typeProductName = ({ name }) => {
+    const currentState = this.model.state;
 
-  model.setState({ ...currentState, typedProduct: { ...currentState.typedProduct, name } });
+    this.model.setState({ ...currentState, typedProduct: { ...currentState.typedProduct, name } });
 
-  renderProductNameInput({ name });
-};
+    this.view.renderProductNameInput({ name: this.model.state.typedProduct.name });
+  };
 
-export const typeProductPrice = ({ price }) => {
-  const currentState = model.getState();
+  typeProductPrice = ({ price }) => {
+    const currentState = this.model.state;
 
-  model.setState({ ...currentState, typedProduct: { ...currentState.typedProduct, price } });
+    this.model.setState({ ...currentState, typedProduct: { ...currentState.typedProduct, price } });
 
-  renderProductPriceInput({ price });
-};
+    this.view.renderProductPriceInput({ price: this.model.state.typedProduct.price });
+  };
 
-export const typeProductQuantity = ({ quantity }) => {
-  const currentState = model.getState();
+  typeProductQuantity = ({ quantity }) => {
+    const currentState = this.model.state;
 
-  model.setState({ ...currentState, typedProduct: { ...currentState.typedProduct, quantity } });
+    this.model.setState({ ...currentState, typedProduct: { ...currentState.typedProduct, quantity } });
 
-  renderProductQuantityInput({ quantity });
-};
+    this.view.renderProductQuantityInput({ quantity: this.model.state.typedProduct.quantity });
+  };
 
-export const addProduct = () => {
-  const { products, typedProduct } = model.getState();
+  clearTypedProduct = () => {
+    const currentState = this.model.state;
 
-  const newProducts = [...products, typedProduct];
+    this.model.setState({
+      ...currentState,
+      typedProduct: { ...DEFAULT_TYPED_PRODUCT },
+    });
 
-  model.setState({
-    ...model.getState(),
-    products: newProducts,
-  });
+    this.view.renderProductNameInput({ name: this.model.state.typedProduct.name });
+    this.view.renderProductPriceInput({ price: this.model.state.typedProduct.price });
+    this.view.renderProductQuantityInput({ quantity: this.model.state.typedProduct.quantity });
+  };
 
-  renderProductList({ products: newProducts });
-  renderProductInputElements(DEFAULT_TYPED_PRODUCT);
-};
+  addProduct = () => {
+    const currentState = this.model.state;
+    const { products, typedProduct } = currentState;
+    //*TODO: need validation here
+    const newProducts = [...products, typedProduct];
+
+    this.model.setState({
+      ...currentState,
+      products: newProducts,
+    });
+
+    this.view.renderProductList({ products: this.model.state.products });
+
+    this.clearTypedProduct();
+  };
+}
+
+export default ProductController;

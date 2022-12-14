@@ -6,32 +6,19 @@
 3. localStorage를 통해 다시 접속하여도 동일한데이터가 유지되어야 함.
   앱이 켜질때 또는 꺼질때 storage상태를 체크해서 넣고 빼고 해야함.
 
-MVC
+패턴이 아니더라도 의존성 없이 잘 분리해보자 허허
 Model: 데이터(State) 저장공간
-Controller: 유저 액션을 통해 발생될 비즈니스 로직
-View: 유저에게 데이터 기반으로 제공될 화면 변화 로직
-Ui:DOM element를 핸들링할 파일
-Event: 바인딩할 이벤트들을 모아놓을 파일
-Index.js: 컨트롤러에 뷰와 모델 주입 및 이벤트를 바인딩 하기
+View: 유저에게 컨트롤러에서 변화된 모델의 데이터 기반으로 제공될 화면 변화 로직
+Controller: 유저 액션을 통해 발생될 비즈니스 로직 (변경된 state로 렌더링도 유발)
+Event: Controller에 이미 상속된 View에 있는 Element와 controller로직을 Dom 이벤트에 바인딩
 */
-import { addProduct, typeProductName, typeProductPrice, typeProductQuantity } from './controller/productController.js';
 
-addEventListener('keyup', (event) => {
-  const { id, value } = event.target;
-  if (id === 'product-name-input') {
-    typeProductName({ name: value });
-  }
-  if (id === 'product-price-input') {
-    typeProductPrice({ price: value });
-  }
-  if (id === 'product-quantity-input') {
-    typeProductQuantity({ quantity: value });
-  }
-});
+import ProductController from './controller/productController.js';
+import ProductEvent from './event/productEvent.js';
+import ProductModel from './model/productModel.js';
+import ProductView from './view/productView.js';
 
-addEventListener('click', (event) => {
-  const { id } = event.target;
-  if (id === 'product-add-button') {
-    addProduct();
-  }
-});
+const productModel = new ProductModel();
+const productView = new ProductView();
+const productController = new ProductController({ model: productModel, view: productView });
+const productEvent = new ProductEvent(productController);

@@ -1,33 +1,37 @@
-export const renderProductNameInput = ({ name }) => {
-  document.querySelector('#product-name-input').value = name;
-};
+class ProductView {
+  nameInput = document.querySelector('#product-name-input');
+  priceInput = document.querySelector('#product-price-input');
+  quantityInput = document.querySelector('#product-quantity-input');
+  addButton = document.querySelector('#product-add-button');
+  inventoryContainer = document.querySelector('#product-inventory-container');
 
-export const renderProductPriceInput = ({ price }) => {
-  document.querySelector('#product-price-input').value = price;
-};
+  renderProductNameInput({ name }) {
+    this.nameInput.value = name;
+  }
 
-export const renderProductQuantityInput = ({ quantity }) => {
-  document.querySelector('#product-quantity-input').value = quantity;
-};
+  renderProductPriceInput({ price }) {
+    this.priceInput.value = price;
+  }
 
-export const renderProductInputElements = ({ name, price, quantity }) => {
-  renderProductNameInput({ name });
-  renderProductPriceInput({ price });
-  renderProductQuantityInput({ quantity });
-};
+  renderProductQuantityInput({ quantity }) {
+    this.quantityInput.value = quantity;
+  }
 
-export const renderProductList = ({ products }) => {
-  document.querySelector('#product-inventory-container').innerHTML = /* html */ `
-      ${products
-        .map((el) => {
-          return `
-          <tr>
-            <td>${el.name}</td>
-            <td>${el.price}</td>
-            <td>${el.quantity}</td>
-          </tr>
-        `;
-        })
-        .join('')}
-  `;
-};
+  renderProductList({ products }) {
+    this.inventoryContainer.innerHTML = /* html */ `
+    ${products
+      .map((el) => {
+        return `
+        <tr>
+          <td>${el.name}</td>
+          <td>${el.price}</td>
+          <td>${el.quantity}</td>
+        </tr>
+      `;
+      })
+      .join('')}
+`;
+  }
+}
+
+export default ProductView;
