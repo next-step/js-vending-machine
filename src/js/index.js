@@ -5,14 +5,20 @@
   외부 상태관리저장소가 필요함.
 3. localStorage를 통해 다시 접속하여도 동일한데이터가 유지되어야 함.
   앱이 켜질때 또는 꺼질때 storage상태를 체크해서 넣고 빼고 해야함.
+
+MVC
+Model: 데이터(State) 저장공간
+Controller: 유저 액션을 통해 발생될 비즈니스 로직
+View: 유저에게 데이터 기반으로 제공될 화면 변화 로직
+Ui:DOM element를 핸들링할 파일
+Event: 바인딩할 이벤트들을 모아놓을 파일
+Index.js: 컨트롤러에 뷰와 모델 주입 및 이벤트를 바인딩 하기
 */
 
-import App from './app.js';
-
 try {
-  new App({
-    $target: document.querySelector('#app'),
-  });
+  // new App({
+  //   $target: document.querySelector('#app'),
+  // });
 } catch (e) {
   console.error(e);
   alert('앱 초기화 에러 발생');
