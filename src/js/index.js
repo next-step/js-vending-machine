@@ -14,12 +14,24 @@ Ui:DOM element를 핸들링할 파일
 Event: 바인딩할 이벤트들을 모아놓을 파일
 Index.js: 컨트롤러에 뷰와 모델 주입 및 이벤트를 바인딩 하기
 */
+import { addProduct, typeProductName, typeProductPrice, typeProductQuantity } from './controller/productController.js';
 
-try {
-  // new App({
-  //   $target: document.querySelector('#app'),
-  // });
-} catch (e) {
-  console.error(e);
-  alert('앱 초기화 에러 발생');
-}
+addEventListener('keyup', (event) => {
+  const { id, value } = event.target;
+  if (id === 'product-name-input') {
+    typeProductName({ name: value });
+  }
+  if (id === 'product-price-input') {
+    typeProductPrice({ price: value });
+  }
+  if (id === 'product-quantity-input') {
+    typeProductQuantity({ quantity: value });
+  }
+});
+
+addEventListener('click', (event) => {
+  const { id } = event.target;
+  if (id === 'product-add-button') {
+    addProduct();
+  }
+});
