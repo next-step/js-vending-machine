@@ -1,0 +1,16 @@
+{
+  "name": "vending-machine",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "devDependencies": {
+    "cypress": "^12.1.0",
+    "eslint": "8.22.0",
+    "eslint-config-airbnb-base": "^15.0.0",
+    "eslint-plugin-import": "^2.26.0"
+  },
+  "dependencies": {
+    "gitignore": "^0.7.0",
+    "live-server": "^1.2.2"
+  }
+}
