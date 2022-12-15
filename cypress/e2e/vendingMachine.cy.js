@@ -7,6 +7,13 @@ const PRODUCT_INDEX = {
   QUANTITY: 2,
 };
 
+const getAlertStub = () => {
+  const alertStub = cy.stub();
+  cy.on('window:alert', alertStub);
+
+  return alertStub;
+};
+
 beforeEach(() => {
   cy.visit('index.html');
 });
@@ -18,65 +25,58 @@ describe('상품관리 탭을 테스트한다.', () => {
     });
 
     it('상품명은 공백이 불가능하다.', () => {
-      const alertStub = cy.stub();
-      cy.on('window:alert', alertStub);
+      const stub = getAlertStub();
 
       cy.typeProductPrice(1000);
       cy.typeProductQuantity(5);
-
       cy.clickProductAddButton().then(() => {
-        expect(alertStub.getCall(0)).to.be.calledWith(ERROR_MESSAGE.EMPTY_INPUT);
+        stub.calledWith(ERROR_MESSAGE.EMPTY_INPUT);
       });
     });
 
     it('금액은 공백이 불가능하다.', () => {
-      const alertStub = cy.stub();
-      cy.on('window:alert', alertStub);
+      const stub = getAlertStub();
 
       cy.typeProductName('coke');
       cy.typeProductQuantity(5);
 
       cy.clickProductAddButton().then(() => {
-        expect(alertStub.getCall(0)).to.be.calledWith(ERROR_MESSAGE.EMPTY_INPUT);
+        stub.calledWith(ERROR_MESSAGE.EMPTY_INPUT);
       });
     });
 
     it('수량은 공백이 불가능하다.', () => {
-      const alertStub = cy.stub();
-      cy.on('window:alert', alertStub);
+      const stub = getAlertStub();
 
       cy.typeProductName('coke');
       cy.typeProductPrice(1000);
 
       cy.clickProductAddButton().then(() => {
-        expect(alertStub.getCall(0)).to.be.calledWith(ERROR_MESSAGE.EMPTY_INPUT);
+        stub.calledWith(ERROR_MESSAGE.EMPTY_INPUT);
       });
     });
 
     it('상품의 최소 수량은 1개여야 한다.', () => {
-      const alertStub = cy.stub();
-      cy.on('window:alert', alertStub);
+      const stub = getAlertStub();
 
       cy.addProduct({ name: 'coke', price: 1000, quantity: 0 }).then(() => {
-        expect(alertStub.getCall(0)).to.be.calledWith(ERROR_MESSAGE.INVALID_PRODUCT_MIN_QUANTITY);
+        stub.calledWith(ERROR_MESSAGE.INVALID_PRODUCT_MIN_QUANTITY);
       });
     });
 
     it('상품의 최소 가격은 100원이여야 한다.', () => {
-      const alertStub = cy.stub();
-      cy.on('window:alert', alertStub);
+      const stub = getAlertStub();
 
       cy.addProduct({ name: 'coke', price: 50, quantity: 5 }).then(() => {
-        expect(alertStub.getCall(0)).to.be.calledWith(ERROR_MESSAGE.INVALID_PRODUCT_MIN_PRICE);
+        stub.calledWith(ERROR_MESSAGE.INVALID_PRODUCT_MIN_PRICE);
       });
     });
 
     it('상품의 가격은 10원으로 나누어 떨어져야 한다.', () => {
-      const alertStub = cy.stub();
-      cy.on('window:alert', alertStub);
+      const stub = getAlertStub();
 
       cy.addProduct({ name: 'coke', price: 1455, quantity: 3 }).then(() => {
-        expect(alertStub.getCall(0)).to.be.calledWith(ERROR_MESSAGE.INVALID_PRODUCT_PRICE_UNIT);
+        stub.calledWith(ERROR_MESSAGE.INVALID_PRODUCT_PRICE_UNIT);
       });
     });
 
