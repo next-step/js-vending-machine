@@ -36,10 +36,10 @@ export default class ProductManageMenu {
       const name = $(SELECTOR.PRODUCT_NAME_INPUT).value;
       validateProductName(name);
 
-      const price = $(SELECTOR.PRODUCT_PRICE_INPUT).value;
+      const price = $(SELECTOR.PRODUCT_PRICE_INPUT).valueAsNumber;
       validateProductPrice(price);
 
-      const quantity = $(SELECTOR.PRODUCT_QUANTITY_INPUT).value;
+      const quantity = $(SELECTOR.PRODUCT_QUANTITY_INPUT).valueAsNumber;
       validateProductQuantity(quantity);
 
       const product = { name, price, quantity };
