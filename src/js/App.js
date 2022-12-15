@@ -4,9 +4,15 @@ import VendingMachineManageMenu from './components/VendingMachineManageMenu/inde
 import { SELECTOR } from './constants/selector.js';
 import { $ } from './utils/dom.js';
 
+const CATEGORY = {
+  PRODUCT_MANAGE_MENU: 'product-manage-menu',
+  VENDING_MACHINE_MANAGE_MENU: 'vending-machine-manage-menu',
+  PRODUCT_PURCHASE_MENU: 'product-purchase-menu',
+};
+
 class App {
   #state = {
-    category: 'product-manage-menu',
+    category: CATEGORY.PRODUCT_MANAGE_MENU,
   };
 
   #productManageMenu = new ProductManageMenu();
@@ -19,23 +25,23 @@ class App {
   }
 
   #render() {
-    if (this.#state.category === 'product-manage-menu') {
+    if (this.#state.category === CATEGORY.PRODUCT_MANAGE_MENU) {
       this.#productManageMenu.init();
     }
 
-    if (this.#state.category === 'vending-machine-manage-menu') {
+    if (this.#state.category === CATEGORY.VENDING_MACHINE_MANAGE_MENU) {
       this.#vendingMachineManageMenu.init();
     }
 
-    if (this.#state.category === 'product-purchase-menu') {
+    if (this.#state.category === CATEGORY.PRODUCT_PURCHASE_MENU) {
       $(SELECTOR.APP).innerHTML = '<div>product-purchase-menu</div>';
     }
   }
 
   #handleCategoryClick(e) {
-    const { id } = e.target;
+    const { category } = e.target.dataset;
 
-    this.#state.category = id;
+    this.#state.category = category;
     this.#render();
   }
 
