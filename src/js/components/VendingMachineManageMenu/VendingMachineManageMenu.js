@@ -1,23 +1,9 @@
 import { SELECTOR } from '../../constants/selector.js';
+import { COINS, COIN_10, COIN_100, COIN_50, COIN_500 } from '../../constants/vendingMachineManageMenu.js';
 import { $ } from '../../utils/dom.js';
 import { InvalidValueError } from '../../utils/error.js';
+import { chargeStorage, coinsStorage } from '../../utils/storage.js';
 import { validateVendingMachineCharge } from '../../utils/validation.js';
-
-const COIN_500 = '500';
-const COIN_100 = '100';
-const COIN_50 = '50';
-const COIN_10 = '10';
-
-const COIN_UNITS = [COIN_500, COIN_100, COIN_50, COIN_10];
-
-const INIT_CHARGE = 0;
-
-const INIT_COINS = {
-  500: 0,
-  100: 0,
-  50: 0,
-  10: 0,
-};
 
 /* eslint-disable class-methods-use-this */
 export default class VendingMachineManageMenu {
@@ -43,8 +29,8 @@ export default class VendingMachineManageMenu {
 
   #getInitialState() {
     return {
-      charge: Number(localStorage.getItem('charge')) ?? INIT_CHARGE,
-      coins: JSON.parse(localStorage.getItem('coins')) ?? INIT_COINS,
+      charge: chargeStorage.get('charge'),
+      coins: coinsStorage.get('coins'),
     };
   }
 
@@ -71,10 +57,10 @@ export default class VendingMachineManageMenu {
 
   #addCharge(charge) {
     this.#state.charge += charge;
-    this.#state.coins = this.#getCoins(this.#state.charge, COIN_UNITS);
+    this.#state.coins = this.#getCoins(this.#state.charge, COINS.UNITS);
 
-    localStorage.setItem('charge', String(this.#state.charge));
-    localStorage.setItem('coins', JSON.stringify(this.#state.coins));
+    chargeStorage.set('charge', this.#state.charge);
+    coinsStorage.set('coins', this.#state.coins);
     this.#render();
     this.#bindEvents();
   }

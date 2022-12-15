@@ -1,6 +1,7 @@
 import { SELECTOR } from '../../constants/selector.js';
 import { $ } from '../../utils/dom.js';
 import { EmptyInputError, InvalidValueError } from '../../utils/error.js';
+import { productStorage } from '../../utils/storage.js';
 import { validateProductName, validateProductPrice, validateProductQuantity } from '../../utils/validation.js';
 
 /* eslint-disable class-methods-use-this */
@@ -25,7 +26,7 @@ export default class ProductManageMenu {
 
   #getInitialState() {
     return {
-      products: new Map(JSON.parse(localStorage.getItem('products'))) ?? new Map(),
+      products: productStorage.get('products'),
     };
   }
 
@@ -62,7 +63,7 @@ export default class ProductManageMenu {
 
   #addProduct(product) {
     this.#state.products.set(product.name, product);
-    localStorage.setItem('products', JSON.stringify(Array.from(this.#state.products.entries())));
+    productStorage.set('products', this.#state.products);
     this.#render();
     this.#bindEvents();
   }
