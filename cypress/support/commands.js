@@ -27,7 +27,7 @@
 import { $ELEMENT } from '../../src/constants/element.js';
 
 Cypress.Commands.add('typeProduct', ({ name, price, quantity }) => {
-  cy.get($ELEMENT.NAME_INPUT).type(name);
+  name ? cy.get($ELEMENT.NAME_INPUT).type(name) : cy.get($ELEMENT.NAME_INPUT).clear();
   cy.get($ELEMENT.PRICE_INPUT).type(price);
   cy.get($ELEMENT.QUANTITY_INPUT).type(quantity);
 });

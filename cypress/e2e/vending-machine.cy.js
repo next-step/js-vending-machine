@@ -87,6 +87,7 @@ describe('상품 관리하기', () => {
       cy.contains('td', QUANTITY);
 
       cy.typeProduct({ name: NAME, price: MODIFIED_PRICE, quantity: QUANTITY });
+      cy.get($ELEMENT.ADD_BUTTON).click();
 
       cy.contains('td', NAME);
       cy.contains('td', MODIFIED_PRICE);
@@ -105,6 +106,7 @@ describe('상품 관리하기', () => {
       cy.contains('td', QUANTITY);
 
       cy.typeProduct({ name: NAME, price: PRICE, quantity: MODIFIED_QUANTITY });
+      cy.get($ELEMENT.ADD_BUTTON).click();
 
       cy.contains('td', NAME);
       cy.contains('td', PRICE);
@@ -122,6 +124,7 @@ describe('상품 관리하기', () => {
       cy.contains('td', QUANTITY);
 
       cy.typeProduct({ name: NAME, price: MODIFIED_PRICE, quantity: MODIFIED_QUANTITY });
+      cy.get($ELEMENT.ADD_BUTTON).click();
 
       cy.contains('td', NAME);
       cy.contains('td', MODIFIED_PRICE);

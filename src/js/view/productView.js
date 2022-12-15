@@ -3,7 +3,7 @@ import { $ELEMENT } from '../../constants/element.js';
 class ProductView {
   nameInput = document.querySelector($ELEMENT.NAME_INPUT);
   priceInput = document.querySelector($ELEMENT.PRICE_INPUT);
-  quantityInput = document.querySelector($ELEMENT.QUANTITY_INPIT);
+  quantityInput = document.querySelector($ELEMENT.QUANTITY_INPUT);
   addButton = document.querySelector($ELEMENT.ADD_BUTTON);
   inventoryContainer = document.querySelector($ELEMENT.INVENTORY_CONTAINER);
 
@@ -17,6 +17,10 @@ class ProductView {
 
   renderProductQuantityInput({ quantity }) {
     this.quantityInput.value = quantity;
+  }
+
+  renderAddButton({ isDisabled }) {
+    isDisabled ? this.addButton.setAttribute('disabled', '') : this.addButton.removeAttribute('disabled');
   }
 
   renderProductList({ products }) {

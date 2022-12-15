@@ -7,6 +7,7 @@ export default class ProductEvent {
   addInputEventListeners() {
     const { nameInput, priceInput, quantityInput } = this.controller.view;
     const { typeProductName, typeProductPrice, typeProductQuantity } = this.controller;
+
     nameInput.addEventListener('keyup', (event) => {
       typeProductName({ name: event.target.value });
     });
