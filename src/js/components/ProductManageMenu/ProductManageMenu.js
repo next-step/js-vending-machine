@@ -7,6 +7,9 @@ import { validateProductName, validateProductPrice, validateProductQuantity } fr
 /* eslint-disable class-methods-use-this */
 export default class ProductManageMenu {
   #state = {
+    name: '',
+    price: '',
+    quantity: '',
     products: new Map(),
   };
 
@@ -36,15 +39,33 @@ export default class ProductManageMenu {
     $(SELECTOR.PRODUCT_QUANTITY_INPUT).value = '';
   }
 
+  #addProduct(product) {
+    this.#state.products.set(product.name, product);
+    productStorage.set('products', this.#state.products);
+    this.#render();
+    this.#bindEvents();
+  }
+
+  #handleChangeName(e) {
+    this.#state.name = e.target.value;
+  }
+
+  #handleChangePrice(e) {
+    this.#state.price = e.target.valueAsNumber;
+  }
+
+  #handleChangeQuantity(e) {
+    this.#state.quantity = e.target.valueAsNumber;
+  }
+
   #handleProductAddButtonClick() {
     try {
-      const name = $(SELECTOR.PRODUCT_NAME_INPUT).value;
+      const { name, price, quantity } = this.#state;
+
       validateProductName(name);
 
-      const price = $(SELECTOR.PRODUCT_PRICE_INPUT).valueAsNumber;
       validateProductPrice(price);
 
-      const quantity = $(SELECTOR.PRODUCT_QUANTITY_INPUT).valueAsNumber;
       validateProductQuantity(quantity);
 
       const product = { name, price, quantity };
@@ -61,14 +82,10 @@ export default class ProductManageMenu {
     }
   }
 
-  #addProduct(product) {
-    this.#state.products.set(product.name, product);
-    productStorage.set('products', this.#state.products);
-    this.#render();
-    this.#bindEvents();
-  }
-
   #bindEvents() {
+    $(SELECTOR.PRODUCT_NAME_INPUT).addEventListener('input', this.#handleChangeName.bind(this));
+    $(SELECTOR.PRODUCT_PRICE_INPUT).addEventListener('input', this.#handleChangePrice.bind(this));
+    $(SELECTOR.PRODUCT_QUANTITY_INPUT).addEventListener('input', this.#handleChangeQuantity.bind(this));
     $(SELECTOR.PRODUCT_ADD_BUTTON).addEventListener('click', this.#handleProductAddButtonClick.bind(this));
   }
 
