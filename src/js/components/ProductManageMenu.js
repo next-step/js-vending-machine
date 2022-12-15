@@ -1,5 +1,6 @@
 import { SELECTOR } from '../constants/selector.js';
 import { $ } from '../utils/dom.js';
+import { EmptyInputError, InvalidValueError } from '../utils/error.js';
 import { validateProductName, validateProductPrice, validateProductQuantity } from '../utils/validation.js';
 
 /* eslint-disable class-methods-use-this */
@@ -47,7 +48,12 @@ export default class ProductManageMenu {
       this.#addProduct(product);
       this.#resetInput();
     } catch (error) {
-      alert(error.message);
+      if (error instanceof EmptyInputError) {
+        alert(error.message);
+      }
+      if (error instanceof InvalidValueError) {
+        alert(error.message);
+      }
     }
   }
 

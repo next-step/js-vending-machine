@@ -1,5 +1,6 @@
 import { SELECTOR } from '../constants/selector.js';
 import { $ } from '../utils/dom.js';
+import { InvalidValueError } from '../utils/error.js';
 import { validateVendingMachineCharge } from '../utils/validation.js';
 
 const COIN_500 = '500';
@@ -82,7 +83,9 @@ export default class VendingMachineManageMenu {
       this.#addCharge(charge);
       this.#resetInput();
     } catch (error) {
-      alert(error.message);
+      if (error instanceof InvalidValueError) {
+        alert(error.message);
+      }
     }
   }
 
