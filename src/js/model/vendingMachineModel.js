@@ -1,7 +1,7 @@
-import { INITIAL_STATE } from '../../constants/index.js';
+import { VENDING_MACHINE_INITIAL_STATE } from '../../constants/index.js';
 
-class ProductModel {
-  state = INITIAL_STATE;
+class vendingMachineModel {
+  state = VENDING_MACHINE_INITIAL_STATE;
 
   get state() {
     return this.state;
@@ -16,4 +16,4 @@ class ProductModel {
   }
 }
 
-export default ProductModel;
+export default vendingMachineModel;

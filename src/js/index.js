@@ -15,10 +15,14 @@ Event: Controller에 이미 상속된 View에 있는 Element와 controller로직
 
 import ProductController from './controller/productController.js';
 import ProductEvent from './event/productEvent.js';
-import ProductModel from './model/productModel.js';
+import VendingMachineModel from './model/vendingMachineModel.js';
 import ProductView from './view/productView.js';
 
-const productModel = new ProductModel();
+const vendingMachineModel = new VendingMachineModel();
 const productView = new ProductView();
-const productController = new ProductController({ model: productModel, view: productView });
+const productController = new ProductController({ model: vendingMachineModel, view: productView });
 const productEvent = new ProductEvent(productController);
+
+// const chargingView = new ChargingView();
+// const chargingController = new ChargingController({model:vendingMachineModel, view: chargingView});
+// const chargingEvent = new ChargingEvent(chargingController)

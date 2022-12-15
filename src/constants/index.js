@@ -8,7 +8,7 @@ export const DEFAULT_TYPED_PRODUCT = {
   quantity: null,
 };
 
-export const INITIAL_STATE = {
+export const VENDING_MACHINE_INITIAL_STATE = {
   typedProduct: DEFAULT_TYPED_PRODUCT,
   products: [],
   charginValue: 0,
