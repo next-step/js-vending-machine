@@ -18,12 +18,15 @@ export default class ProductManageMenu {
   }
 
   init() {
-    this.#state = {
+    this.#state = this.#getInitialState();
+    this.#render();
+    this.#bindEvents();
+  }
+
+  #getInitialState() {
+    return {
       products: new Map(JSON.parse(localStorage.getItem('products'))) ?? new Map(),
     };
-    this.#render();
-    this.#renderState();
-    this.#bindEvents();
   }
 
   #resetInput() {
@@ -60,14 +63,15 @@ export default class ProductManageMenu {
   #addProduct(product) {
     this.#state.products.set(product.name, product);
     localStorage.setItem('products', JSON.stringify(Array.from(this.#state.products.entries())));
-    this.#renderState();
+    this.#render();
+    this.#bindEvents();
   }
 
   #bindEvents() {
     $(SELECTOR.PRODUCT_ADD_BUTTON).addEventListener('click', this.#handleProductAddButtonClick.bind(this));
   }
 
-  #renderState() {
+  #getTemplate() {
     let template = '';
 
     this.#state.products.forEach((product) => {
@@ -80,10 +84,6 @@ export default class ProductManageMenu {
         `;
     });
 
-    $(SELECTOR.PRODUCT_INVENTORY_CONTAINER).innerHTML = template;
-  }
-
-  #getTemplate() {
     return `<h3>상품 추가하기</h3>
     <div class="product-container">
       <input type="text" id="product-name-input" placeholder="상품명" />
@@ -105,6 +105,7 @@ export default class ProductManageMenu {
         </tr>
       </thead>
       <tbody id="product-inventory-container">
+      ${template}
       </tbody>
     </table>`;
   }

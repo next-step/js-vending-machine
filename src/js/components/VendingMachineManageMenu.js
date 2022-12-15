@@ -35,14 +35,17 @@ export default class VendingMachineManageMenu {
   }
 
   init() {
-    this.#state = {
+    this.#state = this.#getInitialState();
+    this.#render();
+    this.#focusInput();
+    this.#bindEvents();
+  }
+
+  #getInitialState() {
+    return {
       charge: Number(localStorage.getItem('charge')) ?? INIT_CHARGE,
       coins: JSON.parse(localStorage.getItem('coins')) ?? INIT_COINS,
     };
-    this.#render();
-    this.#renderState();
-    this.#focusInput();
-    this.#bindEvents();
   }
 
   #focusInput() {
@@ -72,7 +75,8 @@ export default class VendingMachineManageMenu {
 
     localStorage.setItem('charge', String(this.#state.charge));
     localStorage.setItem('coins', JSON.stringify(this.#state.coins));
-    this.#renderState();
+    this.#render();
+    this.#bindEvents();
   }
 
   #handleChargeButtonClick() {
@@ -93,8 +97,13 @@ export default class VendingMachineManageMenu {
     $(SELECTOR.VENDING_MACHINE_CHARGE_BUTTON).addEventListener('click', this.#handleChargeButtonClick.bind(this));
   }
 
-  #renderState() {
-    const template = `
+  #getTemplate() {
+    return `<h3>자판기 돈통 충전하기</h3>
+    <div class="vending-machine-wrapper">
+      <input type="number" name="vending-machine-charge-amount" id="vending-machine-charge-input" autofocus />
+      <button id="vending-machine-charge-button">충전하기</button>
+    </div>
+    <div id='vending-machine-status-wrapper'>
     <p>보유 금액: <span id="vending-machine-charge-amount">${this.#state.charge}</span>원</p>
     <h3>동전 보유 현황</h3>
     <table class="cashbox-remaining">
@@ -127,18 +136,6 @@ export default class VendingMachineManageMenu {
         </tr>
       </tbody>
     </table>
-    `;
-
-    $(SELECTOR.VENDING_MACHINE_STATUS_WRAPPER).innerHTML = template;
-  }
-
-  #getTemplate() {
-    return `<h3>자판기 돈통 충전하기</h3>
-    <div class="vending-machine-wrapper">
-      <input type="number" name="vending-machine-charge-amount" id="vending-machine-charge-input" autofocus />
-      <button id="vending-machine-charge-button">충전하기</button>
-    </div>
-    <div id='vending-machine-status-wrapper'>
     </div>
    `;
   }
