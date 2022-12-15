@@ -1,5 +1,6 @@
 import { ERROR_MESSAGE } from '../constants/errorMessage.js';
-import { CHARGE, PRODUCT } from '../constants/vendingMachine.js';
+import { PRODUCT } from '../constants/productManageMenu.js';
+import { CHARGE } from '../constants/vendingMachineManageMenu.js';
 import { EmptyInputError, InvalidValueError } from './error.js';
 
 const validator = {

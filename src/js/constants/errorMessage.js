@@ -1,4 +1,5 @@
-import { CHARGE, PRODUCT } from './vendingMachine.js';
+import { PRODUCT } from './productManageMenu.js';
+import { CHARGE } from './vendingMachineManageMenu.js';
 
 export const ERROR_MESSAGE = {
   EMPTY_INPUT: '공백은 추가할 수 없습니다.',
