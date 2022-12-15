@@ -4,7 +4,8 @@ describe('상품 관리하기', () => {
   beforeEach(() => {
     cy.visit('../../index.html');
   });
-  const [NAME, PRICE, QUANTITY] = ['상품이름', 1000, 2];
+  const [NAME, PRICE, QUANTITY] = ['콜라', 1000, 12];
+  const [MODIFIED_PRICE, MODIFIED_QUANTITY] = [1500, 10];
   context('상품 입력 시', () => {
     it('상품명, 금액, 수량을 입력할 수 있는 input이 있어야한다.', () => {
       cy.get($ELEMENT.NAME_INPUT).should('exist');
@@ -69,20 +70,77 @@ describe('상품 관리하기', () => {
     it('유효성에 알맞는 값 입력 후 추가하기 버튼 클릭 시 추가된 상품을 확인할 수 있어야한다.', () => {
       cy.typeProduct({ name: NAME, price: PRICE, quantity: QUANTITY });
       cy.get($ELEMENT.ADD_BUTTON).click();
+
+      cy.get($ELEMENT.INVENTORY_CONTAINER).children().should('have.length', 1);
+
+      cy.contains('td', NAME);
+      cy.contains('td', PRICE);
+      cy.contains('td', QUANTITY);
     });
 
     it('같은 상품명의 다른 가격 데이터 추가 시 동일 이름의 상품이 있는 경우 새로운 상품 내용으로 대체되어야 한다.', () => {
+      cy.typeProduct({ name: NAME, price: PRICE, quantity: QUANTITY });
+      cy.get($ELEMENT.ADD_BUTTON).click();
+
+      cy.contains('td', NAME);
+      cy.contains('td', PRICE);
+      cy.contains('td', QUANTITY);
+
+      cy.typeProduct({ name: NAME, price: MODIFIED_PRICE, quantity: QUANTITY });
+
+      cy.contains('td', NAME);
+      cy.contains('td', MODIFIED_PRICE);
+      cy.contains('td', QUANTITY);
+
+      cy.get($ELEMENT.INVENTORY_CONTAINER).children().should('have.length', 1);
       // - 콜라 / 1000원 / 12개(전) -> 콜라 / 1500원 / 10개(후) => 콜라 / 1500원 / 10개(결과)
     });
 
     it('같은 상품명의 다른 수량 데이터 추가 시 동일 이름의 상품이 있는 경우 새로운 상품 내용으로 대체되어야 한다.', () => {
-      // - 콜라 / 1000원 / 12개(전) -> 콜라 / 1500원 / 10개(후) => 콜라 / 1500원 / 10개(결과)
+      cy.typeProduct({ name: NAME, price: PRICE, quantity: QUANTITY });
+      cy.get($ELEMENT.ADD_BUTTON).click();
+
+      cy.contains('td', NAME);
+      cy.contains('td', PRICE);
+      cy.contains('td', QUANTITY);
+
+      cy.typeProduct({ name: NAME, price: PRICE, quantity: MODIFIED_QUANTITY });
+
+      cy.contains('td', NAME);
+      cy.contains('td', PRICE);
+      cy.contains('td', MODIFIED_QUANTITY);
+
+      cy.get($ELEMENT.INVENTORY_CONTAINER).children().should('have.length', 1);
+    });
+
+    it('같은 상품명의 다른 수량 데이터, 가격 추가 시 동일 이름의 상품이 있는 경우 새로운 상품 내용으로 대체되어야 한다.', () => {
+      cy.typeProduct({ name: NAME, price: PRICE, quantity: QUANTITY });
+      cy.get($ELEMENT.ADD_BUTTON).click();
+
+      cy.contains('td', NAME);
+      cy.contains('td', PRICE);
+      cy.contains('td', QUANTITY);
+
+      cy.typeProduct({ name: NAME, price: MODIFIED_PRICE, quantity: MODIFIED_QUANTITY });
+
+      cy.contains('td', NAME);
+      cy.contains('td', MODIFIED_PRICE);
+      cy.contains('td', MODIFIED_QUANTITY);
+
+      cy.get($ELEMENT.INVENTORY_CONTAINER).children().should('have.length', 1);
     });
   });
 
   context('탭 이동 시', () => {
     it('다른 탭으로 이동 후 다시 돌아와도 기존의 목록이 유지되어야 한다.', () => {
-      // - 콜라 / 1000원 / 12개(전) -> 콜라 / 1500원 / 10개(후) => 콜라 / 1500원 / 10개(결과)
+      cy.typeProduct({ name: NAME, price: PRICE, quantity: QUANTITY });
+      cy.get($ELEMENT.ADD_BUTTON).click();
+      cy.get($ELEMENT.INVENTORY_CONTAINER).children().should('have.length', 1);
+
+      cy.get($ELEMENT.VENDING_MACHINE_MANANGE_MENU).click();
+      cy.get($ELEMENT.PRODUCT_MANGNE_MENU).click();
+
+      cy.get($ELEMENT.INVENTORY_CONTAINER).children().should('have.length', 1);
     });
   });
 });

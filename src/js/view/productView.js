@@ -24,7 +24,7 @@ class ProductView {
     ${products
       .map((el) => {
         return `
-        <tr>
+        <tr class=".product-inventory-list">
           <td>${el.name}</td>
           <td>${el.price}</td>
           <td>${el.quantity}</td>
