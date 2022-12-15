@@ -5,7 +5,7 @@ import { validateProductName, validateProductPrice, validateProductQuantity } fr
 /* eslint-disable class-methods-use-this */
 export default class ProductManageMenu {
   #state = {
-    products: [],
+    products: new Map(),
   };
 
   get state() {
@@ -18,7 +18,7 @@ export default class ProductManageMenu {
 
   init() {
     this.#state = {
-      products: JSON.parse(localStorage.getItem('products')) ?? [],
+      products: new Map(JSON.parse(localStorage.getItem('products'))) ?? new Map(),
     };
     this.#render();
     this.#renderState();
@@ -52,18 +52,8 @@ export default class ProductManageMenu {
   }
 
   #addProduct(product) {
-    const targetIndex = this.#state.products.findIndex((stateProduct) => stateProduct.name === product.name);
-    const isNotExist = targetIndex === -1;
-
-    if (isNotExist) {
-      this.#state.products.push(product);
-      localStorage.setItem('products', JSON.stringify(this.#state.products));
-      this.#renderState();
-      return;
-    }
-
-    this.#state.products.splice(targetIndex, 1, product);
-    localStorage.setItem('products', JSON.stringify(this.#state.products));
+    this.#state.products.set(product.name, product);
+    localStorage.setItem('products', JSON.stringify(Array.from(this.#state.products.entries())));
     this.#renderState();
   }
 
@@ -72,18 +62,17 @@ export default class ProductManageMenu {
   }
 
   #renderState() {
-    const template = this.#state.products
-      .map((product) => {
-        return `
-        <tr>
-          <th>${product.name}</th>
-          <th>${product.price}</th>
-          <th>${product.quantity}</th>
-        </tr>
-      
-      `;
-      })
-      .join('');
+    let template = '';
+
+    this.#state.products.forEach((product) => {
+      template += `
+          <tr>
+            <th>${product.name}</th>
+            <th>${product.price}</th>
+            <th>${product.quantity}</th>
+          </tr>   
+        `;
+    });
 
     $(SELECTOR.PRODUCT_INVENTORY_CONTAINER).innerHTML = template;
   }
