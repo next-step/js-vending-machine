@@ -1,29 +1,75 @@
+import { $ELEMENT } from '../../src/constants/element.js';
+
 describe('상품 관리하기', () => {
   beforeEach(() => {
     cy.visit('../../index.html');
   });
+  const [NAME, PRICE, QUANTITY] = ['상품이름', 1000, 2];
   context('상품 입력 시', () => {
-    it('최초 상품목록은 비워진 상태이다', () => {});
+    it('상품명, 금액, 수량을 입력할 수 있는 input이 있어야한다.', () => {
+      cy.get($ELEMENT.NAME_INPUT).should('exist');
+      cy.get($ELEMENT.PRICE_INPUT).should('exist');
+      cy.get($ELEMENT.QUANTITY_INPUT).should('exist');
+    });
 
-    it('상품명, 금액, 수량을 입력할 수 있는 input이 있어야한다.', () => {});
+    it('상품리스트를 보여줄 테이블이 존재해야한다.', () => {
+      cy.get($ELEMENT.INVENTORY_CONTAINER).should('exist');
+    });
+
+    it('최초 상품목록은 비워진 상태이다', () => {
+      cy.get($ELEMENT.INVENTORY_CONTAINER).children().should('have.length', 0);
+    });
+
+    it('상품명, 금액, 수량을 입력할 수 있는 input은 빈 값의 상태로 초기 렌더 되어야한다.', () => {
+      cy.get($ELEMENT.NAME_INPUT).should('have.value', '');
+      cy.get($ELEMENT.PRICE_INPUT).should('have.value', '');
+      cy.get($ELEMENT.QUANTITY_INPUT).should('have.value', '');
+    });
 
     it('상품을 추가하기 위한 버튼이 존재해야한다. ', () => {
+      cy.get($ELEMENT.ADD_BUTTON).should('exist');
       // - 콜라 / 1000원 / 12개(전) -> 콜라 / 1500원 / 10개(후) => 콜라 / 1500원 / 10개(결과)
     });
 
-    it('상품리스트를 보여줄 테이블이 존재해야한다.', () => {});
+    it('상품 제출 시 상품명을 적지 않은 경우 버튼이 활성화 되지 않는다.', () => {
+      cy.typeProduct({ name: '', price: PRICE, quantity: QUANTITY });
+      cy.get($ELEMENT.ADD_BUTTON).should('be.disabled');
+    });
 
-    it('상품 제출 시 상품명을 적지 않은 경우 버튼이 활성화 되지 않는다.', () => {});
+    it('상품 제출 시 최소 수량 1개 이상이 되지 않는 경우 버튼이 활성화 되지 않는다.', () => {
+      cy.typeProduct({ name: NAME, price: PRICE, quantity: 0.2 });
+      cy.get($ELEMENT.ADD_BUTTON).should('be.disabled');
+    });
 
-    it('상품 제출 시 최소 수량 1개 이상이 되지 않는 경우 버튼이 활성화 되지 않는다.', () => {});
+    it('상품의 최소가격은 100원이며 그 미만으로 입력되는 경우 경고창이 떠야한다.', () => {
+      cy.typeProduct({ name: NAME, price: 80, quantity: QUANTITY });
+      cy.get($ELEMENT.ADD_BUTTON).should('not.be.disabled');
+      cy.get($ELEMENT.ADD_BUTTON).click();
+      cy.on('window:alert', (text) => {
+        expect(text).to.contains(
+          '유효하지 않은 가격입니다. 상품의 최소가격은 100원이며 10원으로 나누어 떨어져야 합니다.'
+        );
+      });
+    });
 
-    it('상품의 최소가격은 100원이며 그 이하로 입력되는 경우 경고창이 떠야한다.', () => {});
+    it('상품의 가격은 10원으로 나누어 떨어져야 하며 그렇지 않을 경우 경고창이 떠야한다.', () => {
+      cy.typeProduct({ name: NAME, price: 82, quantity: QUANTITY });
+      cy.get($ELEMENT.ADD_BUTTON).should('not.be.disabled');
+      cy.get($ELEMENT.ADD_BUTTON).click();
 
-    it('상품의 가격은 10원으로 나누어 떨어져야 하며 그렇지 않을 경우 경고창이 떠야한다.', () => {});
+      cy.on('window:alert', (text) => {
+        expect(text).to.contains(
+          '유효하지 않은 가격입니다. 상품의 최소가격은 100원이며 10원으로 나누어 떨어져야 합니다.'
+        );
+      });
+    });
   });
 
   context('상품 등록 시', () => {
-    it('유효성에 알맞는 값 입력 후 추가하기 버튼 클릭 시 추가된 상품을 확인할 수 있어야한다.', () => {});
+    it('유효성에 알맞는 값 입력 후 추가하기 버튼 클릭 시 추가된 상품을 확인할 수 있어야한다.', () => {
+      cy.typeProduct({ name: NAME, price: PRICE, quantity: QUANTITY });
+      cy.get($ELEMENT.ADD_BUTTON).click();
+    });
 
     it('같은 상품명의 다른 가격 데이터 추가 시 동일 이름의 상품이 있는 경우 새로운 상품 내용으로 대체되어야 한다.', () => {
       // - 콜라 / 1000원 / 12개(전) -> 콜라 / 1500원 / 10개(후) => 콜라 / 1500원 / 10개(결과)

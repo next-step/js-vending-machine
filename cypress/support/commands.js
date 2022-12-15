@@ -23,3 +23,11 @@
 //
 // -- This will overwrite an existing command --
 // Cypress.Commands.overwrite('visit', (originalFn, url, options) => { ... })
+
+import { $ELEMENT } from '../../src/constants/element.js';
+
+Cypress.Commands.add('typeProduct', ({ name, price, quantity }) => {
+  cy.get($ELEMENT.NAME_INPUT).type(name);
+  cy.get($ELEMENT.PRICE_INPUT).type(price);
+  cy.get($ELEMENT.QUANTITY_INPUT).type(quantity);
+});

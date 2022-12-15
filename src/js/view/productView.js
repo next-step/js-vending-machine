@@ -1,9 +1,11 @@
+import { $ELEMENT } from '../../constants/element.js';
+
 class ProductView {
-  nameInput = document.querySelector('#product-name-input');
-  priceInput = document.querySelector('#product-price-input');
-  quantityInput = document.querySelector('#product-quantity-input');
-  addButton = document.querySelector('#product-add-button');
-  inventoryContainer = document.querySelector('#product-inventory-container');
+  nameInput = document.querySelector($ELEMENT.NAME_INPUT);
+  priceInput = document.querySelector($ELEMENT.PRICE_INPUT);
+  quantityInput = document.querySelector($ELEMENT.QUANTITY_INPIT);
+  addButton = document.querySelector($ELEMENT.ADD_BUTTON);
+  inventoryContainer = document.querySelector($ELEMENT.INVENTORY_CONTAINER);
 
   renderProductNameInput({ name }) {
     this.nameInput.value = name;
