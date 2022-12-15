@@ -1,7 +1,7 @@
-import { SELECTOR } from '../constants/selector.js';
-import { $ } from '../utils/dom.js';
-import { InvalidValueError } from '../utils/error.js';
-import { validateVendingMachineCharge } from '../utils/validation.js';
+import { SELECTOR } from '../../constants/selector.js';
+import { $ } from '../../utils/dom.js';
+import { InvalidValueError } from '../../utils/error.js';
+import { validateVendingMachineCharge } from '../../utils/validation.js';
 
 const COIN_500 = '500';
 const COIN_100 = '100';

@@ -1,6 +1,6 @@
 /* eslint-disable class-methods-use-this */
-import ProductManageMenu from './components/ProductManageMenu.js';
-import VendingMachineManageMenu from './components/VendingMachineManageMenu.js';
+import ProductManageMenu from './components/ProductManageMenu/index.js';
+import VendingMachineManageMenu from './components/VendingMachineManageMenu/index.js';
 import { SELECTOR } from './constants/selector.js';
 import { $ } from './utils/dom.js';
 

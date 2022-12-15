@@ -1,7 +1,7 @@
-import { SELECTOR } from '../constants/selector.js';
-import { $ } from '../utils/dom.js';
-import { EmptyInputError, InvalidValueError } from '../utils/error.js';
-import { validateProductName, validateProductPrice, validateProductQuantity } from '../utils/validation.js';
+import { SELECTOR } from '../../constants/selector.js';
+import { $ } from '../../utils/dom.js';
+import { EmptyInputError, InvalidValueError } from '../../utils/error.js';
+import { validateProductName, validateProductPrice, validateProductQuantity } from '../../utils/validation.js';
 
 /* eslint-disable class-methods-use-this */
 export default class ProductManageMenu {
