@@ -1,68 +1,36 @@
-import { DEFAULT_TYPED_PRODUCT } from '../../constants/index.js';
+import { ALERT } from '../../constants/alert.js';
 import { VALIDATE } from '../../constants/validate.js';
 
 class ProductController {
   constructor({ model, view }) {
     this.model = model;
     this.view = view;
+
+    this.view.addInputEventListeners({
+      typeProductName: this.typeProductName,
+      typeProductPrice: this.typeProductPrice,
+      typeProductQuantity: this.typeProductQuantity,
+    });
+
+    this.view.addClickEventListeners({ addProduct: this.addProduct });
   }
 
-  validateButton() {
-    const {
-      typedProduct: { name, price, quantity },
-    } = this.model.state;
+  validateButton = ({ typedProduct }) => {
+    const { name, quantity } = typedProduct;
     const isDisabled = name.length < VALIDATE.MIN_NAME_LENGTH || quantity <= VALIDATE.MIN_QUANTITY;
 
     this.view.renderAddButton({ isDisabled });
-  }
-
-  validatePrice({ price }) {
-    if (price % 10 !== 0 || price < VALIDATE.MIN_PRICE)
-      alert('유효하지 않은 가격입니다. 상품의 최소가격은 100원이며 10원으로 나누어 떨어져야 합니다.');
-  }
-
-  typeProductName = ({ name }) => {
-    const currentState = this.model.state;
-
-    this.model.setState({ ...currentState, typedProduct: { ...currentState.typedProduct, name } });
-
-    this.view.renderProductNameInput({ name: this.model.state.typedProduct.name });
-    this.validateButton();
   };
 
-  typeProductPrice = ({ price }) => {
-    const currentState = this.model.state;
-
-    this.model.setState({ ...currentState, typedProduct: { ...currentState.typedProduct, price } });
-
-    this.view.renderProductPriceInput({ price: this.model.state.typedProduct.price });
-    this.validateButton();
-  };
-
-  typeProductQuantity = ({ quantity }) => {
-    const currentState = this.model.state;
-
-    this.model.setState({ ...currentState, typedProduct: { ...currentState.typedProduct, quantity } });
-
-    this.view.renderProductQuantityInput({ quantity: this.model.state.typedProduct.quantity });
-    this.validateButton();
-  };
-
-  clearTypedProduct = () => {
-    const currentState = this.model.state;
-
-    this.model.setState({
-      ...currentState,
-      typedProduct: { ...DEFAULT_TYPED_PRODUCT },
-    });
-
-    this.view.renderProductNameInput({ name: this.model.state.typedProduct.name });
-    this.view.renderProductPriceInput({ price: this.model.state.typedProduct.price });
-    this.view.renderProductQuantityInput({ quantity: this.model.state.typedProduct.quantity });
+  validatePrice = ({ price }) => {
+    if (price % 10 !== 0 || price < VALIDATE.MIN_PRICE) {
+      alert(ALERT.PRICE_VALIDATION);
+      return false;
+    }
+    return true;
   };
 
   checkSameProduct = ({ products, typedProduct }) => {
-    console.log('!@@@@', products, typedProduct);
     let isModified = false;
 
     const newProducts = products.map((product) => {
@@ -80,8 +48,45 @@ class ProductController {
     });
 
     if (!isModified) return [...newProducts, typedProduct];
-    console.log({ newProducts });
+
     return newProducts;
+  };
+
+  typeProductName = ({ name }) => {
+    this.model.addCurrentName({ name });
+
+    const { typedProduct } = this.model.state;
+
+    this.view.renderProductNameInput({ name: typedProduct.name });
+    this.validateButton({ typedProduct });
+  };
+
+  typeProductPrice = ({ price }) => {
+    this.model.addCurrentPrice({ price });
+
+    const { typedProduct } = this.model.state;
+
+    this.view.renderProductPriceInput({ price: typedProduct.price });
+    this.validateButton({ typedProduct });
+  };
+
+  typeProductQuantity = ({ quantity }) => {
+    this.model.addCurrentQuantity({ quantity });
+
+    const { typedProduct } = this.model.state;
+
+    this.view.renderProductQuantityInput({ quantity: typedProduct.quantity });
+    this.validateButton({ typedProduct });
+  };
+
+  clearTypedProduct = () => {
+    this.model.clearTypedValue();
+
+    const { typedProduct } = this.model.state;
+
+    this.view.renderProductNameInput({ name: typedProduct.name });
+    this.view.renderProductPriceInput({ price: typedProduct.price });
+    this.view.renderProductQuantityInput({ quantity: typedProduct.quantity });
   };
 
   addProduct = () => {
@@ -89,12 +94,9 @@ class ProductController {
     const { products, typedProduct } = currentState;
     const { price } = typedProduct;
 
-    this.validatePrice({ price });
+    if (!this.validatePrice({ price })) return;
 
-    this.model.setState({
-      ...currentState,
-      products: this.checkSameProduct({ products, typedProduct }),
-    });
+    this.model.addProduct(this.checkSameProduct({ products, typedProduct }));
 
     this.view.renderProductList({ products: this.model.state.products });
 
