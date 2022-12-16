@@ -16,6 +16,10 @@ class vendingMachineModel {
     this.state = { ...this.state, ...newState };
   };
 
+  modifyHashId = ({ hashId }) => {
+    this.setState({ hashId });
+  };
+
   addCurrentName = ({ name }) => {
     this.setState({ typedProduct: { ...this.state.typedProduct, name } });
   };

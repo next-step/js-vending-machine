@@ -12,4 +12,5 @@ export const VENDING_MACHINE_INITIAL_STATE = {
   typedProduct: DEFAULT_TYPED_PRODUCT,
   products: [],
   charginValue: 0,
+  hashId: 'product-manage-menu',
 };

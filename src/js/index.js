@@ -13,9 +13,12 @@ Controller: 유저 액션을 통해 발생될 비즈니스 로직 (변경된 sta
 
 */
 
+import MenuController from './controller/menuController.js';
 import ProductController from './controller/productController.js';
 import VendingMachineModel from './model/vendingMachineModel.js';
 import ProductView from './view/productView.js';
+import MenuView from './view/tabView.js';
 
 const vendingMachineModel = new VendingMachineModel();
-const productController = new ProductController({ model: vendingMachineModel, view: new ProductView() });
+new MenuController({ model: vendingMachineModel, view: new MenuView() });
+new ProductController({ model: vendingMachineModel, view: new ProductView() });
