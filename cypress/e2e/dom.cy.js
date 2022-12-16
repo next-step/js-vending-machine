@@ -90,7 +90,7 @@ describe('자판기 요구사항을 점검한다', () => {
     });
   });
 
-  describe('잔동 충전 요구사항을 점검한다', () => {
+  describe('잔돈 충전 요구사항을 점검한다', () => {
     const UNITS = VENDING_MACHINE_CONSTANT.CHANGES.UNITS;
     const MONEY_UNIT = VENDING_MACHINE_CONSTANT.MONEY_UNIT;
     const COINS_POSTFIX = VENDING_MACHINE_CONSTANT.COINS_POSTFIX;

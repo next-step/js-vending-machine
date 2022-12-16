@@ -9,10 +9,10 @@ const CHARGE_MULTIPLE = VENDING_MACHINE_CONSTANT.CHANGES.MULTIPLE;
 
 /**
  *
- * @param {number} n
+ * @param {string|number} value
  * @returns
  */
-const isInteger = (n) => !isNaN(n) && Number.isInteger(n);
+const isInteger = (value) => !isNaN(Number(value)) && !String(value).startsWith('1e-');
 
 /**
  *
@@ -34,7 +34,7 @@ const isGreaterThan = (n, minValue) => n >= minValue;
  *
  * @param {string} name
  */
-export const isNameValid = (name) => (name || '').length > 1;
+export const isNameValid = (name) => (name || '').length > 0;
 
 /**
  *

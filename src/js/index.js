@@ -13,7 +13,7 @@ import {
   setChangeRemovingSpaceListener,
   setClickEventListenerWithVendingMachine,
   setEnterEventListener,
-} from './util/setListener.js';
+} from './ui/setListener.js';
 
 Object.keys(ELEMENT.TAB_BUTTON).forEach((key) => {
   const tabButtonSelector = ELEMENT.TAB_BUTTON[key];

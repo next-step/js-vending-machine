@@ -24,6 +24,10 @@ class VendingMachine {
   #products;
   #changes;
 
+  constructor() {
+    this.reset();
+  }
+
   reset() {
     this.#products = [];
     this.#changes = VENDING_MACHINE_CONSTANT.CHANGES.UNITS.reduce(
@@ -35,24 +39,20 @@ class VendingMachine {
     );
   }
 
-  constructor() {
-    this.reset();
-  }
-
   /**
    *
    * @returns {VendingMachineItem[]}
    */
   getProducts() {
-    return this.#products;
+    return [...this.#products];
   }
 
   /**
    *
-   * @returns {Object}
+   * @returns {Object.<(string)>, number>}
    */
   getChanges() {
-    return this.#changes;
+    return { ...this.#changes };
   }
 
   /**
