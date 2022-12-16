@@ -1,0 +1,19 @@
+{
+  "name": "js-vending-machine",
+  "version": "1.0.0",
+  "description": "<p align=\"middle\" >   <img src=\"https://nextstep-storage.s3.ap-northeast-2.amazonaws.com/536baaa17ed346bb851cc9f663edb069\" width=\"400\"> </p>   <h1 align=\"middle\">자바스크립트와 Cypress로 구현하는 자판기</h1>   <p align=\"middle\">     <img src=\"https://img.shields.io/badge/version-1.0.0-blue?style=flat-square\" alt=\"template version\"/>     <img src=\"https://img.shields.io/badge/language-html-red.svg?style=flat-square\"/>     <img src=\"https://img.shields.io/badge/language-css-blue.svg?style=flat-square\"/>     <img src=\"https://img.shields.io/badge/language-js-yellow.svg?style=flat-square\"/>     <img src=\"https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square\"/>   </p> </p>",
+  "main": "index.js",
+  "scripts": {
+    "dev": "live-server --open=./index.html --port=5000"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Jay-WKJun/js-vending-machine.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "homepage": "https://github.com/Jay-WKJun/js-vending-machine#readme",
+  "devDependencies": {
+    "live-server": "^1.2.2"
+  }
+}
