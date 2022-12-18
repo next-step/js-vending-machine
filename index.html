@@ -9,10 +9,36 @@
 	</head>
 
 	<body>
-		<button id="product-manage-menu">상품 관리</button>
+		<button id="stock-manage-menu">상품 관리</button>
 		<button id="vending-machine-manage-menu">잔돈충전</button>
 		<button id="product-purchase-menu">상품 구매</button>
 
-		<div id="app"></div>
+		<div id="app">
+			<div class="stock-container">
+				<h3>상품 추가하기</h3>
+				<div class="stock-inputs">
+					<input type="text" id="stock-name-input" placeholder="상품명" />
+					<input type="number" id="stock-price-input" placeholder="가격" />
+					<input type="number" id="stock-quantity-input" placeholder="수량" />
+					<button id="stock-add-button">추가하기</button>
+				</div>
+				<table class="stock-inventory">
+					<colgroup>
+						<col style="width: 140px" />
+						<col style="width: 100px" />
+						<col style="width: 100px" />
+					</colgroup>
+					<thead>
+					<tr>
+						<th>상품명</th>
+						<th>가격</th>
+						<th>수량</th>
+					</tr>
+					</thead>
+					<tbody id="stock-inventory-container"></tbody>
+				</table>
+			</div>
+		</div>
+		<script type="module" src="./src/js/index.js"></script>
 	</body>
 </html>

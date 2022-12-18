@@ -1,5 +1,5 @@
 .purchase-available,
-.product-inventory,
+.stock-inventory,
 .cashbox-change,
 .cashbox-remaining {
 	border-collapse: collapse;
@@ -15,7 +15,7 @@
 	max-width: 300px;
 }
 
-.product-inventory {
+.stock-inventory {
 	width: 340px;
 }
 
@@ -29,7 +29,7 @@
 }
 
 .purchase-available td,
-.product-inventory td,
+.stock-inventory td,
 .cashbox-change td,
 .cashbox-remaining td {
 	border-color: black;
@@ -43,7 +43,7 @@
 }
 
 .purchase-available th,
-.product-inventory th,
+.stock-inventory th,
 .cashbox-change th,
 .cashbox-remaining th {
 	border-color: black;
@@ -100,7 +100,7 @@ input[type='text'] {
 }
 
 #charge-button,
-#product-add-button,
+#stock-add-button,
 #vending-machine-charge-button {
 	padding: 0.5rem;
 	margin-left: 0.5rem;
@@ -131,11 +131,11 @@ section p {
 	flex-direction: column;
 }
 
-.product-inventory {
+.stock-inventory {
 	margin-top: 1rem;
 }
 
-.product-container input:not(:first-child) {
+.stock-inputs input:not(:first-child) {
 	margin-top: 0.5rem;
 }
 
@@ -143,7 +143,7 @@ section p {
 	width: 65%;
 }
 
-#product-add-button {
+#stock-add-button {
 	margin-left: 0;
 	margin-top: 0.5rem;
 	width: 78%;
@@ -160,7 +160,7 @@ button:active {
 .cashbox-remaining,
 .purchase-available,
 .cashbox-change,
-.product-inventory {
+.stock-inventory {
 	border-radius: 10px;
 	border-collapse: collapse;
 	border-style: hidden;
@@ -168,12 +168,18 @@ button:active {
 }
 
 .purchase-available td,
-.product-inventory td,
+.stock-inventory td,
 .cashbox-change td,
 .cashbox-remaining td,
 .purchase-available th,
-.product-inventory th,
+.stock-inventory th,
 .cashbox-change th,
 .cashbox-remaining th {
 	border: 1px solid rgb(66, 66, 66);
+}
+
+.stock-container {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
 }
