@@ -13,7 +13,7 @@ export default class VendingMachineManageMenu {
   };
 
   get state() {
-    return this.#state;
+    return { ...this.#state };
   }
 
   set state(state) {

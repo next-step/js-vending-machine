@@ -15,7 +15,7 @@ export default class ProductManageMenu {
   };
 
   get state() {
-    return this.#state;
+    return { ...this.#state };
   }
 
   set state(state) {
