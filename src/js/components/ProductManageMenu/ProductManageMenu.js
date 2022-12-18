@@ -1,4 +1,5 @@
 import { SELECTOR } from '../../constants/selector.js';
+import { PRODUCT_KEY } from '../../constants/storage.js';
 import { $ } from '../../utils/dom.js';
 import { CustomError } from '../../utils/error.js';
 import { productStorage } from '../../utils/storage.js';
@@ -29,7 +30,7 @@ export default class ProductManageMenu {
 
   #getInitialState() {
     return {
-      products: productStorage.get('products'),
+      products: productStorage.get(PRODUCT_KEY),
     };
   }
 
@@ -41,7 +42,7 @@ export default class ProductManageMenu {
 
   #addProduct(product) {
     this.#state.products.set(product.name, product);
-    productStorage.set('products', this.#state.products);
+    productStorage.set(this.#state.products);
     this.#render();
     this.#bindEvents();
   }

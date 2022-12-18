@@ -59,8 +59,8 @@ export default class VendingMachineManageMenu {
     this.#state.charge += charge;
     this.#state.coins = this.#getCoins(this.#state.charge, COINS.UNITS);
 
-    chargeStorage.set('charge', this.#state.charge);
-    coinsStorage.set('coins', this.#state.coins);
+    chargeStorage.set(this.#state.charge);
+    coinsStorage.set(this.#state.coins);
     this.#render();
     this.#bindEvents();
   }
