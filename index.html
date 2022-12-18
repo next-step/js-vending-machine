@@ -1,18 +1,21 @@
 <!DOCTYPE html>
 <html lang="ko">
-	<head>
-		<meta charset="UTF-8" />
-		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
-		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-		<link rel="stylesheet" href="./index.css" />
-		<title>NEXTSTEP JavaScript Vending machine</title>
-	</head>
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="./index.css" />
+    <script src="src/js/App.js" type="module"></script>
+    <title>NEXTSTEP JavaScript Vending machine</title>
+  </head>
 
-	<body>
-		<button id="product-manage-menu">상품 관리</button>
-		<button id="vending-machine-manage-menu">잔돈충전</button>
-		<button id="product-purchase-menu">상품 구매</button>
+  <body>
+    <div id="vending-machine-categories">
+      <button id="product-manage-menu" data-category="product-manage-menu">상품 관리</button>
+      <button id="vending-machine-manage-menu" data-category="vending-machine-manage-menu">잔돈충전</button>
+      <button id="product-purchase-menu" data-category="product-purchase-menu">상품 구매</button>
+    </div>
 
-		<div id="app"></div>
-	</body>
+    <div id="app"></div>
+  </body>
 </html>
