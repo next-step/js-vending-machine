@@ -1,0 +1,26 @@
+{
+  "name": "js-vending-machine",
+  "version": "1.0.0",
+  "description": "<p align=\"middle\" >   <img src=\"https://nextstep-storage.s3.ap-northeast-2.amazonaws.com/536baaa17ed346bb851cc9f663edb069\" width=\"400\"> </p>   <h1 align=\"middle\">자바스크립트와 Cypress로 구현하는 자판기</h1>   <p align=\"middle\">     <img src=\"https://img.shields.io/badge/version-1.0.0-blue?style=flat-square\" alt=\"template version\"/>     <img src=\"https://img.shields.io/badge/language-html-red.svg?style=flat-square\"/>     <img src=\"https://img.shields.io/badge/language-css-blue.svg?style=flat-square\"/>     <img src=\"https://img.shields.io/badge/language-js-yellow.svg?style=flat-square\"/>     <img src=\"https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square\"/>   </p> </p>",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/smchoxx/js-vending-machine.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/smchoxx/js-vending-machine/issues"
+  },
+  "homepage": "https://github.com/smchoxx/js-vending-machine#readme",
+  "devDependencies": {
+    "cypress": "^12.1.0",
+    "eslint": "^8.30.0",
+    "eslint-config-airbnb-base": "^15.0.0",
+    "eslint-plugin-import": "^2.26.0"
+  }
+}
