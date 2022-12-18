@@ -138,9 +138,11 @@ describe('상품관리 탭을 테스트한다.', () => {
       cy.get(SELECTOR.PRODUCT_INVENTORY_CONTAINER)
         .children()
         .each(($tr, idx) => {
-          expect($tr.children()[PRODUCT_INDEX.NAME].textContent).to.equal(products[idx].name);
-          expect(Number($tr.children()[PRODUCT_INDEX.PRICE].textContent)).to.equal(products[idx].price);
-          expect(Number($tr.children()[PRODUCT_INDEX.QUANTITY].textContent)).to.equal(products[idx].quantity);
+          const { name, price, quantity } = products[idx];
+
+          expect($tr.children()[PRODUCT_INDEX.NAME].textContent).to.equal(name);
+          expect(Number($tr.children()[PRODUCT_INDEX.PRICE].textContent)).to.equal(price);
+          expect(Number($tr.children()[PRODUCT_INDEX.QUANTITY].textContent)).to.equal(quantity);
         });
     });
 
@@ -156,9 +158,11 @@ describe('상품관리 탭을 테스트한다.', () => {
       cy.get(SELECTOR.PRODUCT_INVENTORY_CONTAINER)
         .children()
         .each(($el, idx) => {
-          expect($el.children()[PRODUCT_INDEX.NAME].textContent).to.equal(products[idx].name);
-          expect(Number($el.children()[PRODUCT_INDEX.PRICE].textContent)).to.equal(products[idx].price);
-          expect(Number($el.children()[PRODUCT_INDEX.QUANTITY].textContent)).to.equal(products[idx].quantity);
+          const { name, price, quantity } = products[idx];
+
+          expect($el.children()[PRODUCT_INDEX.NAME].textContent).to.equal(name);
+          expect(Number($el.children()[PRODUCT_INDEX.PRICE].textContent)).to.equal(price);
+          expect(Number($el.children()[PRODUCT_INDEX.QUANTITY].textContent)).to.equal(quantity);
         });
 
       cy.get(SELECTOR.VENDING_MACHINE_MANAGE_MENU).click();
@@ -167,9 +171,11 @@ describe('상품관리 탭을 테스트한다.', () => {
       cy.get(SELECTOR.PRODUCT_INVENTORY_CONTAINER)
         .children()
         .each(($el, idx) => {
-          expect($el.children()[PRODUCT_INDEX.NAME].textContent).to.equal(products[idx].name);
-          expect(Number($el.children()[PRODUCT_INDEX.PRICE].textContent)).to.equal(products[idx].price);
-          expect(Number($el.children()[PRODUCT_INDEX.QUANTITY].textContent)).to.equal(products[idx].quantity);
+          const { name, price, quantity } = products[idx];
+
+          expect($el.children()[PRODUCT_INDEX.NAME].textContent).to.equal(name);
+          expect(Number($el.children()[PRODUCT_INDEX.PRICE].textContent)).to.equal(price);
+          expect(Number($el.children()[PRODUCT_INDEX.QUANTITY].textContent)).to.equal(quantity);
         });
     });
   });
