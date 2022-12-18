@@ -64,12 +64,25 @@ describe('상품관리 탭을 테스트한다.', () => {
       });
     });
 
-    it('상품의 최소 가격은 100원이여야 한다.', () => {
+    it('상품의 가격이 100원 이하면 alert가 뜬다.', () => {
       const stub = getAlertStub();
 
-      cy.addProduct({ name: 'coke', price: 50, quantity: 5 }).then(() => {
+      cy.addProduct({ name: 'coke', price: 80, quantity: 5 }).then(() => {
         stub.calledWith(ERROR_MESSAGE.INVALID_PRODUCT_MIN_PRICE);
       });
+    });
+
+    it('상품의 최소 가격은 100원이여야 한다.', () => {
+      const coke = { name: 'coke', price: 100, quantity: 5 };
+      cy.addProduct(coke);
+
+      cy.get(SELECTOR.PRODUCT_INVENTORY_CONTAINER)
+        .children()
+        .each(($tr) => {
+          expect($tr.children()[PRODUCT_INDEX.NAME].textContent).to.equal(coke.name);
+          expect(Number($tr.children()[PRODUCT_INDEX.PRICE].textContent)).to.equal(coke.price);
+          expect(Number($tr.children()[PRODUCT_INDEX.QUANTITY].textContent)).to.equal(coke.quantity);
+        });
     });
 
     it('상품의 가격은 10원으로 나누어 떨어져야 한다.', () => {

@@ -28,7 +28,7 @@ export const validateProductName = (productName) => {
 export const validateProductPrice = (productPrice) => {
   validate(validator.isNumber(productPrice), new EmptyInputError(ERROR_MESSAGE.EMPTY_INPUT));
   validate(
-    validator.gt(productPrice, PRODUCT.MIN_PRICE),
+    validator.gte(productPrice, PRODUCT.MIN_PRICE),
     new InvalidValueError(ERROR_MESSAGE.INVALID_PRODUCT_MIN_PRICE),
   );
   validate(
