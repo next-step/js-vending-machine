@@ -1,6 +1,6 @@
 import { SELECTOR } from '../../constants/selector.js';
 import { $ } from '../../utils/dom.js';
-import { EmptyInputError, InvalidValueError } from '../../utils/error.js';
+import { CustomError } from '../../utils/error.js';
 import { productStorage } from '../../utils/storage.js';
 import { validateProductName, validateProductPrice, validateProductQuantity } from '../../utils/validation.js';
 
@@ -73,10 +73,7 @@ export default class ProductManageMenu {
       this.#addProduct(product);
       this.#resetInput();
     } catch (error) {
-      if (error instanceof EmptyInputError) {
-        alert(error.message);
-      }
-      if (error instanceof InvalidValueError) {
+      if (error instanceof CustomError) {
         alert(error.message);
       }
     }
