@@ -43,14 +43,16 @@ export default class VendingMachineManageMenu {
   }
 
   #getCoins(charge, units) {
-    let newCharge = charge;
-    const coins = {};
+    const { coins } = units.reduce(
+      (prev, acc) => {
+        const currentCoin = Math.floor(prev.charge / acc);
+        const newCoins = { ...prev.coins, [acc]: currentCoin };
+        const remainCharge = prev.charge - currentCoin * acc;
 
-    units.forEach((unit) => {
-      coins[unit] = Math.floor(newCharge / unit);
-      // eslint-disable-next-line no-bitwise
-      newCharge %= unit;
-    });
+        return { coins: newCoins, charge: remainCharge };
+      },
+      { coins: {}, charge },
+    );
 
     return coins;
   }
