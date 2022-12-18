@@ -64,9 +64,7 @@ export default class ProductManageMenu {
       const { name, price, quantity } = this.#state;
 
       validateProductName(name);
-
       validateProductPrice(price);
-
       validateProductQuantity(quantity);
 
       const product = { name, price, quantity };
