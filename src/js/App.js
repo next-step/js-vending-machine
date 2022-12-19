@@ -1,8 +1,9 @@
 /* eslint-disable class-methods-use-this */
-import ProductManageMenu from './components/ProductManageMenu/index.js';
-import VendingMachineManageMenu from './components/VendingMachineManageMenu/index.js';
 import { SELECTOR } from './constants/selector.js';
 import { $ } from './utils/dom.js';
+
+import './components/ProductManageMenu/index.js';
+import './components/VendingMachineManageMenu/index.js';
 
 const CATEGORY = {
   PRODUCT_MANAGE_MENU: 'product-manage-menu',
@@ -10,31 +11,25 @@ const CATEGORY = {
   PRODUCT_PURCHASE_MENU: 'product-purchase-menu',
 };
 
-class App {
+class App extends HTMLElement {
   #state = {
     category: CATEGORY.PRODUCT_MANAGE_MENU,
   };
 
-  #productManageMenu = new ProductManageMenu();
-
-  #vendingMachineManageMenu = new VendingMachineManageMenu();
-
-  init() {
+  connectedCallback() {
     this.#render();
     this.#bindEvents();
   }
 
   #render() {
     if (this.#state.category === CATEGORY.PRODUCT_MANAGE_MENU) {
-      this.#productManageMenu.init();
+      this.innerHTML = '<product-manage-menu />';
     }
-
     if (this.#state.category === CATEGORY.VENDING_MACHINE_MANAGE_MENU) {
-      this.#vendingMachineManageMenu.init();
+      this.innerHTML = '<vending-machine-manage-menu />';
     }
-
     if (this.#state.category === CATEGORY.PRODUCT_PURCHASE_MENU) {
-      $(SELECTOR.APP).innerHTML = '<div>product-purchase-menu</div>';
+      this.innerHTML = '<div>product-purchase-menu</div>';
     }
   }
 
@@ -50,6 +45,4 @@ class App {
   }
 }
 
-const app = new App();
-
-app.init();
+window.customElements.define('my-app', App);

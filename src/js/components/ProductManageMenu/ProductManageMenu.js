@@ -6,7 +6,7 @@ import { productStorage } from '../../utils/storage.js';
 import { validateProductName, validateProductPrice, validateProductQuantity } from '../../utils/validation.js';
 
 /* eslint-disable class-methods-use-this */
-export default class ProductManageMenu {
+export default class ProductManageMenu extends HTMLElement {
   #state = {
     name: '',
     price: '',
@@ -22,7 +22,7 @@ export default class ProductManageMenu {
     this.#state = state;
   }
 
-  init() {
+  connectedCallback() {
     this.#state = this.#getInitialState();
     this.#render();
     this.#bindEvents();
@@ -125,6 +125,8 @@ export default class ProductManageMenu {
   }
 
   #render() {
-    $(SELECTOR.APP).innerHTML = this.#getTemplate();
+    this.innerHTML = this.#getTemplate();
   }
 }
+
+window.customElements.define('product-manage-menu', ProductManageMenu);

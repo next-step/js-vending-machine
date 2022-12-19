@@ -6,7 +6,7 @@ import { chargeStorage, coinsStorage } from '../../utils/storage.js';
 import { validateVendingMachineCharge } from '../../utils/validation.js';
 
 /* eslint-disable class-methods-use-this */
-export default class VendingMachineManageMenu {
+export default class VendingMachineManageMenu extends HTMLElement {
   #state = {
     charge: 0,
     coins: {},
@@ -20,7 +20,7 @@ export default class VendingMachineManageMenu {
     this.#state = state;
   }
 
-  init() {
+  connectedCallback() {
     this.#state = this.#getInitialState();
     this.#render();
     this.#focusInput();
@@ -129,6 +129,8 @@ export default class VendingMachineManageMenu {
   }
 
   #render() {
-    $(SELECTOR.APP).innerHTML = this.#getTemplate();
+    this.innerHTML = this.#getTemplate();
   }
 }
+
+window.customElements.define('vending-machine-manage-menu', VendingMachineManageMenu);
