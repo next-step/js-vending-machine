@@ -1,3 +1,5 @@
+import { Component } from './component.js';
+
 import {
     displayFlex,
     displayNone,
@@ -5,33 +7,28 @@ import {
     setEventListeners
 } from '../common/util.js';
 import { $, EVENT } from '../common/const.js';
-import { Validator } from '../common/validator.js';
-import { VendingMachineModel } from '../models/vending-machine.model.js';
 
-export class StockComponent {
+export class StockComponent extends Component {
     #listeners;
-    validator;
-    vendingMachine;
 
-    constructor() {
+    constructor(container) {
+        super(container);
         this.#listeners = [
             {
-                selector: qs($.STOCK.BUTTONS.MENU),
+                selector: qs($.TAB.STOCK),
                 event: EVENT.CLICK,
                 callback: () => this.showStock()
             },
             {
-                selector: qs($.STOCK.BUTTONS.ADD),
+                selector: qs($.STOCK.BUTTONS.ADD, this._$parent),
                 event: EVENT.CLICK,
                 callback: () => this.addStock()
             }
         ];
-        this.init();
+        this._init();
     }
 
-    init() {
-        this.validator = new Validator();
-        this.vendingMachine = new VendingMachineModel();
+    _init() {
         displayNone(qs($.STOCK.CONTAINER));
         setEventListeners(this.#listeners);
     }
@@ -42,15 +39,15 @@ export class StockComponent {
 
     addStock() {
         const values = {
-            name: qs($.STOCK.INPUTS.NAME).value,
-            price: qs($.STOCK.INPUTS.PRICE).value,
-            quantity: qs($.STOCK.INPUTS.QUANTITY).value
+            name: qs($.STOCK.INPUTS.NAME, this._$parent).value,
+            price: qs($.STOCK.INPUTS.PRICE, this._$parent).value,
+            quantity: qs($.STOCK.INPUTS.QUANTITY, this._$parent).value
         };
 
         try {
-            this.validator.setStockErrors(values);
+            this._validator.setStockErrors(values);
         } catch (e) {
-            return this.validator.catchErrors(e);
+            return this._validator.catchErrors(e);
         }
 
         this.renderStock(values);
@@ -58,18 +55,18 @@ export class StockComponent {
     }
 
     setStock({ name, price, quantity }) {
-        this.vendingMachine.stocks[name] = [price, quantity];
+        this._vendingMachine.stocks[name] = [price, quantity];
     }
 
     renderStock({ name, price, quantity }) {
-        if (!!this.vendingMachine.stocks.hasOwnProperty(name)) {
+        if (!!this._vendingMachine.stocks.hasOwnProperty(name)) {
             qs(`.${name}`).remove();
         }
 
-        qs($.STOCK.TABLE.TBODY)
+        qs($.STOCK.TABLE.TBODY, this._$parent)
             .insertAdjacentHTML('beforeend', `<tr class="${name}"></tr>`);
 
-        qs(`.${name}`)
+        qs(`.${name}`, this._$parent)
             .insertAdjacentHTML('beforeend',
                 [name, price, quantity].map(value => `<td>${ value }</td>`).join(''));
     }

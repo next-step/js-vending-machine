@@ -1,8 +1,12 @@
 export const $ = {
+    TAB: {
+        STOCK: '#stock-manage-menu',
+        RECHARGE: '#vending-machine-manage-menu',
+        PURCHASE: '#product-purchase-menu'
+    },
     STOCK: {
         CONTAINER: '.stock-container',
         BUTTONS: {
-            MENU: '#stock-manage-menu',
             ADD: '#stock-add-button',
         },
         INPUTS: {

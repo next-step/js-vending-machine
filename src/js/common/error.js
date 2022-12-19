@@ -3,6 +3,7 @@ export const ERROR_MESSAGE = {
     InputMinInsufficientError: '가격을 100원 이상 입력해주세요.',
     InputPriceUnitError: '가격을 10원 댠위로 입력해주세요.',
     InputMinQuantityError: '수량을 1개 이상 입력해주세요.',
+    NotAllowedInstanceOfAbstract: '추상 클래스로 인스턴스를 생성할 수 없습니다.'
 };
 
 export class CustomError extends Error {
@@ -17,3 +18,10 @@ export class InputError extends CustomError {
         super(message, 'InputError');
     }
 }
+
+export class InstanceOfAbstractError  extends CustomError {
+    constructor(message) {
+        super(message, 'InstanceOfAbstractError');
+    }
+}
+

@@ -36,8 +36,9 @@ export const displayFlex = ($element) => $element.style.display = 'flex';
 
 /**
  * @param {string} className - querySelector 대상 class name
+ * @param {HTMLElement | Document} $parent - querySelector 대상의 부모 요소
  */
-export const qs = (className) => document.querySelector(className);
+export const qs = (className, $parent = document) => $parent.querySelector(className);
 
 /**
  * @param {{

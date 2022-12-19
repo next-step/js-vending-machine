@@ -92,7 +92,7 @@ function stockSpec() {
         cy.typeStockPrice(200);
         cy.typeStockQuantity(quantity);
         cy.clickStockAdd();
-        
+
         cy.get('#stock-inventory-container')
             .children(`.${name}`)
             .children('td').eq(1).should('have.text', 200);
