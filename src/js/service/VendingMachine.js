@@ -36,18 +36,15 @@ export class VendingMachine {
    */
   addItem({ name, price, amount }) {
     this.#validateProduct({ name, price, amount });
-    const item = this.#products.find((item) => item.name === name) || {
-      index: this.#products.length,
-      name: removeSpace(name),
-    };
-    const newItem = {
-      ...item,
-      price,
-      amount,
-    };
-    this.#products = [...this.#products.filter((item) => item.name !== name), newItem].sort(
-      (a, b) => a.index - b.index
-    );
+    this.#products = [
+      ...this.#products.filter((item) => item.name !== name),
+      {
+        index: this.#products,
+        name: removeSpace(name),
+        price,
+        amount,
+      },
+    ].sort((a, b) => a.index - b.index);
   }
 
   /**

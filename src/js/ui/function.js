@@ -43,7 +43,7 @@ const clearInput = (inputElement) => {
 };
 
 export const clearProductInputs = () => {
-  [$element.inputName, $element.inputPrice, $element.inputAmount].forEach((input) => clearInput(input));
+  [$element.inputName, $element.inputPrice, $element.inputAmount].forEach(clearInput);
 };
 
 export const clearChargeAmountInput = () => {
