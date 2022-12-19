@@ -31,7 +31,7 @@ export const addProduct = (vendingMachine) => {
  * @param {VendingMachine} vendingMachine
  */
 export const insertCoins = (vendingMachine) => {
-  vendingMachine.insertCoins(Number($element.inputChargeAmount.value));
+  vendingMachine.unitCountMachine.accumulateUnitCountInfo(Number($element.inputChargeAmount.value));
 };
 
 /**
@@ -55,7 +55,7 @@ export const clearChargeAmountInput = () => {
  * @param {VendingMachine} vendingMachine
  */
 export const renderProduct = (vendingMachine) => {
-  const products = vendingMachine.getProducts();
+  const { products } = vendingMachine;
   querySelector(SELECTOR_MAP.TABLE.VENDING_MACHINE_PRODUCT_TBODY).innerHTML = products
     .map(
       ({ name, price, amount }) => `<tr>
@@ -72,12 +72,12 @@ export const renderProduct = (vendingMachine) => {
  * @param {VendingMachine} vendingMachine
  */
 export const renderChargeAmount = (vendingMachine) => {
-  const unitCountMap = vendingMachine.unitCountInfo;
-  const unitArray = vendingMachine.getUnits();
+  const unitCountInfo = vendingMachine.unitCountMachine.unitCountInfo;
+  const unitArray = vendingMachine.unitCountMachine.getUnits();
   querySelector(SELECTOR_MAP.TABLE.VENDING_MACHINE_CHARGE_AMOUNT).innerHTML = unitArray.reduce((result, unit) => {
     const row = `<tr>
       <td>${unit}${VENDING_MACHINE_CONSTANT.MONEY_UNIT}</td>
-      <td>${unitCountMap.unitInfo[unit]}${VENDING_MACHINE_CONSTANT.AMOUNT_POSTFIX}</td>
+      <td>${unitCountInfo.unitInfo[unit]}${VENDING_MACHINE_CONSTANT.AMOUNT_POSTFIX}</td>
     </tr>`;
     return result + row;
   }, '');
@@ -88,7 +88,7 @@ export const renderChargeAmount = (vendingMachine) => {
  * @param {VendingMachine} vendingMachine
  */
 export const renderTotalChargeAmount = (vendingMachine) => {
-  querySelector(SELECTOR_MAP.SPAN.CHARGE_AMOUNT).innerText = vendingMachine.unitCountInfo.amount;
+  querySelector(SELECTOR_MAP.SPAN.CHARGE_AMOUNT).innerText = vendingMachine.unitCountMachine.unitCountInfo.amount;
 };
 
 /**
