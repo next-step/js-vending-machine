@@ -14,3 +14,5 @@ export const setStorage = ({ id, value }) => {
     console.error(e);
   }
 };
+
+export default { getStorage, setStorage };

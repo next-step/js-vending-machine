@@ -1,11 +1,27 @@
 import { $ELEMENT } from '../../src/constants/element.js';
+import { STORAGE, VENDING_MACHINE_INITIAL_STATE } from '../../src/constants/index.js';
+// import { VENDING_MACHINE_INITIAL_STATE } from '../../src/constants/index.js';
+// import storage from '../../src/js/utils/storage.js';
+
+// let stubVal = null;
+
+const [NAME, PRICE, QUANTITY] = ['콜라', 1000, 12];
+const [MODIFIED_PRICE, MODIFIED_QUANTITY] = [1500, 10];
+const VALID_CHARGE_AMOUNT = 180;
 
 describe('상품 관리하기', () => {
   beforeEach(() => {
-    cy.visit('../../index.html');
+    // cy.stub(storage, 'getStorage', () => {
+    //   stubVal = VENDING_MACHINE_INITIAL_STATE;
+    //   return stubVal;
+    // });
+    cy.visit('../../index.html', {
+      onBeforeLoad: function (window) {
+        window.localStorage.setItem(STORAGE.KEY, VENDING_MACHINE_INITIAL_STATE);
+      },
+    });
   });
-  const [NAME, PRICE, QUANTITY] = ['콜라', 1000, 12];
-  const [MODIFIED_PRICE, MODIFIED_QUANTITY] = [1500, 10];
+
   context('상품 입력 시', () => {
     it('상품명, 금액, 수량을 입력할 수 있는 input이 있어야한다.', () => {
       cy.get($ELEMENT.NAME_INPUT).should('exist');
@@ -37,6 +53,9 @@ describe('상품 관리하기', () => {
     });
 
     it('상품 제출 시 최소 수량 1개 이상이 되지 않는 경우 버튼이 활성화 되지 않는다.', () => {
+      cy.get($ELEMENT.NAME_INPUT).clear();
+      cy.get($ELEMENT.PRICE_INPUT).clear();
+      cy.get($ELEMENT.QUANTITY_INPUT).clear();
       cy.typeProduct({ name: NAME, price: PRICE, quantity: 0.2 });
       cy.get($ELEMENT.ADD_BUTTON).should('be.disabled');
     });
@@ -152,6 +171,10 @@ describe('잔돈 충전하기', () => {
     cy.get($ELEMENT.VENDING_MACHINE_MANANGE_MENU).click();
   });
   context('잔돈 입력 시', () => {
+    beforeEach(() => {
+      cy.clearLocalStorage();
+    });
+
     it('충전 값을 입력할 input이 존재해야 한다.', () => {
       cy.get($ELEMENT.CHARGE_INPUT).should('exist');
     });
@@ -205,7 +228,6 @@ describe('잔돈 충전하기', () => {
   context('탭 이동 시', () => {
     it('다른 탭으로 이동 후 다시 돌아와도 자판기가 보유한 금액은 유지되어야 한다.', () => {
       it('다른 탭으로 이동 후 다시 돌아와도 기존의 목록이 유지되어야 한다.', () => {
-        const VALID_CHARGE_AMOUNT = 180;
         cy.get($ELEMENT.CHARGE_INPUT).type(VALID_CHARGE_AMOUNT);
         cy.get($ELEMENT.CHARGE_BUTTON).click();
 
@@ -221,7 +243,32 @@ describe('잔돈 충전하기', () => {
 });
 
 describe('새로고침 시', () => {
+  beforeEach(() => {
+    cy.visit('../../index.html', {
+      onBeforeLoad: function (window) {
+        window.localStorage.setItem(STORAGE.KEY, VENDING_MACHINE_INITIAL_STATE);
+      },
+    });
+  });
   it('새로고침 진행 시에도 최근 작업한 정보를 보여줘야한다', () => {
-    //현재위치를 유지해야하면 결국 라우팅을 해야하나 ..??
+    cy.typeProduct({ name: NAME, price: MODIFIED_PRICE, quantity: MODIFIED_QUANTITY });
+    cy.get($ELEMENT.ADD_BUTTON).click();
+
+    cy.reload();
+
+    cy.contains('td', NAME);
+    cy.contains('td', MODIFIED_PRICE);
+    cy.contains('td', MODIFIED_QUANTITY);
+
+    cy.get($ELEMENT.VENDING_MACHINE_MANANGE_MENU).click();
+
+    cy.get($ELEMENT.CHARGE_INPUT).type(VALID_CHARGE_AMOUNT);
+    cy.get($ELEMENT.CHARGE_BUTTON).click();
+
+    cy.get($ELEMENT.CHARGE_AMOUNT).should('have.text', VALID_CHARGE_AMOUNT);
+
+    cy.reload();
+
+    cy.get($ELEMENT.CHARGE_AMOUNT).should('have.text', VALID_CHARGE_AMOUNT);
   });
 });

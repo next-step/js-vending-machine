@@ -15,7 +15,6 @@ export default class MenuView {
     this.renderTab({ tabId: VENDING_MACHINE_INITIAL_STATE.hashId });
   }
 
-  //*TODO: 확장성 생각해서 개선 필요함.
   renderTab = ({ tabId }) => {
     const { menus, MENU_CONTAINER_MAP } = this;
 

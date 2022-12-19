@@ -1,15 +1,13 @@
-import { DEFAULT_TYPED_PRODUCT, VENDING_MACHINE_INITIAL_STATE } from '../../constants/index.js';
+import { DEFAULT_TYPED_PRODUCT, STORAGE, VENDING_MACHINE_INITIAL_STATE } from '../../constants/index.js';
+import storage from '../utils/storage.js';
 
 class vendingMachineModel {
-  state = VENDING_MACHINE_INITIAL_STATE;
+  state = storage.getStorage({ id: STORAGE.KEY }) || VENDING_MACHINE_INITIAL_STATE;
 
   get state() {
     return this.state;
   }
 
-  /**
-   * @param {{ typedProduct: { name: string; price: null; quantity: null; }; products: never[]; charginValue: number; }} newState
-   */
   setState = (newState) => {
     //*TODO: 여기에 에러 핸들링 필요함(두개 state, newState 키를 비교해서 다르면 에러 반환)
 
@@ -51,6 +49,12 @@ class vendingMachineModel {
   addTotalCoin = (typedCoin) => {
     this.setState({
       chargedTotal: this.state.chargedTotal + typedCoin,
+    });
+  };
+
+  setNewCoinMap = (newCoinMap) => {
+    this.setState({
+      coinMap: newCoinMap,
     });
   };
 }

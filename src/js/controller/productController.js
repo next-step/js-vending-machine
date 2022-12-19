@@ -13,6 +13,7 @@ class ProductController {
     });
 
     this.view.addClickEventListeners({ addProduct: this.addProduct });
+    this.reloadRender();
   }
 
   validateButton = ({ typedProduct }) => {
@@ -20,6 +21,10 @@ class ProductController {
     const isDisabled = name.length < VALIDATE.MIN_NAME_LENGTH || quantity <= VALIDATE.MIN_QUANTITY;
 
     this.view.renderAddButton({ isDisabled });
+  };
+
+  validateQuantity = ({ quantity }) => {
+    return quantity > 0;
   };
 
   validatePrice = ({ price }) => {
@@ -92,15 +97,24 @@ class ProductController {
   addProduct = () => {
     const currentState = this.model.state;
     const { products, typedProduct } = currentState;
-    const { price } = typedProduct;
+    const { price, quantity } = typedProduct;
 
-    if (!this.validatePrice({ price })) return;
+    if (!this.validatePrice({ price }) || !this.validateQuantity({ quantity })) return;
 
     this.model.addProduct(this.checkSameProduct({ products, typedProduct }));
 
     this.view.renderProductList({ products: this.model.state.products });
 
     this.clearTypedProduct();
+  };
+
+  reloadRender = () => {
+    const { typedProduct, products } = this.model.state;
+
+    this.view.renderProductNameInput({ name: typedProduct.name });
+    this.view.renderProductPriceInput({ price: typedProduct.price });
+    this.view.renderProductQuantityInput({ quantity: typedProduct.quantity });
+    this.view.renderProductList({ products });
   };
 }
 

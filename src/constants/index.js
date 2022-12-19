@@ -21,5 +21,5 @@ export const VENDING_MACHINE_INITIAL_STATE = {
   products: [],
   typedCoin: 0,
   chargedTotal: 0,
-  chargedCoins: DEFAULT_CHARGE_COINS,
+  coinMap: DEFAULT_CHARGE_COINS,
 };

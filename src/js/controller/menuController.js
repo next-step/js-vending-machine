@@ -3,6 +3,7 @@ export default class MenuController {
     this.model = model;
     this.view = view;
     this.view.bindMenuEvent(this.handleMenuButton);
+    this.view.renderTab({ tabId: this.model.state.hashId });
   }
 
   handleMenuButton = (event) => {
