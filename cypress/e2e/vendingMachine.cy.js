@@ -398,4 +398,92 @@ describe('상품구매 탭을 테스트한다.', () => {
         });
     });
   });
+
+  context('잔돈을 계산할 때', () => {
+    it('모든 금액에 대해 잔돈을 반환할 수 없는 경우 잔돈으로 반환할 수 있는 금액만 반환한다.', () => {
+      cy.get(SELECTOR.VENDING_MACHINE_MANAGE_MENU).click();
+      cy.typeCharge(500);
+      cy.clickAddChargeButton();
+
+      cy.get(SELECTOR.PRODUCT_PURCHASE_MENU).click();
+      cy.typePurchaseMoney(800);
+      cy.clickPurchaseMoneyAddButton();
+
+      cy.get(SELECTOR.PRODUCT_PURCHASE_RETURN_BUTTON).click();
+
+      cy.get(SELECTOR.PRODUCT_PURCHASE_CHARGE_AMOUNT).should('have.text', 300);
+    });
+
+    it('반환된 동전만큼 사용자가 충전한 금액이 차감된다.', () => {
+      const UNIT_INDEX = 0;
+      const QUANTITY_INDEX = 1;
+
+      cy.get(SELECTOR.VENDING_MACHINE_MANAGE_MENU).click();
+      cy.typeCharge(500);
+      cy.clickAddChargeButton();
+
+      cy.get(SELECTOR.PRODUCT_PURCHASE_MENU).click();
+      cy.typePurchaseMoney(800);
+      cy.clickPurchaseMoneyAddButton();
+
+      cy.get(SELECTOR.PRODUCT_PURCHASE_RETURN_BUTTON).click();
+
+      let sum = 0;
+      cy.get(SELECTOR.VENDING_MACHINE_COINS_CONTAINER)
+        .children()
+        .each(($el) => {
+          const unit = $el.children()[UNIT_INDEX].textContent.split('원')[0];
+          const quantity = Number($el.children()[QUANTITY_INDEX].textContent.split('개')[0]);
+          sum += unit * quantity;
+        })
+        .then(() => {
+          cy.get(SELECTOR.PRODUCT_PURCHASE_CHARGE_AMOUNT).should('have.text', 800 - sum);
+        });
+    });
+
+    it('반환된 동전만큼 자판기가 보유하고 있는 동전도 차감된다.', () => {
+      const UNIT_INDEX = 0;
+      const QUANTITY_INDEX = 1;
+
+      cy.get(SELECTOR.VENDING_MACHINE_MANAGE_MENU).click();
+      cy.typeCharge(500);
+      cy.clickAddChargeButton();
+
+      const prevCoins = {};
+      cy.get(SELECTOR.VENDING_MACHINE_COINS_CONTAINER)
+        .children()
+        .each(($el) => {
+          const unit = $el.children()[UNIT_INDEX].textContent.split('원')[0];
+          const quantity = Number($el.children()[QUANTITY_INDEX].textContent.split('개')[0]);
+          prevCoins[unit] = quantity;
+        });
+
+      cy.get(SELECTOR.PRODUCT_PURCHASE_MENU).click();
+      cy.typePurchaseMoney(800);
+      cy.clickPurchaseMoneyAddButton();
+
+      cy.get(SELECTOR.PRODUCT_PURCHASE_RETURN_BUTTON).click();
+
+      const returnCoins = {};
+
+      cy.get(SELECTOR.VENDING_MACHINE_COINS_CONTAINER)
+        .children()
+        .each(($el) => {
+          const unit = $el.children()[UNIT_INDEX].textContent.split('원')[0];
+          const quantity = Number($el.children()[QUANTITY_INDEX].textContent.split('개')[0]);
+          returnCoins[unit] = quantity;
+        })
+        .then(() => {
+          cy.get(SELECTOR.VENDING_MACHINE_MANAGE_MENU).click();
+
+          cy.get(SELECTOR.VENDING_MACHINE_COINS_CONTAINER)
+            .children()
+            .each(($el) => {
+              const unit = $el.children()[UNIT_INDEX].textContent.split('원')[0];
+              const quantity = Number($el.children()[QUANTITY_INDEX].textContent.split('개')[0]);
+              expect(quantity).to.equal(prevCoins[unit] - returnCoins[unit]);
+            });
+        });
+    });
+  });
 });
