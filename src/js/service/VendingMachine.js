@@ -3,9 +3,16 @@ import { removeSpace } from '../util/string.js';
 import { isAmountValid, isInsertedCoinsValid, isNameValid, isPriceValid } from './validator.js';
 import ValidationError from './ValidationError.js';
 
+/**
+ * @typedef {Object} UnitCountInfo
+ * @property {number} amount
+ * @property {Object.<string, number>} unitInfo
+ */
+
 export class VendingMachine {
   #products;
-  #changes;
+  /**@type {UnitCountInfo} */
+  #unitCountInfo;
 
   constructor() {
     this.reset();
@@ -13,13 +20,17 @@ export class VendingMachine {
 
   reset() {
     this.#products = [];
-    this.#changes = VENDING_MACHINE_CONSTANT.CHANGES.UNITS.reduce(
-      (result, unit) => ({
-        ...result,
-        [unit]: 0,
-      }),
-      {}
-    );
+    this.#unitCountInfo = {
+      amount: 0,
+      unitInfo: VENDING_MACHINE_CONSTANT.CHANGES.UNITS.reduce(
+        (result, unit) => ({
+          ...result,
+          [unit]: 0,
+        }),
+        {}
+      ),
+    };
+    console.log(this.#unitCountInfo);
   }
 
   /**
@@ -32,10 +43,14 @@ export class VendingMachine {
 
   /**
    *
-   * @returns {Object.<(string)>, number>}
+   * @returns {UnitCountInfo}
    */
-  getChanges() {
-    return { ...this.#changes };
+  get unitCountInfo() {
+    return this.#unitCountInfo;
+  }
+
+  getUnits() {
+    return Object.keys(this.#unitCountInfo.unitInfo).sort((a, b) => Number(b) - Number(a));
   }
 
   /**
@@ -74,29 +89,27 @@ export class VendingMachine {
     }
   }
 
+  get #units() {
+    return Object.keys(this.#unitCountInfo.unitInfo).sort((a, b) => Number(b) - Number(a));
+  }
+
   /**
    *
    * @param {number} amount
-   * @returns {Object}
+   * @returns {UnitCountInfo}
    */
-  #getCoins(amount) {
-    const changes = Object.keys(this.#changes).sort((a, b) => Number(b) - Number(a));
-    return changes.reduce((result, unit) => {
-      let count = 0;
-      while (amount) {
-        if (amount - unit >= 0) {
-          amount -= unit;
-          count += 1;
-          continue;
-        }
-        break;
-      }
-      return { ...result, [unit]: count };
-    }, {});
-  }
-
-  getTotalChanges() {
-    return Object.keys(this.#changes).reduce((total, unit) => total + Number(unit) * this.#changes[unit], 0);
+  #getUnitCountInfo(chargeAmount) {
+    const { unitInfo } = this.#units.reduce(
+      ({ amount, unitInfo }, unit) => {
+        const count = Math.floor(amount / unit);
+        return {
+          amount: amount - count * unit,
+          unitInfo: { ...unitInfo, [unit]: count },
+        };
+      },
+      { amount: chargeAmount, unitInfo: {} }
+    );
+    return { amount: chargeAmount, unitInfo };
   }
 
   #validateCoins(amount) {
@@ -111,13 +124,16 @@ export class VendingMachine {
    */
   insertCoins(amount) {
     this.#validateCoins(amount);
-    const insertedCoins = this.#getCoins(amount);
-    this.#changes = Object.keys(insertedCoins).reduce(
-      (result, unit) => {
-        return { ...result, [unit]: insertedCoins[unit] + this.#changes[unit] };
-      },
-      { ...this.#changes }
-    );
+    const insertedUnitCountInfo = this.#getUnitCountInfo(amount);
+    this.#unitCountInfo = {
+      amount: this.#unitCountInfo.amount + insertedUnitCountInfo.amount,
+      unitInfo: Object.keys(insertedUnitCountInfo.unitInfo).reduce(
+        (result, unit) => {
+          return { ...result, [unit]: insertedUnitCountInfo.unitInfo[unit] + this.#unitCountInfo.unitInfo[unit] };
+        },
+        { ...this.#unitCountInfo.unitInfo }
+      ),
+    };
   }
 }
 

@@ -72,17 +72,15 @@ export const renderProduct = (vendingMachine) => {
  * @param {VendingMachine} vendingMachine
  */
 export const renderChargeAmount = (vendingMachine) => {
-  const coins = vendingMachine.getChanges();
-  const coinArray = Object.keys(coins).sort((a, b) => Number(b) - Number(a));
-  const innerHTML = coinArray.reduce((result, unit) => {
+  const unitCountMap = vendingMachine.unitCountInfo;
+  const unitArray = vendingMachine.getUnits();
+  querySelector(SELECTOR_MAP.TABLE.VENDING_MACHINE_CHARGE_AMOUNT).innerHTML = unitArray.reduce((result, unit) => {
     const row = `<tr>
       <td>${unit}${VENDING_MACHINE_CONSTANT.MONEY_UNIT}</td>
-      <td>${coins[unit]}${VENDING_MACHINE_CONSTANT.AMOUNT_POSTFIX}</td>
+      <td>${unitCountMap.unitInfo[unit]}${VENDING_MACHINE_CONSTANT.AMOUNT_POSTFIX}</td>
     </tr>`;
     return result + row;
   }, '');
-
-  querySelector(SELECTOR_MAP.TABLE.VENDING_MACHINE_CHARGE_AMOUNT).innerHTML = innerHTML;
 };
 
 /**
@@ -90,7 +88,7 @@ export const renderChargeAmount = (vendingMachine) => {
  * @param {VendingMachine} vendingMachine
  */
 export const renderTotalChargeAmount = (vendingMachine) => {
-  querySelector(SELECTOR_MAP.SPAN.CHARGE_AMOUNT).innerText = vendingMachine.getTotalChanges();
+  querySelector(SELECTOR_MAP.SPAN.CHARGE_AMOUNT).innerText = vendingMachine.unitCountInfo.amount;
 };
 
 /**
