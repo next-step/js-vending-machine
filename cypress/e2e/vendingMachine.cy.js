@@ -1,5 +1,6 @@
 import { ERROR_MESSAGE } from '../../src/js/constants/errorMessage';
 import { SELECTOR } from '../../src/js/constants/selector';
+import { CHARGE_KEY, COINS_KEY } from '../../src/js/constants/storage';
 
 const PRODUCT_INDEX = {
   NAME: 0,
@@ -229,21 +230,44 @@ describe('잔돈 충전 탭을 테스트한다.', () => {
       cy.get(SELECTOR.VENDING_MACHINE_CHARGE_AMOUNT).should('have.text', '3000');
     });
 
-    // it('자판기가 보유한 금액 만큼의 동전이 무작위로 생성된다.', () => {
-    //   cy.get(SELECTOR.VENDING_MACHINE_CHARGE_INPUT).type(5000);
-    //   cy.get(SELECTOR.VENDING_MACHINE_CHARGE_BUTTON).click();
-    //   // 생성된 동전 개수를 객체에 담아서 변수에 저장
+    it('자판기가 보유한 금액 만큼의 동전이 무작위로 생성된다.', () => {
+      const prevObj = { 500: 0, 100: 0, 50: 0, 10: 0 };
+      const nextObj = { 500: 0, 100: 0, 50: 0, 10: 0 };
 
-    //   // 초기화
-    //   cy.visit('index.html');
-    //   cy.get(SELECTOR.VENDING_MACHINE_MANAGE_MENU).click();
+      const UNIT_INDEX = 0;
+      const QUANTITY_INDEX = 1;
 
-    //   cy.get(SELECTOR.VENDING_MACHINE_CHARGE_INPUT).type(5000);
-    //   cy.get(SELECTOR.VENDING_MACHINE_CHARGE_BUTTON).click();
-    //   // 생성된 동전 개수를 객체에 담아서 변수에 저장
+      cy.get(SELECTOR.VENDING_MACHINE_CHARGE_INPUT).type(55730);
+      cy.get(SELECTOR.VENDING_MACHINE_CHARGE_BUTTON).click();
 
-    //   // 2개의 변수를 비교하여 다르면, 무작위로 생성되었다고 가정한다.
-    // });
+      cy.get(SELECTOR.VENDING_MACHINE_COINS_CONTAINER)
+        .children()
+        .each(($el) => {
+          const unit = $el.children()[UNIT_INDEX].textContent.split('원')[0];
+          const quantity = Number($el.children()[QUANTITY_INDEX].textContent.split('개')[0]);
+          prevObj[unit] = quantity;
+        })
+        .then(() => {
+          cy.clearLocalStorage(CHARGE_KEY);
+          cy.clearLocalStorage(COINS_KEY);
+          cy.visit('index.html');
+          cy.get(SELECTOR.VENDING_MACHINE_MANAGE_MENU).click();
+
+          cy.get(SELECTOR.VENDING_MACHINE_CHARGE_INPUT).type(55730);
+          cy.get(SELECTOR.VENDING_MACHINE_CHARGE_BUTTON).click();
+
+          cy.get(SELECTOR.VENDING_MACHINE_COINS_CONTAINER)
+            .children()
+            .each(($el) => {
+              const unit = $el.children()[UNIT_INDEX].textContent.split('원')[0];
+              const quantity = Number($el.children()[QUANTITY_INDEX].textContent.split('개')[0]);
+              nextObj[unit] = quantity;
+            });
+        })
+        .then(() => {
+          expect(prevObj).to.not.deep.equal(nextObj);
+        });
+    });
 
     it('자판기가 보유한 동전의 개수는 {개수}개 형식으로 나타낸다', () => {
       cy.addCharge(1760);

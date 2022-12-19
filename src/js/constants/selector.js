@@ -16,6 +16,7 @@ export const SELECTOR = {
   VENDING_MACHINE_CHARGE_BUTTON: '#vending-machine-charge-button',
   VENDING_MACHINE_CHARGE_AMOUNT: '#vending-machine-charge-amount',
   VENDING_MACHINE_STATUS_WRAPPER: '#vending-machine-status-wrapper',
+  VENDING_MACHINE_COINS_CONTAINER: '#vending-machine-coins-container',
   VENDING_MACHINE_COIN_500_QUANTITY: '#vending-machine-coin-500-quantity',
   VENDING_MACHINE_COIN_100_QUANTITY: '#vending-machine-coin-100-quantity',
   VENDING_MACHINE_COIN_50_QUANTITY: '#vending-machine-coin-50-quantity',

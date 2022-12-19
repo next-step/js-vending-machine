@@ -34,6 +34,21 @@ export default class VendingMachineManageMenu extends HTMLElement {
     };
   }
 
+  #shuffleArray(array) {
+    const tempArray = [...array];
+    let currentIndex = tempArray.length;
+    let randomIndex;
+
+    while (currentIndex !== 0) {
+      randomIndex = Math.floor(Math.random() * currentIndex);
+      currentIndex--;
+
+      [tempArray[currentIndex], tempArray[randomIndex]] = [tempArray[randomIndex], tempArray[currentIndex]];
+    }
+
+    return tempArray;
+  }
+
   #focusInput() {
     $(SELECTOR.VENDING_MACHINE_CHARGE_INPUT).focus();
   }
@@ -43,7 +58,7 @@ export default class VendingMachineManageMenu extends HTMLElement {
   }
 
   #getCoins(charge, units) {
-    const { coins } = units.reduce(
+    const { coins } = this.#shuffleArray(units).reduce(
       (prev, acc) => {
         const currentCoin = Math.floor(prev.charge / acc);
         const newCoins = { ...prev.coins, [acc]: currentCoin };
@@ -105,7 +120,7 @@ export default class VendingMachineManageMenu extends HTMLElement {
           <th>개수</th>
         </tr>
       </thead>
-      <tbody>
+      <tbody id='vending-machine-coins-container'>
         <tr>
           <td>500원</td>
           <td id="vending-machine-coin-500-quantity">${this.#state.coins[COIN_500]}개</td>
