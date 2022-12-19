@@ -31,3 +31,9 @@ Cypress.Commands.add('typeProduct', ({ name, price, quantity }) => {
   cy.get($ELEMENT.PRICE_INPUT).type(price);
   cy.get($ELEMENT.QUANTITY_INPUT).type(quantity);
 });
+
+Cypress.Commands.add('checkProduct', ({ name, price, quantity }) => {
+  cy.contains('td', name);
+  cy.contains('td', price);
+  cy.contains('td', quantity);
+});

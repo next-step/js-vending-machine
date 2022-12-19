@@ -1,9 +1,21 @@
 import { STORAGE, VENDING_MACHINE_INITIAL_STATE } from '../../src/constants/common.js';
 import { $ELEMENT } from '../../src/constants/element.js';
 
-const [NAME, PRICE, QUANTITY] = ['콜라', 1000, 12];
-const [MODIFIED_PRICE, MODIFIED_QUANTITY] = [1500, 10];
-const VALID_CHARGE_AMOUNT = 180;
+const MOCK = {
+  NAME: '콜라',
+  PRICE: 1000,
+  QUANTITY: 12,
+  LOWER_PRICE: 80,
+  INVALID_NAME: '',
+  INVALID_PRICE: 122,
+  INVALID_QUANTITY: 0.2,
+  MODIFIED_PRICE: 1500,
+  MODIFIED_QUANTITY: 10,
+  VALID_CHARGE_AMOUNT: 180,
+  LOWER_CHARGE_AMOUNT: 80,
+  INVALID_CHARGE_AMOUNT: 82,
+  INITIAL_COIN_VALUE: 0,
+};
 
 describe('상품 관리하기', () => {
   beforeEach(() => {
@@ -40,22 +52,20 @@ describe('상품 관리하기', () => {
     });
 
     it('상품 제출 시 상품명을 적지 않은 경우 버튼이 활성화 되지 않는다.', () => {
-      cy.typeProduct({ name: '', price: PRICE, quantity: QUANTITY });
+      cy.typeProduct({ name: MOCK.INVALID_NAME, price: MOCK.PRICE, quantity: MOCK.QUANTITY });
       cy.get($ELEMENT.ADD_BUTTON).should('be.disabled');
     });
 
     it('상품 제출 시 최소 수량 1개 이상이 되지 않는 경우 버튼이 활성화 되지 않는다.', () => {
-      cy.get($ELEMENT.NAME_INPUT).clear();
-      cy.get($ELEMENT.PRICE_INPUT).clear();
-      cy.get($ELEMENT.QUANTITY_INPUT).clear();
-      cy.typeProduct({ name: NAME, price: PRICE, quantity: 0.2 });
+      cy.typeProduct({ name: MOCK.NAME, price: MOCK.PRICE, quantity: MOCK.INVALID_QUANTITY });
       cy.get($ELEMENT.ADD_BUTTON).should('be.disabled');
     });
 
     it('상품의 최소가격은 100원이며 그 미만으로 입력되는 경우 경고창이 떠야한다.', () => {
-      cy.typeProduct({ name: NAME, price: 80, quantity: QUANTITY });
+      cy.typeProduct({ name: MOCK.NAME, price: MOCK.LOWER_PRICE, quantity: MOCK.QUANTITY });
       cy.get($ELEMENT.ADD_BUTTON).should('not.be.disabled');
       cy.get($ELEMENT.ADD_BUTTON).click();
+
       cy.on('window:alert', (text) => {
         expect(text).to.contains(
           '유효하지 않은 가격입니다. 상품의 최소가격은 100원이며 10원으로 나누어 떨어져야 합니다.'
@@ -64,7 +74,7 @@ describe('상품 관리하기', () => {
     });
 
     it('상품의 가격은 10원으로 나누어 떨어져야 하며 그렇지 않을 경우 경고창이 떠야한다.', () => {
-      cy.typeProduct({ name: NAME, price: 82, quantity: QUANTITY });
+      cy.typeProduct({ name: MOCK.NAME, price: MOCK.INVALID_PRICE, quantity: MOCK.QUANTITY });
       cy.get($ELEMENT.ADD_BUTTON).should('not.be.disabled');
       cy.get($ELEMENT.ADD_BUTTON).click();
 
@@ -78,66 +88,48 @@ describe('상품 관리하기', () => {
 
   context('상품 등록 시', () => {
     it('유효성에 알맞는 값 입력 후 추가하기 버튼 클릭 시 추가된 상품을 확인할 수 있어야한다.', () => {
-      cy.typeProduct({ name: NAME, price: PRICE, quantity: QUANTITY });
+      cy.typeProduct({ name: MOCK.NAME, price: MOCK.PRICE, quantity: MOCK.QUANTITY });
       cy.get($ELEMENT.ADD_BUTTON).click();
 
       cy.get($ELEMENT.INVENTORY_CONTAINER).children().should('have.length', 1);
 
-      cy.contains('td', NAME);
-      cy.contains('td', PRICE);
-      cy.contains('td', QUANTITY);
+      cy.checkProduct({ name: MOCK.NAME, price: MOCK.PRICE, quantity: MOCK.QUANTITY });
     });
 
     it('같은 상품명의 다른 가격 데이터 추가 시 동일 이름의 상품이 있는 경우 새로운 상품 내용으로 대체되어야 한다.', () => {
-      cy.typeProduct({ name: NAME, price: PRICE, quantity: QUANTITY });
+      cy.typeProduct({ name: MOCK.NAME, price: MOCK.PRICE, quantity: MOCK.QUANTITY });
       cy.get($ELEMENT.ADD_BUTTON).click();
+      cy.checkProduct({ name: MOCK.NAME, price: MOCK.PRICE, quantity: MOCK.QUANTITY });
 
-      cy.contains('td', NAME);
-      cy.contains('td', PRICE);
-      cy.contains('td', QUANTITY);
-
-      cy.typeProduct({ name: NAME, price: MODIFIED_PRICE, quantity: QUANTITY });
+      cy.typeProduct({ name: MOCK.NAME, price: MOCK.MODIFIED_PRICE, quantity: MOCK.QUANTITY });
       cy.get($ELEMENT.ADD_BUTTON).click();
-
-      cy.contains('td', NAME);
-      cy.contains('td', MODIFIED_PRICE);
-      cy.contains('td', QUANTITY);
+      cy.checkProduct({ name: MOCK.NAME, price: MOCK.MODIFIED_PRICE, quantity: MOCK.QUANTITY });
 
       cy.get($ELEMENT.INVENTORY_CONTAINER).children().should('have.length', 1);
     });
 
     it('같은 상품명의 다른 수량 데이터 추가 시 동일 이름의 상품이 있는 경우 새로운 상품 내용으로 대체되어야 한다.', () => {
-      cy.typeProduct({ name: NAME, price: PRICE, quantity: QUANTITY });
+      cy.typeProduct({ name: MOCK.NAME, price: MOCK.PRICE, quantity: MOCK.QUANTITY });
       cy.get($ELEMENT.ADD_BUTTON).click();
+      cy.checkProduct({ name: MOCK.NAME, price: MOCK.PRICE, quantity: MOCK.QUANTITY });
 
-      cy.contains('td', NAME);
-      cy.contains('td', PRICE);
-      cy.contains('td', QUANTITY);
-
-      cy.typeProduct({ name: NAME, price: PRICE, quantity: MODIFIED_QUANTITY });
+      cy.typeProduct({ name: MOCK.NAME, price: MOCK.PRICE, quantity: MOCK.MODIFIED_QUANTITY });
       cy.get($ELEMENT.ADD_BUTTON).click();
-
-      cy.contains('td', NAME);
-      cy.contains('td', PRICE);
-      cy.contains('td', MODIFIED_QUANTITY);
+      cy.checkProduct({ name: MOCK.NAME, price: MOCK.PRICE, quantity: MOCK.MODIFIED_QUANTITY });
 
       cy.get($ELEMENT.INVENTORY_CONTAINER).children().should('have.length', 1);
     });
 
     it('같은 상품명의 다른 수량 데이터, 가격 추가 시 동일 이름의 상품이 있는 경우 새로운 상품 내용으로 대체되어야 한다.', () => {
-      cy.typeProduct({ name: NAME, price: PRICE, quantity: QUANTITY });
+      cy.typeProduct({ name: MOCK.NAME, price: MOCK.PRICE, quantity: MOCK.QUANTITY });
       cy.get($ELEMENT.ADD_BUTTON).click();
 
-      cy.contains('td', NAME);
-      cy.contains('td', PRICE);
-      cy.contains('td', QUANTITY);
+      cy.checkProduct({ name: MOCK.NAME, price: MOCK.PRICE, quantity: MOCK.QUANTITY });
 
-      cy.typeProduct({ name: NAME, price: MODIFIED_PRICE, quantity: MODIFIED_QUANTITY });
+      cy.typeProduct({ name: MOCK.NAME, price: MOCK.MODIFIED_PRICE, quantity: MOCK.MODIFIED_QUANTITY });
       cy.get($ELEMENT.ADD_BUTTON).click();
 
-      cy.contains('td', NAME);
-      cy.contains('td', MODIFIED_PRICE);
-      cy.contains('td', MODIFIED_QUANTITY);
+      cy.checkProduct({ name: MOCK.NAME, price: MOCK.MODIFIED_PRICE, quantity: MOCK.MODIFIED_QUANTITY });
 
       cy.get($ELEMENT.INVENTORY_CONTAINER).children().should('have.length', 1);
     });
@@ -145,7 +137,7 @@ describe('상품 관리하기', () => {
 
   context('탭 이동 시', () => {
     it('다른 탭으로 이동 후 다시 돌아와도 기존의 목록이 유지되어야 한다.', () => {
-      cy.typeProduct({ name: NAME, price: PRICE, quantity: QUANTITY });
+      cy.typeProduct({ name: MOCK.NAME, price: MOCK.PRICE, quantity: MOCK.QUANTITY });
       cy.get($ELEMENT.ADD_BUTTON).click();
       cy.get($ELEMENT.INVENTORY_CONTAINER).children().should('have.length', 1);
 
@@ -180,12 +172,11 @@ describe('잔돈 충전하기', () => {
     });
 
     it('최초 자판기가 보유한 금액은 0원이며 동전의 개수도 0개이다', () => {
-      const INITIAL_VALUE = 0;
-      cy.get($ELEMENT.CHARGE_AMOUNT).should('have.text', INITIAL_VALUE);
-      cy.get($ELEMENT.COIN_500_COUNT).should('have.text', INITIAL_VALUE);
-      cy.get($ELEMENT.COIN_100_COUNT).should('have.text', INITIAL_VALUE);
-      cy.get($ELEMENT.COIN_50_COUNT).should('have.text', INITIAL_VALUE);
-      cy.get($ELEMENT.COIN_10_COUNT).should('have.text', INITIAL_VALUE);
+      cy.get($ELEMENT.CHARGE_AMOUNT).should('have.text', MOCK.INITIAL_COIN_VALUE);
+      cy.get($ELEMENT.COIN_500_COUNT).should('have.text', MOCK.INITIAL_COIN_VALUE);
+      cy.get($ELEMENT.COIN_100_COUNT).should('have.text', MOCK.INITIAL_COIN_VALUE);
+      cy.get($ELEMENT.COIN_50_COUNT).should('have.text', MOCK.INITIAL_COIN_VALUE);
+      cy.get($ELEMENT.COIN_10_COUNT).should('have.text', MOCK.INITIAL_COIN_VALUE);
     });
   });
 
@@ -195,8 +186,7 @@ describe('잔돈 충전하기', () => {
     });
 
     it('최소 충전금액은 100원이며 그렇지 않을경우 경고창을 띄워준다.', () => {
-      const INVALID_CHARGE_AMOUNT = 80;
-      cy.get($ELEMENT.CHARGE_INPUT).type(INVALID_CHARGE_AMOUNT);
+      cy.get($ELEMENT.CHARGE_INPUT).type(MOCK.LOWER_CHARGE_AMOUNT);
       cy.get($ELEMENT.CHARGE_BUTTON).click();
       cy.on('window:alert', (text) => {
         expect(text).to.contains(
@@ -206,8 +196,7 @@ describe('잔돈 충전하기', () => {
     });
 
     it('10원으로 나누어 떨어지는 금액만 충전이 가능하다. 그렇지 않은 경우 경고창을 띄워준다.', () => {
-      const INVALID_CHARGE_AMOUNT = 82;
-      cy.get($ELEMENT.CHARGE_INPUT).type(INVALID_CHARGE_AMOUNT);
+      cy.get($ELEMENT.CHARGE_INPUT).type(MOCK.INVALID_CHARGE_AMOUNT);
       cy.get($ELEMENT.CHARGE_BUTTON).click();
       cy.on('window:alert', (text) => {
         expect(text).to.contains(
@@ -220,15 +209,15 @@ describe('잔돈 충전하기', () => {
   context('탭 이동 시', () => {
     it('다른 탭으로 이동 후 다시 돌아와도 자판기가 보유한 금액은 유지되어야 한다.', () => {
       it('다른 탭으로 이동 후 다시 돌아와도 기존의 목록이 유지되어야 한다.', () => {
-        cy.get($ELEMENT.CHARGE_INPUT).type(VALID_CHARGE_AMOUNT);
+        cy.get($ELEMENT.CHARGE_INPUT).type(MOCK.VALID_CHARGE_AMOUNT);
         cy.get($ELEMENT.CHARGE_BUTTON).click();
 
-        cy.get($ELEMENT.CHARGE_AMOUNT).should('have.text', VALID_CHARGE_AMOUNT);
+        cy.get($ELEMENT.CHARGE_AMOUNT).should('have.text', MOCK.VALID_CHARGE_AMOUNT);
 
         cy.get($ELEMENT.PRODUCT_MANGNE_MENU).click();
         cy.get($ELEMENT.VENDING_MACHINE_MANANGE_MENU).click();
 
-        cy.get($ELEMENT.CHARGE_AMOUNT).should('have.text', VALID_CHARGE_AMOUNT);
+        cy.get($ELEMENT.CHARGE_AMOUNT).should('have.text', MOCK.VALID_CHARGE_AMOUNT);
       });
     });
   });
@@ -243,24 +232,22 @@ describe('새로고침 시', () => {
     });
   });
   it('새로고침 진행 시에도 최근 작업한 정보를 보여줘야한다', () => {
-    cy.typeProduct({ name: NAME, price: MODIFIED_PRICE, quantity: MODIFIED_QUANTITY });
+    cy.typeProduct({ name: MOCK.NAME, price: MOCK.MODIFIED_PRICE, quantity: MOCK.MODIFIED_QUANTITY });
     cy.get($ELEMENT.ADD_BUTTON).click();
 
     cy.reload();
 
-    cy.contains('td', NAME);
-    cy.contains('td', MODIFIED_PRICE);
-    cy.contains('td', MODIFIED_QUANTITY);
+    cy.checkProduct({ name: MOCK.NAME, price: MOCK.MODIFIED_PRICE, quantity: MOCK.MODIFIED_QUANTITY });
 
     cy.get($ELEMENT.VENDING_MACHINE_MANANGE_MENU).click();
 
-    cy.get($ELEMENT.CHARGE_INPUT).type(VALID_CHARGE_AMOUNT);
+    cy.get($ELEMENT.CHARGE_INPUT).type(MOCK.VALID_CHARGE_AMOUNT);
     cy.get($ELEMENT.CHARGE_BUTTON).click();
 
-    cy.get($ELEMENT.CHARGE_AMOUNT).should('have.text', VALID_CHARGE_AMOUNT);
+    cy.get($ELEMENT.CHARGE_AMOUNT).should('have.text', MOCK.VALID_CHARGE_AMOUNT);
 
     cy.reload();
 
-    cy.get($ELEMENT.CHARGE_AMOUNT).should('have.text', VALID_CHARGE_AMOUNT);
+    cy.get($ELEMENT.CHARGE_AMOUNT).should('have.text', MOCK.VALID_CHARGE_AMOUNT);
   });
 });

@@ -52,7 +52,7 @@ export default class ChargeController {
   };
 
   addCharge = () => {
-    const { typedCoin, chargedTotal } = this.model.state;
+    const { typedCoin } = this.model.state;
 
     const isValidCoin = typedCoin >= 100 && typedCoin % 10 === 0 && typedCoin;
 
@@ -62,7 +62,7 @@ export default class ChargeController {
 
     this.model.setNewCoinMap(newCoinMap);
     this.model.addTotalCoin(typedCoin);
-    this.view.renderTotalCoin({ totalAmount: chargedTotal });
+    this.view.renderTotalCoin({ totalAmount: this.model.state.chargedTotal });
     this.view.renderCoinsList({ coinMap: newCoinMap });
     this.typeCoin(null);
   };
