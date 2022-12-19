@@ -1,0 +1,26 @@
+{
+  "name": "js-vending-machine",
+  "version": "1.0.0",
+  "description": "자바스크립트와 Cypress로 구현하는 자판기",
+  "main": "index.js",
+  "scripts": {
+    "cy": "cypress open",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sannimdev/js-vending-machine.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/sannimdev/js-vending-machine/issues"
+  },
+  "homepage": "https://github.com/sannimdev/js-vending-machine#readme",
+  "devDependencies": {
+    "cypress": "^12.0.1",
+    "eslint": "^8.29.0",
+    "prettier": "^2.8.1"
+  }
+}
