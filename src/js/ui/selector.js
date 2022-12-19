@@ -3,16 +3,16 @@
  * @param {string} selector
  * @returns {HTMLElement}
  */
-export const querySelector = (selector) => document.querySelector(selector);
+export const querySelector = (selector, parent = document) => parent.querySelector(selector);
 
 /**
  *
  * @param {string} selector
  * @returns {HTMLElement[]}
  */
-export const querySelectorAll = (selector) => document.querySelector(selector);
+export const querySelectorAll = (selector, parent = document) => parent.querySelector(selector);
 
-export const ELEMENT = {
+export const SELECTOR_MAP = {
   SECTION: {
     MANAGING_PRODUCT: '#section-managing-product',
     MANAGING_CHARGE: '#section-managing-charge',
@@ -31,8 +31,8 @@ export const ELEMENT = {
     CHARGE_AMOUNT: '#charge-amount-input',
   },
   TABLE: {
-    VENDING_MACHINE_PRODUCT_TBODY: '#vending-machine-products-table > tbody',
-    VENDING_MACHINE_CHARGE_AMOUNT: '#vending-machine-charge-amount > tbody',
+    VENDING_MACHINE_PRODUCT_TBODY: '#vending-machine-products',
+    VENDING_MACHINE_CHARGE_AMOUNT: '#vending-machine-charge-amount',
   },
   TAB_BUTTON: {
     MANAGING_PRODUCT: '#product-manage-menu',

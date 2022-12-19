@@ -3,24 +3,7 @@ import { removeSpace } from '../util/string.js';
 import { isAmountValid, isInsertedCoinsValid, isNameValid, isPriceValid } from './validator.js';
 import ValidationError from './ValidationError.js';
 
-/**
- * @typedef {Object} VendingMachine
- * @property {function} getProducts
- * @property {function} getChanges
- * @property {function} getTotalChanges
- * @property {function} addItem
- * @property {function} insertCoins
- */
-
-/**
- * @typedef {Object} VendingMachineItem
- * @property {number} index
- * @property {string} name
- * @property {number} price
- * @property {number} amount
- */
-
-class VendingMachine {
+export class VendingMachine {
   #products;
   #changes;
 

@@ -1,6 +1,6 @@
 import ValidationError from '../service/ValidationError.js';
 import { vendingMachine } from '../service/vendingmachine.js';
-import { querySelector } from './element.js';
+import { querySelector } from './selector.js';
 import { removeSpace } from '../util/string.js';
 
 /**

@@ -1,4 +1,4 @@
-import { ELEMENT, querySelector } from './ui/element.js';
+import { SELECTOR_MAP, querySelector } from './ui/selector.js';
 import {
   addProduct,
   clearChargeAmountInput,
@@ -15,29 +15,33 @@ import {
   setEnterEventListener,
 } from './ui/setListener.js';
 
-Object.keys(ELEMENT.TAB_BUTTON).forEach((key) => {
-  const tabButtonSelector = ELEMENT.TAB_BUTTON[key];
-  const tabSelector = ELEMENT.TABS[key];
+/**
+ * @typedef {import('../service/vendingmachine.js').VendingMachine} VendingMachine
+ */
+
+Object.keys(SELECTOR_MAP.TAB_BUTTON).forEach((key) => {
+  const tabButtonSelector = SELECTOR_MAP.TAB_BUTTON[key];
+  const tabSelector = SELECTOR_MAP.TABS[key];
   querySelector(tabButtonSelector).addEventListener('click', () => showTab(tabSelector));
 });
 
 setClickEventListenerWithVendingMachine(
-  ELEMENT.BUTTON.PRODUCT_ADD,
+  SELECTOR_MAP.BUTTON.PRODUCT_ADD,
   /**
-   * @param {import('./service/vendingmachine.js').VendingMachine} vendingMachine
+   * @param {VendingMachine} vendingMachine
    */
   (vendingMachine) => {
     addProduct(vendingMachine);
     clearProductInputs();
     renderProduct(vendingMachine);
-    querySelector(ELEMENT.INPUT.PRODUCT_NAME).focus();
+    querySelector(SELECTOR_MAP.INPUT.PRODUCT_NAME).focus();
   }
 );
 
 setClickEventListenerWithVendingMachine(
-  ELEMENT.BUTTON.CHARGE_AMOUNT,
+  SELECTOR_MAP.BUTTON.CHARGE_AMOUNT,
   /**
-   * @param {import('./service/vendingmachine.js').VendingMachine} vendingMachine
+   * @param {VendingMachine} vendingMachine
    */
   (vendingMachine) => {
     insertCoins(vendingMachine);
@@ -46,9 +50,9 @@ setClickEventListenerWithVendingMachine(
     renderTotalChargeAmount(vendingMachine);
   }
 );
-setChangeRemovingSpaceListener(ELEMENT.INPUT.PRODUCT_NAME);
+setChangeRemovingSpaceListener(SELECTOR_MAP.INPUT.PRODUCT_NAME);
 
-setEnterEventListener(ELEMENT.INPUT.PRODUCT_NAME, () => querySelector(ELEMENT.INPUT.PRODUCT_PRICE).focus());
-setEnterEventListener(ELEMENT.INPUT.PRODUCT_PRICE, () => querySelector(ELEMENT.INPUT.PRODUCT_AMOUNT).focus());
-setEnterEventListener(ELEMENT.INPUT.PRODUCT_AMOUNT, () => querySelector(ELEMENT.BUTTON.PRODUCT_ADD).click());
-setEnterEventListener(ELEMENT.INPUT.CHARGE_AMOUNT, () => querySelector(ELEMENT.BUTTON.CHARGE_AMOUNT).click());
+setEnterEventListener(SELECTOR_MAP.INPUT.PRODUCT_NAME, () => querySelector(SELECTOR_MAP.INPUT.PRODUCT_PRICE).focus());
+setEnterEventListener(SELECTOR_MAP.INPUT.PRODUCT_PRICE, () => querySelector(SELECTOR_MAP.INPUT.PRODUCT_AMOUNT).focus());
+setEnterEventListener(SELECTOR_MAP.INPUT.PRODUCT_AMOUNT, () => querySelector(SELECTOR_MAP.BUTTON.PRODUCT_ADD).click());
+setEnterEventListener(SELECTOR_MAP.INPUT.CHARGE_AMOUNT, () => querySelector(SELECTOR_MAP.BUTTON.CHARGE_AMOUNT).click());

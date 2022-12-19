@@ -1,26 +1,37 @@
 // eslint-disable-next-line no-unused-vars
 import { VENDING_MACHINE_CONSTANT } from '../service/constant.js';
-import { ELEMENT, querySelector } from './element.js';
+import { SELECTOR_MAP, querySelector } from './selector.js';
 
-const inputName = querySelector(ELEMENT.INPUT.PRODUCT_NAME);
-const inputPrice = querySelector(ELEMENT.INPUT.PRODUCT_PRICE);
-const inputAmount = querySelector(ELEMENT.INPUT.PRODUCT_AMOUNT);
-const inputChargeAmount = querySelector(ELEMENT.INPUT.CHARGE_AMOUNT);
+const $element = {
+  inputName: querySelector(SELECTOR_MAP.INPUT.PRODUCT_NAME),
+  inputPrice: querySelector(SELECTOR_MAP.INPUT.PRODUCT_PRICE),
+  inputAmount: querySelector(SELECTOR_MAP.INPUT.PRODUCT_AMOUNT),
+  inputChargeAmount: querySelector(SELECTOR_MAP.INPUT.CHARGE_AMOUNT),
+};
+/**
+ * @typedef {import('../service/vendingmachine.js').VendingMachine} VendingMachine
+ */
+
 /**
  *
- * @param {import('../service/vendingmachine.js').VendingMachine} vendingMachine
+ * @param {VendingMachine} vendingMachine
  */
 export const addProduct = (vendingMachine) => {
-  const [name, price, amount] = [inputName.value, Number(inputPrice.value), Number(inputAmount.value)];
+  // prettier-ignore
+  const [name, price, amount] = [
+    $element.inputName.value,
+    $element.inputPrice.value,
+    $element.inputAmount.value,
+  ];
   vendingMachine.addItem({ name, price, amount });
 };
 
 /**
  *
- * @param {import('../service/vendingmachine.js').VendingMachine} vendingMachine
+ * @param {VendingMachine} vendingMachine
  */
 export const insertCoins = (vendingMachine) => {
-  vendingMachine.insertCoins(Number(inputChargeAmount.value));
+  vendingMachine.insertCoins(Number($element.inputChargeAmount.value));
 };
 
 /**
@@ -32,31 +43,33 @@ const clearInput = (inputElement) => {
 };
 
 export const clearProductInputs = () => {
-  [inputName, inputPrice, inputAmount].forEach((input) => clearInput(input));
+  [$element.inputName, $element.inputPrice, $element.inputAmount].forEach((input) => clearInput(input));
 };
 
 export const clearChargeAmountInput = () => {
-  clearInput(inputChargeAmount);
+  clearInput($element.inputChargeAmount);
 };
 
 /**
  *
- * @param {import('../service/vendingmachine.js').VendingMachine} vendingMachine
+ * @param {VendingMachine} vendingMachine
  */
 export const renderProduct = (vendingMachine) => {
   const products = vendingMachine.getProducts();
-  const innerHTML = products.reduce((result, { name, price, amount }) => {
-    const row = `<tr>
-      ${[name, price, amount].reduce((result, prop) => result + `<td>${prop}</td>`, '')}
-    </tr>`;
-    return result + row;
-  }, '');
-  querySelector(ELEMENT.TABLE.VENDING_MACHINE_PRODUCT_TBODY).innerHTML = innerHTML;
+  querySelector(SELECTOR_MAP.TABLE.VENDING_MACHINE_PRODUCT_TBODY).innerHTML = products
+    .map(
+      ({ name, price, amount }) => `<tr>
+      <td>${name}</td>
+      <td>${price}</td>
+      <td>${amount}</td>
+    </tr>`
+    )
+    .join('');
 };
 
 /**
  *
- * @param {import('../service/vendingmachine.js').VendingMachine} vendingMachine
+ * @param {VendingMachine} vendingMachine
  */
 export const renderChargeAmount = (vendingMachine) => {
   const coins = vendingMachine.getChanges();
@@ -64,20 +77,20 @@ export const renderChargeAmount = (vendingMachine) => {
   const innerHTML = coinArray.reduce((result, unit) => {
     const row = `<tr>
       <td>${unit}${VENDING_MACHINE_CONSTANT.MONEY_UNIT}</td>
-      <td>${coins[unit]}${VENDING_MACHINE_CONSTANT.COINS_POSTFIX}</td>
+      <td>${coins[unit]}${VENDING_MACHINE_CONSTANT.AMOUNT_POSTFIX}</td>
     </tr>`;
     return result + row;
   }, '');
 
-  querySelector(ELEMENT.TABLE.VENDING_MACHINE_CHARGE_AMOUNT).innerHTML = innerHTML;
+  querySelector(SELECTOR_MAP.TABLE.VENDING_MACHINE_CHARGE_AMOUNT).innerHTML = innerHTML;
 };
 
 /**
  *
- * @param {import('../service/vendingmachine.js').VendingMachine} vendingMachine
+ * @param {VendingMachine} vendingMachine
  */
 export const renderTotalChargeAmount = (vendingMachine) => {
-  querySelector(ELEMENT.SPAN.CHARGE_AMOUNT).innerText = vendingMachine.getTotalChanges();
+  querySelector(SELECTOR_MAP.SPAN.CHARGE_AMOUNT).innerText = vendingMachine.getTotalChanges();
 };
 
 /**
@@ -85,7 +98,7 @@ export const renderTotalChargeAmount = (vendingMachine) => {
  * @param {string} tabElementSelector
  */
 export const showTab = (tabElement) => {
-  const tabs = Object.values(ELEMENT.TABS);
+  const tabs = Object.values(SELECTOR_MAP.TABS);
   tabs.forEach((tab) => {
     tab === tabElement ? querySelector(tab).classList.remove('hidden') : querySelector(tab).classList.add('hidden');
   });

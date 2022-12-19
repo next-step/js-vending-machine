@@ -1,34 +1,41 @@
 import { VENDING_MACHINE_CONSTANT } from './constant.js';
 
-const PRODUCT_MIN_PRICE = VENDING_MACHINE_CONSTANT.PRODUCT.MIN_PRICE;
-const PRODUCT_MULTIPLE_PRICE = VENDING_MACHINE_CONSTANT.PRODUCT.MULTIPLE_PRICE;
-const PRODUCT_MIN_AMOUNT = VENDING_MACHINE_CONSTANT.PRODUCT.MIN_AMOUNT;
+//prettier-ignore
+const {
+  MIN_PRICE: PRODUCT_MIN_PRICE,
+  MULTIPLE_PRICE: PRODUCT_MULTIPLE_PRICE,
+  MIN_AMOUNT: PRODUCT_MIN_AMOUNT,
+} = VENDING_MACHINE_CONSTANT.PRODUCT;
 
-const CHARGE_MIN_AMOUNT = VENDING_MACHINE_CONSTANT.CHANGES.MIN_AMOUNT;
-const CHARGE_MULTIPLE = VENDING_MACHINE_CONSTANT.CHANGES.MULTIPLE;
+//prettier-ignore
+const {
+  MIN_AMOUNT: CHARGE_MIN_AMOUNT,
+  MULTIPLE: CHARGE_MULTIPLE,
+} = VENDING_MACHINE_CONSTANT.CHANGES;
 
 /**
  *
- * @param {string|number} value
+ * @param {string} value
  * @returns
  */
-const isInteger = (value) => !isNaN(Number(value)) && !String(value).startsWith('1e-');
+const isInteger = (value) =>
+  !isNaN(Number(value)) && !(String(value).startsWith('1e-') || String(value).indexOf('.') >= 0);
 
 /**
  *
- * @param {number} n
+ * @param {string|number} n
  * @param {number} multiple
  * @returns {boolean}
  */
-const isMultipleOf = (n, multiple) => n % multiple === 0;
+const isMultipleOf = (n, multiple) => Number(n) % multiple === 0;
 
 /**
  *
- * @param {number} n
+ * @param {string|number} n
  * @param {number} minValue
  * @returns
  */
-const isGreaterThan = (n, minValue) => n >= minValue;
+const isGreaterThan = (n, minValue) => Number(n) >= minValue;
 
 /**
  *
@@ -38,21 +45,20 @@ export const isNameValid = (name) => (name || '').length > 0;
 
 /**
  *
- * @param {number} price
+ * @param {number|string} price
  */
 export const isPriceValid = (price) =>
   isInteger(price) && isGreaterThan(price, PRODUCT_MIN_PRICE) && isMultipleOf(price, PRODUCT_MULTIPLE_PRICE);
-
 /**
  *
- * @param {number} amount
+ * @param {number|string} amount
  * @returns
  */
 export const isAmountValid = (amount) => isInteger(amount) && isGreaterThan(amount, PRODUCT_MIN_AMOUNT);
 
 /**
  *
- * @param {number} amount
+ * @param {number|string} amount
  * @returns
  */
 export const isInsertedCoinsValid = (amount) =>

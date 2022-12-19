@@ -6,16 +6,16 @@ export const VENDING_MACHINE_CONSTANT = {
   },
   CHANGES: { UNITS: [500, 100, 50, 10], MIN_AMOUNT: 100, MULTIPLE: 10 },
   MONEY_UNIT: '원',
-  COINS_POSTFIX: '개',
+  AMOUNT_POSTFIX: '개',
 };
 
 export const ALERT_MESSAGE = {
   VALIDATION: {
     PRODUCT: {
       NAME_BLANK: '상품명에는 공백을 입력할 수 없습니다',
-      PRICE: '상품의 최소 금액은 100원 이상이며 10으로 나누어 떨어져야 합니다',
-      AMOUNT: '상품의 최소 수량은 1개 이상입니다',
+      PRICE: `상품의 최소 금액은 ${VENDING_MACHINE_CONSTANT.PRODUCT.MIN_PRICE}${VENDING_MACHINE_CONSTANT.MONEY_UNIT} 이상이며 ${VENDING_MACHINE_CONSTANT.PRODUCT.MULTIPLE_PRICE}으로 나누어 떨어져야 합니다`,
+      AMOUNT: `상품의 최소 수량은 ${VENDING_MACHINE_CONSTANT.PRODUCT.MIN_AMOUNT}${VENDING_MACHINE_CONSTANT.AMOUNT_POSTFIX} 이상입니다`,
     },
-    CHARGE_AMOUNT: '최소 충전 금액은 100원이며, 10원으로 나누어 떨어지는 금액으로만 충전할 수 있습니다',
+    CHARGE_AMOUNT: `최소 충전 금액은 ${VENDING_MACHINE_CONSTANT.CHANGES.MIN_AMOUNT}${VENDING_MACHINE_CONSTANT.MONEY_UNIT}이며, ${VENDING_MACHINE_CONSTANT.CHANGES.MULTIPLE}으로 나누어 떨어지는 금액으로만 충전할 수 있습니다`,
   },
 };
