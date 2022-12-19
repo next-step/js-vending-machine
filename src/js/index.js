@@ -1,4 +1,4 @@
-import { STORAGE } from '../constants/index.js';
+import { STORAGE } from '../constants/common.js';
 import ChargeController from './controller/chargeController.js';
 import MenuController from './controller/menuController.js';
 import ProductController from './controller/productController.js';

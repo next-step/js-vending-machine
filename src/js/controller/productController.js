@@ -28,11 +28,11 @@ class ProductController {
   };
 
   validatePrice = ({ price }) => {
-    if (price % 10 !== 0 || price < VALIDATE.MIN_PRICE) {
-      alert(ALERT.PRICE_VALIDATION);
-      return false;
-    }
-    return true;
+    const isValidPrice = price % 10 === 0 && price >= VALIDATE.MIN_PRICE;
+
+    if (!isValidPrice) alert(ALERT.PRICE_VALIDATION);
+
+    return isValidPrice;
   };
 
   checkSameProduct = ({ products, typedProduct }) => {

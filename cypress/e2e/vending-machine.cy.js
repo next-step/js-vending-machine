@@ -1,9 +1,5 @@
+import { STORAGE, VENDING_MACHINE_INITIAL_STATE } from '../../src/constants/common.js';
 import { $ELEMENT } from '../../src/constants/element.js';
-import { STORAGE, VENDING_MACHINE_INITIAL_STATE } from '../../src/constants/index.js';
-// import { VENDING_MACHINE_INITIAL_STATE } from '../../src/constants/index.js';
-// import storage from '../../src/js/utils/storage.js';
-
-// let stubVal = null;
 
 const [NAME, PRICE, QUANTITY] = ['콜라', 1000, 12];
 const [MODIFIED_PRICE, MODIFIED_QUANTITY] = [1500, 10];
@@ -11,13 +7,9 @@ const VALID_CHARGE_AMOUNT = 180;
 
 describe('상품 관리하기', () => {
   beforeEach(() => {
-    // cy.stub(storage, 'getStorage', () => {
-    //   stubVal = VENDING_MACHINE_INITIAL_STATE;
-    //   return stubVal;
-    // });
     cy.visit('../../index.html', {
       onBeforeLoad: function (window) {
-        window.localStorage.setItem(STORAGE.KEY, VENDING_MACHINE_INITIAL_STATE);
+        window.localStorage.setItem(STORAGE.KEY, JSON.stringify(VENDING_MACHINE_INITIAL_STATE));
       },
     });
   });
@@ -246,7 +238,7 @@ describe('새로고침 시', () => {
   beforeEach(() => {
     cy.visit('../../index.html', {
       onBeforeLoad: function (window) {
-        window.localStorage.setItem(STORAGE.KEY, VENDING_MACHINE_INITIAL_STATE);
+        window.localStorage.setItem(STORAGE.KEY, JSON.stringify(VENDING_MACHINE_INITIAL_STATE));
       },
     });
   });

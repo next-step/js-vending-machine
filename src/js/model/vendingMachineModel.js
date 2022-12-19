@@ -1,4 +1,4 @@
-import { DEFAULT_TYPED_PRODUCT, STORAGE, VENDING_MACHINE_INITIAL_STATE } from '../../constants/index.js';
+import { DEFAULT_TYPED_PRODUCT, STORAGE, VENDING_MACHINE_INITIAL_STATE } from '../../constants/common.js';
 import storage from '../utils/storage.js';
 
 class vendingMachineModel {
@@ -9,8 +9,6 @@ class vendingMachineModel {
   }
 
   setState = (newState) => {
-    //*TODO: 여기에 에러 핸들링 필요함(두개 state, newState 키를 비교해서 다르면 에러 반환)
-
     this.state = { ...this.state, ...newState };
   };
 
