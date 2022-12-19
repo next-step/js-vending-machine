@@ -8,9 +8,18 @@ export const DEFAULT_TYPED_PRODUCT = {
   quantity: null,
 };
 
+export const DEFAULT_CHARGE_COINS = {
+  500: 0,
+  100: 0,
+  50: 0,
+  10: 0,
+};
+
 export const VENDING_MACHINE_INITIAL_STATE = {
+  hashId: 'product-manage-menu',
   typedProduct: DEFAULT_TYPED_PRODUCT,
   products: [],
-  charginValue: 0,
-  hashId: 'product-manage-menu',
+  typedCoin: 0,
+  chargedTotal: 0,
+  chargedCoins: DEFAULT_CHARGE_COINS,
 };

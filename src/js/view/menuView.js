@@ -17,15 +17,15 @@ export default class MenuView {
 
   //*TODO: 확장성 생각해서 개선 필요함.
   renderTab = ({ tabId }) => {
-    this.menus.forEach((menu) => {
+    const { menus, MENU_CONTAINER_MAP } = this;
+
+    menus.forEach((menu) => {
       if (menu.id === tabId) {
         menu.classList.add('active');
-        // this.MENU_CONTAINER_MAP.get(menu.id).classList.add('visible');
-        this.MENU_CONTAINER_MAP.get(menu.id).classList.remove('invisible');
+        MENU_CONTAINER_MAP.get(menu.id).classList.remove('invisible');
       } else {
         menu.classList.remove('active');
-        this.MENU_CONTAINER_MAP.get(menu.id).classList.add('invisible');
-        // this.MENU_CONTAINER_MAP.get(menu.id).classList.remove('visible');
+        MENU_CONTAINER_MAP.get(menu.id).classList.add('invisible');
       }
     });
   };

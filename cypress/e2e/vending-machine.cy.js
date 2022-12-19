@@ -149,34 +149,74 @@ describe('상품 관리하기', () => {
 describe('잔돈 충전하기', () => {
   beforeEach(() => {
     cy.visit('../../index.html');
-    //탭 클릭하여 이동하기
+    cy.get($ELEMENT.VENDING_MACHINE_MANANGE_MENU).click();
   });
   context('잔돈 입력 시', () => {
-    it('충전 값을 입력할 input이 존재해야 한다.', () => {});
+    it('충전 값을 입력할 input이 존재해야 한다.', () => {
+      cy.get($ELEMENT.CHARGE_INPUT).should('exist');
+    });
 
-    it('최초 자판기가 보유한 금액은 0원이며 동전의 개수도 0개이다', () => {});
+    it('충전 값을 제출할 버튼이 존재해야 한다.', () => {
+      cy.get($ELEMENT.CHARGE_BUTTON).should('exist');
+    });
+
+    it('충전된 총 금액을 보여줄 텍스트가 존재해야 한다.', () => {
+      cy.get($ELEMENT.CHARGE_AMOUNT).should('exist');
+    });
+
+    it('최초 자판기가 보유한 금액은 0원이며 동전의 개수도 0개이다', () => {
+      const INITIAL_VALUE = 0;
+      cy.get($ELEMENT.CHARGE_AMOUNT).should('have.text', INITIAL_VALUE);
+      cy.get($ELEMENT.COIN_500_COUNT).should('have.text', INITIAL_VALUE);
+      cy.get($ELEMENT.COIN_100_COUNT).should('have.text', INITIAL_VALUE);
+      cy.get($ELEMENT.COIN_50_COUNT).should('have.text', INITIAL_VALUE);
+      cy.get($ELEMENT.COIN_10_COUNT).should('have.text', INITIAL_VALUE);
+    });
   });
 
   context('잔돈 충전  시', () => {
-    it('충전된 잔돈을 보여줄 테이블이 존재해야 한다.', () => {});
-
-    it('잔돈을 충전할 버튼이 존재해야한다.', () => {});
-
-    it('최소 충전금액은 100원이며 그렇지 않을경우 경고창을 띄워준다.', () => {});
-
-    it('10원으로 나누어 떨어지는 금액만 충전이 가능하다. 그렇지 않은 경우 경고창을 띄워준다.', () => {});
-
-    it('충전된 총 금액을 보여줄 텍스트가 존재해야 한다.', () => {});
-
-    it('동전은 무작위로 생성된다', () => {
-      //stub please
+    it('충전된 잔돈을 보여줄 테이블이 존재해야 한다.', () => {
+      cy.get($ELEMENT.CASH_BOX_CONTAINER).should('exist');
     });
 
-    it('동전은 500, 100, 50, 10원의 동전만 생성된다.', () => {});
+    it('최소 충전금액은 100원이며 그렇지 않을경우 경고창을 띄워준다.', () => {
+      const INVALID_CHARGE_AMOUNT = 80;
+      cy.get($ELEMENT.CHARGE_INPUT).type(INVALID_CHARGE_AMOUNT);
+      cy.get($ELEMENT.CHARGE_BUTTON).click();
+      cy.on('window:alert', (text) => {
+        expect(text).to.contains(
+          '유효하지 않은 충전 가격입니다. 충전 최소금액은 100원이며 10원으로 나누어 떨어져야 합니다.'
+        );
+      });
+    });
+
+    it('10원으로 나누어 떨어지는 금액만 충전이 가능하다. 그렇지 않은 경우 경고창을 띄워준다.', () => {
+      const INVALID_CHARGE_AMOUNT = 82;
+      cy.get($ELEMENT.CHARGE_INPUT).type(INVALID_CHARGE_AMOUNT);
+      cy.get($ELEMENT.CHARGE_BUTTON).click();
+      cy.on('window:alert', (text) => {
+        expect(text).to.contains(
+          '유효하지 않은 충전 가격입니다. 충전 최소금액은 100원이며 10원으로 나누어 떨어져야 합니다.'
+        );
+      });
+    });
   });
 
   context('탭 이동 시', () => {
-    it('다른 탭으로 이동 후 다시 돌아와도 자판기가 보유한 금액은 유지되어야 한다.', () => {});
+    it('다른 탭으로 이동 후 다시 돌아와도 자판기가 보유한 금액은 유지되어야 한다.', () => {
+      it('다른 탭으로 이동 후 다시 돌아와도 기존의 목록이 유지되어야 한다.', () => {
+        const VALID_CHARGE_AMOUNT = 180;
+        cy.get($ELEMENT.CHARGE_INPUT).type(VALID_CHARGE_AMOUNT);
+        cy.get($ELEMENT.CHARGE_BUTTON).click();
+
+        cy.get($ELEMENT.CHARGE_AMOUNT).should('have.text', VALID_CHARGE_AMOUNT);
+
+        cy.get($ELEMENT.PRODUCT_MANGNE_MENU).click();
+        cy.get($ELEMENT.VENDING_MACHINE_MANANGE_MENU).click();
+
+        cy.get($ELEMENT.CHARGE_AMOUNT).should('have.text', VALID_CHARGE_AMOUNT);
+      });
+    });
   });
 });
 

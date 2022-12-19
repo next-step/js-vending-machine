@@ -11,4 +11,12 @@ export const $ELEMENT = {
   PRODUCT_MANGNE_MENU: '#product-manage-menu',
   VENDING_MACHINE_MANANGE_MENU: '#vending-machine-manage-menu',
   PRODUCT_PURCHASE_MENU: '#product-purchase-menu',
+  CHARGE_INPUT: '#charge-input',
+  CHARGE_BUTTON: '#charge-button',
+  CHARGE_AMOUNT: '#charge-amount',
+  CASH_BOX_CONTAINER: '.cashbox-change',
+  COIN_500_COUNT: '#coin-500-quantity',
+  COIN_100_COUNT: '#coin-100-quantity',
+  COIN_50_COUNT: '#coin-50-quantity',
+  COIN_10_COUNT: '#coin-10-quantity',
 };

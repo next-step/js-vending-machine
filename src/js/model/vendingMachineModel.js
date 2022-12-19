@@ -41,6 +41,18 @@ class vendingMachineModel {
       products: newProduct,
     });
   };
+
+  addTypeCoins = (coinValue) => {
+    this.setState({
+      typedCoin: coinValue,
+    });
+  };
+
+  addTotalCoin = (typedCoin) => {
+    this.setState({
+      chargedTotal: this.state.chargedTotal + typedCoin,
+    });
+  };
 }
 
 export default vendingMachineModel;

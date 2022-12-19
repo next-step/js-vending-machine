@@ -10,15 +10,17 @@
 Model: 데이터(State) 저장공간, 데이터 변경로직, 이벤트바인더
 View: 유저에게 컨트롤러에서 변화된 모델의 데이터 기반으로 제공될 화면 변화 로직
 Controller: 유저 액션을 통해 발생될 비즈니스 로직 (변경된 state로 렌더링도 유발)
-
 */
 
+import ChargeController from './controller/chargeController.js';
 import MenuController from './controller/menuController.js';
 import ProductController from './controller/productController.js';
 import VendingMachineModel from './model/vendingMachineModel.js';
+import ChargeView from './view/chargeView.js';
+import MenuView from './view/menuView.js';
 import ProductView from './view/productView.js';
-import MenuView from './view/tabView.js';
 
 const vendingMachineModel = new VendingMachineModel();
 new MenuController({ model: vendingMachineModel, view: new MenuView() });
 new ProductController({ model: vendingMachineModel, view: new ProductView() });
+new ChargeController({ model: vendingMachineModel, view: new ChargeView() });

@@ -179,7 +179,6 @@ button:active {
 }
 
 .active {
-  /* border: 2px solid black; */
   background-color: black;
   color: white;
   border: none;
@@ -187,4 +186,8 @@ button:active {
 
 .invisible {
   display: none;
+}
+
+.contents-container table {
+  margin: 12px auto;
 }
