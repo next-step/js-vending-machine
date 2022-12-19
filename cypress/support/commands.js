@@ -54,3 +54,12 @@ Cypress.Commands.addAll({
       });
   },
 });
+
+Cypress.Commands.addAll({
+  typePurchaseMoney(money) {
+    cy.get(SELECTOR.PRODUCT_PURCHASE_MONEY_INPUT).type(money);
+  },
+  clickPurchaseMoneyAddButton() {
+    cy.get(SELECTOR.PRODUCT_PURCHASE_MONEY_BUTTON).click();
+  },
+});

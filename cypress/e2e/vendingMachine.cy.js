@@ -182,11 +182,11 @@ describe('상품관리 탭을 테스트한다.', () => {
   });
 });
 
-describe('잔돈 충전 탭을 테스트한다.', () => {
+describe('잔돈충전 탭을 테스트한다.', () => {
+  beforeEach(() => {
+    cy.get(SELECTOR.VENDING_MACHINE_MANAGE_MENU).click();
+  });
   context('잔돈 충전을 할 때', () => {
-    beforeEach(() => {
-      cy.get(SELECTOR.VENDING_MACHINE_MANAGE_MENU).click();
-    });
     it('최초의 자판기 보유 금액은 0원이고, 각 동전의 개수는 0개이다.', () => {
       cy.get(SELECTOR.VENDING_MACHINE_CHARGE_AMOUNT).should('have.text', '0');
 
@@ -286,6 +286,116 @@ describe('잔돈 충전 탭을 테스트한다.', () => {
       cy.get(SELECTOR.VENDING_MACHINE_MANAGE_MENU).click();
 
       cy.get(SELECTOR.VENDING_MACHINE_CHARGE_AMOUNT).should('have.text', '1000');
+    });
+  });
+});
+describe('상품구매 탭을 테스트한다.', () => {
+  beforeEach(() => {
+    cy.get(SELECTOR.PRODUCT_PURCHASE_MENU).click();
+  });
+  context('금액을 충전할 때', () => {
+    it('최초 충전 금액은 0원이고, 반한된 각 동전의 개수는 0개이다.', () => {
+      cy.get(SELECTOR.PRODUCT_PURCHASE_CHARGE_AMOUNT).should('have.text', 0);
+      cy.get(SELECTOR.VENDING_MACHINE_COIN_500_QUANTITY).should('have.text', '0개');
+      cy.get(SELECTOR.VENDING_MACHINE_COIN_100_QUANTITY).should('have.text', '0개');
+      cy.get(SELECTOR.VENDING_MACHINE_COIN_50_QUANTITY).should('have.text', '0개');
+      cy.get(SELECTOR.VENDING_MACHINE_COIN_10_QUANTITY).should('have.text', '0개');
+    });
+
+    it('10원 미만의 금액을 충전하면 alert를 띄워준다.', () => {
+      const stub = getAlertStub();
+
+      cy.typePurchaseMoney(5);
+      cy.clickPurchaseMoneyAddButton().then(() => {
+        stub.calledWith(ERROR_MESSAGE.INVALID_PURCHASE_PRODUCT_MIN_MONEY);
+      });
+    });
+
+    it('충전 금액이 10원으로 나누어 떨어지지 않으면 alert를 띄워준다.', () => {
+      const stub = getAlertStub();
+
+      cy.typePurchaseMoney(1043);
+      cy.clickPurchaseMoneyAddButton().then(() => {
+        stub.calledWith(ERROR_MESSAGE.INVALID_PURCHASE_PRODUCT_MONEY_UNIT);
+      });
+    });
+
+    it('최소 충전 금액은 10원이다.', () => {
+      cy.typePurchaseMoney(10);
+      cy.clickPurchaseMoneyAddButton();
+
+      cy.get(SELECTOR.PRODUCT_PURCHASE_CHARGE_AMOUNT).should('have.text', 10);
+    });
+
+    it('금액은 누적으로 충전이 가능하다.', () => {
+      cy.typePurchaseMoney(1000);
+      cy.clickPurchaseMoneyAddButton();
+
+      cy.get(SELECTOR.PRODUCT_PURCHASE_CHARGE_AMOUNT).should('have.text', 1000);
+
+      cy.typePurchaseMoney(2000);
+      cy.clickPurchaseMoneyAddButton();
+
+      cy.get(SELECTOR.PRODUCT_PURCHASE_CHARGE_AMOUNT).should('have.text', 3000);
+    });
+  });
+
+  context('상품을 구매할 때', () => {
+    it('수량이 0인 상품을 구매할 수 없고 alert를 띄워준다.', () => {
+      const stub = getAlertStub();
+
+      cy.get(SELECTOR.PRODUCT_MANAGE_MENU).click();
+      const vitamin = { name: 'vitamin', price: 1000, quantity: 1 };
+      cy.addProduct(vitamin);
+
+      cy.get(SELECTOR.PRODUCT_PURCHASE_MENU).click();
+      cy.typePurchaseMoney(2000);
+      cy.clickPurchaseMoneyAddButton();
+
+      cy.get(SELECTOR.PRODUCT_PURCHASE_BUY_BUTTON).click();
+      cy.get(SELECTOR.PRODUCT_PURCHASE_BUY_BUTTON)
+        .click()
+        .then(() => {
+          stub.calledWith(ERROR_MESSAGE.INVALID_PURCHASE_PRODUCT_MIN_QUANTITY);
+        });
+    });
+
+    it('구매하려는 상품 가격이 보유하고 있는 금액보다 높은 경우 상품을 구매할 수 없고 alert를 띄워준다.', () => {
+      const stub = getAlertStub();
+
+      cy.get(SELECTOR.PRODUCT_MANAGE_MENU).click();
+      const vitamin = { name: 'vitamin', price: 2000, quantity: 1 };
+      cy.addProduct(vitamin);
+
+      cy.get(SELECTOR.PRODUCT_PURCHASE_MENU).click();
+      cy.typePurchaseMoney(1000);
+      cy.clickPurchaseMoneyAddButton();
+
+      cy.get(SELECTOR.PRODUCT_PURCHASE_BUY_BUTTON)
+        .click()
+        .then(() => {
+          stub.calledWith(ERROR_MESSAGE.INVALID_PURCHASE_PRODUCT_CHARGE_AMOUNT);
+        });
+    });
+
+    it('상품 구매에 성공하면, 충전한 금액이 상품 금액만큼 차감 된다. 또한 상품의 수량도 차감된다.', () => {
+      cy.get(SELECTOR.PRODUCT_MANAGE_MENU).click();
+      const vitamin = { name: 'vitamin', price: 2000, quantity: 1 };
+      cy.addProduct(vitamin);
+
+      cy.get(SELECTOR.PRODUCT_PURCHASE_MENU).click();
+      cy.typePurchaseMoney(5000);
+      cy.clickPurchaseMoneyAddButton();
+
+      cy.get(SELECTOR.PRODUCT_PURCHASE_BUY_BUTTON).click();
+
+      cy.get(SELECTOR.PRODUCT_PURCHASE_CHARGE_AMOUNT).should('have.text', 3000);
+
+      cy.get(SELECTOR.PRODUCT_INVENTORY_CONTAINER)
+        .children()
+        .each(($tr) => {
+          expect(Number($tr.children()[PRODUCT_INDEX.QUANTITY].textContent)).to.equal(vitamin.quantity - 1);
+        });
     });
   });
 });
