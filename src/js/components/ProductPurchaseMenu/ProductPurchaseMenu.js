@@ -5,7 +5,13 @@ import { COIN_500, COIN_100, COIN_50, COIN_10, COINS } from '../../constants/ven
 import { $, $all } from '../../utils/dom.js';
 import { CustomError } from '../../utils/error.js';
 import { chargeStorage, coinsStorage, productStorage, returnCoinsStorage } from '../../utils/storage.js';
-import { validatePurchaseMoney, validatePurchasePrice, validatePurchaseQuantity } from '../../utils/validation.js';
+import {
+  validatePurchaseMoney,
+  validatePurchasePrice,
+  validatePurchaseQuantity,
+  validateReturnChargeAmount,
+  validateReturnResult,
+} from '../../utils/validation.js';
 
 export default class ProductPurchaseMenu extends HTMLElement {
   #state = {
@@ -74,38 +80,48 @@ export default class ProductPurchaseMenu extends HTMLElement {
   }
 
   #handleReturnClick() {
-    const coins = coinsStorage.get();
+    try {
+      validateReturnChargeAmount(this.#state.chargeAmount);
 
-    const { returnCoins, charge } = COINS.UNITS.reduce(
-      (prev, acc) => {
-        let currentCoin = prev.charge;
-        let count = 0;
+      const coins = coinsStorage.get();
 
-        while (coins[acc] > 0) {
-          if (currentCoin < acc) break;
+      const { returnCoins, charge } = COINS.UNITS.reduce(
+        (prev, acc) => {
+          let currentCoin = prev.charge;
+          let count = 0;
 
-          currentCoin -= acc;
-          count++;
-          coins[acc]--;
-        }
+          while (coins[acc] > 0) {
+            if (currentCoin < acc) break;
 
-        const newCoins = { ...prev.returnCoins, [acc]: count };
-        const remainCharge = currentCoin;
+            currentCoin -= acc;
+            count++;
+            coins[acc]--;
+          }
 
-        return { returnCoins: newCoins, charge: remainCharge };
-      },
+          const newCoins = { ...prev.returnCoins, [acc]: count };
+          const remainCharge = currentCoin;
 
-      { returnCoins: {}, charge: this.#state.chargeAmount },
-    );
+          return { returnCoins: newCoins, charge: remainCharge };
+        },
 
-    const newCharge = chargeStorage.get() - this.#state.chargeAmount;
+        { returnCoins: {}, charge: this.#state.chargeAmount },
+      );
 
-    coinsStorage.set(coins);
-    chargeStorage.set(newCharge > 0 ? newCharge : 0);
-    this.#state.returnCoins = returnCoins;
-    this.#state.chargeAmount = charge;
-    this.#render();
-    this.#bindEvents();
+      validateReturnResult(this.#state.chargeAmount, charge);
+
+      const newCharge = chargeStorage.get() - this.#state.chargeAmount;
+
+      coinsStorage.set(coins);
+      chargeStorage.set(newCharge > 0 ? newCharge : 0);
+      this.#state.returnCoins = returnCoins;
+      this.#state.chargeAmount = charge;
+      this.#render();
+      this.#bindEvents();
+    } catch (error) {
+      if (error instanceof CustomError) {
+        alert(error.message);
+      }
+    }
   }
 
   #bindEvents() {

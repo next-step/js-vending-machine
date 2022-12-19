@@ -14,6 +14,7 @@ const validator = {
   gt: (baseValue, compareValue) => baseValue > compareValue,
   gte: (baseValue, compareValue) => baseValue >= compareValue,
   eq: (baseValue, compareValue) => baseValue === compareValue,
+  ne: (baseValue, compareValue) => baseValue !== compareValue,
 };
 
 const validate = (predicate, error) => {
@@ -76,5 +77,16 @@ export const validatePurchasePrice = (chargeAmount, productPrice) => {
   validate(
     validator.gte(chargeAmount, productPrice),
     new InvalidValueError(ERROR_MESSAGE.INVALID_PURCHASE_PRODUCT_CHARGE_AMOUNT),
+  );
+};
+
+export const validateReturnChargeAmount = (chargeAmount) => {
+  validate(validator.gt(chargeAmount, 0), new InvalidValueError(ERROR_MESSAGE.INVALID_PURCHASE_RETURN_CHARGE_AMOUNT));
+};
+
+export const validateReturnResult = (prevChargeAmount, nextChargeAmount) => {
+  validate(
+    validator.ne(prevChargeAmount, nextChargeAmount),
+    new InvalidValueError(ERROR_MESSAGE.INVALID_PURCHASE_RETURN_RESULT),
   );
 };

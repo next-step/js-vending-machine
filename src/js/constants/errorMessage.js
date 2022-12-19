@@ -17,4 +17,6 @@ export const ERROR_MESSAGE = {
   INVALID_PURCHASE_PRODUCT_MONEY_UNIT: `${MONEY.UNIT}원으로 나누어 떨어지는 금액만 충전이 가능합니다.`,
   INVALID_PURCHASE_PRODUCT_CHARGE_AMOUNT: '충전 금액이 구매하려는 제품의 가격보다 적습니다.',
   INVALID_PURCHASE_PRODUCT_MIN_QUANTITY: `수량이 ${PURCHASE_PRODUCT.MIN_QUANTITY}인 상품은 구매할 수 없습니다.`,
+  INVALID_PURCHASE_RETURN_CHARGE_AMOUNT: '충전 금액이 0원이면 잔돈을 반환할 수 없습니다.',
+  INVALID_PURCHASE_RETURN_RESULT: '자판기의 잔돈이 없어서 반환이 불가능합니다.',
 };
