@@ -1,5 +1,6 @@
 import { ERROR_MESSAGE } from '../constants/errorMessage.js';
 import { PRODUCT } from '../constants/productManageMenu.js';
+import { MONEY, PURCHASE_PRODUCT } from '../constants/productPurchaseMenu.js';
 import { CHARGE } from '../constants/vendingMachineManageMenu.js';
 import { EmptyInputError, InvalidValueError } from './error.js';
 
@@ -53,5 +54,27 @@ export const validateVendingMachineCharge = (charge) => {
   validate(
     validator.isDivisible(charge, CHARGE.DIVISIBLE_UNIT),
     new InvalidValueError(ERROR_MESSAGE.INVALID_VENDING_MACHINE_CHARGE_UNIT),
+  );
+};
+
+export const validatePurchaseMoney = (money) => {
+  validate(validator.gte(money, MONEY.MIN), new InvalidValueError(ERROR_MESSAGE.INVALID_PURCHASE_PRODUCT_MIN_MONEY));
+  validate(
+    validator.isDivisible(money, MONEY.UNIT),
+    new InvalidValueError(ERROR_MESSAGE.INVALID_PURCHASE_PRODUCT_MONEY_UNIT),
+  );
+};
+
+export const validatePurchaseQuantity = (quantity) => {
+  validate(
+    validator.gt(quantity, PURCHASE_PRODUCT.MIN_QUANTITY),
+    new InvalidValueError(ERROR_MESSAGE.INVALID_PURCHASE_PRODUCT_MIN_QUANTITY),
+  );
+};
+
+export const validatePurchasePrice = (chargeAmount, productPrice) => {
+  validate(
+    validator.gte(chargeAmount, productPrice),
+    new InvalidValueError(ERROR_MESSAGE.INVALID_PURCHASE_PRODUCT_CHARGE_AMOUNT),
   );
 };

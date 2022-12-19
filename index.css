@@ -24,6 +24,10 @@
   width: 445px;
 }
 
+.cashbox-remaining {
+  margin: 0 auto;
+}
+
 .cashbox-change col,
 .cashbox-remaining col {
   width: 65px;

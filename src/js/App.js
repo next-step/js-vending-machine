@@ -4,6 +4,7 @@ import { $ } from './utils/dom.js';
 
 import './components/ProductManageMenu/index.js';
 import './components/VendingMachineManageMenu/index.js';
+import './components/ProductPurchaseMenu/index.js';
 
 const CATEGORY = {
   PRODUCT_MANAGE_MENU: 'product-manage-menu',
@@ -29,7 +30,7 @@ class App extends HTMLElement {
       this.innerHTML = '<vending-machine-manage-menu />';
     }
     if (this.#state.category === CATEGORY.PRODUCT_PURCHASE_MENU) {
-      this.innerHTML = '<div>product-purchase-menu</div>';
+      this.innerHTML = '<product-purchase-menu />';
     }
   }
 

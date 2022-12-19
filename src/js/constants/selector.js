@@ -21,4 +21,9 @@ export const SELECTOR = {
   VENDING_MACHINE_COIN_100_QUANTITY: '#vending-machine-coin-100-quantity',
   VENDING_MACHINE_COIN_50_QUANTITY: '#vending-machine-coin-50-quantity',
   VENDING_MACHINE_COIN_10_QUANTITY: '#vending-machine-coin-10-quantity',
+
+  PRODUCT_PURCHASE_MONEY_INPUT: '#product-purchase-money-input',
+  PRODUCT_PURCHASE_MONEY_BUTTON: '#product-purchase-money-button',
+  PRODUCT_PURCHASE_CHARGE_AMOUNT: '#product-purchase-charge-amount',
+  PRODUCT_PURCHASE_BUY_BUTTON: '#product-purchase-buy-button',
 };
