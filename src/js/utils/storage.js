@@ -1,4 +1,4 @@
-import { CHARGE_KEY, COINS_KEY, PRODUCT_KEY } from '../constants/storage.js';
+import { CHARGE_KEY, COINS_KEY, PRODUCT_KEY, RETURN_COINS_KEY } from '../constants/storage.js';
 import { CHARGE, COINS } from '../constants/vendingMachineManageMenu.js';
 
 export const productStorage = {
@@ -26,5 +26,15 @@ export const coinsStorage = {
   },
   set(value) {
     localStorage.setItem(COINS_KEY, JSON.stringify(value));
+  },
+};
+
+export const returnCoinsStorage = {
+  get() {
+    return JSON.parse(localStorage.getItem(RETURN_COINS_KEY)) ?? COINS.INIT;
+  },
+
+  set(value) {
+    localStorage.setItem(RETURN_COINS_KEY, JSON.stringify(value));
   },
 };

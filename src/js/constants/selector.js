@@ -26,4 +26,5 @@ export const SELECTOR = {
   PRODUCT_PURCHASE_MONEY_BUTTON: '#product-purchase-money-button',
   PRODUCT_PURCHASE_CHARGE_AMOUNT: '#product-purchase-charge-amount',
   PRODUCT_PURCHASE_BUY_BUTTON: '#product-purchase-buy-button',
+  PRODUCT_PURCHASE_RETURN_BUTTON: '#product-purchase-return-button',
 };

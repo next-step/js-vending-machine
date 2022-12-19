@@ -1,10 +1,10 @@
 /* eslint-disable class-methods-use-this */
 import { SELECTOR } from '../../constants/selector.js';
 import { PRODUCT_KEY } from '../../constants/storage.js';
-import { COIN_500, COIN_100, COIN_50, COIN_10 } from '../../constants/vendingMachineManageMenu.js';
+import { COIN_500, COIN_100, COIN_50, COIN_10, COINS } from '../../constants/vendingMachineManageMenu.js';
 import { $, $all } from '../../utils/dom.js';
 import { CustomError } from '../../utils/error.js';
-import { coinsStorage, productStorage } from '../../utils/storage.js';
+import { chargeStorage, coinsStorage, productStorage, returnCoinsStorage } from '../../utils/storage.js';
 import { validatePurchaseMoney, validatePurchasePrice, validatePurchaseQuantity } from '../../utils/validation.js';
 
 export default class ProductPurchaseMenu extends HTMLElement {
@@ -12,7 +12,7 @@ export default class ProductPurchaseMenu extends HTMLElement {
     money: 0,
     chargeAmount: 0,
     products: new Map(),
-    coins: { 500: 0, 100: 0, 50: 0, 10: 0 },
+    returnCoins: { 500: 0, 100: 0, 50: 0, 10: 0 },
   };
 
   connectedCallback() {
@@ -26,7 +26,7 @@ export default class ProductPurchaseMenu extends HTMLElement {
       money: 0,
       chargeAmount: 0,
       products: productStorage.get(PRODUCT_KEY),
-      coins: coinsStorage.get(),
+      returnCoins: returnCoinsStorage.get(),
     };
   }
 
@@ -73,9 +73,45 @@ export default class ProductPurchaseMenu extends HTMLElement {
     }
   }
 
+  #handleReturnClick() {
+    const coins = coinsStorage.get();
+
+    const { returnCoins, charge } = COINS.UNITS.reduce(
+      (prev, acc) => {
+        let currentCoin = prev.charge;
+        let count = 0;
+
+        while (coins[acc] > 0) {
+          if (currentCoin < acc) break;
+
+          currentCoin -= acc;
+          count++;
+          coins[acc]--;
+        }
+
+        const newCoins = { ...prev.returnCoins, [acc]: count };
+        const remainCharge = currentCoin;
+
+        return { returnCoins: newCoins, charge: remainCharge };
+      },
+
+      { returnCoins: {}, charge: this.#state.chargeAmount },
+    );
+
+    const newCharge = chargeStorage.get() - this.#state.chargeAmount;
+
+    coinsStorage.set(coins);
+    chargeStorage.set(newCharge > 0 ? newCharge : 0);
+    this.#state.returnCoins = returnCoins;
+    this.#state.chargeAmount = charge;
+    this.#render();
+    this.#bindEvents();
+  }
+
   #bindEvents() {
     $(SELECTOR.PRODUCT_PURCHASE_MONEY_INPUT).addEventListener('input', this.#handleMoneyChange.bind(this));
     $(SELECTOR.PRODUCT_PURCHASE_MONEY_BUTTON).addEventListener('click', this.#handleMoneyClick.bind(this));
+    $(SELECTOR.PRODUCT_PURCHASE_RETURN_BUTTON).addEventListener('click', this.#handleReturnClick.bind(this));
 
     $all(SELECTOR.PRODUCT_PURCHASE_BUY_BUTTON).forEach((elem) => {
       const { name } = elem.dataset;
@@ -123,7 +159,8 @@ export default class ProductPurchaseMenu extends HTMLElement {
   ${template}
   </tbody>
 </table>
-<h3>동전 보유 현황</h3>
+<h3>잔돈</h3>
+<button id='product-purchase-return-button'>반환하기</button>
 <table class="cashbox-remaining">
   <colgroup>
     <col />
@@ -138,19 +175,19 @@ export default class ProductPurchaseMenu extends HTMLElement {
   <tbody id='vending-machine-coins-container'>
     <tr>
       <td>500원</td>
-      <td id="vending-machine-coin-500-quantity">${this.#state.coins[COIN_500]}개</td>
+      <td id="vending-machine-coin-500-quantity">${this.#state.returnCoins[COIN_500]}개</td>
     </tr>
     <tr>
       <td>100원</td>
-      <td id="vending-machine-coin-100-quantity">${this.#state.coins[COIN_100]}개</td>
+      <td id="vending-machine-coin-100-quantity">${this.#state.returnCoins[COIN_100]}개</td>
     </tr>
     <tr>
       <td>50원</td>
-      <td id="vending-machine-coin-50-quantity">${this.#state.coins[COIN_50]}개</td>
+      <td id="vending-machine-coin-50-quantity">${this.#state.returnCoins[COIN_50]}개</td>
     </tr>
     <tr>
       <td>10원</td>
-      <td id="vending-machine-coin-10-quantity">${this.#state.coins[COIN_10]}개</td>
+      <td id="vending-machine-coin-10-quantity">${this.#state.returnCoins[COIN_10]}개</td>
     </tr>
   </tbody>
 </table>
