@@ -41,6 +41,12 @@ export const displayFlex = ($element) => $element.style.display = 'flex';
 export const qs = (className, $parent = document) => $parent.querySelector(className);
 
 /**
+ * @param {HTMLElement} $element - insertAdjacentHTML의 대상 요소
+ * @param {string} template - insertAdjacentHTML으로 추가될 HTML 스트링 태그
+ */
+export const setTemplate = ($element, template) => $element.insertAdjacentHTML('beforeend', template);
+
+/**
  * @param {{
  * selector: Element,
  * event: string,

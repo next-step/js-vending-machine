@@ -1,11 +1,16 @@
 export class VendingMachineModel {
-    stocks = [];
+    stocks = {};
+    recharge = {
+        totalCoins: 0,
+        coins: []
+    }
     constructor() {
-        this.stocks = this.setStock();
+        this.stocks = this.setState(this.stocks);
+        this.recharge = this.setState(this.recharge);
     }
 
-    setStock() {
-        return new Proxy(this.stocks, {
+    setState(state) {
+        return new Proxy(state, {
             get(target, prop) {
                 return target[prop];
             },

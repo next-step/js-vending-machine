@@ -24,6 +24,16 @@ export class Validator {
         }
     };
 
+    setRechargeErrors = (coin) => {
+        if (coin < 100) {
+            throw new InputError(ERROR_MESSAGE.InputMinInsufficientError);
+        }
+
+        if (coin % MIN.PRICE_UNIT !== 0) {
+            throw new InputError(ERROR_MESSAGE.InputPriceUnitError);
+        }
+    }
+
     catchErrors(e) {
         if (!e instanceof CustomError) {
             throw e;
