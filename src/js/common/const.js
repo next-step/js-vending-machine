@@ -37,7 +37,8 @@ export const $ = {
 };
 
 export const EVENT = {
-    CLICK: 'click'
+    CLICK: 'click',
+    KEYUP: 'keyup'
 };
 
 export const MIN = {

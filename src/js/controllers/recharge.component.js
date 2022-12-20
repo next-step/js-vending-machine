@@ -20,7 +20,12 @@ export class RechargeComponent extends Component {
                 selector: qs($.RECHARGE.BUTTONS.RECHARGE, this._$parent),
                 event: EVENT.CLICK,
                 callback: () => this.#rechargeCoins()
-            }
+            },
+            {
+                selector: qs($.RECHARGE.INPUTS.AMOUNT),
+                event: EVENT.KEYUP,
+                callback: (e) => this.#rechargeByEnterKey(e)
+            },
         ];
         this._init();
     }
@@ -43,6 +48,12 @@ export class RechargeComponent extends Component {
         this._vendingMachine.recharge.coins = this.#setCoinChanges();
         this.#renderAmount();
         this.#renderCoins();
+    }
+
+    #rechargeByEnterKey(e) {
+        if (e.key !== 'Enter') return;
+        e.preventDefault();
+        this.#rechargeCoins();
     }
 
     #setCoinChanges() {
