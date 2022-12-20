@@ -1,38 +1,15 @@
 import { ERROR_MESSAGE } from "../../src/js/common/error.js";
-
-describe('사이트 홈 테스트', () => {
+describe('상 관리 테스트', () => {
     beforeEach('페이지 방문', () => {
         cy.visit('/');
     });
 
-    homeSpec();
-})
-
-describe('상태 관리 테스트', () => {
-    beforeEach('페이지 방문', () => {
-        cy.visit('/');
-    });
-
-    beforeEach('상품 관리 탭 클릭', () => {
+    beforeEach('상품관리 탭 클릭', () => {
         cy.clickStockTab();
     });
 
     stockSpec();
 })
-
-function homeSpec() {
-    it('첫 페이지에 상품관리, 잔돈충전, 상품구매 버튼이 있다.', () => {
-        cy.get('#stock-manage-menu').should('exist');
-        cy.get('#vending-machine-manage-menu').should('exist');
-        cy.get('#product-purchase-menu').should('exist');
-        cy.get('.stock-container').should('not.be.visible');
-    });
-
-    it('상품관리탭을 클릭하면 상품 추가하기 창이 보여진다.', () => {
-        cy.clickStockTab();
-        cy.get('.stock-container').should('be.visible');
-    });
-}
 
 function stockSpec() {
     const name = '콜라';
@@ -96,6 +73,18 @@ function stockSpec() {
         cy.get('#stock-inventory-container')
             .children(`.${name}`)
             .children('td').eq(1).should('have.text', 200);
+    });
+
+    it('다른 탭을 클릭하더라도 추가된 상품은 저장된다.', () => {
+        cy.typename(name);
+        cy.typeStockPrice(price);
+        cy.typeStockQuantity(quantity);
+        cy.clickStockAdd();
+        cy.get('#stock-inventory-container').children(`.${name}`).should('exist');
+
+        cy.clickRechargeTab();
+        cy.clickStockTab();
+        cy.get('#stock-inventory-container').children(`.${name}`).should('exist');
     });
 }
 
