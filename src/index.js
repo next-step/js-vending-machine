@@ -1,4 +1,4 @@
-import { getProductManagerHTML } from './components/productManager.js';
+import { getProductManagerHTML, viewInitiator } from './components/productManager.js';
 import { getProductPurchaseHTML } from './components/productPurchase.js';
 import { getVendingMachineManageMenuHTML } from './components/vendingMachineManageMenu.js';
 
@@ -8,7 +8,10 @@ const $vendingMachineManageMenu = document.getElementById('vending-machine-manag
 const $productPurchaseMenu = document.getElementById('product-purchase-menu');
 
 $productManageMenu.addEventListener('click', () => {
-  $app.innerHTML = getProductManagerHTML();
+  const {
+    productContainerView,
+    productInventoryContainerView,
+  } = viewInitiator($app, getProductManagerHTML());
 });
 
 $vendingMachineManageMenu.addEventListener('click', () => {
