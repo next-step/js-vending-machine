@@ -99,9 +99,8 @@ export default class ProductPurchaseMenu extends HTMLElement {
           }
 
           const newCoins = { ...prev.returnCoins, [acc]: count };
-          const remainCharge = currentCoin;
 
-          return { returnCoins: newCoins, charge: remainCharge };
+          return { returnCoins: newCoins, charge: currentCoin };
         },
 
         { returnCoins: {}, charge: this.#state.chargeAmount },
@@ -109,10 +108,10 @@ export default class ProductPurchaseMenu extends HTMLElement {
 
       validateReturnResult(this.#state.chargeAmount, charge);
 
-      const newCharge = chargeStorage.get() - this.#state.chargeAmount;
+      const returnMoney = this.#state.chargeAmount - charge;
 
       coinsStorage.set(coins);
-      chargeStorage.set(newCharge > 0 ? newCharge : 0);
+      chargeStorage.set(chargeStorage.get() - returnMoney);
       this.#state.returnCoins = returnCoins;
       this.#state.chargeAmount = charge;
       this.#render();
