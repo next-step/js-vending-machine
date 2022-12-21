@@ -31,7 +31,7 @@ describe('상품관리 탭을 테스트한다.', () => {
       cy.typeProductPrice(1000);
       cy.typeProductQuantity(5);
       cy.clickProductAddButton().then(() => {
-        stub.calledWith(ERROR_MESSAGE.EMPTY_INPUT);
+        stub.calledWith(ERROR_MESSAGE.COMMON.EMPTY_INPUT);
       });
     });
 
@@ -42,7 +42,7 @@ describe('상품관리 탭을 테스트한다.', () => {
       cy.typeProductQuantity(5);
 
       cy.clickProductAddButton().then(() => {
-        stub.calledWith(ERROR_MESSAGE.EMPTY_INPUT);
+        stub.calledWith(ERROR_MESSAGE.COMMON.EMPTY_INPUT);
       });
     });
 
@@ -53,7 +53,7 @@ describe('상품관리 탭을 테스트한다.', () => {
       cy.typeProductPrice(1000);
 
       cy.clickProductAddButton().then(() => {
-        stub.calledWith(ERROR_MESSAGE.EMPTY_INPUT);
+        stub.calledWith(ERROR_MESSAGE.COMMON.EMPTY_INPUT);
       });
     });
 
@@ -61,7 +61,7 @@ describe('상품관리 탭을 테스트한다.', () => {
       const stub = getAlertStub();
 
       cy.addProduct({ name: 'coke', price: 1000, quantity: 0 }).then(() => {
-        stub.calledWith(ERROR_MESSAGE.INVALID_PRODUCT_MIN_QUANTITY);
+        stub.calledWith(ERROR_MESSAGE.PRODUCT.INVALID_MIN_QUANTITY);
       });
     });
 
@@ -69,7 +69,7 @@ describe('상품관리 탭을 테스트한다.', () => {
       const stub = getAlertStub();
 
       cy.addProduct({ name: 'coke', price: 80, quantity: 5 }).then(() => {
-        stub.calledWith(ERROR_MESSAGE.INVALID_PRODUCT_MIN_PRICE);
+        stub.calledWith(ERROR_MESSAGE.PRODUCT.INVALID_MIN_PRICE);
       });
     });
 
@@ -90,7 +90,7 @@ describe('상품관리 탭을 테스트한다.', () => {
       const stub = getAlertStub();
 
       cy.addProduct({ name: 'coke', price: 1455, quantity: 3 }).then(() => {
-        stub.calledWith(ERROR_MESSAGE.INVALID_PRODUCT_PRICE_UNIT);
+        stub.calledWith(ERROR_MESSAGE.PRODUCT.INVALID_PRICE_UNIT);
       });
     });
 
@@ -201,7 +201,7 @@ describe('잔돈충전 탭을 테스트한다.', () => {
       cy.on('window:alert', alertStub);
 
       cy.addCharge(50).then(() => {
-        expect(alertStub.getCall(0)).to.be.calledWith(ERROR_MESSAGE.INVALID_VENDING_MACHINE_MIN_CHARGE);
+        expect(alertStub.getCall(0)).to.be.calledWith(ERROR_MESSAGE.VENDING_MACHINE.INVALID_MIN_CHARGE);
       });
     });
 
@@ -210,7 +210,7 @@ describe('잔돈충전 탭을 테스트한다.', () => {
       cy.on('window:alert', alertStub);
 
       cy.addCharge(1045).then(() => {
-        expect(alertStub.getCall(0)).to.be.calledWith(ERROR_MESSAGE.INVALID_VENDING_MACHINE_CHARGE_UNIT);
+        expect(alertStub.getCall(0)).to.be.calledWith(ERROR_MESSAGE.VENDING_MACHINE.INVALID_CHARGE_UNIT);
       });
     });
 
@@ -283,7 +283,7 @@ describe('잔돈충전 탭을 테스트한다.', () => {
       cy.get(SELECTOR.VENDING_MACHINE.CHARGE_AMOUNT).should('have.text', '1000');
 
       cy.get(SELECTOR.COMMON.PRODUCT_MANAGE_MENU).click();
-      cy.get(SELECTOR.VENDING_MACHINE.MANAGE_MENU).click();
+      cy.get(SELECTOR.COMMON.VENDING_MACHINE_MANAGE_MENU).click();
 
       cy.get(SELECTOR.VENDING_MACHINE.CHARGE_AMOUNT).should('have.text', '1000');
     });
@@ -307,7 +307,7 @@ describe('상품구매 탭을 테스트한다.', () => {
 
       cy.typePurchaseMoney(5);
       cy.clickPurchaseMoneyAddButton().then(() => {
-        stub.calledWith(ERROR_MESSAGE.INVALID_PURCHASE_PRODUCT_MIN_MONEY);
+        stub.calledWith(ERROR_MESSAGE.PRODUCT_PURCHASE.INVALID_MIN_MONEY);
       });
     });
 
@@ -316,7 +316,7 @@ describe('상품구매 탭을 테스트한다.', () => {
 
       cy.typePurchaseMoney(1043);
       cy.clickPurchaseMoneyAddButton().then(() => {
-        stub.calledWith(ERROR_MESSAGE.INVALID_PURCHASE_PRODUCT_MONEY_UNIT);
+        stub.calledWith(ERROR_MESSAGE.PRODUCT_PURCHASE.INVALID_MONEY_UNIT);
       });
     });
 
@@ -356,7 +356,7 @@ describe('상품구매 탭을 테스트한다.', () => {
       cy.get(SELECTOR.PRODUCT_PURCHASE.BUY_BUTTON)
         .click()
         .then(() => {
-          stub.calledWith(ERROR_MESSAGE.INVALID_PURCHASE_PRODUCT_MIN_QUANTITY);
+          stub.calledWith(ERROR_MESSAGE.PRODUCT_PURCHASE.INVALID_MIN_QUANTITY);
         });
     });
 
@@ -374,7 +374,7 @@ describe('상품구매 탭을 테스트한다.', () => {
       cy.get(SELECTOR.PRODUCT_PURCHASE.BUY_BUTTON)
         .click()
         .then(() => {
-          stub.calledWith(ERROR_MESSAGE.INVALID_PURCHASE_PRODUCT_CHARGE_AMOUNT);
+          stub.calledWith(ERROR_MESSAGE.PRODUCT_PURCHASE.INVALID_CHARGE_AMOUNT);
         });
     });
 
