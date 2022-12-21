@@ -1,5 +1,3 @@
-import { setLocalStorage } from '../utils/util.js';
-
 export class VendingMachineModel {
     stocks = {};
     recharge = {

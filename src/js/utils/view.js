@@ -4,16 +4,6 @@
 export const displayNone = ($element) => $element.style.display = 'none';
 
 /**
- * @param {Element[]} $elements - display: none 시킬 요소의 배열
- */
-export const displayNones = ($elements) => $elements.forEach($element => displayNone($element));
-
-/**
- * @param {HTMLElement} $element - display: block 시킬 요소
- */
-export const displayBlock = ($element) => $element.style.display = 'block';
-
-/**
  * @param {HTMLElement} $element - display: flex 시킬 요소
  */
 export const displayFlex = ($element) => $element.style.display = 'flex';

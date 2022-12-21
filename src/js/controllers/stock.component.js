@@ -7,7 +7,7 @@ import {
     setTemplate
 } from '../utils/view.js';
 import { $, EVENT, STORAGE_KEY } from '../common/const.js';
-import { getLocalStorage, getObjectLength, setLocalStorage } from '../utils/util.js';
+import { getLocalStorage, setLocalStorage } from '../utils/util.js';
 
 export class StockComponent extends Component {
     constructor(container) {
