@@ -1,5 +1,14 @@
-import { MESSAGE, PRODUCT_MANAGE } from './constant.js';
-import { isEmpty, isInvalidMin, isInvalidUnit, isMatch } from './util.js';
+import {
+  CHARGE_MANAGE,
+  MESSAGE,
+  PRODUCT_MANAGE,
+} from '../constants/constant.js';
+import {
+  isEmpty,
+  isInvalidMin,
+  isInvalidUnit,
+  isMatch,
+} from '../utils/validator.js';
 
 export const productNameValidations = [
   (value) => {
@@ -31,6 +40,19 @@ export const productQuantityValidations = [
   (value) => {
     if (isInvalidMin(value, PRODUCT_MANAGE.QUANTITY_MIN)) {
       throw new Error(MESSAGE.PRODUCT_MIN_QUANTITY);
+    }
+  },
+];
+
+export const chargeAmountValidations = [
+  (value) => {
+    if (isInvalidMin(value, CHARGE_MANAGE.AMOUNT_MIN)) {
+      throw new Error(MESSAGE.CHARGE_MIN);
+    }
+  },
+  (value) => {
+    if (isInvalidUnit(value, CHARGE_MANAGE.AMOUNT_UNIT)) {
+      throw new Error(MESSAGE.CHARGE_UNIT);
     }
   },
 ];

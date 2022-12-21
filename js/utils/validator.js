@@ -1,17 +1,4 @@
-export const tab =
-  (value) =>
-  (...callbacks) => {
-    callbacks.forEach((callback) => callback(value));
-    return value;
-  };
-
-export const validate = (value, validations) => {
-  tab(value)(...validations);
-};
-
-export const showErrorMessage = (error) => {
-  alert(error.message);
-};
+import { tab } from './fp.js';
 
 export const isEmpty = (value) => {
   return value === '';
@@ -27,4 +14,8 @@ export const isInvalidMin = (value, min, max) => {
 
 export const isInvalidUnit = (value, unit) => {
   return value % unit !== 0;
+};
+
+export const validate = (value, validations) => {
+  tab(value)(...validations);
 };
