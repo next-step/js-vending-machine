@@ -47,11 +47,11 @@ export default class VendingMachineManageMenu extends HTMLElement {
   }
 
   #focusInput() {
-    $(SELECTOR.VENDING_MACHINE_CHARGE_INPUT).focus();
+    $(SELECTOR.VENDING_MACHINE.CHARGE_INPUT).focus();
   }
 
   #resetInput() {
-    $(SELECTOR.VENDING_MACHINE_CHARGE_INPUT).value = '';
+    $(SELECTOR.VENDING_MACHINE.CHARGE_INPUT).value = '';
   }
 
   #getCoins(charge, units) {
@@ -81,7 +81,7 @@ export default class VendingMachineManageMenu extends HTMLElement {
 
   #handleChargeButtonClick() {
     try {
-      const charge = $(SELECTOR.VENDING_MACHINE_CHARGE_INPUT).valueAsNumber;
+      const charge = $(SELECTOR.VENDING_MACHINE.CHARGE_INPUT).valueAsNumber;
       validateVendingMachineCharge(charge);
 
       this.#addCharge(charge);
@@ -94,7 +94,7 @@ export default class VendingMachineManageMenu extends HTMLElement {
   }
 
   #bindEvents() {
-    $(SELECTOR.VENDING_MACHINE_CHARGE_BUTTON).addEventListener('click', this.#handleChargeButtonClick.bind(this));
+    $(SELECTOR.VENDING_MACHINE.CHARGE_BUTTON).addEventListener('click', this.#handleChargeButtonClick.bind(this));
   }
 
   #getTemplate() {

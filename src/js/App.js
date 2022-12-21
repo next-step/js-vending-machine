@@ -42,7 +42,7 @@ class App extends HTMLElement {
   }
 
   #bindEvents() {
-    $(SELECTOR.VENDING_MACHINE_CATEGORIES).addEventListener('click', this.#handleCategoryClick.bind(this));
+    $(SELECTOR.COMMON.VENDING_MACHINE_CATEGORIES).addEventListener('click', this.#handleCategoryClick.bind(this));
   }
 }
 

@@ -124,11 +124,11 @@ export default class ProductPurchaseMenu extends HTMLElement {
   }
 
   #bindEvents() {
-    $(SELECTOR.PRODUCT_PURCHASE_MONEY_INPUT).addEventListener('input', this.#handleMoneyChange.bind(this));
-    $(SELECTOR.PRODUCT_PURCHASE_MONEY_BUTTON).addEventListener('click', this.#handleMoneyClick.bind(this));
-    $(SELECTOR.PRODUCT_PURCHASE_RETURN_BUTTON).addEventListener('click', this.#handleReturnClick.bind(this));
+    $(SELECTOR.PRODUCT_PURCHASE.MONEY_INPUT).addEventListener('input', this.#handleMoneyChange.bind(this));
+    $(SELECTOR.PRODUCT_PURCHASE.MONEY_BUTTON).addEventListener('click', this.#handleMoneyClick.bind(this));
+    $(SELECTOR.PRODUCT_PURCHASE.RETURN_BUTTON).addEventListener('click', this.#handleReturnClick.bind(this));
 
-    $all(SELECTOR.PRODUCT_PURCHASE_BUY_BUTTON).forEach((elem) => {
+    $all(SELECTOR.PRODUCT_PURCHASE.BUY_BUTTON).forEach((elem) => {
       const { name } = elem.dataset;
       elem.addEventListener('click', this.#handleBuyClick.bind(this, name));
     });

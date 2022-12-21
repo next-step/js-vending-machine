@@ -35,9 +35,9 @@ export default class ProductManageMenu extends HTMLElement {
   }
 
   #resetInput() {
-    $(SELECTOR.PRODUCT_NAME_INPUT).value = '';
-    $(SELECTOR.PRODUCT_PRICE_INPUT).value = '';
-    $(SELECTOR.PRODUCT_QUANTITY_INPUT).value = '';
+    $(SELECTOR.PRODUCT.NAME_INPUT).value = '';
+    $(SELECTOR.PRODUCT.PRICE_INPUT).value = '';
+    $(SELECTOR.PRODUCT.QUANTITY_INPUT).value = '';
   }
 
   #addProduct(product) {
@@ -79,10 +79,10 @@ export default class ProductManageMenu extends HTMLElement {
   }
 
   #bindEvents() {
-    $(SELECTOR.PRODUCT_NAME_INPUT).addEventListener('input', this.#handleChangeName.bind(this));
-    $(SELECTOR.PRODUCT_PRICE_INPUT).addEventListener('input', this.#handleChangePrice.bind(this));
-    $(SELECTOR.PRODUCT_QUANTITY_INPUT).addEventListener('input', this.#handleChangeQuantity.bind(this));
-    $(SELECTOR.PRODUCT_ADD_BUTTON).addEventListener('click', this.#handleProductAddButtonClick.bind(this));
+    $(SELECTOR.PRODUCT.NAME_INPUT).addEventListener('input', this.#handleChangeName.bind(this));
+    $(SELECTOR.PRODUCT.PRICE_INPUT).addEventListener('input', this.#handleChangePrice.bind(this));
+    $(SELECTOR.PRODUCT.QUANTITY_INPUT).addEventListener('input', this.#handleChangeQuantity.bind(this));
+    $(SELECTOR.PRODUCT.ADD_BUTTON).addEventListener('click', this.#handleProductAddButtonClick.bind(this));
   }
 
   #getTemplate() {

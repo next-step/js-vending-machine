@@ -77,7 +77,7 @@ describe('상품관리 탭을 테스트한다.', () => {
       const coke = { name: 'coke', price: 100, quantity: 5 };
       cy.addProduct(coke);
 
-      cy.get(SELECTOR.PRODUCT_INVENTORY_CONTAINER)
+      cy.get(SELECTOR.PRODUCT.INVENTORY_CONTAINER)
         .children()
         .each(($tr) => {
           expect($tr.children()[PRODUCT_INDEX.NAME].textContent).to.equal(coke.name);
@@ -103,7 +103,7 @@ describe('상품관리 탭을 테스트한다.', () => {
       cy.addProduct(hot6);
       cy.addProduct(coke);
 
-      cy.get(SELECTOR.PRODUCT_INVENTORY_CONTAINER)
+      cy.get(SELECTOR.PRODUCT.INVENTORY_CONTAINER)
         .children()
         .each(($tr) => {
           if ($tr.children()[PRODUCT_INDEX.NAME].textContent !== 'hot6') return;
@@ -116,7 +116,7 @@ describe('상품관리 탭을 테스트한다.', () => {
       const modifiedHot6 = { name: 'hot6', price: 1500, quantity: 5 };
       cy.addProduct(modifiedHot6);
 
-      cy.get(SELECTOR.PRODUCT_INVENTORY_CONTAINER)
+      cy.get(SELECTOR.PRODUCT.INVENTORY_CONTAINER)
         .children()
         .each(($tr) => {
           if ($tr.children()[PRODUCT_INDEX.NAME].textContent !== 'hot6') return;
@@ -136,7 +136,7 @@ describe('상품관리 탭을 테스트한다.', () => {
 
       const products = [vitamin, hot6];
 
-      cy.get(SELECTOR.PRODUCT_INVENTORY_CONTAINER)
+      cy.get(SELECTOR.PRODUCT.INVENTORY_CONTAINER)
         .children()
         .each(($tr, idx) => {
           const { name, price, quantity } = products[idx];
@@ -156,7 +156,7 @@ describe('상품관리 탭을 테스트한다.', () => {
 
       const products = [vitamin, hot6];
 
-      cy.get(SELECTOR.PRODUCT_INVENTORY_CONTAINER)
+      cy.get(SELECTOR.PRODUCT.INVENTORY_CONTAINER)
         .children()
         .each(($el, idx) => {
           const { name, price, quantity } = products[idx];
@@ -166,10 +166,10 @@ describe('상품관리 탭을 테스트한다.', () => {
           expect(Number($el.children()[PRODUCT_INDEX.QUANTITY].textContent)).to.equal(quantity);
         });
 
-      cy.get(SELECTOR.VENDING_MACHINE_MANAGE_MENU).click();
-      cy.get(SELECTOR.PRODUCT_MANAGE_MENU).click();
+      cy.get(SELECTOR.COMMON.VENDING_MACHINE_MANAGE_MENU).click();
+      cy.get(SELECTOR.COMMON.PRODUCT_MANAGE_MENU).click();
 
-      cy.get(SELECTOR.PRODUCT_INVENTORY_CONTAINER)
+      cy.get(SELECTOR.PRODUCT.INVENTORY_CONTAINER)
         .children()
         .each(($el, idx) => {
           const { name, price, quantity } = products[idx];
@@ -184,16 +184,16 @@ describe('상품관리 탭을 테스트한다.', () => {
 
 describe('잔돈충전 탭을 테스트한다.', () => {
   beforeEach(() => {
-    cy.get(SELECTOR.VENDING_MACHINE_MANAGE_MENU).click();
+    cy.get(SELECTOR.COMMON.VENDING_MACHINE_MANAGE_MENU).click();
   });
   context('잔돈 충전을 할 때', () => {
     it('최초의 자판기 보유 금액은 0원이고, 각 동전의 개수는 0개이다.', () => {
-      cy.get(SELECTOR.VENDING_MACHINE_CHARGE_AMOUNT).should('have.text', '0');
+      cy.get(SELECTOR.VENDING_MACHINE.CHARGE_AMOUNT).should('have.text', '0');
 
-      cy.get(SELECTOR.VENDING_MACHINE_COIN_500_QUANTITY).should('have.text', '0개');
-      cy.get(SELECTOR.VENDING_MACHINE_COIN_100_QUANTITY).should('have.text', '0개');
-      cy.get(SELECTOR.VENDING_MACHINE_COIN_50_QUANTITY).should('have.text', '0개');
-      cy.get(SELECTOR.VENDING_MACHINE_COIN_10_QUANTITY).should('have.text', '0개');
+      cy.get(SELECTOR.VENDING_MACHINE.COIN_500_QUANTITY).should('have.text', '0개');
+      cy.get(SELECTOR.VENDING_MACHINE.COIN_100_QUANTITY).should('have.text', '0개');
+      cy.get(SELECTOR.VENDING_MACHINE.COIN_50_QUANTITY).should('have.text', '0개');
+      cy.get(SELECTOR.VENDING_MACHINE.COIN_10_QUANTITY).should('have.text', '0개');
     });
 
     it('최소 충전 금액은 100원이다.', () => {
@@ -217,17 +217,17 @@ describe('잔돈충전 탭을 테스트한다.', () => {
     it('자판기가 보유한 금액은 {금액}원 형식으로 나타낸다', () => {
       cy.addCharge(1200);
 
-      cy.get(SELECTOR.VENDING_MACHINE_CHARGE_AMOUNT).should('have.text', '1200');
+      cy.get(SELECTOR.VENDING_MACHINE.CHARGE_AMOUNT).should('have.text', '1200');
     });
 
     it('잔돈은 누적하여 충전할 수 있다', () => {
       cy.addCharge(1200);
 
-      cy.get(SELECTOR.VENDING_MACHINE_CHARGE_AMOUNT).should('have.text', '1200');
+      cy.get(SELECTOR.VENDING_MACHINE.CHARGE_AMOUNT).should('have.text', '1200');
 
       cy.addCharge(1800);
 
-      cy.get(SELECTOR.VENDING_MACHINE_CHARGE_AMOUNT).should('have.text', '3000');
+      cy.get(SELECTOR.VENDING_MACHINE.CHARGE_AMOUNT).should('have.text', '3000');
     });
 
     it('자판기가 보유한 금액 만큼의 동전이 무작위로 생성된다.', () => {
@@ -237,10 +237,10 @@ describe('잔돈충전 탭을 테스트한다.', () => {
       const UNIT_INDEX = 0;
       const QUANTITY_INDEX = 1;
 
-      cy.get(SELECTOR.VENDING_MACHINE_CHARGE_INPUT).type(55730);
-      cy.get(SELECTOR.VENDING_MACHINE_CHARGE_BUTTON).click();
+      cy.get(SELECTOR.VENDING_MACHINE.CHARGE_INPUT).type(55730);
+      cy.get(SELECTOR.VENDING_MACHINE.CHARGE_BUTTON).click();
 
-      cy.get(SELECTOR.VENDING_MACHINE_COINS_CONTAINER)
+      cy.get(SELECTOR.VENDING_MACHINE.COINS_CONTAINER)
         .children()
         .each(($el) => {
           const unit = $el.children()[UNIT_INDEX].textContent.split('원')[0];
@@ -251,12 +251,12 @@ describe('잔돈충전 탭을 테스트한다.', () => {
           cy.clearLocalStorage(CHARGE_KEY);
           cy.clearLocalStorage(COINS_KEY);
           cy.visit('index.html');
-          cy.get(SELECTOR.VENDING_MACHINE_MANAGE_MENU).click();
+          cy.get(SELECTOR.COMMON.VENDING_MACHINE_MANAGE_MENU).click();
 
-          cy.get(SELECTOR.VENDING_MACHINE_CHARGE_INPUT).type(55730);
-          cy.get(SELECTOR.VENDING_MACHINE_CHARGE_BUTTON).click();
+          cy.get(SELECTOR.VENDING_MACHINE.CHARGE_INPUT).type(55730);
+          cy.get(SELECTOR.VENDING_MACHINE.CHARGE_BUTTON).click();
 
-          cy.get(SELECTOR.VENDING_MACHINE_COINS_CONTAINER)
+          cy.get(SELECTOR.VENDING_MACHINE.COINS_CONTAINER)
             .children()
             .each(($el) => {
               const unit = $el.children()[UNIT_INDEX].textContent.split('원')[0];
@@ -272,34 +272,34 @@ describe('잔돈충전 탭을 테스트한다.', () => {
     it('자판기가 보유한 동전의 개수는 {개수}개 형식으로 나타낸다', () => {
       cy.addCharge(1760);
 
-      cy.checkCoinFormat(SELECTOR.VENDING_MACHINE_COIN_500_QUANTITY);
-      cy.checkCoinFormat(SELECTOR.VENDING_MACHINE_COIN_100_QUANTITY);
-      cy.checkCoinFormat(SELECTOR.VENDING_MACHINE_COIN_50_QUANTITY);
-      cy.checkCoinFormat(SELECTOR.VENDING_MACHINE_COIN_10_QUANTITY);
+      cy.checkCoinFormat(SELECTOR.VENDING_MACHINE.COIN_500_QUANTITY);
+      cy.checkCoinFormat(SELECTOR.VENDING_MACHINE.COIN_100_QUANTITY);
+      cy.checkCoinFormat(SELECTOR.VENDING_MACHINE.COIN_50_QUANTITY);
+      cy.checkCoinFormat(SELECTOR.VENDING_MACHINE.COIN_10_QUANTITY);
     });
 
     it('다른 탭을 클릭해도 자판기가 보유한 금액은 유지된다.', () => {
       cy.addCharge(1000);
-      cy.get(SELECTOR.VENDING_MACHINE_CHARGE_AMOUNT).should('have.text', '1000');
+      cy.get(SELECTOR.VENDING_MACHINE.CHARGE_AMOUNT).should('have.text', '1000');
 
-      cy.get(SELECTOR.PRODUCT_MANAGE_MENU).click();
-      cy.get(SELECTOR.VENDING_MACHINE_MANAGE_MENU).click();
+      cy.get(SELECTOR.COMMON.PRODUCT_MANAGE_MENU).click();
+      cy.get(SELECTOR.VENDING_MACHINE.MANAGE_MENU).click();
 
-      cy.get(SELECTOR.VENDING_MACHINE_CHARGE_AMOUNT).should('have.text', '1000');
+      cy.get(SELECTOR.VENDING_MACHINE.CHARGE_AMOUNT).should('have.text', '1000');
     });
   });
 });
 describe('상품구매 탭을 테스트한다.', () => {
   beforeEach(() => {
-    cy.get(SELECTOR.PRODUCT_PURCHASE_MENU).click();
+    cy.get(SELECTOR.COMMON.PRODUCT_PURCHASE_MENU).click();
   });
   context('금액을 충전할 때', () => {
     it('최초 충전 금액은 0원이고, 반한된 각 동전의 개수는 0개이다.', () => {
-      cy.get(SELECTOR.PRODUCT_PURCHASE_CHARGE_AMOUNT).should('have.text', 0);
-      cy.get(SELECTOR.VENDING_MACHINE_COIN_500_QUANTITY).should('have.text', '0개');
-      cy.get(SELECTOR.VENDING_MACHINE_COIN_100_QUANTITY).should('have.text', '0개');
-      cy.get(SELECTOR.VENDING_MACHINE_COIN_50_QUANTITY).should('have.text', '0개');
-      cy.get(SELECTOR.VENDING_MACHINE_COIN_10_QUANTITY).should('have.text', '0개');
+      cy.get(SELECTOR.PRODUCT_PURCHASE.CHARGE_AMOUNT).should('have.text', 0);
+      cy.get(SELECTOR.VENDING_MACHINE.COIN_500_QUANTITY).should('have.text', '0개');
+      cy.get(SELECTOR.VENDING_MACHINE.COIN_100_QUANTITY).should('have.text', '0개');
+      cy.get(SELECTOR.VENDING_MACHINE.COIN_50_QUANTITY).should('have.text', '0개');
+      cy.get(SELECTOR.VENDING_MACHINE.COIN_10_QUANTITY).should('have.text', '0개');
     });
 
     it('10원 미만의 금액을 충전하면 alert를 띄워준다.', () => {
@@ -324,19 +324,19 @@ describe('상품구매 탭을 테스트한다.', () => {
       cy.typePurchaseMoney(10);
       cy.clickPurchaseMoneyAddButton();
 
-      cy.get(SELECTOR.PRODUCT_PURCHASE_CHARGE_AMOUNT).should('have.text', 10);
+      cy.get(SELECTOR.PRODUCT_PURCHASE.CHARGE_AMOUNT).should('have.text', 10);
     });
 
     it('금액은 누적으로 충전이 가능하다.', () => {
       cy.typePurchaseMoney(1000);
       cy.clickPurchaseMoneyAddButton();
 
-      cy.get(SELECTOR.PRODUCT_PURCHASE_CHARGE_AMOUNT).should('have.text', 1000);
+      cy.get(SELECTOR.PRODUCT_PURCHASE.CHARGE_AMOUNT).should('have.text', 1000);
 
       cy.typePurchaseMoney(2000);
       cy.clickPurchaseMoneyAddButton();
 
-      cy.get(SELECTOR.PRODUCT_PURCHASE_CHARGE_AMOUNT).should('have.text', 3000);
+      cy.get(SELECTOR.PRODUCT_PURCHASE.CHARGE_AMOUNT).should('have.text', 3000);
     });
   });
 
@@ -344,16 +344,16 @@ describe('상품구매 탭을 테스트한다.', () => {
     it('수량이 0인 상품을 구매할 수 없고 alert를 띄워준다.', () => {
       const stub = getAlertStub();
 
-      cy.get(SELECTOR.PRODUCT_MANAGE_MENU).click();
+      cy.get(SELECTOR.COMMON.PRODUCT_MANAGE_MENU).click();
       const vitamin = { name: 'vitamin', price: 1000, quantity: 1 };
       cy.addProduct(vitamin);
 
-      cy.get(SELECTOR.PRODUCT_PURCHASE_MENU).click();
+      cy.get(SELECTOR.COMMON.PRODUCT_PURCHASE_MENU).click();
       cy.typePurchaseMoney(2000);
       cy.clickPurchaseMoneyAddButton();
 
-      cy.get(SELECTOR.PRODUCT_PURCHASE_BUY_BUTTON).click();
-      cy.get(SELECTOR.PRODUCT_PURCHASE_BUY_BUTTON)
+      cy.get(SELECTOR.PRODUCT_PURCHASE.BUY_BUTTON).click();
+      cy.get(SELECTOR.PRODUCT_PURCHASE.BUY_BUTTON)
         .click()
         .then(() => {
           stub.calledWith(ERROR_MESSAGE.INVALID_PURCHASE_PRODUCT_MIN_QUANTITY);
@@ -363,15 +363,15 @@ describe('상품구매 탭을 테스트한다.', () => {
     it('구매하려는 상품 가격이 보유하고 있는 금액보다 높은 경우 상품을 구매할 수 없고 alert를 띄워준다.', () => {
       const stub = getAlertStub();
 
-      cy.get(SELECTOR.PRODUCT_MANAGE_MENU).click();
+      cy.get(SELECTOR.COMMON.PRODUCT_MANAGE_MENU).click();
       const vitamin = { name: 'vitamin', price: 2000, quantity: 1 };
       cy.addProduct(vitamin);
 
-      cy.get(SELECTOR.PRODUCT_PURCHASE_MENU).click();
+      cy.get(SELECTOR.COMMON.PRODUCT_PURCHASE_MENU).click();
       cy.typePurchaseMoney(1000);
       cy.clickPurchaseMoneyAddButton();
 
-      cy.get(SELECTOR.PRODUCT_PURCHASE_BUY_BUTTON)
+      cy.get(SELECTOR.PRODUCT_PURCHASE.BUY_BUTTON)
         .click()
         .then(() => {
           stub.calledWith(ERROR_MESSAGE.INVALID_PURCHASE_PRODUCT_CHARGE_AMOUNT);
@@ -379,19 +379,19 @@ describe('상품구매 탭을 테스트한다.', () => {
     });
 
     it('상품 구매에 성공하면, 충전한 금액이 상품 금액만큼 차감 된다. 또한 상품의 수량도 차감된다.', () => {
-      cy.get(SELECTOR.PRODUCT_MANAGE_MENU).click();
+      cy.get(SELECTOR.COMMON.PRODUCT_MANAGE_MENU).click();
       const vitamin = { name: 'vitamin', price: 2000, quantity: 1 };
       cy.addProduct(vitamin);
 
-      cy.get(SELECTOR.PRODUCT_PURCHASE_MENU).click();
+      cy.get(SELECTOR.COMMON.PRODUCT_PURCHASE_MENU).click();
       cy.typePurchaseMoney(5000);
       cy.clickPurchaseMoneyAddButton();
 
-      cy.get(SELECTOR.PRODUCT_PURCHASE_BUY_BUTTON).click();
+      cy.get(SELECTOR.PRODUCT_PURCHASE.BUY_BUTTON).click();
 
-      cy.get(SELECTOR.PRODUCT_PURCHASE_CHARGE_AMOUNT).should('have.text', 3000);
+      cy.get(SELECTOR.PRODUCT_PURCHASE.CHARGE_AMOUNT).should('have.text', 3000);
 
-      cy.get(SELECTOR.PRODUCT_INVENTORY_CONTAINER)
+      cy.get(SELECTOR.PRODUCT.INVENTORY_CONTAINER)
         .children()
         .each(($tr) => {
           expect(Number($tr.children()[PRODUCT_INDEX.QUANTITY].textContent)).to.equal(vitamin.quantity - 1);
@@ -401,35 +401,35 @@ describe('상품구매 탭을 테스트한다.', () => {
 
   context('잔돈을 계산할 때', () => {
     it('모든 금액에 대해 잔돈을 반환할 수 없는 경우 잔돈으로 반환할 수 있는 금액만 반환한다.', () => {
-      cy.get(SELECTOR.VENDING_MACHINE_MANAGE_MENU).click();
+      cy.get(SELECTOR.COMMON.VENDING_MACHINE_MANAGE_MENU).click();
       cy.typeCharge(500);
       cy.clickAddChargeButton();
 
-      cy.get(SELECTOR.PRODUCT_PURCHASE_MENU).click();
+      cy.get(SELECTOR.COMMON.PRODUCT_PURCHASE_MENU).click();
       cy.typePurchaseMoney(800);
       cy.clickPurchaseMoneyAddButton();
 
-      cy.get(SELECTOR.PRODUCT_PURCHASE_RETURN_BUTTON).click();
+      cy.get(SELECTOR.PRODUCT_PURCHASE.RETURN_BUTTON).click();
 
-      cy.get(SELECTOR.PRODUCT_PURCHASE_CHARGE_AMOUNT).should('have.text', 300);
+      cy.get(SELECTOR.PRODUCT_PURCHASE.CHARGE_AMOUNT).should('have.text', 300);
     });
 
     it('반환된 동전만큼 사용자가 충전한 금액이 차감된다.', () => {
       const UNIT_INDEX = 0;
       const QUANTITY_INDEX = 1;
 
-      cy.get(SELECTOR.VENDING_MACHINE_MANAGE_MENU).click();
+      cy.get(SELECTOR.COMMON.VENDING_MACHINE_MANAGE_MENU).click();
       cy.typeCharge(500);
       cy.clickAddChargeButton();
 
-      cy.get(SELECTOR.PRODUCT_PURCHASE_MENU).click();
+      cy.get(SELECTOR.COMMON.PRODUCT_PURCHASE_MENU).click();
       cy.typePurchaseMoney(800);
       cy.clickPurchaseMoneyAddButton();
 
-      cy.get(SELECTOR.PRODUCT_PURCHASE_RETURN_BUTTON).click();
+      cy.get(SELECTOR.PRODUCT_PURCHASE.RETURN_BUTTON).click();
 
       let sum = 0;
-      cy.get(SELECTOR.VENDING_MACHINE_COINS_CONTAINER)
+      cy.get(SELECTOR.VENDING_MACHINE.COINS_CONTAINER)
         .children()
         .each(($el) => {
           const unit = $el.children()[UNIT_INDEX].textContent.split('원')[0];
@@ -437,7 +437,7 @@ describe('상품구매 탭을 테스트한다.', () => {
           sum += unit * quantity;
         })
         .then(() => {
-          cy.get(SELECTOR.PRODUCT_PURCHASE_CHARGE_AMOUNT).should('have.text', 800 - sum);
+          cy.get(SELECTOR.PRODUCT_PURCHASE.CHARGE_AMOUNT).should('have.text', 800 - sum);
         });
     });
 
@@ -445,12 +445,12 @@ describe('상품구매 탭을 테스트한다.', () => {
       const UNIT_INDEX = 0;
       const QUANTITY_INDEX = 1;
 
-      cy.get(SELECTOR.VENDING_MACHINE_MANAGE_MENU).click();
+      cy.get(SELECTOR.COMMON.VENDING_MACHINE_MANAGE_MENU).click();
       cy.typeCharge(500);
       cy.clickAddChargeButton();
 
       const prevCoins = {};
-      cy.get(SELECTOR.VENDING_MACHINE_COINS_CONTAINER)
+      cy.get(SELECTOR.VENDING_MACHINE.COINS_CONTAINER)
         .children()
         .each(($el) => {
           const unit = $el.children()[UNIT_INDEX].textContent.split('원')[0];
@@ -458,15 +458,15 @@ describe('상품구매 탭을 테스트한다.', () => {
           prevCoins[unit] = quantity;
         });
 
-      cy.get(SELECTOR.PRODUCT_PURCHASE_MENU).click();
+      cy.get(SELECTOR.COMMON.PRODUCT_PURCHASE_MENU).click();
       cy.typePurchaseMoney(800);
       cy.clickPurchaseMoneyAddButton();
 
-      cy.get(SELECTOR.PRODUCT_PURCHASE_RETURN_BUTTON).click();
+      cy.get(SELECTOR.PRODUCT_PURCHASE.RETURN_BUTTON).click();
 
       const returnCoins = {};
 
-      cy.get(SELECTOR.VENDING_MACHINE_COINS_CONTAINER)
+      cy.get(SELECTOR.VENDING_MACHINE.COINS_CONTAINER)
         .children()
         .each(($el) => {
           const unit = $el.children()[UNIT_INDEX].textContent.split('원')[0];
@@ -474,9 +474,9 @@ describe('상품구매 탭을 테스트한다.', () => {
           returnCoins[unit] = quantity;
         })
         .then(() => {
-          cy.get(SELECTOR.VENDING_MACHINE_MANAGE_MENU).click();
+          cy.get(SELECTOR.COMMON.VENDING_MACHINE_MANAGE_MENU).click();
 
-          cy.get(SELECTOR.VENDING_MACHINE_COINS_CONTAINER)
+          cy.get(SELECTOR.VENDING_MACHINE.COINS_CONTAINER)
             .children()
             .each(($el) => {
               const unit = $el.children()[UNIT_INDEX].textContent.split('원')[0];

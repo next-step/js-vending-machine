@@ -2,16 +2,16 @@ import { SELECTOR } from '../../src/js/constants/selector.js';
 
 Cypress.Commands.addAll({
   typeProductName(name) {
-    cy.get(SELECTOR.PRODUCT_NAME_INPUT).type(name);
+    cy.get(SELECTOR.PRODUCT.NAME_INPUT).type(name);
   },
   typeProductPrice(price) {
-    cy.get(SELECTOR.PRODUCT_PRICE_INPUT).type(price);
+    cy.get(SELECTOR.PRODUCT.PRICE_INPUT).type(price);
   },
   typeProductQuantity(quantity) {
-    cy.get(SELECTOR.PRODUCT_QUANTITY_INPUT).type(quantity);
+    cy.get(SELECTOR.PRODUCT.QUANTITY_INPUT).type(quantity);
   },
   clickProductAddButton() {
-    cy.get(SELECTOR.PRODUCT_ADD_BUTTON).click();
+    cy.get(SELECTOR.PRODUCT.ADD_BUTTON).click();
   },
   addProduct({ name, price, quantity }) {
     cy.typeProductName(name);
@@ -23,11 +23,11 @@ Cypress.Commands.addAll({
 
 Cypress.Commands.addAll({
   typeCharge(charge) {
-    cy.get(SELECTOR.VENDING_MACHINE_CHARGE_INPUT).type(charge);
+    cy.get(SELECTOR.VENDING_MACHINE.CHARGE_INPUT).type(charge);
   },
 
   clickAddChargeButton() {
-    cy.get(SELECTOR.VENDING_MACHINE_CHARGE_BUTTON).click();
+    cy.get(SELECTOR.VENDING_MACHINE.CHARGE_BUTTON).click();
   },
   addCharge(charge) {
     cy.typeCharge(charge);
@@ -57,9 +57,9 @@ Cypress.Commands.addAll({
 
 Cypress.Commands.addAll({
   typePurchaseMoney(money) {
-    cy.get(SELECTOR.PRODUCT_PURCHASE_MONEY_INPUT).type(money);
+    cy.get(SELECTOR.PRODUCT_PURCHASE.MONEY_INPUT).type(money);
   },
   clickPurchaseMoneyAddButton() {
-    cy.get(SELECTOR.PRODUCT_PURCHASE_MONEY_BUTTON).click();
+    cy.get(SELECTOR.PRODUCT_PURCHASE.MONEY_BUTTON).click();
   },
 });
