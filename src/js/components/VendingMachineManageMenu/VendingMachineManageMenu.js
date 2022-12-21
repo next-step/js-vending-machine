@@ -29,21 +29,18 @@ export default class VendingMachineManageMenu extends HTMLElement {
 
   #getInitialState() {
     return {
-      charge: chargeStorage.get('charge'),
-      coins: coinsStorage.get('coins'),
+      charge: chargeStorage.get(),
+      coins: coinsStorage.get(),
     };
   }
 
   #shuffleArray(array) {
     const tempArray = [...array];
-    let currentIndex = tempArray.length;
-    let randomIndex;
 
-    while (currentIndex !== 0) {
-      randomIndex = Math.floor(Math.random() * currentIndex);
-      currentIndex--;
+    for (let i = tempArray.length - 1; i > 0; i--) {
+      const randomIndex = Math.floor(Math.random() * i);
 
-      [tempArray[currentIndex], tempArray[randomIndex]] = [tempArray[randomIndex], tempArray[currentIndex]];
+      [tempArray[i], tempArray[randomIndex]] = [tempArray[randomIndex], tempArray[i]];
     }
 
     return tempArray;
