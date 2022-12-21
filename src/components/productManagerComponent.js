@@ -1,12 +1,7 @@
 import { render } from '../binders.js';
+import { Product } from '../models/product.js';
 
-function Product({ name, price, quantity }) {
-  this.name = name;
-  this.price = price;
-  this.quantity = quantity;
-}
-
-export const products = [];
+const products = [];
 
 const productControllerInitState = {
   name: '',
