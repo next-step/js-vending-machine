@@ -34,6 +34,12 @@ function rechargeSpeck() {
         cy.get('#recharge-amount').should('have.text', amount);
     });
 
+    it('금액을 충전하면 잔돈이 생성된다.', () => {
+        cy.typeRechargeAmount(amount);
+        cy.clickRecharge();
+        cy.get('#recharge-cashbox-container').children().should('have.length', 4);
+    });
+
     it('보유 금액은 누적된다.', () => {
         const newAmount = 200;
         cy.typeRechargeAmount(amount);
@@ -52,6 +58,16 @@ function rechargeSpeck() {
         cy.get('#recharge-amount').should('have.text', amount);
 
         cy.clickStockTab();
+        cy.clickRechargeTab();
+        cy.get('#recharge-amount').should('have.text', amount);
+    });
+
+    it('같은 세션에서 새로고침을 해도 보유 금액과 잔돈은 저장된다.', () => {
+        cy.typeRechargeAmount(amount);
+        cy.clickRecharge();
+        cy.get('#recharge-amount').should('have.text', amount);
+
+        cy.reload();
         cy.clickRechargeTab();
         cy.get('#recharge-amount').should('have.text', amount);
     });

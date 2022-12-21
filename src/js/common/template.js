@@ -50,21 +50,3 @@ export const RECHARGE_CONTAINER = `
     </table>
 </div>
 `;
-
-//
-// <tr>
-//     <td>500원</td>
-//     <td id="recharge-quantity-500"></td>
-// </tr>
-// <tr>
-//     <td>100원</td>
-//     <td id="recharge-quantity-100"></td>
-// </tr>
-// <tr>
-//     <td>50원</td>
-//     <td id="recharge-quantity-50"></td>
-// </tr>
-// <tr>
-//     <td>10원</td>
-//     <td id="recharge-quantity-10"></td>
-// </tr>

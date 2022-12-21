@@ -86,6 +86,19 @@ function stockSpec() {
         cy.clickStockTab();
         cy.get('#stock-inventory-container').children(`.${name}`).should('exist');
     });
+
+
+    it('같은 세션에서 새로고침을 해도 추가한 상품은 저장된다.', () => {
+        cy.typename(name);
+        cy.typeStockPrice(price);
+        cy.typeStockQuantity(quantity);
+        cy.clickStockAdd();
+        cy.get('#stock-inventory-container').children(`.${name}`).should('exist');
+
+        cy.reload();
+        cy.clickStockTab();
+        cy.get('#stock-inventory-container').children(`.${name}`).should('exist');
+    });
 }
 
 function checkAlert(scenario, message) {

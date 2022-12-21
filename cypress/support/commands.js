@@ -30,3 +30,11 @@ Cypress.Commands.add('clickRecharge', (value) => {
 Cypress.Commands.add('typeRechargeAmount', (value) => {
     cy.get('#recharge-input').type(value);
 })
+
+Cypress.Commands.add('getRechargeCoinName', (i) => {
+    return +cy.get('#recharge-cashbox-container').children('tr').eq(i).children('td').eq(i).invoke('text');
+})
+
+Cypress.Commands.add('getRechargeCoinQuantity', (i) => {
+    return +cy.get('#recharge-cashbox-container').children('tr').eq(i).children('td').eq(i + 1).invoke('text');
+})
