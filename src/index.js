@@ -1,9 +1,9 @@
-import { getProductManagerHTML, viewInitiator } from './components/productManager.js';
+import { getProductManagerHTML, viewInitiator } from './views/productManagerView.js';
 import { getProductPurchaseHTML } from './components/productPurchase.js';
 import { getVendingMachineManageMenuHTML } from './components/vendingMachineManageMenu.js';
 
-import { productManagerController } from './controller/productManagerController.js';
-import { productInventoryContainerController } from './controller/productManagerController.js';
+import { productManagerController } from './components/productManagerComponent.js';
+import { productInventoryContainerController } from './components/productManagerComponent.js';
 
 import { binders, createBinder } from './binders.js';
 
