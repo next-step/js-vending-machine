@@ -22,7 +22,7 @@ beforeEach(() => {
 describe('상품관리 탭을 테스트한다.', () => {
   context('상품을 추가할 때', () => {
     it('최초 상품 목록은 비워진 상태이다.', () => {
-      cy.get('#product-inventory-container').children().should('have.length', 0);
+      cy.get(SELECTOR.PRODUCT.INVENTORY_CONTAINER).children().should('have.length', 0);
     });
 
     it('상품명은 공백이 불가능하다.', () => {
@@ -30,6 +30,7 @@ describe('상품관리 탭을 테스트한다.', () => {
 
       cy.typeProductPrice(1000);
       cy.typeProductQuantity(5);
+
       cy.clickProductAddButton().then(() => {
         stub.calledWith(ERROR_MESSAGE.COMMON.EMPTY_INPUT);
       });
