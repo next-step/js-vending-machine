@@ -1,4 +1,5 @@
 /* eslint-disable class-methods-use-this */
+import { COMPONENTS } from './constants/components.js';
 import { SELECTOR } from './constants/selector.js';
 import { $ } from './utils/dom.js';
 
@@ -24,13 +25,13 @@ class App extends HTMLElement {
 
   #render() {
     if (this.#state.category === CATEGORY.PRODUCT_MANAGE_MENU) {
-      this.innerHTML = '<product-manage-menu />';
+      this.innerHTML = COMPONENTS.PRODUCT_MANAGE_MENU;
     }
     if (this.#state.category === CATEGORY.VENDING_MACHINE_MANAGE_MENU) {
-      this.innerHTML = '<vending-machine-manage-menu />';
+      this.innerHTML = COMPONENTS.VENDING_MACHINE_MANAGE_MENU;
     }
     if (this.#state.category === CATEGORY.PRODUCT_PURCHASE_MENU) {
-      this.innerHTML = '<product-purchase-menu />';
+      this.innerHTML = COMPONENTS.PRODUCT_PURCHASE_MENU;
     }
   }
 
