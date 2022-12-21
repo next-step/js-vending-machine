@@ -3,9 +3,11 @@ import {
     CustomError, InputError,
 } from './error.js';
 import { MIN } from './const.js';
+import { getObjectLength } from '../utils/util.js';
 
 
 export class Validator {
+    hasObjectLength = (object) => getObjectLength(object) > 0;
     setStockErrors = (values) => {
         if (Object.values(values).filter(value => !!value).length < 3) {
             throw new InputError(ERROR_MESSAGE.InputRequiredStock);

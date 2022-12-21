@@ -2,9 +2,10 @@ import { StockComponent } from './controllers/stock.component.js';
 import { VendingMachineModel } from './models/vending-machine.model.js';
 import { RechargeComponent } from './controllers/recharge.component.js';
 import { Validator } from './common/validator.js';
-import { qs, setTemplate } from './common/util.js';
+
 import { $ } from './common/const.js';
 import { RECHARGE_CONTAINER, STOCK_CONTAINER } from './common/template.js';
+import { qs, setTemplate } from './utils/view.js';
 
 export class App {
     #container = {

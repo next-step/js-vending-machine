@@ -1,3 +1,5 @@
+import { setLocalStorage } from '../utils/util.js';
+
 export class VendingMachineModel {
     stocks = {};
     recharge = {
@@ -7,6 +9,7 @@ export class VendingMachineModel {
     constructor() {
         this.stocks = this.setState(this.stocks);
         this.recharge = this.setState(this.recharge);
+        console.log(this.recharge);
     }
 
     setState(state) {

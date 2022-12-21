@@ -1,20 +1,4 @@
 /**
- * @param {number} num - 만들고자 하는 배열의 길이.
- */
-export const arr = (num) => Array(num).fill(0);
-
-/**
- * @param {number} min - 랜덤숫자의 최소 범위.
- * @param {number} max - 랜덤숫자의 최대 범위.
- */
-export const getRandom = (min, max) => Math.floor((Math.random() * (max - min + 1)) + min);
-
-/**
- * @param {any} item - 깊은 복사의 대상.
- */
-export const deepCopy = (item) => JSON.parse(JSON.stringify(item));
-
-/**
  * @param {HTMLElement} $element - display: none 시킬 요소
  */
 export const displayNone = ($element) => $element.style.display = 'none';
@@ -47,6 +31,11 @@ export const qs = (className, $parent = document) => $parent.querySelector(class
 export const setTemplate = ($element, template) => $element.insertAdjacentHTML('beforeend', template);
 
 /**
+ * @param {HTMLElement} $element - 제거 대상 요소
+ */
+export const removeAll = ($element) => $element.parentNode.removeChild($element);
+
+/**
  * @param {{
  * selector: Element,
  * event: string,
@@ -62,7 +51,7 @@ export const setEventListener = ({ selector, event, callback }) => {
  * selector: Element,
  * event: string,
  * callback: function()
-* }[]} listeners - addEventListeners 에 추가할 Object 요소들
+ * }[]} listeners - addEventListeners 에 추가할 Object 요소들
  */
 export const setEventListeners = (listeners) => {
     listeners.forEach(listener => setEventListener(listener));

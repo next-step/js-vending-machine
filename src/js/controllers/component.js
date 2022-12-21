@@ -1,5 +1,5 @@
 import { ERROR_MESSAGE, InstanceOfAbstractError } from '../common/error.js';
-import { displayNone, setEventListeners } from '../common/util.js';
+import { displayNone, setEventListeners } from '../utils/view.js';
 
 export class Component {
     _vendingMachine;
@@ -19,6 +19,8 @@ export class Component {
     _init() {
         setEventListeners(this._listeners);
         displayNone(this._$parent);
+        this._initState();
     }
 
+    _initState() {}
 }

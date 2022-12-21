@@ -46,13 +46,16 @@ export const MIN = {
     PRICE_UNIT: 10,
     QUANTITY: 1
 }
+export const COIN_TYPE = [500, 100, 50, 10];
 
-export const COINS = [
-    { coin: 500, quantity: 0 },
-    { coin: 100, quantity: 0 },
-    { coin: 50, quantity: 0 },
-    { coin: 10, quantity: 0 }
-]
+export const COINS = COIN_TYPE.map(coin => {
+    return { coin, quantity: 0 }
+});
+
+export const STORAGE_KEY = {
+    STOCK: 'STOCK',
+    RECHARGE: 'RECHARGE'
+}
 
 Object.freeze(EVENT);
 Object.freeze(COINS);
