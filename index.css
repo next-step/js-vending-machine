@@ -1,7 +1,7 @@
 .purchase-available,
-.product-inventory,
+.stock-inventory,
 .cashbox-change,
-.cashbox-remaining {
+.recharge-cashbox-table {
 	border-collapse: collapse;
 	border-spacing: 0;
 	text-align: center;
@@ -10,12 +10,12 @@
 }
 
 .cashbox-change,
-.cashbox-remaining {
+.recharge-cashbox-table {
 	width: 100%;
 	max-width: 300px;
 }
 
-.product-inventory {
+.stock-inventory {
 	width: 340px;
 }
 
@@ -24,14 +24,14 @@
 }
 
 .cashbox-change col,
-.cashbox-remaining col {
+.recharge-cashbox-table col {
 	width: 65px;
 }
 
 .purchase-available td,
-.product-inventory td,
+.stock-inventory td,
 .cashbox-change td,
-.cashbox-remaining td {
+.recharge-cashbox-table td {
 	border-color: black;
 	border-style: solid;
 	border-width: 1px;
@@ -43,9 +43,9 @@
 }
 
 .purchase-available th,
-.product-inventory th,
+.stock-inventory th,
 .cashbox-change th,
-.cashbox-remaining th {
+.recharge-cashbox-table th {
 	border-color: black;
 	border-style: solid;
 	border-width: 1px;
@@ -100,8 +100,8 @@ input[type='text'] {
 }
 
 #charge-button,
-#product-add-button,
-#vending-machine-charge-button {
+#stock-add-button,
+#recharge-button {
 	padding: 0.5rem;
 	margin-left: 0.5rem;
 }
@@ -131,19 +131,19 @@ section p {
 	flex-direction: column;
 }
 
-.product-inventory {
+.stock-inventory {
 	margin-top: 1rem;
 }
 
-.product-container input:not(:first-child) {
+.stock-inputs input:not(:first-child) {
 	margin-top: 0.5rem;
 }
 
-.vending-machine-wrapper {
+.recharge-wrapper {
 	width: 65%;
 }
 
-#product-add-button {
+#stock-add-button {
 	margin-left: 0;
 	margin-top: 0.5rem;
 	width: 78%;
@@ -157,10 +157,10 @@ button:active {
 	box-shadow: 1px 1px 2px 1px #d8d8d8 inset;
 }
 
-.cashbox-remaining,
+.recharge-cashbox-table,
 .purchase-available,
 .cashbox-change,
-.product-inventory {
+.stock-inventory {
 	border-radius: 10px;
 	border-collapse: collapse;
 	border-style: hidden;
@@ -168,12 +168,19 @@ button:active {
 }
 
 .purchase-available td,
-.product-inventory td,
+.stock-inventory td,
 .cashbox-change td,
-.cashbox-remaining td,
+.recharge-cashbox-table td,
 .purchase-available th,
-.product-inventory th,
+.stock-inventory th,
 .cashbox-change th,
-.cashbox-remaining th {
+.recharge-cashbox-table th {
 	border: 1px solid rgb(66, 66, 66);
+}
+
+.stock-container,
+.recharge-container {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
 }
