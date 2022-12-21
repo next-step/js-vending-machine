@@ -98,46 +98,45 @@ export default class VendingMachineManageMenu extends HTMLElement {
   }
 
   #getTemplate() {
-    return `<h3>자판기 돈통 충전하기</h3>
-    <div class="vending-machine-wrapper">
-      <input type="number" name="vending-machine-charge-amount" id="vending-machine-charge-input" autofocus />
-      <button id="vending-machine-charge-button">충전하기</button>
-    </div>
-    <div id='vending-machine-status-wrapper'>
-    <p>보유 금액: <span id="vending-machine-charge-amount">${this.#state.charge}</span>원</p>
-    <h3>동전 보유 현황</h3>
-    <table class="cashbox-remaining">
-      <colgroup>
-        <col />
-        <col />
-      </colgroup>
-      <thead>
-        <tr>
-          <th>동전</th>
-          <th>개수</th>
-        </tr>
-      </thead>
-      <tbody id='vending-machine-coins-container'>
-        <tr>
-          <td>500원</td>
-          <td id="vending-machine-coin-500-quantity">${this.#state.coins[COIN_500]}개</td>
-        </tr>
-        <tr>
-          <td>100원</td>
-          <td id="vending-machine-coin-100-quantity">${this.#state.coins[COIN_100]}개</td>
-        </tr>
-        <tr>
-          <td>50원</td>
-          <td id="vending-machine-coin-50-quantity">${this.#state.coins[COIN_50]}개</td>
-        </tr>
-        <tr>
-          <td>10원</td>
-          <td id="vending-machine-coin-10-quantity">${this.#state.coins[COIN_10]}개</td>
-        </tr>
-      </tbody>
-    </table>
-    </div>
-   `;
+    return /* HTML */ `<h3>자판기 돈통 충전하기</h3>
+      <div class="vending-machine-wrapper">
+        <input type="number" name="vending-machine-charge-amount" id="vending-machine-charge-input" autofocus />
+        <button id="vending-machine-charge-button">충전하기</button>
+      </div>
+      <div id="vending-machine-status-wrapper">
+        <p>보유 금액: <span id="vending-machine-charge-amount">${this.#state.charge}</span>원</p>
+        <h3>동전 보유 현황</h3>
+        <table class="cashbox-remaining">
+          <colgroup>
+            <col />
+            <col />
+          </colgroup>
+          <thead>
+            <tr>
+              <th>동전</th>
+              <th>개수</th>
+            </tr>
+          </thead>
+          <tbody id="vending-machine-coins-container">
+            <tr>
+              <td>500원</td>
+              <td id="vending-machine-coin-500-quantity">${this.#state.coins[COIN_500]}개</td>
+            </tr>
+            <tr>
+              <td>100원</td>
+              <td id="vending-machine-coin-100-quantity">${this.#state.coins[COIN_100]}개</td>
+            </tr>
+            <tr>
+              <td>50원</td>
+              <td id="vending-machine-coin-50-quantity">${this.#state.coins[COIN_50]}개</td>
+            </tr>
+            <tr>
+              <td>10원</td>
+              <td id="vending-machine-coin-10-quantity">${this.#state.coins[COIN_10]}개</td>
+            </tr>
+          </tbody>
+        </table>
+      </div> `;
   }
 
   #render() {

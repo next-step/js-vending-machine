@@ -137,76 +137,75 @@ export default class ProductPurchaseMenu extends HTMLElement {
   #getTemplate() {
     let template = '';
     this.#state.products.forEach((product) => {
-      template += `
-      <tr>
-      <th>${product.name}</th>
-      <th>${product.price}</th>
-      <th>${product.quantity}</th>
-      <th><button type='button' id='product-purchase-buy-button' data-name=${product.name}>구매하기</button></th>
-    </tr>   
+      template += /* HTML */ `
+        <tr>
+          <th>${product.name}</th>
+          <th>${product.price}</th>
+          <th>${product.quantity}</th>
+          <th><button type="button" id="product-purchase-buy-button" data-name=${product.name}>구매하기</button></th>
+        </tr>
       `;
     });
 
-    return `<div class="purchase-container">
-    <h3>충전하기</h3>
-    <div class="vending-machine-wrapper">
-      <input type="number" name="charge-amount" id="product-purchase-money-input" />
-      <button id="product-purchase-money-button">충전하기</button>
-    </div>
-    <p>충전 금액: <span id="product-purchase-charge-amount">${this.#state.chargeAmount}</span>원</p>
-  </div>
-  <table class="product-inventory">
-  <colgroup>
-    <col style="width: 140px" />
-    <col style="width: 100px" />
-    <col style="width: 100px" />
-    <col style="width: 100px" />
-  </colgroup>
-  <thead>
-    <tr>
-      <th>상품명</th>
-      <th>가격</th>
-      <th>수량</th>
-      <th>구매</th>
-    </tr>
-  </thead>
-  <tbody id="product-inventory-container">
-  ${template}
-  </tbody>
-</table>
-<h3>잔돈</h3>
-<button id='product-purchase-return-button'>반환하기</button>
-<table class="cashbox-remaining">
-  <colgroup>
-    <col />
-    <col />
-  </colgroup>
-  <thead>
-    <tr>
-      <th>동전</th>
-      <th>개수</th>
-    </tr>
-  </thead>
-  <tbody id='vending-machine-coins-container'>
-    <tr>
-      <td>500원</td>
-      <td id="vending-machine-coin-500-quantity">${this.#state.returnCoins[COIN_500]}개</td>
-    </tr>
-    <tr>
-      <td>100원</td>
-      <td id="vending-machine-coin-100-quantity">${this.#state.returnCoins[COIN_100]}개</td>
-    </tr>
-    <tr>
-      <td>50원</td>
-      <td id="vending-machine-coin-50-quantity">${this.#state.returnCoins[COIN_50]}개</td>
-    </tr>
-    <tr>
-      <td>10원</td>
-      <td id="vending-machine-coin-10-quantity">${this.#state.returnCoins[COIN_10]}개</td>
-    </tr>
-  </tbody>
-</table>
-  `;
+    return /* HTML */ `<div class="purchase-container">
+        <h3>충전하기</h3>
+        <div class="vending-machine-wrapper">
+          <input type="number" name="charge-amount" id="product-purchase-money-input" />
+          <button id="product-purchase-money-button">충전하기</button>
+        </div>
+        <p>충전 금액: <span id="product-purchase-charge-amount">${this.#state.chargeAmount}</span>원</p>
+      </div>
+      <table class="product-inventory">
+        <colgroup>
+          <col style="width: 140px" />
+          <col style="width: 100px" />
+          <col style="width: 100px" />
+          <col style="width: 100px" />
+        </colgroup>
+        <thead>
+          <tr>
+            <th>상품명</th>
+            <th>가격</th>
+            <th>수량</th>
+            <th>구매</th>
+          </tr>
+        </thead>
+        <tbody id="product-inventory-container">
+          ${template}
+        </tbody>
+      </table>
+      <h3>잔돈</h3>
+      <button id="product-purchase-return-button">반환하기</button>
+      <table class="cashbox-remaining">
+        <colgroup>
+          <col />
+          <col />
+        </colgroup>
+        <thead>
+          <tr>
+            <th>동전</th>
+            <th>개수</th>
+          </tr>
+        </thead>
+        <tbody id="vending-machine-coins-container">
+          <tr>
+            <td>500원</td>
+            <td id="vending-machine-coin-500-quantity">${this.#state.returnCoins[COIN_500]}개</td>
+          </tr>
+          <tr>
+            <td>100원</td>
+            <td id="vending-machine-coin-100-quantity">${this.#state.returnCoins[COIN_100]}개</td>
+          </tr>
+          <tr>
+            <td>50원</td>
+            <td id="vending-machine-coin-50-quantity">${this.#state.returnCoins[COIN_50]}개</td>
+          </tr>
+          <tr>
+            <td>10원</td>
+            <td id="vending-machine-coin-10-quantity">${this.#state.returnCoins[COIN_10]}개</td>
+          </tr>
+        </tbody>
+      </table> `;
   }
 
   #render() {
