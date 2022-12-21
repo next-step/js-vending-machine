@@ -98,7 +98,7 @@ describe('자판기 요구사항을 점검한다', () => {
     // prettier-ignore
     const {
       UNITS,
-    } = VENDING_MACHINE_CONSTANT.CHANGES;
+    } = VENDING_MACHINE_CONSTANT.UNIT_INFO;
     const { MONEY_UNIT, AMOUNT_POSTFIX } = VENDING_MACHINE_CONSTANT;
 
     beforeEach(() => {

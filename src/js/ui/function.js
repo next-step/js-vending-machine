@@ -31,7 +31,7 @@ export const addProduct = (vendingMachine) => {
  * @param {VendingMachine} vendingMachine
  */
 export const insertCoins = (vendingMachine) => {
-  vendingMachine.unitCountMachine.accumulateUnitCountInfo(Number($element.inputChargeAmount.value));
+  vendingMachine.unitCountMachine.accumulateUnitCountInfo($element.inputChargeAmount.value);
 };
 
 /**
@@ -73,14 +73,15 @@ export const renderProduct = (vendingMachine) => {
  */
 export const renderChargeAmount = (vendingMachine) => {
   const unitCountInfo = vendingMachine.unitCountMachine.unitCountInfo;
-  const unitArray = vendingMachine.unitCountMachine.getUnits();
-  querySelector(SELECTOR_MAP.TABLE.VENDING_MACHINE_CHARGE_AMOUNT).innerHTML = unitArray.reduce((result, unit) => {
-    const row = `<tr>
+  const unitArray = vendingMachine.unitCountMachine.units;
+  querySelector(SELECTOR_MAP.TABLE.VENDING_MACHINE_CHARGE_AMOUNT).innerHTML = unitArray
+    .map(
+      (unit) => `<tr>
       <td>${unit}${VENDING_MACHINE_CONSTANT.MONEY_UNIT}</td>
       <td>${unitCountInfo.unitInfo[unit]}${VENDING_MACHINE_CONSTANT.AMOUNT_POSTFIX}</td>
-    </tr>`;
-    return result + row;
-  }, '');
+    </tr>`
+    )
+    .join('');
 };
 
 /**

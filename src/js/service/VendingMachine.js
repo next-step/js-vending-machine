@@ -1,8 +1,15 @@
-import { ALERT_MESSAGE } from './constant.js';
+import { ALERT_MESSAGE, VENDING_MACHINE_CONSTANT } from './constant.js';
 import { removeSpace } from '../util/string.js';
-import { isAmountValid, isNameValid, isPriceValid } from './validator.js';
 import ValidationError from './ValidationError.js';
 import UnitCountMachine from './UnitCountMachine.js';
+import { isGreaterThan, isInteger, isMultipleOf } from './validator.js';
+import { cloneDeep } from '../util/object.js';
+
+const {
+  MIN_PRICE: PRODUCT_MIN_PRICE,
+  MULTIPLE_PRICE: PRODUCT_MULTIPLE_PRICE,
+  MIN_AMOUNT: PRODUCT_MIN_AMOUNT,
+} = VENDING_MACHINE_CONSTANT.PRODUCT;
 
 export class VendingMachine {
   #products;
@@ -23,7 +30,7 @@ export class VendingMachine {
    * @returns {VendingMachineItem[]}
    */
   get products() {
-    return this.#products;
+    return cloneDeep(this.#products);
   }
 
   get unitCountMachine() {
@@ -52,16 +59,38 @@ export class VendingMachine {
    * @param {VendingMachineItem} vendingMachineItem
    */
   #validateProduct({ name, price, amount }) {
-    if (!isNameValid(name)) {
+    if (!VendingMachine.#isNameValid(name)) {
       throw new ValidationError(ALERT_MESSAGE.VALIDATION.PRODUCT.NAME_BLANK);
     }
-    if (!isPriceValid(price)) {
+    if (!VendingMachine.#isPriceValid(price)) {
       throw new ValidationError(ALERT_MESSAGE.VALIDATION.PRODUCT.PRICE);
     }
-    if (!isAmountValid(amount)) {
+    if (!VendingMachine.#isAmountValid(amount)) {
       throw new ValidationError(ALERT_MESSAGE.VALIDATION.PRODUCT.AMOUNT);
     }
   }
+
+  /**
+   *
+   * @param {string} name
+   */
+  static #isNameValid(name) {
+    return (name || '').length > 0;
+  }
+
+  /**
+   *
+   * @param {number|string} price
+   */
+  static #isPriceValid(price) {
+    return isInteger(price) && isGreaterThan(price, PRODUCT_MIN_PRICE) && isMultipleOf(price, PRODUCT_MULTIPLE_PRICE);
+  }
+  /**
+   *
+   * @param {number|string} amount
+   * @returns
+   */
+  static #isAmountValid = (amount) => isInteger(amount) && isGreaterThan(amount, PRODUCT_MIN_AMOUNT);
 }
 
 export const vendingMachine = new VendingMachine();
