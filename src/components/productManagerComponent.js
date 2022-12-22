@@ -1,7 +1,12 @@
 import { render } from '../binders.js';
 import { Product } from '../models/product.js';
 
+// TODO: localhost 다루는 로직은 util에서
+// TODO: 처음 App 실행 시, localhost에서 price 정보를 가져와야함.
+// TODO: Store로 따로 분리 리팩토링
 const products = [];
+
+const MIN_PRICE = 100;
 
 const productControllerInitState = {
   name: '',
@@ -36,9 +41,42 @@ export function productManagerController() {
     },
     productAddButton: {
       events: {click: () => {
-        // TODO: 입력한 state들의 validation 넣기
+        // TODO: Validate 리팩토링
+        if (!name) {
+          alert('상품 이름을 입력해주세요!');
+          productNameInputRef.element.focus();
+          return;
+        }
+
+        if (!price && price > 0) {
+          alert('상품 가격을 양수로 입력해주세요!');
+          productPriceInputRef.element.focus();
+          return;
+        }
+
+        if (!quantity && quantity > 0) {
+          alert('상품 수량을 양수로 입력해주세요!');
+          productQuantityInputRef.element.focus();
+          return;
+        }
+
+        if (price < MIN_PRICE) {
+          alert('가격은 100원 이상이어야 합니다.');
+          productPriceInputRef.element.focus();
+          return;
+        }
+
+        if (price % 10 !== 0) {
+          alert('가격은 10원 단위로 떨어져야 합니다.');
+          productPriceInputRef.element.focus();
+          return;
+        }
+
+        // TODO: 등록시 localhost의 product 정보 함께 갱신
         products.push(new Product(state));
+
         state = productControllerInitState;
+
         productNameInputRef.element.value = '';
         productPriceInputRef.element.value = '';
         productQuantityInputRef.element.value = '';
