@@ -1,5 +1,6 @@
-import { STORAGE, VENDING_MACHINE_INITIAL_STATE } from '../../src/constants/common.js';
 import { $ELEMENT } from '../../src/constants/element.js';
+import { VENDING_MACHINE_INITIAL_STATE } from '../../src/constants/initialState.js';
+import { STORAGE } from '../../src/constants/storage.js';
 
 const MOCK = {
   NAME: '콜라',

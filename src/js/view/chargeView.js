@@ -1,6 +1,7 @@
 import { $ELEMENT } from '../../constants/element.js';
 
 export default class ChargeView {
+  $chargeContainer = document.querySelector($ELEMENT.CHARGE_CONTAINER);
   $chargeInput = document.querySelector($ELEMENT.CHARGE_INPUT);
   $chargeButton = document.querySelector($ELEMENT.CHARGE_BUTTON);
   $chargeAmount = document.querySelector($ELEMENT.CHARGE_AMOUNT);
@@ -27,18 +28,20 @@ export default class ChargeView {
   };
 
   addChargeEvent = (addCharge) => {
-    this.$chargeButton.addEventListener('click', () => {
-      addCharge();
+    this.$chargeButton.addEventListener('click', (event) => {
+      addCharge(event);
     });
   };
 
-  addTypeChargeEvent = ({ typeCoin, addCharge }) => {
+  addSubmitChargeEvent = (addCharge) => {
+    this.$chargeContainer.addEventListener('submit', (event) => {
+      addCharge(event);
+    });
+  };
+
+  addTypeChargeEvent = (typeCoin) => {
     this.$chargeInput.addEventListener('keyup', (event) => {
       typeCoin(event.target.value);
-
-      if (event.key === 'Enter') {
-        addCharge();
-      }
     });
   };
 }

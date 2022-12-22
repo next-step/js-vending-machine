@@ -18,7 +18,7 @@
 		<h3>상품 추가하기</h3>
 		<div class="product-container">
 			<input type="text" id="product-name-input" placeholder="상품명" />
-			<input type="number" id="product-price-input" placeholder="가격" />
+			<input type="number" id="product-price-input" placeholder="가격" step="10" />
 			<input type="number" id="product-quantity-input" placeholder="수량" />
 			<button id="product-add-button">추가하기</button>
 		</div>
@@ -41,10 +41,10 @@
 	<div id="charging-money-container" class="contents-container">
 		<div class="purchase-container">
 			<h3>충전하기</h3>
-			<div class="vending-machine-wrapper">
-				<input type="number" name="charge-amount" id="charge-input" placeholder="충전할 금액을 입력해주세요" />
+			<form class="vending-machine-wrapper">
+				<input type="number" name="charge-amount" id="charge-input" placeholder="충전할 금액을 입력해주세요" step="10" min="0" />
 				<button id="charge-button">충전하기</button>
-			</div>
+			</form>
 			<p>충전 금액: <span id="charge-amount">0</span>원</p>
 		</div>
 		<!-- <h3>잔돈</h3> -->

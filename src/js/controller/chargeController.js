@@ -5,8 +5,9 @@ export default class ChargeController {
     this.model = model;
     this.view = view;
 
+    this.view.addTypeChargeEvent(this.typeCoin);
     this.view.addChargeEvent(this.addCharge);
-    this.view.addTypeChargeEvent({ typeCoin: this.typeCoin, addCharge: this.addCharge });
+    this.view.addSubmitChargeEvent(this.addCharge);
     this.view.renderCoinsList({ coinMap: this.model.state.coinMap });
     this.view.renderTotalCoin({ totalAmount: this.model.state.chargedTotal });
   }
@@ -48,10 +49,12 @@ export default class ChargeController {
     if (!Number.isInteger(Number(coinValue))) return;
 
     this.model.addTypeCoins(Number(coinValue));
-    this.view.renderTypedCoin({ coinValue: this.model.state.typedCoin });
+    this.view.renderTypedCoin({ coinValue: this.model.state.typedCoin === 0 ? null : this.model.state.typedCoin });
   };
 
-  addCharge = () => {
+  addCharge = (event) => {
+    event.preventDefault();
+
     const { typedCoin } = this.model.state;
 
     const isValidCoin = typedCoin >= 100 && typedCoin % 10 === 0 && typedCoin;

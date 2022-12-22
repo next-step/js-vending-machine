@@ -1,5 +1,5 @@
-import { VENDING_MACHINE_INITIAL_STATE } from '../../constants/common.js';
-import { $ELEMENT } from '../../constants/element.js';
+import { $ELEMENT } from '../../constants/element.js'
+import { VENDING_MACHINE_INITIAL_STATE } from '../../constants/initialState.js'
 
 export default class MenuView {
   $menus = document.querySelectorAll($ELEMENT.MENU);

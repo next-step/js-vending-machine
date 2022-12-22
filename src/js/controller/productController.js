@@ -28,7 +28,7 @@ class ProductController {
   };
 
   validatePrice = ({ price }) => {
-    const isValidPrice = price % 10 === 0 && price >= VALIDATE.MIN_PRICE;
+    const isValidPrice = price % VALIDATE.MIN_UNIT === 0 && price >= VALIDATE.MIN_PRICE;
 
     if (!isValidPrice) alert(ALERT.PRICE_VALIDATION);
 

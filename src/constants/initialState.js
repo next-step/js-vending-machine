@@ -1,7 +1,3 @@
-export const STORAGE = {
-  KEY: 'vending-machine-state',
-};
-
 export const DEFAULT_TYPED_PRODUCT = {
   name: '',
   price: null,

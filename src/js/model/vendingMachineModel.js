@@ -1,4 +1,5 @@
-import { DEFAULT_TYPED_PRODUCT, STORAGE, VENDING_MACHINE_INITIAL_STATE } from '../../constants/common.js';
+import { DEFAULT_TYPED_PRODUCT, VENDING_MACHINE_INITIAL_STATE } from '../../constants/initialState.js';
+import { STORAGE } from '../../constants/storage.js';
 import storage from '../utils/storage.js';
 
 class vendingMachineModel {
