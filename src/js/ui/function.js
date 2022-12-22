@@ -23,7 +23,7 @@ export const addProduct = (vendingMachine) => {
     $element.inputPrice.value,
     $element.inputAmount.value,
   ];
-  vendingMachine.addItem({ name, price, amount });
+  vendingMachine.productManager.addProduct({ name, price, amount });
 };
 
 /**
@@ -55,7 +55,9 @@ export const clearChargeAmountInput = () => {
  * @param {VendingMachine} vendingMachine
  */
 export const renderProduct = (vendingMachine) => {
-  const { products } = vendingMachine;
+  const {
+    productManager: { products },
+  } = vendingMachine;
   querySelector(SELECTOR_MAP.TABLE.VENDING_MACHINE_PRODUCT_TBODY).innerHTML = products
     .map(
       ({ name, price, amount }) => `<tr>
