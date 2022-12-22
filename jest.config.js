@@ -4,7 +4,7 @@ const config = {
   transform: {
     '^.+\\.(js|jsx)?$': 'babel-jest',
   },
-  testEnvironment: 'node',
+  testEnvironment: 'jest-environment-jsdom',
   moduleNameMapper: {
     '^@/(.*)$': '<rootDir>/$1',
   },

@@ -36,25 +36,13 @@ class ProductController {
   };
 
   checkSameProduct = ({ products, typedProduct }) => {
-    let isModified = false;
+    const isExist = products.findIndex((product) => product.name === typedProduct.name) > -1;
 
-    const newProducts = products.map((product) => {
-      const { name } = product;
-      if (name === typedProduct.name) {
-        isModified = true;
-        return {
-          name,
-          price: typedProduct.price,
-          quantity: typedProduct.quantity,
-        };
-      } else {
-        return product;
-      }
-    });
+    if (isExist) {
+      return products.map((product) => (product.name === typedProduct.name ? typedProduct : product));
+    }
 
-    if (!isModified) return [...newProducts, typedProduct];
-
-    return newProducts;
+    return [...products, typedProduct];
   };
 
   typeProductName = ({ name }) => {
