@@ -1,5 +1,5 @@
-import RegisterProduct from './RegisterProduct.js';
-import ProductsInventory from './ProductsInventory.js';
+import AddProduct from './AddProduct.js';
+import ProductsList from './ProductsList.js';
 import store from '../store/store.js';
 
 export default function ManageProductsPage({ $target }) {
@@ -13,11 +13,11 @@ export default function ManageProductsPage({ $target }) {
   };
 
   this.setState = () => {
-    const newState = store.getState();
-    this.productsInventory.setState(newState);
+    const newState = store.getState().products;
+    this.productsList.setState(newState);
   };
 
-  this.registerProduct = new RegisterProduct({
+  this.addProduct = new AddProduct({
     $target: $page,
     onSubmit: (name, price, quantity) => {
       const index = store.getState().products.findIndex($el => $el.name === name);
@@ -37,8 +37,8 @@ export default function ManageProductsPage({ $target }) {
     },
   });
 
-  this.productsInventory = new ProductsInventory({
+  this.productsList = new ProductsList({
     $target: $page,
-    state: store.getState(),
+    state: store.getState().products,
   });
 }

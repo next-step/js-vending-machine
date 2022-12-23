@@ -2,7 +2,7 @@
 import ERROR_MESSAGES from '../constants/errorMessages.js';
 import { MINIMUM_QUANTITY, MINIMUM_PRICE, DIVISIBLE_PRICE } from '../constants/vendingMachine.js';
 
-export default function RegisterProduct({ $target, onSubmit }) {
+export default function AddProduct({ $target, onSubmit }) {
   const $div = document.createElement('div');
   this.onSubmit = onSubmit;
   this.$target = $target;
@@ -22,6 +22,7 @@ export default function RegisterProduct({ $target, onSubmit }) {
 
   this.render();
 
+  // !: validation 정리하던지 하자 이따..
   const isEmpty = input => input.trim().length === 0;
   const isTooSmallQuantity = quantity => Number(quantity) < MINIMUM_QUANTITY;
   const isTooSmallPrice = price => Number(price) < MINIMUM_PRICE;

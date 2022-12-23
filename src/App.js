@@ -1,6 +1,6 @@
 import ManageProductsPage from './js/components/ManageProductsPage.js';
 import PurchaseProduct from './js/components/PurchaseProduct.js';
-import ChargingMoney from './js/components/ChargingMoney.js';
+import ChargingMoneyPage from './js/components/ChargingMoneyPage.js';
 import { init } from './router.js';
 
 // 나중에 hosting 처리해주기
@@ -13,10 +13,11 @@ export default function App({ $target }) {
     this.$target = $target;
     this.$target.innerHTML = '';
 
+    // !: swtich-case 로 바꾸끼
     if (pathname === '/' || pathname === '/manage-products') {
       new ManageProductsPage({ $target }).render();
     } else if (pathname === '/charging-money') {
-      new ChargingMoney({ $target });
+      new ChargingMoneyPage({ $target }).render();
     } else if (pathname === '/purchase-product') {
       new PurchaseProduct({ $target });
     }

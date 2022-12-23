@@ -1,5 +1,12 @@
 const INITIAL_STATE = {
   products: [],
+  totalMoney: 0,
+  coins: {
+    500: 0,
+    100: 0,
+    50: 0,
+    10: 0,
+  },
 };
 
 const store = (() => {

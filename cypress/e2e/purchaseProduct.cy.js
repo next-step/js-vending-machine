@@ -1,9 +1,11 @@
 import ERROR_MESSAGES from '../../src/js/constants/errorMessages';
 
 Cypress.Commands.add('containProduct', (name, price, quantity) => {
+  const printedPrice = Number(price).toLocaleString('ko-KR');
+  const printedQuantity = Number(quantity).toLocaleString('ko-KR');
   cy.$('products-inventory').find('td').eq(0).should('contain', name);
-  cy.$('products-inventory').find('td').eq(1).should('contain', price);
-  cy.$('products-inventory').find('td').eq(2).should('contain', quantity);
+  cy.$('products-inventory').find('td').eq(1).should('contain', printedPrice);
+  cy.$('products-inventory').find('td').eq(2).should('contain', printedQuantity);
 });
 
 Cypress.Commands.add('registerProduct', (name, price, quantity) => {

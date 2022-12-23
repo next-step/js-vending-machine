@@ -24,7 +24,7 @@ export default function PurchaseProduct({ $target }) {
         </div>
       <hr />
 			<h3>구매할 수 있는 상품 현황</h3>
-      <table class="product-inventory not-pressed">
+      <table class="product-inventory pressed">
         <thead>
           <tr>
             <th>상품명</th>

@@ -1,4 +1,4 @@
-export default function ProductsInventory({ $target, state }) {
+export default function ProductList({ $target, state }) {
   const $div = document.createElement('div');
   this.$target = $target;
   this.$target.appendChild($div);
@@ -10,9 +10,8 @@ export default function ProductsInventory({ $target, state }) {
   };
 
   this.render = () => {
-    const { products } = this.state;
     $div.innerHTML = `
-			<h3>추가된 상품</h3>
+			<h3>상품 리스트</h3>
       <table data-cy="products-inventory" class="product-inventory pressed">
         <thead>
           <tr>
@@ -22,13 +21,13 @@ export default function ProductsInventory({ $target, state }) {
           </tr>
         </thead>
         <tbody id="product-inventory-container">
-					${products
+					${this.state
             .map(
               $el =>
                 `<tr>
                   <td>${$el.name}</td>
-                  <td>${$el.price}</td>
-                  <td>${$el.quantity}</td>
+                  <td>${$el.price.toLocaleString('ko-KR')}</td>
+                  <td>${$el.quantity.toLocaleString('ko-KR')}</td>
                 </tr>`,
             )
             .join('')}
