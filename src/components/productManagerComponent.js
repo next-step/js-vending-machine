@@ -14,11 +14,12 @@ const productControllerInitState = {
   quantity: 0,
 }
 
+const productNameInputRef = { element: null };
+const productPriceInputRef = { element: null };
+const productQuantityInputRef = { element: null };
+
 export function productManagerController() {
   let state = productControllerInitState;
-  const productNameInputRef = { element: null };
-  const productPriceInputRef = { element: null };
-  const productQuantityInputRef = { element: null };
 
   return {
     productNameInput: {
@@ -80,6 +81,7 @@ export function productManagerController() {
         productNameInputRef.element.value = '';
         productPriceInputRef.element.value = '';
         productQuantityInputRef.element.value = '';
+        // TODO: binder 이름 상수로 관리하기
         render('productInventoryContainerBinder');
       }},
     }

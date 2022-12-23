@@ -1,4 +1,4 @@
-import { View } from "../core/View";
+import { View } from "../core/View.js";
 
 export function viewInitiator(rootElement, HTML) {
   rootElement.innerHTML = HTML;
