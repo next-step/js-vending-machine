@@ -7,6 +7,7 @@ const store = (() => {
   return {
     setState: newState => {
       state = { ...state, ...newState };
+      console.log(state);
     },
     getState: () => state,
   };

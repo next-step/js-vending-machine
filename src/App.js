@@ -10,6 +10,8 @@ export default function App({ $target }) {
   this.route = () => {
     const { pathname } = location;
     console.log(pathname);
+    this.$target = $target;
+    this.$target.innerHTML = '';
 
     if (pathname === '/' || pathname === '/manage-products') {
       new ManageProductsPage({ $target }).render();

@@ -1,7 +1,8 @@
+import ERROR_MESSAGES from '../../src/js/constants/errorMessages';
 // Cypress.Commands.add('$', dataset => cy.get(`[data-cy=${dataset}]`));
 const $ = dataset => cy.get(`[data-cy=${dataset}]`);
 
-Cypress.Commands.add('alert', message => {
+Cypress.Commands.add('doAlert', message => {
   cy.on('window:alert', str => {
     expect(str).to.equal(message);
   });
@@ -44,20 +45,60 @@ describe('자판기 어플리케이션 테스트', () => {
       $('product-price-input').should('exist');
       $('product-quantity-input').should('exist');
       $('product-add-button').should('exist');
-
-      // $('product-name-input').type('콜라');
-      // $('product-price-input').type('1,000');
-      // $('product-quantity-input').type('5');
-      // $('product-add-button').click();
     });
 
-    it('상품명은 공백이 불가능하다.', () => {
+    it('상품명은 공백이면 alert을 띄운다.', () => {
       $('product-name-input').type(' ');
-      $('product-price-input').type('1,000');
+      $('product-price-input').type('1000');
       $('product-quantity-input').type('5');
       $('product-add-button').click();
 
-      cy.alert('상품명은 공백이 불가능합니다.');
+      cy.doAlert(ERROR_MESSAGES.NAME_SHOULD_NOT_EMPTY);
+    });
+
+    it('가격은 공백이면 alert을 띄운다.', () => {
+      $('product-name-input').type('콜라');
+      $('product-price-input').type(' ');
+      $('product-quantity-input').type('5');
+      $('product-add-button').click();
+
+      cy.doAlert(ERROR_MESSAGES.PRICE_SHOULD_NOT_EMPTY);
+    });
+
+    it('수량이 공백이면 alert을 띄운다.', () => {
+      $('product-name-input').type('콜라');
+      $('product-price-input').type('1000');
+      $('product-quantity-input').type(' ');
+      $('product-add-button').click();
+
+      cy.doAlert(ERROR_MESSAGES.QUANTITY_SHOULD_NOT_EMPTY);
+    });
+
+    it('최소 가격보다 입력한 가격이 적으면 alert을 띄운다.', () => {
+      $('product-name-input').type('콜라');
+      $('product-price-input').type('10');
+      $('product-quantity-input').type('5');
+      $('product-add-button').click();
+
+      cy.doAlert(ERROR_MESSAGES.TOO_SMALL_PRICE);
+    });
+
+    it('최소 수량보다 입력한 수량이 적으면 alert을 띄운다.', () => {
+      $('product-name-input').type('콜라');
+      $('product-price-input').type('1000');
+      $('product-quantity-input').type('0');
+      $('product-add-button').click();
+
+      cy.doAlert(ERROR_MESSAGES.TOO_SMALL_QUANTITY);
+    });
+
+    it('상품의 가격이 10으로 나누어떨어지지 않으면 alert을 띄운다.', () => {
+      $('product-name-input').type('콜라');
+      $('product-price-input').type('777');
+      $('product-quantity-input').type('5');
+      $('product-add-button').click();
+
+      cy.doAlert(ERROR_MESSAGES.NOT_DIVISIBLE_PRICE);
     });
   });
 });
