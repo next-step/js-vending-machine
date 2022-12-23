@@ -45,10 +45,45 @@ const coin10Ref = { element: null };
 export function cashBoxComponent() {
   if (totalAmountRef.element) totalAmountRef.element.textContent = vendingMachineState.amount;
   // TODO: Business Logic : 계산 돈 쪼개기 계산 함수 만들기
-  if (coin500Ref.element) coin500Ref.element.textContent = vendingMachineState.amount;
-  if (coin100Ref.element) coin100Ref.element.textContent = vendingMachineState.amount;
-  if (coin50Ref.element) coin50Ref.element.textContent = vendingMachineState.amount;
-  if (coin10Ref.element) coin10Ref.element.textContent = vendingMachineState.amount;
+
+  function divideNumberInCountOfDivideLevels(totalAmount, divideLevels) {
+    if (divideLevels.some((divideLevel) => typeof divideLevel !== 'number')) {
+      throw new Error('divideLevels should be consisted in numbers');
+    }
+
+    if (divideLevels.some((divideLevel, i) => {
+      if (i > 0) {
+        const prevDivideLevel = divideLevels[i - 1];
+        return prevDivideLevel <= divideLevel;
+      }
+      return false;
+    })) {
+      throw new Error('divideLevels should be sorted in descending order');
+    }
+
+    let currentTotalAmount = totalAmount;
+    return divideLevels.map((divideLevel, i) => {
+      const count = Math.floor(currentTotalAmount / divideLevel);
+      currentTotalAmount -= count * divideLevel;
+
+      return count;
+    });
+  }
+  const [
+    coin500Count,
+    coin100Count,
+    coin50Count,
+    coin10Count,
+  ] = vendingMachineState.amount
+    // TODO: util에 넣어놓기
+    ? divideNumberInCountOfDivideLevels(vendingMachineState.amount, [500, 100, 50, 10])
+    : [];
+
+  // TODO: ref 객체 만들면서 callback 넣어줄 수 있는 interface 뚫어주기
+  if (coin500Ref.element) coin500Ref.element.textContent = coin500Count;
+  if (coin100Ref.element) coin100Ref.element.textContent = coin100Count;
+  if (coin50Ref.element) coin50Ref.element.textContent = coin50Count;
+  if (coin10Ref.element) coin10Ref.element.textContent = coin10Count;
 
   return {
     totalAmount: {
