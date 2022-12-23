@@ -1,4 +1,4 @@
-import { View } from "../core/View";
+import { View } from "../core/View.js";
 
 export function viewInitiator(rootElement, HTML) {
   rootElement.innerHTML = HTML;
@@ -6,11 +6,11 @@ export function viewInitiator(rootElement, HTML) {
   const $cashBox = document.getElementById('cash-box');
 
   return {
-    vendingMachineController: new View($vendingMachineController, {
-      chargeAmountInput: 'vending-machine-charge-input',
+    vendingMachineControllerView: new View($vendingMachineController, {
+      chargeAmountInput: '#vending-machine-charge-input',
       chargeButton: '#vending-machine-charge-button'
     }),
-    cashBox: new View($cashBox, {
+    cashBoxView: new View($cashBox, {
       totalAmount: '#vending-machine-charge-amount',
       coin500: '#vending-machine-coin-500-quantity',
       coin100: '#vending-machine-coin-100-quantity',
