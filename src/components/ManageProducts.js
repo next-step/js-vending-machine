@@ -10,4 +10,11 @@ export default function ManageProducts({ $target }) {
     this.state = newState;
     this.render();
   };
+
+  this.init = () => {
+    console.log(this.$target);
+    this.$target.innerHTML = '<h1>ManageProducts</h1>';
+  };
+
+  this.init();
 }

@@ -10,4 +10,11 @@ export default function PurchaseProduct({ $target }) {
     this.state = newState;
     this.render();
   };
+
+  this.init = () => {
+    console.log(this.$target);
+    this.$target.innerHTML = '<h1>PurchaseProduct</h1>';
+  };
+
+  this.init();
 }

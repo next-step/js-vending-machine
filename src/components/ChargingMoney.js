@@ -10,4 +10,11 @@ export default function ChargingMoney({ $target }) {
     this.state = newState;
     this.render();
   };
+
+  this.init = () => {
+    console.log(this.$target);
+    this.$target.innerHTML = '<h1>ChargingMoney</h1>';
+  };
+
+  this.init();
 }

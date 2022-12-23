@@ -8,6 +8,7 @@
   "rules": {
     "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }],
     "no-restricted-globals": "off",
-    "import/extensions": "off"
+    "import/extensions": "off",
+    "no-new": "off"
   }
 }
