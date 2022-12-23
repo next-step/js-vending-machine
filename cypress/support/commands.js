@@ -23,3 +23,12 @@
 //
 // -- This will overwrite an existing command --
 // Cypress.Commands.overwrite('visit', (originalFn, url, options) => { ... })
+
+Cypress.Commands.add('doAlert', message => {
+  cy.on('window:alert', str => {
+    expect(str).to.equal(message);
+  });
+});
+
+Cypress.Commands.add('$', dataset => cy.get(`[data-cy=${dataset}]`));
+
