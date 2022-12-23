@@ -1,8 +1,8 @@
 import { render } from '../binders.js';
 import { Product } from '../models/product.js';
 
-// TODO: localhost 다루는 로직은 util에서
-// TODO: 처음 App 실행 시, localhost에서 price 정보를 가져와야함.
+// TODO: localStorage를 다루는 로직은 util에서
+// TODO: 처음 App 실행 시, localStorage에서 price 정보를 가져와야함.
 // TODO: Store로 따로 분리 리팩토링
 const products = [];
 
@@ -72,7 +72,7 @@ export function productManagerController() {
           return;
         }
 
-        // TODO: 등록시 localhost의 product 정보 함께 갱신
+        // TODO: 등록시 localStorage의 product 정보 함께 갱신
         products.push(new Product(state));
 
         state = productControllerInitState;
