@@ -3,6 +3,9 @@ import PurchaseProduct from './components/PurchaseProduct.js';
 import ChargingMoney from './components/ChargingMoney.js';
 import { init } from './router.js';
 
+// 나중에 hosting 처리해주기
+// const BASE_URL = 'js-vending-machine/';
+
 export default function App({ $target }) {
   this.route = () => {
     const { pathname } = location;

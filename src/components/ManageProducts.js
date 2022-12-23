@@ -13,14 +13,14 @@ export default function ManageProducts({ $target }) {
 
   this.init = () => {
     this.$target.innerHTML = ` 
-			<div class="container not-pressed">
+			<section>
       <h3>상품 추가하기</h3>
-      <div class="product-container">
+      <form class="add-product-form">
         <input type="text" id="product-name-input" placeholder="상품명" />
         <input type="number" id="product-price-input" placeholder="가격" />
         <input type="number" id="product-quantity-input" placeholder="수량" />
-        <button class="btn" id="product-add-button">추가하기</button>
-      </div>
+        <input type="submit" class="btn" id="product-add-button" value="추가하기" />
+			</form>
       <hr />
       <table class="product-inventory not-pressed">
         <thead>
@@ -38,7 +38,7 @@ export default function ManageProducts({ $target }) {
           </tr>
         </tbody>
       </table>
-    </div>`;
+    </section>`;
   };
 
   this.init();

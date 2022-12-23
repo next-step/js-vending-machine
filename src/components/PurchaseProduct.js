@@ -13,7 +13,7 @@ export default function PurchaseProduct({ $target }) {
 
   this.init = () => {
     this.$target.innerHTML = `
-      <div class="container not-pressed">
+      <section>
         <div class="purchase-container">
           <h3>금액 투입</h3>
           <form class="input-money-form">
@@ -42,7 +42,9 @@ export default function PurchaseProduct({ $target }) {
       </table>
       <hr />
         <h3>잔돈</h3>
-        <button class="btn" id="coin-return-button">반환하기</button>
+				<form>
+					<input type="submit" class="btn" id="coin-return-button" value="반환하기"/>
+				</form>
         <table class="cashbox-change pressed">
           <thead>
             <tr>
@@ -70,7 +72,7 @@ export default function PurchaseProduct({ $target }) {
           </tbody>
         </table>
       </div>	
-		</div>`;
+		</section>`;
   };
 
   this.init();

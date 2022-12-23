@@ -13,10 +13,10 @@ export default function ChargingMoney({ $target }) {
 
   this.init = () => {
     this.$target.innerHTML = `
-      <div class="container not-pressed">
+      <section>
         <h3>자판기 잔돈 충전하기</h3>
         <div class="vending-machine-wrapper">
-					<form class="charging-moneny-form">
+					<form class="charging-money-form">
           <input
             type="number"
             name="vending-machine-charge-amount"
@@ -55,7 +55,7 @@ export default function ChargingMoney({ $target }) {
             </tr>
           </tbody>
         </table>
-      </div>
+      </section>
     `;
   };
 
