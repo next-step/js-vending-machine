@@ -49,6 +49,7 @@ export default function RegisterProduct({ $target, onSubmit }) {
       this.validate(inputName, inputPrice, inputQuantity);
     } catch (error) {
       alert(error.message);
+      return;
     }
 
     this.onSubmit(inputName, Number(inputPrice), Number(inputQuantity));
