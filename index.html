@@ -11,9 +11,9 @@
   <body>
     <header>
       <h1>🥤자판기🥤</h1>
-      <button type="button" id="product-manage-menu">상품 관리</button>
-      <button type="button" id="vending-machine-manage-menu">잔돈충전</button>
-      <button type="button" id="product-purchase-menu" disabled>상품 구매</button>
+      <styled-button type="button" id="product-manage-menu">상품 관리</styled-button>
+      <styled-button type="button" id="vending-machine-manage-menu">잔돈충전</styled-button>
+      <styled-button type="button" id="product-purchase-menu" disabled>상품 구매</styled-button>
     </header>
     <div id="app">
       <section id="section-managing-product" class="section-tab">
@@ -23,7 +23,7 @@
             <input type="text" id="product-name-input" class="input-inline" placeholder="상품명" />
             <input type="number" id="product-price-input" class="input-inline" placeholder="가격" />
             <input type="number" id="product-amount-input" class="input-inline" placeholder="수량" />
-            <button type="button" id="product-add-button">추가하기</button>
+            <styled-button type="button" id="product-add-button">추가하기</styled-button>
           </fieldset>
         </form>
         <article>
@@ -45,7 +45,7 @@
           <fieldset>
             <h2>자판기 동전 충전하기</h2>
             <input type="number" id="charge-amount-input" class="input-inline" placeholder="자판기가 보유할 금액" />
-            <button type="button" id="vending-machine-charge-button">충전하기</button>
+            <styled-button type="button" id="vending-machine-charge-button">충전하기</styled-button>
             <p>보유 금액: <span id="text-charge-amount"></span></p>
           </fieldset>
         </form>
@@ -81,5 +81,6 @@
       </section>
     </div>
     <script type="module" src="./src/js/index.js"></script>
+    <script type="module" src="./src/js/component/styled-button.js"></script>
   </body>
 </html>

@@ -9,7 +9,7 @@ const $element = {
   inputChargeAmount: querySelector(SELECTOR_MAP.INPUT.CHARGE_AMOUNT),
 };
 /**
- * @typedef {import('../service/vendingmachine.js').VendingMachine} VendingMachine
+ * @typedef {import('../service/VendingMachine').VendingMachine} VendingMachine
  */
 
 /**
