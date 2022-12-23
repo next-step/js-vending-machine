@@ -13,7 +13,7 @@ export default function ChargingMoney({ $target }) {
 
   this.init = () => {
     this.$target.innerHTML = `
-      <section>
+      <section data-cy="charging-money">
         <h3>자판기 잔돈 충전하기</h3>
         <div class="vending-machine-wrapper">
 					<form class="charging-money-form">
@@ -29,7 +29,7 @@ export default function ChargingMoney({ $target }) {
         <p>보유 금액: <span id="vending-machine-charge-amount">0</span>원</p>
 				<hr/>
         <h3>동전 보유 현황</h3>
-        <table class="cashbox-remaining not-pressed">
+        <table class="cashbox-remaining pressed">
           <thead>
             <tr>
               <th>동전</th>

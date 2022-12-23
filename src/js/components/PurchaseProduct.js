@@ -13,7 +13,7 @@ export default function PurchaseProduct({ $target }) {
 
   this.init = () => {
     this.$target.innerHTML = `
-      <section>
+      <section data-cy="purchase-product">
         <div class="purchase-container">
           <h3>금액 투입</h3>
           <form class="input-money-form">

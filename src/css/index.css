@@ -3,6 +3,16 @@
   --outer-shadow: 3px 3px 6px #b8b9be, -3px -3px 6px #ffffff;
 }
 
+html,
+ul {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font-size: 100%;
+  font: inherit;
+  vertical-align: baseline;
+}
+
 body {
   text-align: center;
   margin: 0;
@@ -70,13 +80,13 @@ section {
 }
 
 #charge-button,
-#product-add-button,
+input[data-cy='product-add-button'],
 #vending-machine-charge-button {
   padding: 0.5rem;
   margin-left: 0.5rem;
 }
 
-#product-add-button {
+input[data-cy='product-add-button'] {
   margin-left: 0;
   margin-top: 1rem;
   width: 78%;

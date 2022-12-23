@@ -1,6 +1,6 @@
-import ManageProducts from './components/ManageProducts.js';
-import PurchaseProduct from './components/PurchaseProduct.js';
-import ChargingMoney from './components/ChargingMoney.js';
+import ManageProductsPage from './js/components/ManageProductsPage.js';
+import PurchaseProduct from './js/components/PurchaseProduct.js';
+import ChargingMoney from './js/components/ChargingMoney.js';
 import { init } from './router.js';
 
 // 나중에 hosting 처리해주기
@@ -12,7 +12,7 @@ export default function App({ $target }) {
     console.log(pathname);
 
     if (pathname === '/' || pathname === '/manage-products') {
-      new ManageProducts({ $target });
+      new ManageProductsPage({ $target }).render();
     } else if (pathname === '/charging-money') {
       new ChargingMoney({ $target });
     } else if (pathname === '/purchase-product') {
