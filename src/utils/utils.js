@@ -4,6 +4,10 @@ export function entryObject(o) {
   return Object.entries(o);
 }
 
+export function isNil(target) {
+  return typeof target === 'undefined' || target === null;
+}
+
 export function divideNumberInCountOfDivideLevels(totalAmount, divideLevels) {
   if (divideLevels.some((divideLevel) => typeof divideLevel !== 'number')) {
     throw new Error('divideLevels should be consisted in numbers');
