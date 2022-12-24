@@ -1,4 +1,5 @@
 import { render } from "../binders.js";
+import { divideNumberInCountOfDivideLevels } from "../utils/utils.js";
 
 const vendingMachineInitState = {
   amount: 0
@@ -44,38 +45,13 @@ const coin10Ref = { element: null };
 
 export function cashBoxComponent() {
   if (totalAmountRef.element) totalAmountRef.element.textContent = vendingMachineState.amount;
-  // TODO: Business Logic : 계산 돈 쪼개기 계산 함수 만들기
 
-  function divideNumberInCountOfDivideLevels(totalAmount, divideLevels) {
-    if (divideLevels.some((divideLevel) => typeof divideLevel !== 'number')) {
-      throw new Error('divideLevels should be consisted in numbers');
-    }
-
-    if (divideLevels.some((divideLevel, i) => {
-      if (i > 0) {
-        const prevDivideLevel = divideLevels[i - 1];
-        return prevDivideLevel <= divideLevel;
-      }
-      return false;
-    })) {
-      throw new Error('divideLevels should be sorted in descending order');
-    }
-
-    let currentTotalAmount = totalAmount;
-    return divideLevels.map((divideLevel, i) => {
-      const count = Math.floor(currentTotalAmount / divideLevel);
-      currentTotalAmount -= count * divideLevel;
-
-      return count;
-    });
-  }
   const [
     coin500Count,
     coin100Count,
     coin50Count,
     coin10Count,
   ] = vendingMachineState.amount
-    // TODO: util에 넣어놓기
     ? divideNumberInCountOfDivideLevels(vendingMachineState.amount, [500, 100, 50, 10])
     : [];
 
