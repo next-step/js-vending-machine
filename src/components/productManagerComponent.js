@@ -1,5 +1,5 @@
 import { render, PRODUCT_INVENTORY_CONTAINER_BINDER } from '../binders.js';
-import { Product } from '../models/product.js';
+import { Product } from '../models/Product.js';
 import { setLocalStorageItem } from '../utils/localStorageUtils.js';
 import { products, PRODUCTS_STATE_KEY } from '../states/productManagerState.js';
 
@@ -54,14 +54,8 @@ export function productManagerController() {
           return;
         }
 
-        if (!quantity && quantity > 0) {
-          alert('상품 수량을 양수로 입력해주세요!');
-          productQuantityInputRef.element.focus();
-          return;
-        }
-
         if (price < MIN_PRICE) {
-          alert('가격은 100원 이상이어야 합니다.');
+          alert('상품 가격을 양수로 입력해주세요!');
           productPriceInputRef.element.focus();
           return;
         }
@@ -72,7 +66,13 @@ export function productManagerController() {
           return;
         }
 
-        products.push(new Product(productControllerState));
+        if (!quantity && quantity > 0) {
+          alert('상품 수량을 양수로 입력해주세요!');
+          productQuantityInputRef.element.focus();
+          return;
+        }
+
+        products[productControllerState.name] = new Product(productControllerState);
         setLocalStorageItem(PRODUCTS_STATE_KEY, JSON.stringify(products));
 
         productControllerState = productControllerInitState;
@@ -89,7 +89,7 @@ export function productManagerController() {
 export function productInventoryContainerController() {
   return {
     rootElement: {
-      children: products.map((product) => (
+      children: Object.values(products).map((product) => (
         `<tr>
           <td>${product.name}</td>
           <td>${product.price}</td>
