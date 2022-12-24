@@ -1,6 +1,9 @@
-export default function AddCoin({ $target, state, onSubmit }) {
+/* eslint-disable dot-notation */
+import ERROR_MESSAGES from '../constants/errorMessages.js';
+import { MINIMUM_CHARGING_MONEY, DIVISIBLE_CHARGING_MONEY } from '../constants/vendingMachine.js';
+
+export default function AddCoin({ $target, onSubmit }) {
   const $div = document.createElement('div');
-  this.state = state;
   this.onSubmit = onSubmit;
   this.$target = $target;
   this.$target.appendChild($div);
@@ -12,18 +15,36 @@ export default function AddCoin({ $target, state, onSubmit }) {
         <form class="charging-money-form">
           <input
             type="number"
-            name="vending-machine-charge-amount"
+            name="amount"
             id="vending-machine-charge-input"
-            autofocus
           />
           <input class="btn" type="submit" id="vending-machine-charge-button" value="충전하기" />
         </form>
-      </div>
-      <p>보유 금액: <span id="vending-machine-charge-amount">${this.state.toLocaleString(
-        'ko-KR',
-      )}</span>원</p>
-      <hr />`;
+      </div>`;
   };
 
   this.render();
+
+  const isNotDividedZero = amount => Number(amount) % DIVISIBLE_CHARGING_MONEY !== 0;
+
+  this.validate = amount => {
+    if (amount < MINIMUM_CHARGING_MONEY) throw new Error(ERROR_MESSAGES.TOO_SMALL_CHARGING_MONEY);
+    if (isNotDividedZero(amount)) {
+      throw new Error(ERROR_MESSAGES.NOT_DIVISIBLE_CHARGING_MONEY);
+    }
+  };
+
+  $div.querySelector('form').addEventListener('submit', event => {
+    event.preventDefault();
+    const { value: inputAmount } = event.target.elements['amount'];
+
+    try {
+      this.validate(inputAmount);
+    } catch (error) {
+      alert(error.message);
+      return;
+    }
+
+    this.onSubmit(Number(inputAmount));
+  });
 }
