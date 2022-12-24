@@ -51,7 +51,7 @@ export function cashBoxComponent() {
     coin10Count,
   ] = vendingMachineState.amount
     ? divideNumberInCountOfDivideLevels(vendingMachineState.amount, [500, 100, 50, 10])
-    : [];
+    : [0, 0, 0, 0];
 
   coin500Ref.addOnRenderCallback((coin500Element) => coin500Element.textContent = coin500Count);
   coin100Ref.addOnRenderCallback((coin100Element) => coin100Element.textContent = coin100Count);

@@ -44,19 +44,19 @@ export function getVendingMachineManager() {
         <tbody>
           <tr>
             <td>500원</td>
-            <td id="vending-machine-coin-500-quantity"></td>
+            <td id="vending-machine-coin-500-quantity">0</td>
           </tr>
           <tr>
             <td>100원</td>
-            <td id="vending-machine-coin-100-quantity"></td>
+            <td id="vending-machine-coin-100-quantity">0</td>
           </tr>
           <tr>
             <td>50원</td>
-            <td id="vending-machine-coin-50-quantity"></td>
+            <td id="vending-machine-coin-50-quantity">0</td>
           </tr>
           <tr>
             <td>10원</td>
-            <td id="vending-machine-coin-10-quantity"></td>
+            <td id="vending-machine-coin-10-quantity">0</td>
           </tr>
         </tbody>
       </table>
