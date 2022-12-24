@@ -27,7 +27,7 @@ export function vendingMachineControllerComponent() {
           return;
         }
 
-        vendingMachineState.amount = inputAmount;
+        vendingMachineState.amount += Number(inputAmount);
         setLocalStorageItem(VENDING_MACHINE_MANAGER_STATE_KEY, JSON.stringify(vendingMachineState));
         render(CASH_BOX_BINDER);
       }},
@@ -42,9 +42,7 @@ const coin50Ref = new Ref();
 const coin10Ref = new Ref();
 
 export function cashBoxComponent() {
-  totalAmountRef.addOnRenderCallback((totalAmountElement) => {
-    totalAmountElement.textContent = vendingMachineState.amount
-  });
+  totalAmountRef.addOnRenderCallback((totalAmountElement) => totalAmountElement.textContent = vendingMachineState.amount);
 
   const [
     coin500Count,
