@@ -1,16 +1,5 @@
-<!DOCTYPE html>
-<html lang="ko">
-
-<head>
-	<meta charset="UTF-8" />
-	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
-	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-	<link rel="stylesheet" href="./src/css/index.css" />
-	<title>NEXTSTEP JavaScript Vending machine</title>
-</head>
-
-<body>
-	<button id="product-manage-menu" class="hash-nav">상품 관리</button>
+export const testBody = /* html */ `
+<button id="product-manage-menu" class="hash-nav">상품 관리</button>
 	<button id="vending-machine-manage-menu" class="hash-nav">잔돈충전</button>
 	<!-- <button id="product-purchase-menu" class="hash-nav">상품 구매</button> -->
 
@@ -80,7 +69,5 @@
 			</tbody>
 		</table>
 	</div>
-	<script type="module" src="./src/js/index.js"></script>
-</body>
 
-</html>
+`;
