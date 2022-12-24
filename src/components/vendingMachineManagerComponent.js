@@ -1,17 +1,9 @@
 import { render } from "../binders.js";
-import { getLocalStorageItem, setLocalStorageItem } from "../utils/localStorageUtils.js";
+import { setLocalStorageItem } from "../utils/localStorageUtils.js";
 import { divideNumberInCountOfDivideLevels } from "../utils/utils.js";
+import { vendingMachineState, VENDING_MACHINE_MANAGER_STATE_KEY } from "../states/vendingMachineManagerState.js";
 
 import { Ref } from "./common/Ref.js";
-
-const vendingMachineInitState = {
-  amount: 0,
-};
-
-let vendingMachineState = getLocalStorageItem('vending-machine-manager', (item) => {
-  if (!item) return;
-  return JSON.parse(item);
-}) || vendingMachineInitState;
 
 const chargeAmountInputRef = new Ref();
 
@@ -36,7 +28,7 @@ export function vendingMachineControllerComponent() {
         }
 
         vendingMachineState.amount = inputAmount;
-        setLocalStorageItem('vending-machine-manager', JSON.stringify(vendingMachineState));
+        setLocalStorageItem(VENDING_MACHINE_MANAGER_STATE_KEY, JSON.stringify(vendingMachineState));
         render('cashBoxBinder');
       }},
     },
@@ -51,7 +43,6 @@ const coin10Ref = new Ref();
 
 export function cashBoxComponent() {
   totalAmountRef.addOnRenderCallback((totalAmountElement) => {
-    console.log(totalAmountElement, vendingMachineState)
     totalAmountElement.textContent = vendingMachineState.amount
   });
 
