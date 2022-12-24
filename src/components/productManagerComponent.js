@@ -1,13 +1,9 @@
 import { render } from '../binders.js';
 import { Product } from '../models/product.js';
-import { getLocalStorageItem, setLocalStorageItem } from '../utils/localStorageUtils.js';
+import { setLocalStorageItem } from '../utils/localStorageUtils.js';
+import { products, PRODUCTS_STATE_KEY } from '../states/productManagerState.js';
 
 import { Ref } from './common/Ref.js';
-
-const products = getLocalStorageItem('products', (item) => {
-  if (!item) return;
-  return JSON.parse(item);
-}) || [];
 
 const MIN_PRICE = 100;
 
@@ -79,7 +75,7 @@ export function productManagerController() {
 
         // TODO: 등록시 localStorage의 product 정보 함께 갱신
         products.push(new Product(productControllerState));
-        setLocalStorageItem('products', JSON.stringify(products));
+        setLocalStorageItem(PRODUCTS_STATE_KEY, JSON.stringify(products));
 
         productControllerState = productControllerInitState;
 
