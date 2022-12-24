@@ -1,4 +1,4 @@
-import { render } from '../binders.js';
+import { render, PRODUCT_INVENTORY_CONTAINER_BINDER } from '../binders.js';
 import { Product } from '../models/product.js';
 import { setLocalStorageItem } from '../utils/localStorageUtils.js';
 import { products, PRODUCTS_STATE_KEY } from '../states/productManagerState.js';
@@ -73,7 +73,6 @@ export function productManagerController() {
           return;
         }
 
-        // TODO: 등록시 localStorage의 product 정보 함께 갱신
         products.push(new Product(productControllerState));
         setLocalStorageItem(PRODUCTS_STATE_KEY, JSON.stringify(products));
 
@@ -82,8 +81,7 @@ export function productManagerController() {
         productNameInputRef.element.value = '';
         productPriceInputRef.element.value = '';
         productQuantityInputRef.element.value = '';
-        // TODO: binder 이름 상수로 관리하기
-        render('productInventoryContainerBinder');
+        render(PRODUCT_INVENTORY_CONTAINER_BINDER);
       }},
     }
   }

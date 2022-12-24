@@ -1,4 +1,4 @@
-import { render } from "../binders.js";
+import { render, CASH_BOX_BINDER } from "../binders.js";
 import { setLocalStorageItem } from "../utils/localStorageUtils.js";
 import { divideNumberInCountOfDivideLevels } from "../utils/utils.js";
 import { vendingMachineState, VENDING_MACHINE_MANAGER_STATE_KEY } from "../states/vendingMachineManagerState.js";
@@ -29,7 +29,7 @@ export function vendingMachineControllerComponent() {
 
         vendingMachineState.amount = inputAmount;
         setLocalStorageItem(VENDING_MACHINE_MANAGER_STATE_KEY, JSON.stringify(vendingMachineState));
-        render('cashBoxBinder');
+        render(CASH_BOX_BINDER);
       }},
     },
   };

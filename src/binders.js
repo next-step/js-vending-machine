@@ -1,10 +1,15 @@
 import { entryObject } from './utils/utils.js';
 
+export const PRODUCT_CONTAINER_BINDER = 'productContainerBinder';
+export const PRODUCT_INVENTORY_CONTAINER_BINDER = 'productInventoryContainerBinder';
+export const VENDING_MACHINE_CONTROLLER_BINDER = 'vendingMachineControllerBinder';
+export const CASH_BOX_BINDER = 'cashBoxBinder;';
+
 export const binders = {
-  productContainerBinder: null,
-  productInventoryContainerBinder: null,
-  vendingMachineControllerBinder: null,
-  cashBoxBinder: null,
+  [PRODUCT_CONTAINER_BINDER]: null,
+  [PRODUCT_INVENTORY_CONTAINER_BINDER]: null,
+  [VENDING_MACHINE_CONTROLLER_BINDER]: null,
+  [CASH_BOX_BINDER]: null,
 };
 
 export function render(binderName) {
