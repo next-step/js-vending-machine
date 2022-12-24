@@ -1,10 +1,13 @@
 import { render } from '../binders.js';
 import { Product } from '../models/product.js';
+import { getLocalStorageItem, setLocalStorageItem } from '../utils/localStorageUtils.js';
 
-// TODO: localStorage를 다루는 로직은 util에서
-// TODO: 처음 App 실행 시, localStorage에서 price 정보를 가져와야함.
-// TODO: Store로 따로 분리 리팩토링
-const products = [];
+import { Ref } from './common/Ref.js';
+
+const products = getLocalStorageItem('products', (item) => {
+  if (!item) return;
+  return JSON.parse(item);
+}) || [];
 
 const MIN_PRICE = 100;
 
@@ -14,34 +17,35 @@ const productControllerInitState = {
   quantity: 0,
 }
 
-const productNameInputRef = { element: null };
-const productPriceInputRef = { element: null };
-const productQuantityInputRef = { element: null };
+const productNameInputRef = new Ref();
+const productPriceInputRef = new Ref();
+const productQuantityInputRef = new Ref();
 
 export function productManagerController() {
-  let state = productControllerInitState;
+  let productControllerState = productControllerInitState;
 
   return {
     productNameInput: {
       ref: productNameInputRef,
       events: {change: (e) => {
-        state.name = e.target.value;
+        productControllerState.name = e.target.value;
       }},
     },
     productPriceInput: {
       ref: productPriceInputRef,
       events: {change: (e) => {
-        state.price = e.target.value
+        productControllerState.price = e.target.value
       }},
     },
     productQuantityInput: {
       ref: productQuantityInputRef,
       events: {change: (e) => {
-        state.quantity = e.target.value;
+        productControllerState.quantity = e.target.value;
       }},
     },
     productAddButton: {
       events: {click: () => {
+        const { name, price, quantity } = productControllerState;
         // TODO: Validate 리팩토링
         if (!name) {
           alert('상품 이름을 입력해주세요!');
@@ -74,9 +78,10 @@ export function productManagerController() {
         }
 
         // TODO: 등록시 localStorage의 product 정보 함께 갱신
-        products.push(new Product(state));
+        products.push(new Product(productControllerState));
+        setLocalStorageItem('products', JSON.stringify(products));
 
-        state = productControllerInitState;
+        productControllerState = productControllerInitState;
 
         productNameInputRef.element.value = '';
         productPriceInputRef.element.value = '';
@@ -91,13 +96,13 @@ export function productManagerController() {
 export function productInventoryContainerController() {
   return {
     rootElement: {
-      children: products.map((product) => (`
-        <tr>
+      children: products.map((product) => (
+        `<tr>
           <td>${product.name}</td>
           <td>${product.price}</td>
           <td>${product.quantity}</td>
-        </tr>
-      `)),
+        </tr>`
+      )).join(''),
     }
   }
 }
