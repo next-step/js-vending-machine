@@ -42,7 +42,6 @@ export function productManagerController() {
     productAddButton: {
       events: {click: () => {
         const { name, price, quantity } = productControllerState;
-        // TODO: Validate 리팩토링
         if (!name) {
           alert('상품 이름을 입력해주세요!');
           productNameInputRef.element.focus();
