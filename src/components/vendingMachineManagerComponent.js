@@ -1,15 +1,17 @@
 import { render } from "../binders.js";
 import { divideNumberInCountOfDivideLevels } from "../utils/utils.js";
 
+import { Ref } from "./common/Ref.js";
+
 const vendingMachineInitState = {
-  amount: 0
+  amount: 0,
 };
 
 let vendingMachineState = vendingMachineInitState;
 
-export function vendingMachineControllerComponent() {
-  const chargeAmountInputRef = { element: null };
+const chargeAmountInputRef = new Ref();
 
+export function vendingMachineControllerComponent() {
   return {
     chargeAmountInput: {
       ref: chargeAmountInputRef,
@@ -37,14 +39,14 @@ export function vendingMachineControllerComponent() {
   };
 }
 
-const totalAmountRef = { element: null };
-const coin500Ref = { element: null };
-const coin100Ref = { element: null };
-const coin50Ref = { element: null };
-const coin10Ref = { element: null };
+const totalAmountRef = new Ref();
+const coin500Ref = new Ref();
+const coin100Ref = new Ref();
+const coin50Ref = new Ref();
+const coin10Ref = new Ref();
 
 export function cashBoxComponent() {
-  if (totalAmountRef.element) totalAmountRef.element.textContent = vendingMachineState.amount;
+  totalAmountRef.executeElementCallback((totalAmountElement) => totalAmountElement.textContent = vendingMachineState.amount)
 
   const [
     coin500Count,
@@ -55,11 +57,10 @@ export function cashBoxComponent() {
     ? divideNumberInCountOfDivideLevels(vendingMachineState.amount, [500, 100, 50, 10])
     : [];
 
-  // TODO: ref 객체 만들면서 callback 넣어줄 수 있는 interface 뚫어주기
-  if (coin500Ref.element) coin500Ref.element.textContent = coin500Count;
-  if (coin100Ref.element) coin100Ref.element.textContent = coin100Count;
-  if (coin50Ref.element) coin50Ref.element.textContent = coin50Count;
-  if (coin10Ref.element) coin10Ref.element.textContent = coin10Count;
+  coin500Ref.executeElementCallback((coin500Element) => coin500Element.textContent = coin500Count);
+  coin100Ref.executeElementCallback((coin100Element) => coin100Element.textContent = coin100Count);
+  coin50Ref.executeElementCallback((coin50Element) => coin50Element.textContent = coin50Count);
+  coin10Ref.executeElementCallback((coin10Element) => coin10Element.textContent = coin10Count);
 
   return {
     totalAmount: {
