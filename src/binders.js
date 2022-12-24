@@ -41,6 +41,7 @@ function bindViewModelWithView(vm, view) {
       if (key === 'ref') {
         val.element = pairElement;
         val.onRenderCallbacks.forEach((onRenderCallback) => onRenderCallback(val.element));
+        val.onRenderCallbacks = [];
         return;
       }
 
