@@ -1,14 +1,13 @@
 class Ref {
   element = null;
+  onRenderCallbacks = [];
 
-  executeElementCallback = (callback) => {
-    if (typeof callback !== 'function') {
+  addOnRenderCallback = (onRenderCallback) => {
+    if (typeof onRenderCallback !== 'function') {
       throw new Error('only function can be accepted in executeElementCallback method of Ref object');
     }
 
-    if (this.element) {
-      callback(this.element);
-    }
+    this.onRenderCallbacks.push(onRenderCallback);
   }
 }
 

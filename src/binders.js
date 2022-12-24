@@ -3,6 +3,8 @@ import { entryObject } from './utils/utils.js';
 export const binders = {
   productContainerBinder: null,
   productInventoryContainerBinder: null,
+  vendingMachineControllerBinder: null,
+  cashBoxBinder: null,
 };
 
 export function render(binderName) {
@@ -12,8 +14,8 @@ export function render(binderName) {
 export function createBinder(view, viewModelCreator) {
   const render = () => {
     const vm = viewModelCreator();
-      const el = bindViewModelWithView(vm, view);
-      view.render(el);
+    const el = bindViewModelWithView(vm, view);
+    view.render(el);
   }
   render();
 
@@ -33,6 +35,7 @@ function bindViewModelWithView(vm, view) {
 
       if (key === 'ref') {
         val.element = pairElement;
+        val.onRenderCallbacks.forEach((onRenderCallback) => onRenderCallback(val.element));
         return;
       }
 
