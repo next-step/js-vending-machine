@@ -8,6 +8,13 @@ export function isNil(target) {
   return typeof target === 'undefined' || target === null;
 }
 
+export function toNumber(target, fallback) {
+  const numberedTarget = Number(target);
+  if (Number.isNaN(numberedTarget)) return fallback || 0;
+
+  return numberedTarget;
+}
+
 export function divideNumberInCountOfDivideLevels(totalAmount, divideLevels) {
   if (divideLevels.some((divideLevel) => typeof divideLevel !== 'number')) {
     throw new Error('divideLevels should be consisted in numbers');
