@@ -3,7 +3,7 @@ import { entryObject } from './utils/utils.js';
 export const PRODUCT_CONTAINER_BINDER = 'productContainerBinder';
 export const PRODUCT_INVENTORY_CONTAINER_BINDER = 'productInventoryContainerBinder';
 export const VENDING_MACHINE_CONTROLLER_BINDER = 'vendingMachineControllerBinder';
-export const CASH_BOX_BINDER = 'cashBoxBinder;';
+export const CASH_BOX_BINDER = 'cashBoxBinder';
 
 export const binders = {
   [PRODUCT_CONTAINER_BINDER]: null,
