@@ -1,5 +1,11 @@
 import UnitCountMachine from './UnitCountMachine.js';
 import ProductManager from './ProductManager.js';
+import { loadItem } from '../util/dataSaver.js';
+import { DATA_STORAGE } from '../ui/constant.js';
+
+/**
+ * @typedef {import('../service/ProductManager').ProductItem} ProductItem
+ */
 
 export class VendingMachine {
   /** @type {ProductManager} */
@@ -7,12 +13,11 @@ export class VendingMachine {
   /**@type {UnitCountMachine} */
   #unitCountMachine;
 
-  constructor() {
-    this.reset();
-  }
-
-  reset() {
-    this.#productManager = new ProductManager();
+  /**
+   * @param {?ProductItem[]} products
+   */
+  constructor(products) {
+    this.#productManager = new ProductManager(products);
     this.#unitCountMachine = new UnitCountMachine();
   }
 
@@ -30,6 +35,10 @@ export class VendingMachine {
   get unitCountMachine() {
     return this.#unitCountMachine;
   }
+
+  /////////
+  insertUserCoin() {}
 }
 
-export const vendingMachine = new VendingMachine();
+const savedProducts = loadItem(DATA_STORAGE.PRODUCTS);
+export const vendingMachine = new VendingMachine(savedProducts);

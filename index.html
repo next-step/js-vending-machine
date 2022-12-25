@@ -13,7 +13,7 @@
       <h1>🥤자판기🥤</h1>
       <styled-button type="button" id="product-manage-menu">상품 관리</styled-button>
       <styled-button type="button" id="vending-machine-manage-menu">잔돈충전</styled-button>
-      <styled-button type="button" id="product-purchase-menu" disabled>상품 구매</styled-button>
+      <styled-button type="button" id="product-purchasing-menu" disabled>상품 구매</styled-button>
     </header>
     <div id="app">
       <section id="section-managing-product" class="section-tab">
@@ -23,7 +23,7 @@
             <input type="text" id="product-name-input" class="input-inline" placeholder="상품명" />
             <input type="number" id="product-price-input" class="input-inline" placeholder="가격" />
             <input type="number" id="product-amount-input" class="input-inline" placeholder="수량" />
-            <styled-button type="button" id="product-add-button">추가하기</styled-button>
+            <styled-button id="product-add-button">추가하기</styled-button>
           </fieldset>
         </form>
         <article>
@@ -35,12 +35,29 @@
           <fieldset>
             <h2>자판기 동전 충전하기</h2>
             <input type="number" id="charge-amount-input" class="input-inline" placeholder="자판기가 보유할 금액" />
-            <styled-button type="button" id="vending-machine-charge-button">충전하기</styled-button>
+            <styled-button id="vending-machine-charge-button">충전하기</styled-button>
             <p>보유 금액: <span id="text-charge-amount"></span></p>
           </fieldset>
         </form>
         <article>
           <smart-table title="자판기가 보유한 동전" columns="동전,개수" id="vending-machine-charge-amount" />
+        </article>
+      </section>
+      <section id="section-purchasing-product" class="section-tab hidden">
+        <form>
+          <fieldset>
+            <h2>금액 투입</h2>
+            <input type="number" id="spending-money-input" class="input-inline" placeholder="투입할 금액" />
+            <styled-button id="insertion-for-spending-money-button">투입하기</styled-button>
+            <p>투입한 금액: <span id="text-spending-money"></span></p>
+          </fieldset>
+        </form>
+        <article>
+          <smart-table
+            title="구매할 수 있는 상품 현황"
+            id="vending-machine-purchasable-products"
+            columns="상품명,가격,수량,구매"
+          />
         </article>
       </section>
     </div>

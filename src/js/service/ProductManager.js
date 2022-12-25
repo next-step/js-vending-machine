@@ -20,6 +20,12 @@ const {
 export default class ProductManager {
   #products = [];
 
+  constructor(products) {
+    if (Array.isArray(products)) {
+      this.#products = [...products];
+    }
+  }
+
   get products() {
     return cloneDeep(this.#products);
   }
@@ -33,7 +39,7 @@ export default class ProductManager {
     this.#products = [
       ...this.#products.filter((item) => item.name !== name),
       {
-        index: this.#products,
+        index: this.#products.length,
         name: removeSpace(name),
         price,
         amount,
