@@ -27,17 +27,7 @@
           </fieldset>
         </form>
         <article>
-          <h2>상품 현황</h2>
-          <table>
-            <thead>
-              <tr>
-                <th class="column-wide">상품명</th>
-                <th>가격</th>
-                <th>수량</th>
-              </tr>
-            </thead>
-            <tbody id="vending-machine-products"></tbody>
-          </table>
+          <smart-table title="상품 현황" id="vending-machine-products" columns="상품명,가격,수량" />
         </article>
       </section>
       <section id="section-managing-charge" class="section-tab hidden">
@@ -50,37 +40,12 @@
           </fieldset>
         </form>
         <article>
-          <h2>자판기가 보유한 동전</h2>
-          <table>
-            <thead>
-              <tr>
-                <th>동전</th>
-                <th>개수</th>
-              </tr>
-            </thead>
-            <tbody id="vending-machine-charge-amount">
-              <tr>
-                <td>500원</td>
-                <td></td>
-              </tr>
-              <tr>
-                <td>100원</td>
-                <td></td>
-              </tr>
-              <tr>
-                <td>50원</td>
-                <td></td>
-              </tr>
-              <tr>
-                <td>10원</td>
-                <td></td>
-              </tr>
-            </tbody>
-          </table>
+          <smart-table title="자판기가 보유한 동전" columns="동전,개수" id="vending-machine-charge-amount" />
         </article>
       </section>
     </div>
     <script type="module" src="./src/js/index.js"></script>
     <script type="module" src="./src/js/component/styled-button.js"></script>
+    <script type="module" src="./src/js/component/smart-table.js"></script>
   </body>
 </html>

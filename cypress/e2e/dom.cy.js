@@ -1,6 +1,7 @@
 import { ALERT_MESSAGE, VENDING_MACHINE_CONSTANT } from '../../src/js/service/constant';
 import { SELECTOR_MAP } from '../../src/js/ui/selector.js';
 import { removeSpace } from '../../src/js/util/string.js';
+// https://www.thisdot.co/blog/testing-web-components-with-cypress-and-typescript
 
 /* eslint-disable no-undef */
 describe('자판기 요구사항을 점검한다', () => {
@@ -16,6 +17,24 @@ describe('자판기 요구사항을 점검한다', () => {
     return alertStub;
   };
 
+  const shadowDOMShouldCallback = (elementId, callback) => {
+    cy.get(elementId).shadow().find('tbody').should(callback);
+  };
+
+  const containsTextInShadows = (elementId, shouldBeContainedText) => {
+    shadowDOMShouldCallback(elementId, (elements) => {
+      const [tbody] = elements.get();
+      expect(tbody.textContent).to.contains(shouldBeContainedText);
+    });
+  };
+
+  const containsTextInShadowsInnerTBody = (selector, innerSelector, shouldBeContainedText) => {
+    shadowDOMShouldCallback(selector, (elements) => {
+      const [tbody] = elements;
+      expect(tbody.querySelector(innerSelector).textContent).to.contains(shouldBeContainedText);
+    });
+  };
+
   describe('상품관리 요구사항을 점검한다', () => {
     it('상품명에 공백을 입력할 수 없다', () => {
       const productName = '코카 콜라 250ml';
@@ -25,7 +44,7 @@ describe('자판기 요구사항을 점검한다', () => {
       cy.get(SELECTOR_MAP.INPUT.PRODUCT_AMOUNT).type(100);
       cy.get(SELECTOR_MAP.BUTTON.PRODUCT_ADD).click();
 
-      cy.get(SELECTOR_MAP.TABLE.VENDING_MACHINE_PRODUCT_TBODY).contains(removeSpace(productName));
+      containsTextInShadows(SELECTOR_MAP.TABLE.VENDING_MACHINE_PRODUCT, removeSpace(productName));
     });
 
     it('상품의 최소 수량이 1개 미만일 경우 상품을 등록할 수 없다', () => {
@@ -65,6 +84,7 @@ describe('자판기 요구사항을 점검한다', () => {
       SELECTOR_MAP.INPUT.PRODUCT_PRICE,
       SELECTOR_MAP.INPUT.PRODUCT_AMOUNT,
     ];
+
     it('같은 상품명의 데이터를 추가하면 기존의 상품에 해당하는 데이터는 새로운 상품으로 대체된다', () => {
       const productName = '코카콜라제로250ml';
       const oldProduct = [productName, 1250, 10];
@@ -76,7 +96,7 @@ describe('자판기 요구사항을 점검한다', () => {
       cy.get(SELECTOR_MAP.BUTTON.PRODUCT_ADD).click();
 
       newProduct.forEach((keyword) => {
-        cy.get(SELECTOR_MAP.TABLE.VENDING_MACHINE_PRODUCT_TBODY).contains(keyword);
+        containsTextInShadows(SELECTOR_MAP.TABLE.VENDING_MACHINE_PRODUCT, keyword);
       });
     });
 
@@ -89,7 +109,7 @@ describe('자판기 요구사항을 점검한다', () => {
       cy.get(SELECTOR_MAP.TAB_BUTTON.MANAGING_PRODUCT).click();
 
       productInput.forEach((keyword) => {
-        cy.get(SELECTOR_MAP.TABLE.VENDING_MACHINE_PRODUCT_TBODY).contains(keyword);
+        containsTextInShadows(SELECTOR_MAP.TABLE.VENDING_MACHINE_PRODUCT, keyword);
       });
     });
   });
@@ -107,13 +127,19 @@ describe('자판기 요구사항을 점검한다', () => {
 
     const validateChanges = (amount, changes = [0, 0, 0, 0]) => {
       cy.get(SELECTOR_MAP.SPAN.CHARGE_AMOUNT).should('have.text', amount);
+
       UNITS.forEach((unit, index) => {
-        cy.get(
-          `${SELECTOR_MAP.TABLE.VENDING_MACHINE_CHARGE_AMOUNT} > tr:nth-child(${index + 1}) > td:first-child`
-        ).contains(String(unit) + MONEY_UNIT);
-        cy.get(
-          `${SELECTOR_MAP.TABLE.VENDING_MACHINE_CHARGE_AMOUNT} > tr:nth-child(${index + 1}) > td:nth-child(2)`
-        ).contains(String(changes[index]) + AMOUNT_POSTFIX);
+        containsTextInShadowsInnerTBody(
+          SELECTOR_MAP.TABLE.VENDING_MACHINE_CHARGE_AMOUNT,
+          `tr:nth-child(${index + 1}) > td:first-child`,
+          String(unit) + MONEY_UNIT
+        );
+
+        containsTextInShadowsInnerTBody(
+          SELECTOR_MAP.TABLE.VENDING_MACHINE_CHARGE_AMOUNT,
+          `tr:nth-child(${index + 1}) > td:nth-child(2)`,
+          String(changes[index]) + AMOUNT_POSTFIX
+        );
       });
     };
 

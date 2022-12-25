@@ -58,7 +58,7 @@ export const renderProduct = (vendingMachine) => {
   const {
     productManager: { products },
   } = vendingMachine;
-  querySelector(SELECTOR_MAP.TABLE.VENDING_MACHINE_PRODUCT_TBODY).innerHTML = products
+  querySelector(SELECTOR_MAP.TABLE.VENDING_MACHINE_PRODUCT).tableBodyElement.innerHTML = products
     .map(
       ({ name, price, amount }) => `<tr>
       <td>${name}</td>
@@ -76,7 +76,7 @@ export const renderProduct = (vendingMachine) => {
 export const renderChargeAmount = (vendingMachine) => {
   const unitCountInfo = vendingMachine.unitCountMachine.unitCountInfo;
   const unitArray = vendingMachine.unitCountMachine.units;
-  querySelector(SELECTOR_MAP.TABLE.VENDING_MACHINE_CHARGE_AMOUNT).innerHTML = unitArray
+  querySelector(SELECTOR_MAP.TABLE.VENDING_MACHINE_CHARGE_AMOUNT).tableBodyElement.innerHTML = unitArray
     .map(
       (unit) => `<tr>
       <td>${unit}${VENDING_MACHINE_CONSTANT.MONEY_UNIT}</td>

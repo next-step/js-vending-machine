@@ -31,7 +31,7 @@ export const SELECTOR_MAP = {
     CHARGE_AMOUNT: '#charge-amount-input',
   },
   TABLE: {
-    VENDING_MACHINE_PRODUCT_TBODY: '#vending-machine-products',
+    VENDING_MACHINE_PRODUCT: '#vending-machine-products',
     VENDING_MACHINE_CHARGE_AMOUNT: '#vending-machine-charge-amount',
   },
   TAB_BUTTON: {
