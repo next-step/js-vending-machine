@@ -113,8 +113,7 @@ export const renderChargeAmount = (vendingMachine) => {
  * @param {UnitCountInfo} unitCountInfo
  */
 export const renderReturnedChanges = (unitCountInfo) => {
-  const units = Object.keys(unitCountInfo.unitInfo);
-  querySelector(SELECTOR_MAP.TABLE.VENDING_MACHINE_RETURN_CHANGES).tableBodyElement.innerHTML = units
+  querySelector(SELECTOR_MAP.TABLE.VENDING_MACHINE_RETURN_CHANGES).tableBodyElement.innerHTML = UnitCountMachine.units
     .map(
       (unit) => `<tr>
       <td>${unit}${VENDING_MACHINE_CONSTANT.MONEY_UNIT}</td>

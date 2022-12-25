@@ -28,7 +28,7 @@ export default class UnitCountMachine {
 
     this.#unitCountInfo = {
       amount: 0,
-      unitInfo: UnitCountMachine.#UNITS.reduce(
+      unitInfo: UnitCountMachine.units.reduce(
         (result, unit) => ({
           ...result,
           [unit]: 0,
@@ -61,7 +61,7 @@ export default class UnitCountMachine {
     const insertedUnitCountInfo = UnitCountMachine.#insertUnit(Number(amount));
     this.#unitCountInfo = {
       amount: this.#unitCountInfo.amount + insertedUnitCountInfo.amount,
-      unitInfo: Object.keys(insertedUnitCountInfo.unitInfo).reduce(
+      unitInfo: UnitCountMachine.units.reduce(
         (result, unit) => {
           return { ...result, [unit]: insertedUnitCountInfo.unitInfo[unit] + this.#unitCountInfo.unitInfo[unit] };
         },
@@ -77,7 +77,7 @@ export default class UnitCountMachine {
   redraw(amount) {
     const remain = UnitCountMachine.#getRemainUnit(this.#unitCountInfo, amount);
 
-    Object.keys(this.#unitCountInfo.unitInfo).forEach((unit) => {
+    UnitCountMachine.units.forEach((unit) => {
       this.#unitCountInfo.unitInfo[unit] -= remain.unitInfo[unit];
     });
 
@@ -107,7 +107,7 @@ export default class UnitCountMachine {
       },
       { amount }
     );
-    return { amount: Object.keys(unitInfo).reduce((result, unit) => result + unitInfo[unit] * unit, 0), unitInfo };
+    return { amount: UnitCountMachine.units.reduce((result, unit) => result + unitInfo[unit] * unit, 0), unitInfo };
   }
 
   /**
@@ -116,7 +116,7 @@ export default class UnitCountMachine {
    * @returns {UnitCountInfo}
    */
   static #insertUnit(chargeAmount) {
-    const { unitInfo } = UnitCountMachine.#UNITS.reduce(
+    const { unitInfo } = UnitCountMachine.units.reduce(
       ({ amount, unitInfo }, unit) => {
         const count = Math.floor(amount / unit);
         return {
