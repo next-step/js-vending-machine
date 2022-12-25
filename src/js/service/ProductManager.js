@@ -39,7 +39,7 @@ export default class ProductManager {
     this.#products = [
       ...this.#products.filter((item) => item.name !== name),
       {
-        index: this.#products.length,
+        index: this.#products.find(({ name: n }) => n === name)?.index || this.#products.length,
         name: removeSpace(name),
         price,
         amount,

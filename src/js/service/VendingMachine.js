@@ -50,6 +50,10 @@ export class VendingMachine {
     return this.#unitCountMachine;
   }
 
+  get insertedMoney() {
+    return this.#insertedMoney;
+  }
+
   /**
    * @param {number} index
    * @returns {ProductItem}
@@ -78,8 +82,10 @@ export class VendingMachine {
     this.#insertedMoney += amount;
   }
 
-  get insertedMoney() {
-    return this.#insertedMoney;
+  returnChanges() {
+    const { amount, unitInfo } = this.#unitCountMachine.redraw(this.#insertedMoney);
+    this.#insertedMoney -= amount;
+    return { amount, unitInfo };
   }
 
   static #isInsertedMoneyValid = (amount) =>

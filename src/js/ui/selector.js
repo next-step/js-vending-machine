@@ -25,6 +25,7 @@ export const SELECTOR_MAP = {
     PRODUCT_ADD: '#product-add-button',
     CHARGE_AMOUNT: '#vending-machine-charge-button',
     INSERTION_FOR_MONEY: '#insertion-for-spending-money-button',
+    RETURN_CHANGES_BUTTON: '#return-changes-button',
   },
   INPUT: {
     PRODUCT_NAME: '#product-name-input',
@@ -37,6 +38,7 @@ export const SELECTOR_MAP = {
     VENDING_MACHINE_PRODUCT: '#vending-machine-products',
     VENDING_MACHINE_CHARGE_AMOUNT: '#vending-machine-charge-amount',
     VENDING_MACHINE_PURCHASABLE_PRODUCT: '#vending-machine-purchasable-products',
+    VENDING_MACHINE_RETURN_CHANGES: '#vending-machine-return-changes',
   },
   TAB_BUTTON: {
     MANAGING_PRODUCT: '#product-manage-menu',

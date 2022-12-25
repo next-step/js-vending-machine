@@ -39,26 +39,6 @@ export default class UnitCountMachine {
   }
 
   /**
-   *
-   * @param {UnitCountInfo} unitCountInfo
-   */
-  static #isValidUnitCountInfo(unitCountInfo) {
-    if (!unitCountInfo) return false;
-
-    const keyInfo = {
-      amount: { type: 'number' },
-      unitInfo: { type: 'object' },
-    };
-
-    const isValidType = (value, type) => (value + '').length && typeof value === type;
-    const shallowCheckResult = Object.keys(keyInfo).every((key) => isValidType(unitCountInfo[key], keyInfo[key].type));
-    if (!shallowCheckResult) return false;
-
-    return Object.keys(unitCountInfo.unitInfo).every((unit) => isValidType(unitCountInfo.unitInfo[unit], 'number'));
-  }
-
-  /**
-   *
    * @returns {UnitCountInfo}
    */
   get unitCountInfo() {
@@ -66,12 +46,77 @@ export default class UnitCountMachine {
   }
 
   /**
+   * @returns {number[]}
+   */
+  static get units() {
+    return UnitCountMachine.#UNITS.sort((a, b) => Number(b) - Number(a));
+  }
+
+  /**
+   *
+   * @param {number} amount
+   */
+  accumulate(amount) {
+    UnitCountMachine.#validateCoins(amount);
+    const insertedUnitCountInfo = UnitCountMachine.#insertUnit(Number(amount));
+    this.#unitCountInfo = {
+      amount: this.#unitCountInfo.amount + insertedUnitCountInfo.amount,
+      unitInfo: Object.keys(insertedUnitCountInfo.unitInfo).reduce(
+        (result, unit) => {
+          return { ...result, [unit]: insertedUnitCountInfo.unitInfo[unit] + this.#unitCountInfo.unitInfo[unit] };
+        },
+        { ...this.#unitCountInfo.unitInfo }
+      ),
+    };
+  }
+
+  /**
+   * @param {number} amount
+   * @returns {UnitCountInfo}
+   */
+  redraw(amount) {
+    const remain = UnitCountMachine.#getRemainUnit(this.#unitCountInfo, amount);
+
+    Object.keys(this.#unitCountInfo.unitInfo).forEach((unit) => {
+      this.#unitCountInfo.unitInfo[unit] -= remain.unitInfo[unit];
+    });
+
+    return remain;
+  }
+
+  /**
+   *
+   * @param {UnitCountInfo} unitCountInfo
+   * @param {number} amount
+   * @returns {UnitCountInfo}
+   */
+  static #getRemainUnit(unitCountInfo, amount) {
+    const { unitInfo: currentInfo } = unitCountInfo;
+    const { unitInfo } = UnitCountMachine.units.reduce(
+      ({ amount: remainAmount, unitInfo }, unit) => {
+        const count = Math.min(Math.floor(remainAmount / unit), currentInfo[unit]);
+        const sum = unit * count;
+
+        return {
+          amount: remainAmount - sum >= 0 ? remainAmount - sum : 0,
+          unitInfo: {
+            ...unitInfo,
+            [unit]: count,
+          },
+        };
+      },
+      { amount }
+    );
+    return { amount: Object.keys(unitInfo).reduce((result, unit) => result + unitInfo[unit] * unit, 0), unitInfo };
+  }
+
+  /**
    *
    * @param {number} amount
    * @returns {UnitCountInfo}
    */
-  #calculateUnitCountInfo(chargeAmount) {
-    const { unitInfo } = this.units.reduce(
+  static #insertUnit(chargeAmount) {
+    const { unitInfo } = UnitCountMachine.#UNITS.reduce(
       ({ amount, unitInfo }, unit) => {
         const count = Math.floor(amount / unit);
         return {
@@ -84,11 +129,7 @@ export default class UnitCountMachine {
     return { amount: chargeAmount, unitInfo };
   }
 
-  get units() {
-    return Object.keys(this.#unitCountInfo.unitInfo).sort((a, b) => Number(b) - Number(a));
-  }
-
-  #validateCoins(amount) {
+  static #validateCoins(amount) {
     if (!UnitCountMachine.#isInsertedCoinsValid(amount)) {
       throw new ValidationError(ALERT_MESSAGE.VALIDATION.CHARGE_AMOUNT);
     }
@@ -105,19 +146,20 @@ export default class UnitCountMachine {
 
   /**
    *
-   * @param {number} amount
+   * @param {UnitCountInfo} unitCountInfo
    */
-  accumulateUnitCountInfo(amount) {
-    this.#validateCoins(amount);
-    const insertedUnitCountInfo = this.#calculateUnitCountInfo(Number(amount));
-    this.#unitCountInfo = {
-      amount: this.#unitCountInfo.amount + insertedUnitCountInfo.amount,
-      unitInfo: Object.keys(insertedUnitCountInfo.unitInfo).reduce(
-        (result, unit) => {
-          return { ...result, [unit]: insertedUnitCountInfo.unitInfo[unit] + this.#unitCountInfo.unitInfo[unit] };
-        },
-        { ...this.#unitCountInfo.unitInfo }
-      ),
+  static #isValidUnitCountInfo(unitCountInfo) {
+    if (!unitCountInfo) return false;
+
+    const keyInfo = {
+      amount: { type: 'number' },
+      unitInfo: { type: 'object' },
     };
+
+    const isValidType = (value, type) => (value + '').length && typeof value === type;
+    const shallowCheckResult = Object.keys(keyInfo).every((key) => isValidType(unitCountInfo[key], keyInfo[key].type));
+    if (!shallowCheckResult) return false;
+
+    return Object.keys(unitCountInfo.unitInfo).every((unit) => isValidType(unitCountInfo.unitInfo[unit], 'number'));
   }
 }

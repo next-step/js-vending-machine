@@ -1,5 +1,6 @@
 // eslint-disable-next-line no-unused-vars
 import { VENDING_MACHINE_CONSTANT } from '../service/constant.js';
+import UnitCountMachine from '../service/UnitCountMachine.js';
 import { saveItem } from '../util/dataSaver.js';
 import { DATA_STORAGE } from './constant.js';
 import { SELECTOR_MAP, querySelector } from './selector.js';
@@ -14,6 +15,7 @@ const $element = {
 };
 /**
  * @typedef {import('../service/VendingMachine').VendingMachine} VendingMachine
+ * @typedef {import('../service/UnitCountMachine.js').UnitCountInfo} UnitCountInfo
  */
 
 /**
@@ -49,7 +51,7 @@ export const addProduct = (vendingMachine) => {
  * @param {VendingMachine} vendingMachine
  */
 export const insertCoins = (vendingMachine) => {
-  vendingMachine.unitCountMachine.accumulateUnitCountInfo($element.inputChargeAmount.value);
+  vendingMachine.unitCountMachine.accumulate($element.inputChargeAmount.value);
 };
 
 /**
@@ -96,8 +98,23 @@ export const renderProduct = (vendingMachine) => {
  */
 export const renderChargeAmount = (vendingMachine) => {
   const unitCountInfo = vendingMachine.unitCountMachine.unitCountInfo;
-  const unitArray = vendingMachine.unitCountMachine.units;
-  querySelector(SELECTOR_MAP.TABLE.VENDING_MACHINE_CHARGE_AMOUNT).tableBodyElement.innerHTML = unitArray
+  const units = UnitCountMachine.units;
+  querySelector(SELECTOR_MAP.TABLE.VENDING_MACHINE_CHARGE_AMOUNT).tableBodyElement.innerHTML = units
+    .map(
+      (unit) => `<tr>
+      <td>${unit}${VENDING_MACHINE_CONSTANT.MONEY_UNIT}</td>
+      <td>${unitCountInfo.unitInfo[unit]}${VENDING_MACHINE_CONSTANT.AMOUNT_POSTFIX}</td>
+    </tr>`
+    )
+    .join('');
+};
+
+/**
+ * @param {UnitCountInfo} unitCountInfo
+ */
+export const renderReturnedChanges = (unitCountInfo) => {
+  const units = Object.keys(unitCountInfo.unitInfo);
+  querySelector(SELECTOR_MAP.TABLE.VENDING_MACHINE_RETURN_CHANGES).tableBodyElement.innerHTML = units
     .map(
       (unit) => `<tr>
       <td>${unit}${VENDING_MACHINE_CONSTANT.MONEY_UNIT}</td>
@@ -114,6 +131,7 @@ export const renderPurchasableProduct = (vendingMachine) => {
   const {
     productManager: { products },
   } = vendingMachine;
+
   const element = querySelector(SELECTOR_MAP.TABLE.VENDING_MACHINE_PURCHASABLE_PRODUCT).tableBodyElement;
   element.innerHTML = products
     .map(
@@ -125,6 +143,7 @@ export const renderPurchasableProduct = (vendingMachine) => {
     </tr>`
     )
     .join('');
+
   element.querySelectorAll('button').forEach((button, idx) => {
     setClickEventListenerWithVendingMachine(button, () => {
       // prettier-ignore

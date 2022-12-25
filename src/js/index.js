@@ -8,6 +8,7 @@ import {
   renderChargeAmount,
   renderProduct,
   renderPurchasableProduct,
+  renderReturnedChanges,
   renderSpendingAmount,
   renderTotalChargeAmount,
   showTab,
@@ -79,4 +80,10 @@ setClickEventListenerWithVendingMachine(querySelector(SELECTOR_MAP.BUTTON.INSERT
   setEnterEventListener(querySelector(input), () => querySelector(nextInputSelector).focus());
 });
 
+setClickEventListenerWithVendingMachine(querySelector(SELECTOR_MAP.BUTTON.RETURN_CHANGES_BUTTON), (vendingMachine) => {
+  const remainInfo = vendingMachine.returnChanges();
+  renderSpendingAmount(vendingMachine);
+  renderReturnedChanges(remainInfo);
+  saveItem(DATA_STORAGE.UNIT_COUNTS, vendingMachine.unitCountMachine.unitCountInfo);
+});
 window.addEventListener('load', () => renderProduct(vendingMachine));
