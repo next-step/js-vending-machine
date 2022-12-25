@@ -20,7 +20,12 @@ export default class UnitCountMachine {
   #unitCountInfo;
   static #UNITS = VENDING_MACHINE_CONSTANT.UNIT_INFO.UNITS;
 
-  constructor() {
+  constructor(unitCountInfo) {
+    if (UnitCountMachine.#isValidUnitCountInfo(unitCountInfo)) {
+      this.#unitCountInfo = unitCountInfo;
+      return;
+    }
+
     this.#unitCountInfo = {
       amount: 0,
       unitInfo: UnitCountMachine.#UNITS.reduce(
@@ -31,6 +36,25 @@ export default class UnitCountMachine {
         {}
       ),
     };
+  }
+
+  /**
+   *
+   * @param {UnitCountInfo} unitCountInfo
+   */
+  static #isValidUnitCountInfo(unitCountInfo) {
+    if (!unitCountInfo) return false;
+
+    const keyInfo = {
+      amount: { type: 'number' },
+      unitInfo: { type: 'object' },
+    };
+
+    const isValidType = (value, type) => (value + '').length && typeof value === type;
+    const shallowCheckResult = Object.keys(keyInfo).every((key) => isValidType(unitCountInfo[key], keyInfo[key].type));
+    if (!shallowCheckResult) return false;
+
+    return Object.keys(unitCountInfo.unitInfo).every((unit) => isValidType(unitCountInfo.unitInfo[unit], 'number'));
   }
 
   /**

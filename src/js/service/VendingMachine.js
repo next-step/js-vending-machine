@@ -5,6 +5,7 @@ import { DATA_STORAGE } from '../ui/constant.js';
 
 /**
  * @typedef {import('../service/ProductManager').ProductItem} ProductItem
+ * @typedef {import('./UnitCountMachine.js').UnitCountInfo} UnitCountInfo
  */
 
 export class VendingMachine {
@@ -15,10 +16,11 @@ export class VendingMachine {
 
   /**
    * @param {?ProductItem[]} products
+   * @param {?UnitCountInfo} unitCountInfo
    */
-  constructor(products) {
+  constructor(products, unitCountInfo) {
     this.#productManager = new ProductManager(products);
-    this.#unitCountMachine = new UnitCountMachine();
+    this.#unitCountMachine = new UnitCountMachine(unitCountInfo);
   }
 
   /**
@@ -41,4 +43,5 @@ export class VendingMachine {
 }
 
 const savedProducts = loadItem(DATA_STORAGE.PRODUCTS);
-export const vendingMachine = new VendingMachine(savedProducts);
+const savedUnitCounts = loadItem(DATA_STORAGE.UNIT_COUNTS);
+export const vendingMachine = new VendingMachine(savedProducts, savedUnitCounts);
