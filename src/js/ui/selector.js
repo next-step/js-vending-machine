@@ -19,6 +19,7 @@ export const SELECTOR_MAP = {
   },
   SPAN: {
     CHARGE_AMOUNT: '#text-charge-amount',
+    SPENDING_AMOUNT: '#text-spending-money',
   },
   BUTTON: {
     PRODUCT_ADD: '#product-add-button',
@@ -35,6 +36,7 @@ export const SELECTOR_MAP = {
   TABLE: {
     VENDING_MACHINE_PRODUCT: '#vending-machine-products',
     VENDING_MACHINE_CHARGE_AMOUNT: '#vending-machine-charge-amount',
+    VENDING_MACHINE_PURCHASABLE_PRODUCT: '#vending-machine-purchasable-products',
   },
   TAB_BUTTON: {
     MANAGING_PRODUCT: '#product-manage-menu',

@@ -34,7 +34,7 @@ export default class ProductManager {
    *
    * @param {ProductItem} productItem
    */
-  addProduct({ name, price, amount }) {
+  add({ name, price, amount }) {
     this.#validateProduct({ name, price, amount });
     this.#products = [
       ...this.#products.filter((item) => item.name !== name),
@@ -45,6 +45,19 @@ export default class ProductManager {
         amount,
       },
     ].sort((a, b) => a.index - b.index);
+  }
+
+  /**
+   * @param {number} index
+   * @returns {ProductItem|null}
+   */
+  redraw(index) {
+    const product = this.#products[index];
+    const { name, price, amount } = product;
+    if (!product || amount === 0) return null;
+
+    product.amount -= 1;
+    return { name, price, amount };
   }
 
   /**

@@ -5,12 +5,12 @@ import { removeSpace } from '../util/string.js';
 
 /**
  *
- * @param {string} selector
+ * @param {HTMLElement} element
  * @param {function} callback
  * @returns
  */
-export const setClickEventListenerWithVendingMachine = (selector, callback) =>
-  querySelector(selector).addEventListener('click', () => {
+export const setClickEventListenerWithVendingMachine = (element, callback) =>
+  element.addEventListener('click', () => {
     try {
       callback(vendingMachine);
     } catch (error) {
@@ -23,21 +23,23 @@ export const setClickEventListenerWithVendingMachine = (selector, callback) =>
   });
 
 /**
- *
- * @param {string} selector
+ * @param {HTMLElement} element
  * @param {function} callback
  * @returns
  */
-export const setEnterEventListener = (selector, callback) =>
-  querySelector(selector).addEventListener('keypress', (event) => {
+export const setEnterEventListener = (element, callback) =>
+  element.addEventListener('keypress', (event) => {
     if (event.key === 'Enter') {
       callback(vendingMachine);
       event.preventDefault();
     }
   });
 
-export const setChangeRemovingSpaceListener = (selector) => {
-  querySelector(selector).addEventListener('change', function (event) {
+/**
+ * @param {HTMLElement} element
+ */
+export const setChangeRemovingSpaceListener = (element) => {
+  element.addEventListener('change', function (event) {
     this.value = removeSpace(event.target.value);
   });
 };

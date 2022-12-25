@@ -3,9 +3,12 @@ import {
   addProduct,
   clearChargeAmountInput,
   clearProductInputs,
+  clearSpendingAmountInput,
   insertCoins,
   renderChargeAmount,
   renderProduct,
+  renderPurchasableProduct,
+  renderSpendingAmount,
   renderTotalChargeAmount,
   showTab,
 } from './ui/function.js';
@@ -29,7 +32,9 @@ Object.keys(SELECTOR_MAP.TAB_BUTTON).forEach((key) => {
     [SELECTOR_MAP.TABS.MANAGING_CHARGE]: () => {
       renderChargeAmount(vendingMachine);
     },
-    [SELECTOR_MAP.TABS.PURCHASING_PRODUCT]: () => {},
+    [SELECTOR_MAP.TABS.PURCHASING_PRODUCT]: () => {
+      renderPurchasableProduct(vendingMachine);
+    },
   };
   querySelector(tabButtonSelector).addEventListener('click', () => {
     const callback = callbackFunction[tabSelector];
@@ -38,7 +43,7 @@ Object.keys(SELECTOR_MAP.TAB_BUTTON).forEach((key) => {
   });
 });
 
-setClickEventListenerWithVendingMachine(SELECTOR_MAP.BUTTON.PRODUCT_ADD, (vendingMachine) => {
+setClickEventListenerWithVendingMachine(querySelector(SELECTOR_MAP.BUTTON.PRODUCT_ADD), (vendingMachine) => {
   addProduct(vendingMachine);
   clearProductInputs();
   renderProduct(vendingMachine);
@@ -47,7 +52,7 @@ setClickEventListenerWithVendingMachine(SELECTOR_MAP.BUTTON.PRODUCT_ADD, (vendin
   saveItem(DATA_STORAGE.PRODUCTS, vendingMachine.productManager.products);
 });
 
-setClickEventListenerWithVendingMachine(SELECTOR_MAP.BUTTON.CHARGE_AMOUNT, (vendingMachine) => {
+setClickEventListenerWithVendingMachine(querySelector(SELECTOR_MAP.BUTTON.CHARGE_AMOUNT), (vendingMachine) => {
   insertCoins(vendingMachine);
   clearChargeAmountInput();
   renderChargeAmount(vendingMachine);
@@ -55,10 +60,13 @@ setClickEventListenerWithVendingMachine(SELECTOR_MAP.BUTTON.CHARGE_AMOUNT, (vend
 
   saveItem(DATA_STORAGE.UNIT_COUNTS, vendingMachine.unitCountMachine.unitCountInfo);
 });
-setChangeRemovingSpaceListener(SELECTOR_MAP.INPUT.PRODUCT_NAME);
+setChangeRemovingSpaceListener(querySelector(SELECTOR_MAP.INPUT.PRODUCT_NAME));
 
-setClickEventListenerWithVendingMachine(SELECTOR_MAP.BUTTON.INSERTION_FOR_MONEY, (vendingMachine) => {
-  console.log('투입');
+setClickEventListenerWithVendingMachine(querySelector(SELECTOR_MAP.BUTTON.INSERTION_FOR_MONEY), (vendingMachine) => {
+  const amount = querySelector(SELECTOR_MAP.INPUT.SPENDING_MONEY_INPUT).value;
+  vendingMachine.insertMoney(Number(amount));
+  clearSpendingAmountInput();
+  renderSpendingAmount(vendingMachine);
 });
 
 [
@@ -68,7 +76,7 @@ setClickEventListenerWithVendingMachine(SELECTOR_MAP.BUTTON.INSERTION_FOR_MONEY,
   [SELECTOR_MAP.INPUT.CHARGE_AMOUNT, SELECTOR_MAP.BUTTON.CHARGE_AMOUNT],
   [SELECTOR_MAP.INPUT.SPENDING_MONEY_INPUT, SELECTOR_MAP.BUTTON.INSERTION_FOR_MONEY]),
 ].forEach(([input, nextInputSelector]) => {
-  setEnterEventListener(input, () => querySelector(nextInputSelector).focus());
+  setEnterEventListener(querySelector(input), () => querySelector(nextInputSelector).focus());
 });
 
 window.addEventListener('load', () => renderProduct(vendingMachine));

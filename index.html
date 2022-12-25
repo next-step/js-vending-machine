@@ -27,7 +27,7 @@
           </fieldset>
         </form>
         <article>
-          <smart-table title="상품 현황" id="vending-machine-products" columns="상품명,가격,수량" />
+          <smart-table title="상품 현황" id="vending-machine-products" columns="상품명,가격,수량"></smart-table>
         </article>
       </section>
       <section id="section-managing-charge" class="section-tab hidden">
@@ -40,7 +40,11 @@
           </fieldset>
         </form>
         <article>
-          <smart-table title="자판기가 보유한 동전" columns="동전,개수" id="vending-machine-charge-amount" />
+          <smart-table
+            title="자판기가 보유한 동전"
+            columns="동전,개수"
+            id="vending-machine-charge-amount"
+          ></smart-table>
         </article>
       </section>
       <section id="section-purchasing-product" class="section-tab hidden">
@@ -57,7 +61,10 @@
             title="구매할 수 있는 상품 현황"
             id="vending-machine-purchasable-products"
             columns="상품명,가격,수량,구매"
-          />
+          ></smart-table>
+          <smart-table title="잔돈" id="vending-machine-user-changes" columns="동전,개수">
+            <button>반환하기</button>
+          </smart-table>
         </article>
       </section>
     </div>

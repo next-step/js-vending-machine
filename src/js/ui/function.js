@@ -1,16 +1,34 @@
 // eslint-disable-next-line no-unused-vars
 import { VENDING_MACHINE_CONSTANT } from '../service/constant.js';
+import { saveItem } from '../util/dataSaver.js';
+import { DATA_STORAGE } from './constant.js';
 import { SELECTOR_MAP, querySelector } from './selector.js';
+import { setClickEventListenerWithVendingMachine } from './setListener.js';
 
 const $element = {
   inputName: querySelector(SELECTOR_MAP.INPUT.PRODUCT_NAME),
   inputPrice: querySelector(SELECTOR_MAP.INPUT.PRODUCT_PRICE),
   inputAmount: querySelector(SELECTOR_MAP.INPUT.PRODUCT_AMOUNT),
   inputChargeAmount: querySelector(SELECTOR_MAP.INPUT.CHARGE_AMOUNT),
+  inputSpendingAmount: querySelector(SELECTOR_MAP.INPUT.SPENDING_MONEY_INPUT),
 };
 /**
  * @typedef {import('../service/VendingMachine').VendingMachine} VendingMachine
  */
+
+/**
+ * @param {VendingMachine} vendingMachine
+ */
+export const renderTotalChargeAmount = (vendingMachine) => {
+  querySelector(SELECTOR_MAP.SPAN.CHARGE_AMOUNT).innerText = vendingMachine.unitCountMachine.unitCountInfo.amount;
+};
+
+/**
+ * @param {VendingMachine} vendingMachine
+ */
+export const renderSpendingAmount = (vendingMachine) => {
+  querySelector(SELECTOR_MAP.SPAN.SPENDING_AMOUNT).innerText = vendingMachine.insertedMoney;
+};
 
 /**
  *
@@ -23,7 +41,7 @@ export const addProduct = (vendingMachine) => {
     $element.inputPrice.value,
     $element.inputAmount.value,
   ];
-  vendingMachine.productManager.addProduct({ name, price, amount });
+  vendingMachine.productManager.add({ name, price, amount });
 };
 
 /**
@@ -50,6 +68,10 @@ export const clearChargeAmountInput = () => {
   clearInput($element.inputChargeAmount);
 };
 
+export const clearSpendingAmountInput = () => {
+  clearInput($element.inputSpendingAmount);
+};
+
 /**
  *
  * @param {VendingMachine} vendingMachine
@@ -70,7 +92,6 @@ export const renderProduct = (vendingMachine) => {
 };
 
 /**
- *
  * @param {VendingMachine} vendingMachine
  */
 export const renderChargeAmount = (vendingMachine) => {
@@ -87,11 +108,34 @@ export const renderChargeAmount = (vendingMachine) => {
 };
 
 /**
- *
  * @param {VendingMachine} vendingMachine
  */
-export const renderTotalChargeAmount = (vendingMachine) => {
-  querySelector(SELECTOR_MAP.SPAN.CHARGE_AMOUNT).innerText = vendingMachine.unitCountMachine.unitCountInfo.amount;
+export const renderPurchasableProduct = (vendingMachine) => {
+  const {
+    productManager: { products },
+  } = vendingMachine;
+  const element = querySelector(SELECTOR_MAP.TABLE.VENDING_MACHINE_PURCHASABLE_PRODUCT).tableBodyElement;
+  element.innerHTML = products
+    .map(
+      ({ name, price, amount }) => `<tr>
+      <td>${name}</td>
+      <td>${price}</td>
+      <td>${amount}</td>
+      <td><button>구매하기</button></td>
+    </tr>`
+    )
+    .join('');
+  element.querySelectorAll('button').forEach((button, idx) => {
+    setClickEventListenerWithVendingMachine(button, () => {
+      // prettier-ignore
+      const result = vendingMachine.purchase(idx);
+      if (result) {
+        renderPurchasableProduct(vendingMachine);
+        renderSpendingAmount(vendingMachine);
+        saveItem(DATA_STORAGE.PRODUCTS, vendingMachine.productManager.products);
+      }
+    });
+  });
 };
 
 /**

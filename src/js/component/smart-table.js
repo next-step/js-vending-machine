@@ -15,6 +15,7 @@ template.innerHTML = `
 </style>
 
 <h2></h2>
+<slot></slot>
 <table>
     <thead>
         <tr class="columns"></tr>
