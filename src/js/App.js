@@ -1,11 +1,12 @@
 /* eslint-disable class-methods-use-this */
-import { COMPONENTS } from './constants/components.js';
 import { SELECTOR } from './constants/selector.js';
 import { $ } from './utils/dom.js';
 
 import './components/ProductManageMenu/index.js';
 import './components/VendingMachineManageMenu/index.js';
 import './components/ProductPurchaseMenu/index.js';
+import { routes } from './route/routes.js';
+import { navigate } from './route/navigate.js';
 
 const CATEGORY = {
   PRODUCT_MANAGE_MENU: 'product-manage-menu',
@@ -21,17 +22,26 @@ class App extends HTMLElement {
   connectedCallback() {
     this.#render();
     this.#bindEvents();
+    navigate('/product-manage-menu');
+  }
+
+  #findMatchedRoute() {
+    return routes.find((route) => route.path.test(window.location.pathname));
+  }
+
+  #route() {
+    this.innerHTML = this.#findMatchedRoute().element;
   }
 
   #render() {
     if (this.#state.category === CATEGORY.PRODUCT_MANAGE_MENU) {
-      this.innerHTML = COMPONENTS.PRODUCT_MANAGE_MENU;
+      navigate('/product-manage-menu');
     }
     if (this.#state.category === CATEGORY.VENDING_MACHINE_MANAGE_MENU) {
-      this.innerHTML = COMPONENTS.VENDING_MACHINE_MANAGE_MENU;
+      navigate('/vending-machine-manage-menu');
     }
     if (this.#state.category === CATEGORY.PRODUCT_PURCHASE_MENU) {
-      this.innerHTML = COMPONENTS.PRODUCT_PURCHASE_MENU;
+      navigate('/product-purchase-menu');
     }
   }
 
@@ -42,7 +52,25 @@ class App extends HTMLElement {
     this.#render();
   }
 
+  #handleHistoryChange({ detail }) {
+    const { to, isReplace } = detail;
+
+    if (isReplace || to === window.location.pathname) {
+      window.history.replaceState(null, '', to);
+    } else {
+      window.history.pushState(null, '', to);
+    }
+
+    this.#route();
+  }
+
+  #handlePopState() {
+    this.#route();
+  }
+
   #bindEvents() {
+    window.addEventListener('historychange', this.#handleHistoryChange.bind(this));
+    window.addEventListener('popstate', this.#handlePopState.bind(this));
     $(SELECTOR.COMMON.VENDING_MACHINE_CATEGORIES).addEventListener('click', this.#handleCategoryClick.bind(this));
   }
 }
