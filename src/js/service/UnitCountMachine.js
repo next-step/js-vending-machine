@@ -1,5 +1,5 @@
 import { cloneDeep } from '../util/object.js';
-import { ALERT_MESSAGE, VENDING_MACHINE_CONSTANT } from './constant.js';
+import { ERROR_MESSAGE, VENDING_MACHINE_CONSTANT } from './constant.js';
 import ValidationError from './ValidationError.js';
 import { isGreaterThan, isInteger, isMultipleOf } from './validator.js';
 
@@ -131,7 +131,7 @@ export default class UnitCountMachine {
 
   static #validateCoins(amount) {
     if (!UnitCountMachine.#isInsertedCoinsValid(amount)) {
-      throw new ValidationError(ALERT_MESSAGE.VALIDATION.CHARGE_AMOUNT);
+      throw new ValidationError(ERROR_MESSAGE.VALIDATION.CHARGE_AMOUNT);
     }
   }
 

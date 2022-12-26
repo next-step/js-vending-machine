@@ -1,6 +1,6 @@
 import ValidationError from './ValidationError.js';
 import { removeSpace } from '../util/string.js';
-import { ALERT_MESSAGE, VENDING_MACHINE_CONSTANT } from './constant.js';
+import { ERROR_MESSAGE, VENDING_MACHINE_CONSTANT } from './constant.js';
 import { isGreaterThan, isInteger, isMultipleOf } from './validator.js';
 import { cloneDeep } from '../util/object.js';
 
@@ -66,13 +66,13 @@ export default class ProductManager {
    */
   #validateProduct({ name, price, amount }) {
     if (!ProductManager.#isNameValid(name)) {
-      throw new ValidationError(ALERT_MESSAGE.VALIDATION.PRODUCT.NAME_BLANK);
+      throw new ValidationError(ERROR_MESSAGE.VALIDATION.PRODUCT.NAME_BLANK);
     }
     if (!ProductManager.#isPriceValid(price)) {
-      throw new ValidationError(ALERT_MESSAGE.VALIDATION.PRODUCT.PRICE);
+      throw new ValidationError(ERROR_MESSAGE.VALIDATION.PRODUCT.PRICE);
     }
     if (!ProductManager.#isAmountValid(amount)) {
-      throw new ValidationError(ALERT_MESSAGE.VALIDATION.PRODUCT.AMOUNT);
+      throw new ValidationError(ERROR_MESSAGE.VALIDATION.PRODUCT.AMOUNT);
     }
   }
 

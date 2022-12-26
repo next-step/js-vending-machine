@@ -4,7 +4,7 @@ import { loadItem } from '../util/dataSaver.js';
 import { DATA_STORAGE } from '../ui/constant.js';
 import { isGreaterThan, isInteger, isMultipleOf } from './validator.js';
 import ValidationError from './ValidationError.js';
-import { ALERT_MESSAGE, VENDING_MACHINE_CONSTANT } from './constant.js';
+import { ERROR_MESSAGE, VENDING_MACHINE_CONSTANT } from './constant.js';
 
 /**
  * @typedef {import('../service/ProductManager').ProductItem} ProductItem
@@ -61,10 +61,10 @@ export class VendingMachine {
   purchase(index) {
     const product = this.#productManager.products[index];
     if (!(product && this.#insertedMoney - product.price >= 0)) {
-      throw new ValidationError(ALERT_MESSAGE.NOT_ENOUGH_SPENDING_MONEY);
+      throw new ValidationError(ERROR_MESSAGE.NOT_ENOUGH_SPENDING_MONEY);
     }
     if (product.amount === 0) {
-      throw new ValidationError(ALERT_MESSAGE.SOLD_OUT);
+      throw new ValidationError(ERROR_MESSAGE.SOLD_OUT);
     }
 
     this.#insertedMoney -= product.price;
@@ -77,7 +77,7 @@ export class VendingMachine {
    */
   insertMoney(amount) {
     if (!VendingMachine.#isInsertedMoneyValid(amount)) {
-      throw new ValidationError(ALERT_MESSAGE.VALIDATION.SPENDING_MONEY_INPUT);
+      throw new ValidationError(ERROR_MESSAGE.VALIDATION.SPENDING_MONEY_INPUT);
     }
     this.#insertedMoney += amount;
   }

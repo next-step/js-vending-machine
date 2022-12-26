@@ -13,7 +13,7 @@ export const VENDING_MACHINE_CONSTANT = {
   AMOUNT_POSTFIX: '개',
 };
 
-export const ALERT_MESSAGE = {
+export const ERROR_MESSAGE = {
   VALIDATION: {
     PRODUCT: {
       NAME_BLANK: '상품명에는 공백을 입력할 수 없습니다',

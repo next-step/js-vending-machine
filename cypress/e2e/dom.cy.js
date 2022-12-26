@@ -1,4 +1,4 @@
-import { ALERT_MESSAGE, VENDING_MACHINE_CONSTANT } from '../../src/js/service/constant';
+import { ERROR_MESSAGE, VENDING_MACHINE_CONSTANT } from '../../src/js/service/constant';
 import { SELECTOR_MAP } from '../../src/js/ui/selector.js';
 import { removeSpace } from '../../src/js/util/string.js';
 // https://www.thisdot.co/blog/testing-web-components-with-cypress-and-typescript
@@ -93,7 +93,7 @@ describe('자판기 요구사항을 점검한다', () => {
           .click()
           .then(() => {
             const message = alertStub.getCall(0).lastArg;
-            expect(message).to.equal(ALERT_MESSAGE.VALIDATION.PRODUCT.AMOUNT);
+            expect(message).to.equal(ERROR_MESSAGE.VALIDATION.PRODUCT.AMOUNT);
           });
       });
     });
@@ -109,7 +109,7 @@ describe('자판기 요구사항을 점검한다', () => {
           .click()
           .then(() => {
             const message = alertStub.getCall(0).lastArg;
-            expect(message).to.equal(ALERT_MESSAGE.VALIDATION.PRODUCT.PRICE);
+            expect(message).to.equal(ERROR_MESSAGE.VALIDATION.PRODUCT.PRICE);
           });
       });
     });
@@ -286,7 +286,7 @@ describe('자판기 요구사항을 점검한다', () => {
         .click()
         .then(() => {
           const message = alertStub.getCall(0).lastArg;
-          expect(message).to.equal(ALERT_MESSAGE.SOLD_OUT);
+          expect(message).to.equal(ERROR_MESSAGE.SOLD_OUT);
         });
     });
 
@@ -303,7 +303,7 @@ describe('자판기 요구사항을 점검한다', () => {
         .click()
         .then(() => {
           const message = alertStub.getCall(0).lastArg;
-          expect(message).to.equal(ALERT_MESSAGE.NOT_ENOUGH_SPENDING_MONEY);
+          expect(message).to.equal(ERROR_MESSAGE.NOT_ENOUGH_SPENDING_MONEY);
         });
     });
 
