@@ -1,3 +1,4 @@
+/* eslint-disable no-restricted-syntax */
 import { SELECTOR } from '../../constants/selector.js';
 import { COINS, COIN_10, COIN_100, COIN_50, COIN_500 } from '../../constants/vendingMachineManageMenu.js';
 import { $ } from '../../utils/dom.js';
@@ -34,6 +35,14 @@ export default class VendingMachineManageMenu extends HTMLElement {
     };
   }
 
+  #focusInput() {
+    $(SELECTOR.VENDING_MACHINE.CHARGE_INPUT).focus();
+  }
+
+  #resetInput() {
+    $(SELECTOR.VENDING_MACHINE.CHARGE_INPUT).value = '';
+  }
+
   #shuffleArray(array) {
     const tempArray = [...array];
 
@@ -46,12 +55,14 @@ export default class VendingMachineManageMenu extends HTMLElement {
     return tempArray;
   }
 
-  #focusInput() {
-    $(SELECTOR.VENDING_MACHINE.CHARGE_INPUT).focus();
-  }
+  #mergeCoins(coin1, coin2) {
+    const tempCoin = { ...coin1 };
 
-  #resetInput() {
-    $(SELECTOR.VENDING_MACHINE.CHARGE_INPUT).value = '';
+    for (const [key, value] of Object.entries(coin2)) {
+      tempCoin[key] += value;
+    }
+
+    return tempCoin;
   }
 
   #getCoins(charge, units) {
@@ -70,8 +81,8 @@ export default class VendingMachineManageMenu extends HTMLElement {
   }
 
   #addCharge(charge) {
+    this.#state.coins = this.#mergeCoins(this.#state.coins, this.#getCoins(charge, COINS.UNITS));
     this.#state.charge += charge;
-    this.#state.coins = this.#getCoins(this.#state.charge, COINS.UNITS);
 
     chargeStorage.set(this.#state.charge);
     coinsStorage.set(this.#state.coins);
