@@ -33,3 +33,12 @@ Cypress.Commands.add('alertMessage', (selector, message) => {
       expect(stub.getCall(0)).to.be.calledWith(message);
     });
 });
+
+Cypress.Commands.add('addProduct', (value) => {
+  const [name, price, amount] = value;
+  cy.get('#product-name-input').type(name);
+  cy.get('#product-price-input').type(price);
+  cy.get('#product-quantity-input').type(amount);
+
+  cy.get('#product-add-button').click();
+});
