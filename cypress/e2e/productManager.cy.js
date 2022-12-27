@@ -36,8 +36,10 @@ describe('상품관리 페이지 테스트', () => {
       expect(str).to.equal('상품 가격은 100원 이상 입력해주세요!');
     });
 
+    const PRODUCT_MIN_PRICE = 100;
+
     cy.get('#product-name-input').type('name');
-    cy.get('#product-price-input').type(5);
+    cy.get('#product-price-input').type(PRODUCT_MIN_PRICE - 1);
     cy.get('#product-add-button').click();
   });
 
