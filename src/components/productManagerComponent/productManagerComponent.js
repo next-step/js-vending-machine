@@ -1,17 +1,16 @@
-import { render, PRODUCT_INVENTORY_CONTAINER_BINDER } from '../binders.js';
-import { Product } from '../models/Product.js';
-import { setLocalStorageItem } from '../utils/localStorageUtils.js';
-import { products, PRODUCTS_STATE_KEY } from '../states/productManagerState.js';
+import { render, PRODUCT_INVENTORY_CONTAINER_BINDER } from '../../binders.js';
+import { Product } from '../../models/Product.js';
+import { setLocalStorageItem } from '../../utils/localStorageUtils.js';
+import { products, PRODUCTS_STATE_KEY } from '../../states/productManagerState.js';
 
-import { Ref } from './common/Ref.js';
+import { Ref } from '../common/Ref.js';
+import { ProductManagerState } from './productManagerState.js';
 
-const MIN_PRICE = 100;
-
-const productControllerInitState = {
+const productControllerInitState = new ProductManagerState({
   name: '',
   price: 0,
   quantity: 0,
-}
+});
 
 const productNameInputRef = new Ref();
 const productPriceInputRef = new Ref();
@@ -41,41 +40,14 @@ export function productManagerController() {
     },
     productAddButton: {
       events: {click: () => {
-        const { name, price, quantity } = productControllerState;
-        if (!name) {
-          alert('상품 이름을 입력해주세요!');
-          productNameInputRef.element.focus();
-          return;
-        }
-
-        if (!price && price > 0) {
-          alert('상품 가격을 양수로 입력해주세요!');
-          productPriceInputRef.element.focus();
-          return;
-        }
-
-        if (price < MIN_PRICE) {
-          alert('상품 가격은 100원 이상 입력해주세요!');
-          productPriceInputRef.element.focus();
-          return;
-        }
-
-        if (price % 10 !== 0) {
-          alert('가격은 10원 단위로 떨어져야 합니다.');
-          productPriceInputRef.element.focus();
-          return;
-        }
-
-        if (!quantity && quantity > 0) {
-          alert('상품 수량을 양수로 입력해주세요!');
-          productQuantityInputRef.element.focus();
-          return;
-        }
+        if (!productControllerState.validateName(productNameInputRef.element)) return;
+        if (!productControllerState.validatePrice(productPriceInputRef.element)) return;
+        if (!productControllerState.validateQuantity(productQuantityInputRef.element)) return;
 
         products[productControllerState.name] = new Product(productControllerState);
         setLocalStorageItem(PRODUCTS_STATE_KEY, JSON.stringify(products));
 
-        productControllerState = productControllerInitState;
+        productControllerState = new ProductManagerState({});
 
         productNameInputRef.element.value = '';
         productPriceInputRef.element.value = '';
