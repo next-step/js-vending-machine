@@ -1,7 +1,7 @@
 import { View } from "../core/View.js";
 
-export function viewInitiator(rootElement, HTML) {
-  rootElement.innerHTML = HTML;
+export function productManagerViewInitiator(rootElement) {
+  rootElement.innerHTML = getProductManagerHTML();
   const $productContainer = document.getElementById('product-container');
   const $productInventoryContainer = document.getElementById('product-inventory-container');
 
@@ -16,7 +16,7 @@ export function viewInitiator(rootElement, HTML) {
   };
 }
 
-export function getProductManagerHTML() {
+function getProductManagerHTML() {
   return (`
     <h3>상품 추가하기</h3>
     <div class="product-container" id="product-container">

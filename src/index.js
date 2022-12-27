@@ -1,5 +1,5 @@
-import { getProductManagerHTML, viewInitiator } from './views/productManagerView.js';
-import { getVendingMachineManager, viewInitiator as vendingMachineInitiator } from './views/vendingMachineManagerView.js';
+import { productManagerViewInitiator } from './views/productManagerView.js';
+import { vendingMachineManagerViewInitiator } from './views/vendingMachineManagerView.js';
 
 import { productManagerController, productInventoryContainerController } from './components/productManagerComponent/index.js';
 import { vendingMachineControllerComponent, cashBoxComponent } from './components/vendingMachineManagerComponent/index.js';
@@ -15,7 +15,7 @@ $productManageMenu.addEventListener('click', () => {
   const {
     productContainerView,
     productInventoryContainerView,
-  } = viewInitiator($app, getProductManagerHTML());
+  } = productManagerViewInitiator($app);
 
   binders.productContainerBinder = createBinder(productContainerView, productManagerController);
   binders.productInventoryContainerBinder = createBinder(productInventoryContainerView, productInventoryContainerController);
@@ -25,7 +25,7 @@ $vendingMachineManageMenu.addEventListener('click', () => {
   const {
     vendingMachineControllerView,
     cashBoxView,
-  } = vendingMachineInitiator($app, getVendingMachineManager());
+  } = vendingMachineManagerViewInitiator($app);
 
   binders.vendingMachineControllerBinder = createBinder(vendingMachineControllerView, vendingMachineControllerComponent);
   binders.cashBoxBinder = createBinder(cashBoxView, cashBoxComponent);

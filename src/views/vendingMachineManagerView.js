@@ -1,7 +1,7 @@
 import { View } from "../core/View.js";
 
-export function viewInitiator(rootElement, HTML) {
-  rootElement.innerHTML = HTML;
+export function vendingMachineManagerViewInitiator(rootElement) {
+  rootElement.innerHTML = getVendingMachineManager();
   const $vendingMachineController = document.getElementById('vending-machine-controller');
   const $cashBox = document.getElementById('cash-box');
 
@@ -20,7 +20,7 @@ export function viewInitiator(rootElement, HTML) {
   }
 }
 
-export function getVendingMachineManager() {
+function getVendingMachineManager() {
   return (`
     <h3>자판기 동전 충전하기</h3>
     <div class="vending-machine-wrapper" id="vending-machine-controller">
