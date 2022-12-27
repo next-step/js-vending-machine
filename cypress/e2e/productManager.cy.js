@@ -33,7 +33,7 @@ describe('상품관리 페이지 테스트', () => {
 
   it('상품 금액의 최소 가격은 100원', () => {
     cy.on('window:alert', (str) => {
-      expect(str).to.equal('상품 가격을 양수로 입력해주세요!');
+      expect(str).to.equal('상품 가격은 100원 이상 입력해주세요!');
     });
 
     cy.get('#product-name-input').type('name');

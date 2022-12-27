@@ -55,7 +55,7 @@ export function productManagerController() {
         }
 
         if (price < MIN_PRICE) {
-          alert('상품 가격을 양수로 입력해주세요!');
+          alert('상품 가격은 100원 이상 입력해주세요!');
           productPriceInputRef.element.focus();
           return;
         }
