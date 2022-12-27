@@ -56,3 +56,8 @@ export const CHARGE = {
 };
 
 export const COINT_QUANTITY = (coin) => SELECTOR[`COIN_${coin}_QUANTITY`];
+
+export const STORAGE_ITEM = {
+  PRODUCT: 'PRODUCT',
+  CHARGE: 'CHARGE',
+};
