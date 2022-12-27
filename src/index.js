@@ -32,5 +32,5 @@ $vendingMachineManageMenu.addEventListener('click', () => {
 });
 
 $productPurchaseMenu.addEventListener('click', () => {
-  
+  // TODO: part2에서 구현 예정
 });
