@@ -1,7 +1,7 @@
 import { render, PRODUCT_INVENTORY_CONTAINER_BINDER } from '../../binders.js';
 import { Product } from '../../models/Product.js';
 import { setLocalStorageItem } from '../../utils/localStorageUtils.js';
-import { products, PRODUCTS_STATE_KEY } from '../../states/productManagerState.js';
+import { products, PRODUCTS_STATE_KEY } from '../../states/productState.js';
 
 import { Ref } from '../common/Ref.js';
 import { ProductManagerState } from './productManagerState.js';
