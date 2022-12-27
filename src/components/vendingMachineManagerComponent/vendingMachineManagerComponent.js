@@ -1,7 +1,6 @@
 import { render, CASH_BOX_BINDER } from "../../binders.js";
 import { setLocalStorageItem } from "../../utils/localStorageUtils.js";
-import { divideNumberInCountOfDivideLevels } from "../../utils/utils.js";
-import { vendingMachineState, VENDING_MACHINE_MANAGER_STATE_KEY } from "../../states/vendingMachineManagerState.js";
+import { vendingMachineState, VENDING_MACHINE_MANAGER_STATE_KEY } from "../../states/vendingMachineState.js";
 
 import { Ref } from "../common/Ref.js";
 import { VendingMachineManagerState } from "./VendingMachineManagerState.js";
@@ -26,7 +25,7 @@ export function vendingMachineControllerComponent() {
       events: {click: () => {
         if (!vendingMachineManagerState.validateAmount()) return;
 
-        vendingMachineState.amount += Number(vendingMachineManagerState.amount);
+        vendingMachineState.addAmount(vendingMachineManagerState.amount);
         chargeAmountInputRef.element.value = null;
         vendingMachineManagerState = new VendingMachineManagerState({});
         setLocalStorageItem(VENDING_MACHINE_MANAGER_STATE_KEY, JSON.stringify(vendingMachineState));
@@ -44,21 +43,10 @@ const coin10Ref = new Ref();
 
 export function cashBoxComponent() {
   totalAmountRef.addOnRenderCallback((totalAmountElement) => totalAmountElement.textContent = vendingMachineState.amount);
-
-  // TODO: coin은 랜덤 생성이고, 랜덤 생성 후 기존 동전에서 추가된다. 따라서 각 coin들은 모두 저장되어야한다.
-  const [
-    coin500Count,
-    coin100Count,
-    coin50Count,
-    coin10Count,
-  ] = vendingMachineState.amount
-    ? divideNumberInCountOfDivideLevels(vendingMachineState.amount, [500, 100, 50, 10])
-    : [0, 0, 0, 0];
-
-  coin500Ref.addOnRenderCallback((coin500Element) => coin500Element.textContent = coin500Count);
-  coin100Ref.addOnRenderCallback((coin100Element) => coin100Element.textContent = coin100Count);
-  coin50Ref.addOnRenderCallback((coin50Element) => coin50Element.textContent = coin50Count);
-  coin10Ref.addOnRenderCallback((coin10Element) => coin10Element.textContent = coin10Count);
+  coin500Ref.addOnRenderCallback((coin500Element) => coin500Element.textContent = vendingMachineState.coin500);
+  coin100Ref.addOnRenderCallback((coin100Element) => coin100Element.textContent = vendingMachineState.coin100);
+  coin50Ref.addOnRenderCallback((coin50Element) => coin50Element.textContent = vendingMachineState.coin50);
+  coin10Ref.addOnRenderCallback((coin10Element) => coin10Element.textContent = vendingMachineState.coin10);
 
   return {
     totalAmount: {
