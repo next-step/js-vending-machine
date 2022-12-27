@@ -9,17 +9,11 @@ export const CHARGE_MANAGE = {
   AMOUNT_UNIT: 10,
 };
 
-export const MESSAGE = {
-  PRODUCT_NAME_EMPTY: '상품명을 입력하세요.',
-  PRODUCT_NAME_SPACE: '상품명에는 공백을 입력할 수 없습니다.',
-
-  PRODUCT_MIN_PRICE: '최소 가격은 100원입니다.',
-  PRODUCT_UNIT: '가격 단위는 10원입니다.',
-
-  PRODUCT_MIN_QUANTITY: '최소 수량은 1개입니다.',
-
-  CHARGE_MIN: '최소 충전 금액은 100원입니다.',
-  CHARGE_UNIT: '충전 단위는 10원입니다.',
+export const COINS = {
+  COIN_500: 500,
+  COIN_100: 100,
+  COIN_50: 50,
+  COIN_10: 10,
 };
 
 export const SELECTOR = {
@@ -38,6 +32,7 @@ export const SELECTOR = {
   CHARGE_FORM_INPUT: '#vending-machine-charge-input',
   CHARGE_TOTAL: '#vending-machine-charge-amount',
 
+  CASHBOX_BODY: '.cashbox-remaining > tbody',
   COIN_500_QUANTITY: '#vending-machine-coin-500-quantity',
   COIN_100_QUANTITY: '#vending-machine-coin-100-quantity',
   COIN_50_QUANTITY: '#vending-machine-coin-50-quantity',
@@ -59,3 +54,5 @@ export const PRODUCT = {
 export const CHARGE = {
   AMOUNT: 'vending-machine-charge-amount',
 };
+
+export const COINT_QUANTITY = (coin) => SELECTOR[`COIN_${coin}_QUANTITY`];
