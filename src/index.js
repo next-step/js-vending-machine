@@ -2,7 +2,7 @@ import { getProductManagerHTML, viewInitiator } from './views/productManagerView
 import { getVendingMachineManager, viewInitiator as vendingMachineInitiator } from './views/vendingMachineManagerView.js';
 
 import { productManagerController, productInventoryContainerController } from './components/productManagerComponent/index.js';
-import { vendingMachineControllerComponent, cashBoxComponent } from './components/vendingMachineManagerComponent.js';
+import { vendingMachineControllerComponent, cashBoxComponent } from './components/vendingMachineManagerComponent/index.js';
 
 import { binders, createBinder } from './binders.js';
 
