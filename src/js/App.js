@@ -22,7 +22,7 @@ class App extends HTMLElement {
   connectedCallback() {
     this.#render();
     this.#bindEvents();
-    navigate('js-vending-machine/product-manage-menu');
+    navigate('/js-vending-machine/product-manage-menu');
   }
 
   #route() {
@@ -30,7 +30,7 @@ class App extends HTMLElement {
     const pathname = pathnameArray.length <= 1 ? window.location.pathname : pathnameArray[pathnameArray.length - 1];
 
     const currentRoute = routes.find((route) => {
-      return route.path.test(pathname);
+      return route.path === pathname;
     });
 
     this.innerHTML = currentRoute.element;
@@ -38,13 +38,13 @@ class App extends HTMLElement {
 
   #render() {
     if (this.#state.category === CATEGORY.PRODUCT_MANAGE_MENU) {
-      navigate('js-vending-machine/product-manage-menu');
+      navigate('/js-vending-machine/product-manage-menu');
     }
     if (this.#state.category === CATEGORY.VENDING_MACHINE_MANAGE_MENU) {
-      navigate('js-vending-machine/vending-machine-manage-menu');
+      navigate('/js-vending-machine/vending-machine-manage-menu');
     }
     if (this.#state.category === CATEGORY.PRODUCT_PURCHASE_MENU) {
-      navigate('js-vending-machine/product-purchase-menu');
+      navigate('/js-vending-machine/product-purchase-menu');
     }
   }
 
