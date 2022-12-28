@@ -36,3 +36,4 @@ export default function App({ $target }) {
   // 뒤로가기, 앞으로가기 할때
   window.addEventListener('popstate', this.route);
 }
+
