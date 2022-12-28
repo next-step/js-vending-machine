@@ -22,7 +22,7 @@ class App extends HTMLElement {
   connectedCallback() {
     this.#render();
     this.#bindEvents();
-    navigate('/product-manage-menu');
+    navigate('product-manage-menu');
   }
 
   #route() {
