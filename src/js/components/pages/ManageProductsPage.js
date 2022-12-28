@@ -1,9 +1,10 @@
 import AddProduct from '../AddProduct.js';
 import ProductsList from '../ProductsList.js';
-import store from '../../store/store.js';
+import { setItem, getItem } from '../../utils/Storage.js';
 
 export default function ManageProductsPage({ $target }) {
   this.$target = $target;
+  this.state = getItem('state');
 
   const $page = document.createElement('section');
   $page.dataset.cy = 'manage-products';
@@ -12,33 +13,35 @@ export default function ManageProductsPage({ $target }) {
     this.$target.appendChild($page);
   };
 
-  this.setState = () => {
-    const newState = store.getState().products;
-    this.productsList.setState(newState);
+  this.setState = newState => {
+    this.state = newState;
+    this.productsList.setState(this.state.products);
   };
 
   this.addProduct = new AddProduct({
     $target: $page,
     onSubmit: (name, price, quantity) => {
-      const index = store.getState().products.findIndex($el => $el.name === name);
+      const index = this.state.products.findIndex($el => $el.name === name);
+      let newState = {};
 
       if (index > -1) {
-        const newState = store.getState();
-        newState.products[index] = { name, price, quantity };
-        store.setState(newState);
+        const nextState = { ...this.state };
+        nextState.products[index] = { name, price, quantity };
+        newState = { ...nextState };
       } else {
-        store.setState({
-          ...store.getState(),
-          products: [...store.getState().products, { name, price, quantity }],
-        });
+        newState = {
+          ...this.state,
+          products: [...this.state.products, { name, price, quantity }],
+        };
       }
 
-      this.setState();
+      setItem('state', newState);
+      this.setState(newState);
     },
   });
 
   this.productsList = new ProductsList({
     $target: $page,
-    state: store.getState().products,
+    state: this.state.products,
   });
 }
