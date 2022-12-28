@@ -1,4 +1,5 @@
 /* eslint-disable no-restricted-syntax */
+import { ERROR_MESSAGE } from '../../constants/errorMessage.js';
 import { SELECTOR } from '../../constants/selector.js';
 import { COINS, COIN_10, COIN_100, COIN_50, COIN_500 } from '../../constants/vendingMachineManageMenu.js';
 import { $ } from '../../utils/dom.js';
@@ -99,8 +100,9 @@ export default class VendingMachineManageMenu extends HTMLElement {
       this.#resetInput();
     } catch (error) {
       if (error instanceof InvalidValueError) {
-        alert(error.message);
+        return alert(error.message);
       }
+      alert(ERROR_MESSAGE.COMMON.UNKNOWN);
     }
   }
 

@@ -5,6 +5,7 @@ import { CHARGE } from './vendingMachineManageMenu.js';
 export const ERROR_MESSAGE = {
   COMMON: {
     EMPTY_INPUT: '공백은 추가할 수 없습니다.',
+    UNKNOWN: '예상치 못한 에러가 발생했습니다.',
   },
 
   PRODUCT: {

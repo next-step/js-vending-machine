@@ -1,4 +1,5 @@
 /* eslint-disable class-methods-use-this */
+import { ERROR_MESSAGE } from '../../constants/errorMessage.js';
 import { SELECTOR } from '../../constants/selector.js';
 import { PRODUCT_KEY } from '../../constants/storage.js';
 import { COIN_500, COIN_100, COIN_50, COIN_10, COINS } from '../../constants/vendingMachineManageMenu.js';
@@ -50,8 +51,9 @@ export default class ProductPurchaseMenu extends HTMLElement {
       this.#bindEvents();
     } catch (error) {
       if (error instanceof CustomError) {
-        alert(error.message);
+        return alert(error.message);
       }
+      alert(ERROR_MESSAGE.COMMON.UNKNOWN);
     }
   }
 
@@ -74,8 +76,9 @@ export default class ProductPurchaseMenu extends HTMLElement {
       this.#bindEvents();
     } catch (error) {
       if (error instanceof CustomError) {
-        alert(error.message);
+        return alert(error.message);
       }
+      alert(ERROR_MESSAGE.COMMON.UNKNOWN);
     }
   }
 
@@ -118,8 +121,9 @@ export default class ProductPurchaseMenu extends HTMLElement {
       this.#bindEvents();
     } catch (error) {
       if (error instanceof CustomError) {
-        alert(error.message);
+        return alert(error.message);
       }
+      alert(ERROR_MESSAGE.COMMON.UNKNOWN);
     }
   }
 

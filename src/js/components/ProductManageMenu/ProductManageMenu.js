@@ -1,3 +1,4 @@
+import { ERROR_MESSAGE } from '../../constants/errorMessage.js';
 import { SELECTOR } from '../../constants/selector.js';
 import { PRODUCT_KEY } from '../../constants/storage.js';
 import { $ } from '../../utils/dom.js';
@@ -73,8 +74,9 @@ export default class ProductManageMenu extends HTMLElement {
       this.#resetInput();
     } catch (error) {
       if (error instanceof CustomError) {
-        alert(error.message);
+        return alert(error.message);
       }
+      alert(ERROR_MESSAGE.COMMON.UNKNOWN);
     }
   }
 
