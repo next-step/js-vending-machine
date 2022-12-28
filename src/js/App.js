@@ -25,12 +25,10 @@ class App extends HTMLElement {
     navigate('/product-manage-menu');
   }
 
-  #findMatchedRoute() {
-    return routes.find((route) => route.path.test(window.location.pathname));
-  }
-
   #route() {
-    this.innerHTML = this.#findMatchedRoute().element;
+    const currentRoute = routes.find((route) => route.path.test(window.location.pathname));
+
+    this.innerHTML = currentRoute.element;
   }
 
   #render() {
