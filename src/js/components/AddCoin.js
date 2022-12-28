@@ -17,9 +17,10 @@ export default function AddCoin({ $target, onSubmit }) {
           <input
             type="number"
             name="amount"
-            id="vending-machine-charge-input"
+            data-cy="charge-input"
+						id="vending-machine-charge-input"
           />
-          <input class="btn" type="submit" id="vending-machine-charge-button" value="충전하기" />
+          <input class="btn" type="submit" data-cy="charge-button" id="vending-machine-charge-button" value="충전하기" />
         </form>
       </div>`;
   };

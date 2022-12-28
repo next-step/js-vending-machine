@@ -11,7 +11,7 @@ export default function TotalMoney({ $target, state }) {
 
   this.render = () => {
     $div.innerHTML = `
-      <p>보유 금액: <span id="vending-machine-charge-amount">${this.state.toLocaleString(
+      <p>보유 금액: <span data-cy="charge-amount" id="vending-machine-charge-amount">${this.state.toLocaleString(
         'ko-KR',
       )}</span>원</p>
       <hr />`;

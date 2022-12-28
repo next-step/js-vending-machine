@@ -16,7 +16,7 @@ export default function CoinList({ $target, state }) {
         ([coin, amount]) =>
           `<tr>
 					<td>${coin}원</td>
-					<td id="vending-machine-coin-500-quantity">
+					<td data-cy="coins">
 						${amount.toLocaleString('ko-KR')}개
 					</td>
 				</tr>`,
