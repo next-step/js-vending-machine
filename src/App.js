@@ -3,24 +3,26 @@ import PurchaseProduct from './js/components/PurchaseProduct.js';
 import ChargingMoneyPage from './js/components/pages/ChargingMoneyPage.js';
 import { init } from './router.js';
 
-// 나중에 hosting 처리해주기
-// const BASE_URL = 'js-vending-machine/';
-
 export default function App({ $target }) {
+  this.getEndPoint = pathname => {
+    const endPoint = pathname.split('/');
+    return endPoint[endPoint.length - 1];
+  };
+
   this.route = () => {
     const { pathname } = location;
-    console.log(pathname);
+    const endPoint = this.getEndPoint(pathname);
     this.$target = $target;
     this.$target.innerHTML = '';
 
-    switch (pathname) {
-      case '/manage-products':
+    switch (endPoint) {
+      case 'manage-products':
         new ManageProductsPage({ $target }).render();
         break;
-      case '/charging-money':
+      case 'charging-money':
         new ChargingMoneyPage({ $target }).render();
         break;
-      case '/purchase-product':
+      case 'purchase-product':
         new PurchaseProduct({ $target });
         break;
       default:
