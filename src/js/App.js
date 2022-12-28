@@ -33,13 +33,13 @@ class App extends HTMLElement {
 
   #render() {
     if (this.#state.category === CATEGORY.PRODUCT_MANAGE_MENU) {
-      navigate('/product-manage-menu');
+      navigate('product-manage-menu');
     }
     if (this.#state.category === CATEGORY.VENDING_MACHINE_MANAGE_MENU) {
-      navigate('/vending-machine-manage-menu');
+      navigate('vending-machine-manage-menu');
     }
     if (this.#state.category === CATEGORY.PRODUCT_PURCHASE_MENU) {
-      navigate('/product-purchase-menu');
+      navigate('product-purchase-menu');
     }
   }
 
