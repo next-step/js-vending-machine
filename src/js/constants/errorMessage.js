@@ -26,6 +26,7 @@ export const ERROR_MESSAGE = {
     INVALID_CHARGE_AMOUNT: '충전 금액이 구매하려는 제품의 가격보다 적습니다.',
     INVALID_MIN_QUANTITY: `수량이 ${PURCHASE_PRODUCT.MIN_QUANTITY}인 상품은 구매할 수 없습니다.`,
     INVALID_RETURN_CHARGE_AMOUNT: '충전 금액이 0원이면 잔돈을 반환할 수 없습니다.',
-    INVALID_RETURN_RESULT: '충전 금액에 해당하는 자판기의 잔돈이 없어서 반환이 불가능합니다.',
+    INVALID_RETURN_RESULT: '자판기의 잔돈이 없어서 반환이 불가능합니다.',
+    EMPTY_VENDING_MACHINE_CHARGE: '자판기 돈통의 돈이 부족하여 충전된 돈중 일부는 반환을 할 수 없습니다',
   },
 };

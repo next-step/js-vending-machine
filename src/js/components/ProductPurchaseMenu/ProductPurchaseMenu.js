@@ -118,10 +118,13 @@ export default class ProductPurchaseMenu extends HTMLElement {
 
       validateReturnResult(this.#state.chargeAmount, charge);
 
+      if (charge !== 0) alert(ERROR_MESSAGE.PRODUCT_PURCHASE.EMPTY_VENDING_MACHINE_CHARGE);
+
       const returnMoney = this.#state.chargeAmount - charge;
 
       coinsStorage.set(coins);
       chargeStorage.set(chargeStorage.get() - returnMoney);
+      chargeAmountStorage.set(charge);
       this.#state.returnCoins = returnCoins;
       this.#state.chargeAmount = charge;
       this.#render();
