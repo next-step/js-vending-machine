@@ -1,11 +1,17 @@
 /* eslint-disable class-methods-use-this */
 import { ERROR_MESSAGE } from '../../constants/errorMessage.js';
 import { SELECTOR } from '../../constants/selector.js';
-import { PRODUCT_KEY } from '../../constants/storage.js';
+import { CHARGE_AMOUNT_KEY, PRODUCT_KEY } from '../../constants/storage.js';
 import { COIN_500, COIN_100, COIN_50, COIN_10, COINS } from '../../constants/vendingMachineManageMenu.js';
 import { $, $all } from '../../utils/dom.js';
 import { CustomError } from '../../utils/error.js';
-import { chargeStorage, coinsStorage, productStorage, returnCoinsStorage } from '../../utils/storage.js';
+import {
+  chargeAmountStorage,
+  chargeStorage,
+  coinsStorage,
+  productStorage,
+  returnCoinsStorage,
+} from '../../utils/storage.js';
 import {
   validatePurchaseMoney,
   validatePurchasePrice,
@@ -31,7 +37,7 @@ export default class ProductPurchaseMenu extends HTMLElement {
   #getInitialState() {
     return {
       money: 0,
-      chargeAmount: 0,
+      chargeAmount: chargeAmountStorage.get(CHARGE_AMOUNT_KEY),
       products: productStorage.get(PRODUCT_KEY),
       returnCoins: returnCoinsStorage.get(),
     };
@@ -46,6 +52,7 @@ export default class ProductPurchaseMenu extends HTMLElement {
       validatePurchaseMoney(this.#state.money);
 
       this.#state.chargeAmount += this.#state.money;
+      chargeAmountStorage.set(this.#state.chargeAmount);
 
       this.#render();
       this.#bindEvents();

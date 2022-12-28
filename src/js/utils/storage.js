@@ -1,4 +1,5 @@
-import { CHARGE_KEY, COINS_KEY, PRODUCT_KEY, RETURN_COINS_KEY } from '../constants/storage.js';
+import { CHARGE_AMOUNT_INIT } from '../constants/productPurchaseMenu.js';
+import { CHARGE_AMOUNT_KEY, CHARGE_KEY, COINS_KEY, PRODUCT_KEY, RETURN_COINS_KEY } from '../constants/storage.js';
 import { CHARGE, COINS } from '../constants/vendingMachineManageMenu.js';
 
 export const productStorage = {
@@ -17,6 +18,16 @@ export const chargeStorage = {
 
   set(value) {
     localStorage.setItem(CHARGE_KEY, String(value));
+  },
+};
+
+export const chargeAmountStorage = {
+  get() {
+    return Number(localStorage.getItem(CHARGE_AMOUNT_KEY)) ?? CHARGE_AMOUNT_INIT;
+  },
+
+  set(value) {
+    localStorage.setItem(CHARGE_AMOUNT_KEY, String(value));
   },
 };
 
