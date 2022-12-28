@@ -8,9 +8,20 @@ export default function CoinList({ $target, state }) {
     this.state = newState;
     this.render();
   };
-  // 이것도 리펙토링
+
   this.render = () => {
-    console.log(this.state);
+    const coinListHTML = Object.entries(this.state)
+      .sort((a, b) => b[0] - a[0])
+      .map(
+        ([coin, amount]) =>
+          `<tr>
+					<td>${coin}원</td>
+					<td id="vending-machine-coin-500-quantity">
+						${amount.toLocaleString('ko-KR')}개
+					</td>
+				</tr>`,
+      )
+      .join('');
 
     $div.innerHTML = `
 			<h3>동전 보유 현황</h3>
@@ -22,30 +33,7 @@ export default function CoinList({ $target, state }) {
           </tr>
         </thead>
         <tbody>
-          <tr>
-            <td>500원</td>
-            <td id="vending-machine-coin-500-quantity">${this.state[500].toLocaleString(
-              'ko-KR',
-            )}개</td>
-          </tr>
-          <tr>
-            <td>100원</td>
-            <td id="vending-machine-coin-100-quantity">${this.state[100].toLocaleString(
-              'ko-KR',
-            )}개</td>
-          </tr>
-          <tr>
-            <td>50원</td>
-            <td id="vending-machine-coin-50-quantity">${this.state[50].toLocaleString(
-              'ko-KR',
-            )}개</td>
-          </tr>
-          <tr>
-            <td>10원</td>
-            <td id="vending-machine-coin-10-quantity">${this.state[10].toLocaleString(
-              'ko-KR',
-            )}개</td>
-          </tr>
+				${coinListHTML}
         </tbody>
       </table>`;
   };

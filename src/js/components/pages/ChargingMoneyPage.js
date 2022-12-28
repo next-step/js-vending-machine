@@ -1,9 +1,9 @@
 /* eslint-disable prefer-object-spread */
-import AddCoin from './AddCoin.js';
-import CoinList from './CoinList.js';
-import TotalMoney from './TotalMoney.js';
-import store from '../store/store.js';
-import { COIN_STANDARD } from '../constants/vendingMachine.js';
+import AddCoin from '../AddCoin.js';
+import CoinList from '../CoinList.js';
+import TotalMoney from '../TotalMoney.js';
+import store from '../../store/store.js';
+import { COIN_STANDARD } from '../../constants/vendingMachine.js';
 
 export default function ChargingMoneyPage({ $target }) {
   this.$target = $target;
@@ -22,7 +22,6 @@ export default function ChargingMoneyPage({ $target }) {
 
   this.coinCalculate = total => {
     let totalMoney = total;
-
     return COIN_STANDARD.reduce((acc, coin) => {
       const count = Math.floor(totalMoney / coin);
       totalMoney -= coin * count;

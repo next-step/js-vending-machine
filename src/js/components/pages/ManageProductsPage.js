@@ -1,6 +1,6 @@
-import AddProduct from './AddProduct.js';
-import ProductsList from './ProductsList.js';
-import store from '../store/store.js';
+import AddProduct from '../AddProduct.js';
+import ProductsList from '../ProductsList.js';
+import store from '../../store/store.js';
 
 export default function ManageProductsPage({ $target }) {
   this.$target = $target;

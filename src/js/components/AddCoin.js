@@ -1,6 +1,7 @@
 /* eslint-disable dot-notation */
 import ERROR_MESSAGES from '../constants/errorMessages.js';
-import { MINIMUM_CHARGING_MONEY, DIVISIBLE_CHARGING_MONEY } from '../constants/vendingMachine.js';
+import { MINIMUM_CHARGING_MONEY } from '../constants/vendingMachine.js';
+import { amountNotDividedZero } from '../validate.js';
 
 export default function AddCoin({ $target, onSubmit }) {
   const $div = document.createElement('div');
@@ -25,11 +26,9 @@ export default function AddCoin({ $target, onSubmit }) {
 
   this.render();
 
-  const isNotDividedZero = amount => Number(amount) % DIVISIBLE_CHARGING_MONEY !== 0;
-
   this.validate = amount => {
     if (amount < MINIMUM_CHARGING_MONEY) throw new Error(ERROR_MESSAGES.TOO_SMALL_CHARGING_MONEY);
-    if (isNotDividedZero(amount)) {
+    if (amountNotDividedZero(amount)) {
       throw new Error(ERROR_MESSAGES.NOT_DIVISIBLE_CHARGING_MONEY);
     }
   };

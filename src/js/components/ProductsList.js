@@ -10,6 +10,17 @@ export default function ProductList({ $target, state }) {
   };
 
   this.render = () => {
+    const productListHTML = this.state
+      .map(
+        ({ name, price, quantity }) =>
+          `<tr>
+						<td>${name}</td>
+						<td>${price.toLocaleString('ko-KR')}</td>
+						<td>${quantity.toLocaleString('ko-KR')}</td>
+					</tr>`,
+      )
+      .join('');
+
     $div.innerHTML = `
 			<h3>상품 리스트</h3>
       <table data-cy="products-inventory" class="product-inventory pressed">
@@ -21,16 +32,7 @@ export default function ProductList({ $target, state }) {
           </tr>
         </thead>
         <tbody id="product-inventory-container">
-					${this.state
-            .map(
-              $el =>
-                `<tr>
-                  <td>${$el.name}</td>
-                  <td>${$el.price.toLocaleString('ko-KR')}</td>
-                  <td>${$el.quantity.toLocaleString('ko-KR')}</td>
-                </tr>`,
-            )
-            .join('')}
+					${productListHTML}
 				</tbody>
       </table>`;
   };

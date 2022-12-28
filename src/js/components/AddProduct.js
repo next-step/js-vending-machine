@@ -1,6 +1,6 @@
 /* eslint-disable dot-notation */
 import ERROR_MESSAGES from '../constants/errorMessages.js';
-import { MINIMUM_QUANTITY, MINIMUM_PRICE, DIVISIBLE_PRICE } from '../constants/vendingMachine.js';
+import { isEmpty, isTooSmallQuantity, isTooSmallPrice, priceNotDividedZero } from '../validate.js';
 
 export default function AddProduct({ $target, onSubmit }) {
   const $div = document.createElement('div');
@@ -22,12 +22,6 @@ export default function AddProduct({ $target, onSubmit }) {
 
   this.render();
 
-  // !: validation 정리하던지 하자 이따..
-  const isEmpty = input => input.trim().length === 0;
-  const isTooSmallQuantity = quantity => Number(quantity) < MINIMUM_QUANTITY;
-  const isTooSmallPrice = price => Number(price) < MINIMUM_PRICE;
-  const isNotDividedZero = price => Number(price) % DIVISIBLE_PRICE !== 0;
-
   this.validate = (name, price, quantity) => {
     if (isEmpty(name)) throw new Error(ERROR_MESSAGES.NAME_SHOULD_NOT_EMPTY);
     if (isEmpty(price)) throw new Error(ERROR_MESSAGES.PRICE_SHOULD_NOT_EMPTY);
@@ -36,7 +30,7 @@ export default function AddProduct({ $target, onSubmit }) {
       throw new Error(ERROR_MESSAGES.TOO_SMALL_QUANTITY);
     }
     if (isTooSmallPrice(price)) throw new Error(ERROR_MESSAGES.TOO_SMALL_PRICE);
-    if (isNotDividedZero(price)) throw new Error(ERROR_MESSAGES.NOT_DIVISIBLE_PRICE);
+    if (priceNotDividedZero(price)) throw new Error(ERROR_MESSAGES.NOT_DIVISIBLE_PRICE);
   };
 
   $div.querySelector('form').addEventListener('submit', event => {
