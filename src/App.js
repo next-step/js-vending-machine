@@ -11,7 +11,9 @@ export default function App({ $target }) {
 
   this.route = () => {
     const { pathname } = location;
+    console.log(pathname);
     const endPoint = this.getEndPoint(pathname);
+    console.log(endPoint);
     this.$target = $target;
     this.$target.innerHTML = '';
 
@@ -36,4 +38,3 @@ export default function App({ $target }) {
   // 뒤로가기, 앞으로가기 할때
   window.addEventListener('popstate', this.route);
 }
-

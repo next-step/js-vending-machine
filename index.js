@@ -1,7 +1,6 @@
 import App from './src/App.js';
 import { routeChange } from './src/router.js';
 
-const BASE_URL = 'js-vending-machine/';
 
 new App({ $target: document.querySelector('#app') });
 
@@ -15,5 +14,5 @@ document.querySelector('.tabs').addEventListener('click', event => {
   });
   event.target.classList.add('pressed');
 
-  routeChange(`${BASE_URL}/${url}`);
+  routeChange(`/${url}`);
 });
