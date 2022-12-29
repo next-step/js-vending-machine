@@ -31,14 +31,16 @@ class HashNavButton extends HTMLElement {
     });
   }
 
+  disconnectedCallback() {}
+
   #getHashId() {
     const hashLocation = window.location.hash;
 
-    return hashLocation;
+    return hashLocation.replace('#', '');
   }
 
   #render() {
-    if (`#${this.hashId}` === this.#getHashId()) {
+    if (this.hashId === this.#getHashId()) {
       this.root.querySelector('style').textContent = `
         button {
           all: unset;
