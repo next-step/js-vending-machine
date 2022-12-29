@@ -2,7 +2,7 @@ import ValidationError from './ValidationError.js';
 import { removeSpace } from '../util/string.js';
 import { ERROR_MESSAGE, VENDING_MACHINE_CONSTANT } from './constant.js';
 import { isGreaterThan, isInteger, isMultipleOf } from './validator.js';
-import { cloneDeep } from '../util/object.js';
+import { cloneDeepReadOnly } from '../util/object.js';
 
 /**
  * @typedef {Object} ProductItem
@@ -27,7 +27,7 @@ export default class ProductManager {
   }
 
   get products() {
-    return cloneDeep(this.#products);
+    return cloneDeepReadOnly(this.#products);
   }
 
   /**
