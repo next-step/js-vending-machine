@@ -1,7 +1,6 @@
 import App from './src/App.js';
 import { routeChange } from './src/router.js';
 
-
 new App({ $target: document.querySelector('#app') });
 
 document.querySelector('.tabs').addEventListener('click', event => {
