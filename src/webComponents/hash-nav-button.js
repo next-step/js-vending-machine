@@ -6,7 +6,7 @@ class HashNavButton extends HTMLElement {
   }
 
   static get observedAttributes() {
-    return ['id'];
+    // return ['id'];
   }
 
   connectedCallback() {
@@ -19,6 +19,9 @@ class HashNavButton extends HTMLElement {
     `;
 
     this.$hashNav = this.root.querySelector('.hash-nav');
+
+    this.#render();
+
     window.addEventListener('hashchange', (event) => {
       this.#render();
     });

@@ -27,6 +27,7 @@ class App extends HTMLElement {
       <route-wrapper></route-wrapper>
     </slot>
     `;
+
     this.root.appendChild(template.content.cloneNode(true));
   }
 }
