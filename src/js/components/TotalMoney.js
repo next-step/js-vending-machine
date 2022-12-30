@@ -10,6 +10,7 @@ export default function TotalMoney({ $target, state }) {
   };
 
   this.render = () => {
+    console.log(this.state);
     $div.innerHTML = `
       <p>보유 금액: <span data-cy="charge-amount" id="vending-machine-charge-amount">${this.state.toLocaleString(
         'ko-KR',

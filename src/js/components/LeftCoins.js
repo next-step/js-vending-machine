@@ -11,6 +11,7 @@ export default function LeftCoins({ $target, state, onClick }) {
   };
 
   this.render = () => {
+    console.log(this.state);
     const coinListHTML = Object.entries(this.state)
       .sort((a, b) => b[0] - a[0])
       .map(

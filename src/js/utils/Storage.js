@@ -7,6 +7,13 @@ const INITIAL_STATE = {
     50: 0,
     10: 0,
   },
+  inputMoney: 0,
+  returnCoins: {
+    500: 0,
+    100: 0,
+    50: 0,
+    10: 0,
+  },
 };
 
 export function setItem(key, value) {

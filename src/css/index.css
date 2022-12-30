@@ -183,3 +183,10 @@ input[data-cy='product-add-button'] {
   background-color: rgba(38, 40, 51, 0.03);
   cursor: pointer;
 }
+
+product-manage {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}

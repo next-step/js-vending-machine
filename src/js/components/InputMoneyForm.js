@@ -13,8 +13,8 @@ export default function InputMoneyForm({ $target, onSubmit }) {
     $div.innerHTML = `
 			 <h3>금액 투입</h3>
           <form class="input-money-form">
-            <input type="number" name="amount" id="charge-input" />
-            <input type="submit" id="charge-button" class="btn" value="투입 하기"/>
+            <input type="number" name="amount" data-cy="charge-input" />
+            <input type="submit" data-cy="charge-button" class="btn" value="투입 하기"/>
 					</form>
         </div>`;
   };

@@ -11,7 +11,7 @@ export default function inputMoney({ $target, state }) {
 
   this.render = () => {
     $div.innerHTML = `
-			<p>투입한 금액: <span id="charge-amount">${this.state.toLocaleString('ko-KR')}</span>원</p>
+			<p>투입한 금액: <span data-cy="input-money">${this.state.toLocaleString('ko-KR')}</span>원</p>
       <hr />`;
   };
 

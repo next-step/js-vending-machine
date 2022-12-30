@@ -8,13 +8,6 @@ Cypress.Commands.add('containProduct', (name, price, quantity) => {
   cy.$('products-inventory').find('td').eq(2).should('contain', printedQuantity);
 });
 
-Cypress.Commands.add('registerProduct', (name, price, quantity) => {
-  cy.$('product-name-input').type(name);
-  cy.$('product-price-input').type(price);
-  cy.$('product-quantity-input').type(quantity);
-  cy.$('product-add-button').click();
-});
-
 Cypress.Commands.add('clearInputs', () => {
   cy.$('product-name-input').clear();
   cy.$('product-price-input').clear();

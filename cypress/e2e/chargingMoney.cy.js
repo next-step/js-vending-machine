@@ -1,9 +1,3 @@
-Cypress.Commands.add('chargingMoney', money => {
-  cy.$('charge-input').type(money);
-  cy.$('charge-button').click();
-  cy.$('charge-input').clear();
-});
-
 describe('자판기 어플리케이션 테스트', () => {
   beforeEach(() => {
     cy.visit('/');

@@ -12,7 +12,7 @@ export default function PurchaseProductPage({ $target }) {
   this.state = getItem('state');
 
   const $page = document.createElement('section');
-  // $page.dataset.cy = 'charging-money';
+  $page.dataset.cy = 'purchase-product';
 
   this.render = () => {
     this.$target.appendChild($page);

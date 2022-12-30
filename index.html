@@ -4,6 +4,10 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script type="module" src="./src/js/components/pages/PurchaseProduct.js"></script>
+    <script type="module" src="./src/js/components/pages/ProductManage.js"></script>
+    <script type="module" src="./src/js/components/pages/MoneyCharge.js"></script>
+    <script type="module" src="./src/js/components/pages/AddProduct.js"></script>
     <link rel="stylesheet" href="./src/css/index.css" />
     <script type="module" src="./index.js"></script>
     <title>NEXTSTEP JavaScript Vending machine</title>
@@ -13,11 +17,40 @@
     <!-- <button id="product-manage-menu">상품 관리</button>
     <button id="vending-machine-manage-menu">잔돈충전</button>
     <button id="product-purchase-menu">상품 구매</button> -->
-    <ul class="tabs">
+    <!-- <ul class="tabs">
       <li class="btn pressed" id="manage-products">상품 관리</li>
       <li class="btn" id="charging-money">잔돈 충전</li>
       <li class="btn" id="purchase-product">상품 구매</li>
     </ul>
-    <div id="app"></div>
+    <div id="app"></div> -->
+
+    <tab-menu>
+      <ul class="tabs" slot="tab-list">
+        <li class="btn pressed" id="product-manage-menu">상품 관리</li>
+        <li class="btn" id="vending-machine-manage-menu">잔돈 충전</li>
+        <li class="btn" id="product-purchase-menu">상품 구매</li>
+      </ul>
+
+      <div tab-name="product-manage-menu">
+        <product-manage></product-manage>
+      </div>
+      <div tab-name="vending-machine-manage-menu">
+        <money-charge></money-charge>
+      </div>
+      <div tab-name="product-purchase-menu">
+        <purchase-product></purchase-product>
+      </div>
+    </tab-menu>
+
+    <template id="tab-menu-template">
+      <article>
+        <div>
+          <slot name="tab-list"></slot>
+        </div>
+        <div>
+          <slot name="selected"></slot>
+        </div>
+      </article>
+    </template>
   </body>
 </html>
