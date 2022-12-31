@@ -1,3 +1,7 @@
+import { ALERT } from '../../constants/alert.js';
+import { STORAGE } from '../../constants/storage.js';
+import { VALIDATE } from '../../constants/validate.js';
+import storage from '../../js/utils/storage.js';
 import './add-product-input.js';
 
 const template = document.createElement('template');
@@ -32,21 +36,57 @@ class ProductManage extends HTMLElement {
   }
 
   connectedCallback() {
+    const storedList = storage.getStorage({ id: STORAGE.KEY });
+
+    if (storedList && storedList.products) {
+      this.products = storedList.products;
+    }
+
     this.root.appendChild(template.content.cloneNode(true));
     this.$inventoryContainer = this.root.querySelector('#product-inventory-container');
-    this.$inputs = this.root.querySelector('add-product-input');
+    this.$productInputWrapper = this.root.querySelector('add-product-input');
 
-    this.$inputs.addEventListener('onSubmit', (e) => {
+    this.$productInputWrapper.addEventListener('onSubmit', (e) => {
       this.addProduct(e);
     });
 
     this.render();
   }
 
+  validateQuantity = ({ quantity }) => {
+    return quantity > 0;
+  };
+
+  validatePrice = ({ price }) => {
+    const isValidPrice = price % VALIDATE.MIN_UNIT === 0 && price >= VALIDATE.MIN_PRICE;
+
+    if (!isValidPrice) alert(ALERT.PRICE_VALIDATION);
+
+    return isValidPrice;
+  };
+
+  checkSameProduct = ({ products, typedProduct }) => {
+    const isExist = products.findIndex((product) => product.name === typedProduct.name) > -1;
+
+    if (isExist) {
+      return products.map((product) => (product.name === typedProduct.name ? typedProduct : product));
+    }
+
+    return [...products, typedProduct];
+  };
+
   addProduct(e) {
     const { name, price, quantity } = e.detail;
-    this.products.push({ name, price, quantity });
+
+    if (!this.validatePrice({ price }) || !this.validateQuantity({ quantity })) return;
+
+    this.products = this.checkSameProduct({ products: this.products, typedProduct: { name, price, quantity } });
     this.render();
+  }
+
+  disconnectedCallback() {
+    const storedValue = storage.getStorage({ id: STORAGE.KEY });
+    storage.setStorage({ id: STORAGE.KEY, value: { ...storedValue, products: this.products } });
   }
 
   render() {

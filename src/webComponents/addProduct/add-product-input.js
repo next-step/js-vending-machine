@@ -35,6 +35,9 @@ class AddProductInputs extends HTMLElement {
           },
         })
       );
+      this.$nameInput.value = '';
+      this.$priceInput.value = '';
+      this.$quantityInput.value = '';
     });
   }
 }
