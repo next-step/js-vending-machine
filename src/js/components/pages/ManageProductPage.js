@@ -1,4 +1,4 @@
-export default class PurchaseProduct extends HTMLElement {
+export default class ManageProductPage extends HTMLElement {
   constructor() {
     super();
     this.shadow = this.attachShadow({ mode: 'open' });
@@ -12,13 +12,12 @@ export default class PurchaseProduct extends HTMLElement {
   init() {
     this.template.innerHTML = `
 			<link rel="stylesheet" href="./src/css/index.css" />
-			<section data-cy="purchase-product">
-				<input-money></input-money>
-				<purchase-list></purchase-list>
-				<left-coins></left-coins>
-		</section>`;
+			<section data-cy="manage-products">
+				<add-product></add-product>
+				<product-list></product-list>
+			</section>`;
     this.shadow.appendChild(this.template.content.cloneNode(true));
   }
 }
 
-customElements.define('purchase-product', PurchaseProduct);
+customElements.define('manage-product', ManageProductPage);

@@ -184,8 +184,8 @@ input[data-cy='product-add-button'] {
   cursor: pointer;
 }
 
-product-manage,
-money-charge,
+manage-product,
+charge-money,
 purchase-product {
   display: flex;
   flex-direction: column;

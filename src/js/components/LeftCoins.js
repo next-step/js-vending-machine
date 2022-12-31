@@ -36,11 +36,9 @@ customElements.define(
         .map(
           ([coin, amount]) =>
             `<tr>
-			<td>${coin}원</td>
-			<td data-cy="coins">
-				${amount.toLocaleString('ko-KR')}개
-			</td>
-		</tr>`,
+              <td>${coin}원</td>
+              <td data-cy="coins">${amount.toLocaleString('ko-KR')}개</td>
+            </tr>`,
         )
         .join('');
 

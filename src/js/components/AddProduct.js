@@ -1,5 +1,3 @@
-/* eslint-disable class-methods-use-this */
-/* eslint-disable dot-notation */
 import { isEmpty, isTooSmallQuantity, isTooSmallPrice, priceNotDividedZero } from '../validate.js';
 import ERROR_MESSAGES from '../constants/errorMessages.js';
 import { registerProduct } from '../action.js';
@@ -35,13 +33,14 @@ customElements.define(
         const { value: inputName } = event.target.elements['name'];
         const { value: inputPrice } = event.target.elements['price'];
         const { value: inputQuantity } = event.target.elements['quantity'];
+
         try {
           this.validate(inputName, inputPrice, inputQuantity);
         } catch (error) {
           alert(error.message);
           return;
         }
-        registerProduct(inputName, inputPrice, inputQuantity);
+        registerProduct(inputName, Number(inputPrice), Number(inputQuantity));
       });
     }
 

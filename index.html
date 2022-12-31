@@ -4,9 +4,9 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <script type="module" src="./src/js/components/pages/PurchaseProduct.js"></script>
-    <script type="module" src="./src/js/components/pages/ProductManage.js"></script>
-    <script type="module" src="./src/js/components/pages/MoneyCharge.js"></script>
+    <script type="module" src="./src/js/components/pages/PurchaseProductPage.js"></script>
+    <script type="module" src="./src/js/components/pages/ManageProductPage.js"></script>
+    <script type="module" src="./src/js/components/pages/ChargingMoneyPage.js"></script>
     <script type="module" src="./src/js/components/AddProduct.js"></script>
     <script type="module" src="./src/js/components/ProductList.js"></script>
     <script type="module" src="./src/js/components/AddCoin.js"></script>
@@ -14,24 +14,25 @@
     <script type="module" src="./src/js/components/InputMoney.js"></script>
     <script type="module" src="./src/js/components/PurchaseList.js"></script>
     <script type="module" src="./src/js/components/LeftCoins.js"></script>
-    <link rel="stylesheet" href="./src/css/index.css" />
     <script type="module" src="./index.js"></script>
+    <script type="module" src="./src/js/slot.js"></script>
+    <link rel="stylesheet" href="./src/css/index.css" />
     <title>NEXTSTEP JavaScript Vending machine</title>
   </head>
 
   <body>
     <tab-menu>
       <ul class="tabs" slot="tab-list">
-        <li class="btn pressed" id="product-manage-menu">상품 관리</li>
-        <li class="btn" id="vending-machine-manage-menu">잔돈 충전</li>
+        <li class="btn pressed" id="manage-product-menu">상품 관리</li>
+        <li class="btn" id="charging-money-menu">잔돈 충전</li>
         <li class="btn" id="product-purchase-menu">상품 구매</li>
       </ul>
 
-      <div tab-name="product-manage-menu">
-        <product-manage></product-manage>
+      <div tab-name="manage-product-menu">
+        <manage-product></manage-product>
       </div>
-      <div tab-name="vending-machine-manage-menu">
-        <money-charge></money-charge>
+      <div tab-name="charging-money-menu">
+        <charge-money></charge-money>
       </div>
       <div tab-name="product-purchase-menu">
         <purchase-product></purchase-product>

@@ -1,5 +1,3 @@
-/* eslint-disable dot-notation */
-/* eslint-disable class-methods-use-this */
 import ERROR_MESSAGES from '../constants/errorMessages.js';
 import { MINIMUM_CHARGING_MONEY } from '../constants/vendingMachine.js';
 import { amountNotDividedZero } from '../validate.js';
@@ -51,7 +49,7 @@ customElements.define(
     }
 
     render() {
-      const $inputMoney = this.shadow.querySelector('span[data-cy="input-money"]');
+      const $inputMoney = this.shadow.querySelector('span[data-cy="input-money-value"]');
       $inputMoney.innerHTML = this.state.toLocaleString('ko-KR');
     }
 
@@ -60,11 +58,11 @@ customElements.define(
 				<link rel="stylesheet" href="./src/css/index.css" />
 				<h3>금액 투입</h3>
           <form class="input-money-form">
-            <input type="number" name="amount" data-cy="charge-input" />
-            <input type="submit" data-cy="charge-button" class="btn" value="투입 하기"/>
+            <input type="number" name="amount" data-cy="input-money" />
+            <input type="submit" data-cy="input-money-button" class="btn" value="투입 하기"/>
 					</form>
         </div>
-				<p>투입한 금액: <span data-cy="input-money"></span>원</p>
+				<p>투입한 금액: <span data-cy="input-money-value"></span>원</p>
       	<hr />`;
 
       this.shadow.appendChild(this.template.content.cloneNode(true));

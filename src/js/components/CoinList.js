@@ -1,5 +1,3 @@
-/* eslint-disable dot-notation */
-/* eslint-disable class-methods-use-this */
 import ERROR_MESSAGES from '../constants/errorMessages.js';
 import { MINIMUM_CHARGING_MONEY } from '../constants/vendingMachine.js';
 import { amountNotDividedZero } from '../validate.js';
@@ -40,11 +38,9 @@ customElements.define(
         .map(
           ([coin, amount]) =>
             `<tr>
-				<td>${coin}원</td>
-				<td data-cy="coins">
-					${amount.toLocaleString('ko-KR')}개
-				</td>
-			</tr>`,
+              <td>${coin}원</td>
+              <td class="coins" data-cy="coins">${amount.toLocaleString('ko-KR')}개</td>
+            </tr>`,
         )
         .join('');
 

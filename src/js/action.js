@@ -1,6 +1,3 @@
-/* eslint-disable no-param-reassign */
-/* eslint-disable import/prefer-default-export */
-/* eslint-disable no-undef */
 import ERROR_MESSAGES from './constants/errorMessages.js';
 import { COIN_STANDARD } from './constants/vendingMachine.js';
 import { getItem, setItem } from './utils/Storage.js';
@@ -31,7 +28,7 @@ export const registerProduct = (name, price, quantity) => {
   actionCreator(newState);
 };
 
-const coinCalculate = total => {
+const getMoneyToCoins = total => {
   let totalMoney = total;
   return COIN_STANDARD.reduce((acc, coin) => {
     const count = Math.floor(totalMoney / coin);
@@ -40,20 +37,24 @@ const coinCalculate = total => {
   }, []);
 };
 
+const setNewCoins = (newCoins, newCoinValue) => {
+  const coins = { ...newCoins };
+  COIN_STANDARD.forEach((coin, idx) => {
+    coins[coin] += newCoinValue[idx];
+  });
+
+  return coins;
+};
+
 export const chargingMoney = newMoney => {
   const state = getItem('state');
-
   const { totalMoney, coins } = state;
-  const newCoinValue = coinCalculate(newMoney);
-  const newCoins = { ...coins };
-
-  COIN_STANDARD.forEach((coin, idx) => {
-    newCoins[coin] += newCoinValue[idx];
-  });
+  const newCoinValue = getMoneyToCoins(newMoney);
+  const newCoins = setNewCoins({ ...coins }, newCoinValue);
 
   const newState = {
     ...state,
-    coins: { ...newCoins },
+    coins: newCoins,
     totalMoney: totalMoney + newMoney,
   };
 
@@ -90,32 +91,35 @@ const getReturnCoin = (money, newCoins) => {
   let totalMoney = 0;
   let chargeMoney = money;
   const returnCoins = {};
+  const coins = { ...newCoins };
 
   COIN_STANDARD.forEach(coin => {
     const count = Math.floor(chargeMoney / coin);
-    if (newCoins[coin] < count) {
-      chargeMoney -= coin * newCoins[coin];
-      returnCoins[coin] = newCoins[coin];
-      newCoins[coin] = 0;
+    const canBuyProduct = coins[coin] < count;
+    if (canBuyProduct) {
+      chargeMoney -= coin * coins[coin];
+      returnCoins[coin] = coins[coin];
+      coins[coin] = 0;
     } else {
       chargeMoney -= coin * count;
-      newCoins[coin] -= count;
+      coins[coin] -= count;
       returnCoins[coin] = count;
     }
-    totalMoney += coin * newCoins[coin];
+    totalMoney += coin * coins[coin];
   });
-  return [chargeMoney, totalMoney, returnCoins];
+  return [coins, chargeMoney, totalMoney, returnCoins];
 };
 
 export const returnCoin = () => {
   const state = getItem('state');
   const { inputMoney, coins } = state;
-  const newCoins = { ...coins };
-  const [newInputMoney, newTotalMoney, newReturnCoins] = getReturnCoin(inputMoney, newCoins);
+  const [newCoins, newInputMoney, newTotalMoney, newReturnCoins] = getReturnCoin(inputMoney, {
+    ...coins,
+  });
 
   const newState = {
     ...state,
-    coins: { ...newCoins },
+    coins: newCoins,
     totalMoney: newTotalMoney,
     inputMoney: newInputMoney,
     returnCoins: newReturnCoins,

@@ -27,10 +27,10 @@ customElements.define(
         .map(
           ({ name, price, quantity }) =>
             `<tr>
-					<td>${name}</td>
-					<td>${price.toLocaleString('ko-KR')}</td>
-					<td>${quantity.toLocaleString('ko-KR')}</td>
-				</tr>`,
+              <td>${name}</td>
+              <td>${price.toLocaleString('ko-KR')}</td>
+              <td>${quantity.toLocaleString('ko-KR')}</td>
+            </tr>`,
         )
         .join('');
 
@@ -50,8 +50,7 @@ customElements.define(
               <th>수량</th>
             </tr>
           </thead>
-          <tbody id="product-inventory-container">
-          </tbody>
+          <tbody id="product-inventory-container"></tbody>
         </table>`;
 
       this.shadow.appendChild(this.template.content.cloneNode(true));

@@ -1,5 +1,3 @@
-/* eslint-disable dot-notation */
-/* eslint-disable class-methods-use-this */
 import ERROR_MESSAGES from '../constants/errorMessages.js';
 import { MINIMUM_CHARGING_MONEY } from '../constants/vendingMachine.js';
 import { amountNotDividedZero } from '../validate.js';
