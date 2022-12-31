@@ -1,6 +1,8 @@
 import { ALERT } from '../../constants/alert.js';
 import { $ELEMENT } from '../../constants/element.js';
+import { STORAGE } from '../../constants/storage.js';
 import { makeRadonValueWithMax } from '../../js/utils/random.js';
+import storage from '../../js/utils/storage.js';
 import './charging-money-input.js';
 
 const template = document.createElement('template');
@@ -59,6 +61,13 @@ class ChargingMoney extends HTMLElement {
   }
 
   connectedCallback() {
+    const storedValue = storage.getStorage({ id: STORAGE.KEY });
+    const isExistValidKey = storedValue && storedValue.chargedTotal && storedValue.coinMap;
+    if (isExistValidKey) {
+      this.coinMap = storedValue.coinMap;
+      this.chargedTotal = storedValue.chargedTotal;
+    }
+
     this.root.appendChild(template.content.cloneNode(true));
 
     this.$chargingMoneyInput = this.root.querySelector('charging-money-input');
@@ -72,6 +81,14 @@ class ChargingMoney extends HTMLElement {
       this.addCharge(e);
     });
     this.render();
+  }
+
+  disconnectedCallback() {
+    const storedValue = storage.getStorage({ id: STORAGE.KEY });
+    storage.setStorage({
+      id: STORAGE.KEY,
+      value: { ...storedValue, coinMap: this.coinMap, chargedTotal: this.chargedTotal },
+    });
   }
 
   makeCoinCount = (coins) => {
@@ -108,7 +125,6 @@ class ChargingMoney extends HTMLElement {
   };
 
   addTotal(typedCoin) {
-    console.log(typeof typedCoin);
     this.chargedTotal += typedCoin;
   }
 
@@ -134,7 +150,6 @@ class ChargingMoney extends HTMLElement {
   };
 
   renderCoinsList = ({ coinMap }) => {
-    console.log(this.$coin100Count);
     const { $coin500Count, $coin100Count, $coin50Count, $coin10Count } = this;
 
     $coin500Count.innerText = coinMap[500];

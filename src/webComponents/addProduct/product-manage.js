@@ -36,10 +36,10 @@ class ProductManage extends HTMLElement {
   }
 
   connectedCallback() {
-    const storedList = storage.getStorage({ id: STORAGE.KEY });
+    const stordValue = storage.getStorage({ id: STORAGE.KEY });
 
-    if (storedList && storedList.products) {
-      this.products = storedList.products;
+    if (stordValue && stordValue.products) {
+      this.products = stordValue.products;
     }
 
     this.root.appendChild(template.content.cloneNode(true));

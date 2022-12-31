@@ -5,10 +5,6 @@ class HashNavButton extends HTMLElement {
     this.hashId = this.getAttribute('hash-id');
   }
 
-  static get observedAttributes() {
-    // return ['id'];
-  }
-
   connectedCallback() {
     this.root.innerHTML = `
       <style>
