@@ -17,6 +17,7 @@ Cypress.Commands.add('clearInputs', () => {
 describe('자판기 어플리케이션 테스트', () => {
   beforeEach(() => {
     cy.visit('/');
+    cy.get('#manage-product-menu').click();
   });
 
   describe('상품 관리', () => {
@@ -86,8 +87,8 @@ describe('자판기 어플리케이션 테스트', () => {
       });
 
       it('탭을 이동해도 기존에 입력했던 상품들이 보인다.', () => {
-        cy.get('#purchase-product').click();
-        cy.get('#manage-products').click();
+        cy.get('#product-purchase-menu').click();
+        cy.get('#manage-product-menu').click();
 
         cy.containProduct(name, price, quantity);
       });

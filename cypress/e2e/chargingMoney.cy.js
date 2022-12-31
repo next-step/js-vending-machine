@@ -1,7 +1,7 @@
 describe('자판기 어플리케이션 테스트', () => {
   beforeEach(() => {
     cy.visit('/');
-    cy.get('#charging-money').click();
+    cy.get('#charging-money-menu').click();
   });
 
   describe('잔돈 충전', () => {
@@ -31,8 +31,6 @@ describe('자판기 어플리케이션 테스트', () => {
 
     describe('잔돈을 충전한다.', () => {
       beforeEach(() => {
-        cy.visit('/');
-        cy.get('#charging-money').click();
         cy.chargingMoney('660');
       });
 
@@ -43,10 +41,10 @@ describe('자판기 어플리케이션 테스트', () => {
       });
 
       it('충전 금액을 입력하면 동전이 채워진다.', () => {
-        cy.$('coins').eq(0).should('contain', '1');
-        cy.$('coins').eq(1).should('contain', '1');
-        cy.$('coins').eq(2).should('contain', '1');
-        cy.$('coins').eq(3).should('contain', '1');
+        cy.get('.coins').eq(0).should('contain', '1');
+        cy.get('.coins').eq(1).should('contain', '1');
+        cy.get('.coins').eq(2).should('contain', '1');
+        cy.get('.coins').eq(3).should('contain', '1');
       });
     });
   });
