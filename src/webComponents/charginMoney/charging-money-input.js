@@ -24,7 +24,7 @@ class ChargingMoneyInput extends HTMLElement {
       //*TODO 에러처리
 
       this.dispatchEvent(
-        new CustomEvent('onSubmit', {
+        new CustomEvent('onMoneySubmit', {
           detail: this.$chargeInput.value,
         })
       );
