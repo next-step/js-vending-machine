@@ -133,8 +133,8 @@ class ChargingMoney extends HTMLElement {
   }
 
   addCharge(e) {
-    const typedCoin = Number(e.detail);
-
+    const { value, clearInput } = e.detail;
+    const typedCoin = Number(value);
     const isValidCoin = typedCoin >= 100 && typedCoin % 10 === 0 && typedCoin;
 
     if (!isValidCoin) alert(ALERT.CHARGE_VALIDATION);
@@ -143,6 +143,7 @@ class ChargingMoney extends HTMLElement {
     this.setNewCoinMap(newCoinMap);
     this.addTotal(typedCoin);
     this.render();
+    clearInput();
   }
 
   renderTotalCoin = ({ totalAmount }) => {

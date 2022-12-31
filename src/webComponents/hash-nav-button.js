@@ -30,8 +30,6 @@ class HashNavButton extends HTMLElement {
     });
   }
 
-  disconnectedCallback() {}
-
   #getHashId() {
     const hashLocation = window.location.hash;
 

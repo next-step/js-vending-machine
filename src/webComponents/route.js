@@ -28,7 +28,7 @@ class Route extends HTMLElement {
 
     template.innerHTML = `${filteredElement[0].rootElement}`;
     slot.appendChild(template.content.cloneNode(true));
-    //*TODO: 싹 다 비우는 것 말고 갈아 치우는 방식을 생각해야함.
+
     this.root.innerHTML = '';
     this.root.appendChild(slot);
   }

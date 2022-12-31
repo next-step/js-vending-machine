@@ -24,7 +24,6 @@ class AddProductInputs extends HTMLElement {
 
     this.$form.addEventListener('submit', (event) => {
       event.preventDefault();
-      //*TODO 에러처리
 
       this.dispatchEvent(
         new CustomEvent('onSubmit', {
@@ -32,13 +31,17 @@ class AddProductInputs extends HTMLElement {
             name: this.$nameInput.value,
             price: this.$priceInput.value,
             quantity: this.$quantityInput.value,
+            clearInput: this.clearInput.bind(this),
           },
         })
       );
-      this.$nameInput.value = '';
-      this.$priceInput.value = '';
-      this.$quantityInput.value = '';
     });
+  }
+
+  clearInput() {
+    this.$nameInput.value = '';
+    this.$priceInput.value = '';
+    this.$quantityInput.value = '';
   }
 }
 

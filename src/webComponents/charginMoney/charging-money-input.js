@@ -25,10 +25,17 @@ class ChargingMoneyInput extends HTMLElement {
 
       this.dispatchEvent(
         new CustomEvent('onMoneySubmit', {
-          detail: this.$chargeInput.value,
+          detail: {
+            value: this.$chargeInput.value,
+            clearInput: this.clearInput.bind(this),
+          },
         })
       );
     });
+  }
+
+  clearInput() {
+    this.$chargeInput.value = '';
   }
 }
 

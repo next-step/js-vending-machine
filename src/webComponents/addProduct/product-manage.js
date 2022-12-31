@@ -76,12 +76,13 @@ class ProductManage extends HTMLElement {
   };
 
   addProduct(e) {
-    const { name, price, quantity } = e.detail;
+    const { name, price, quantity, clearInput } = e.detail;
 
     if (!this.validatePrice({ price }) || !this.validateQuantity({ quantity })) return;
 
     this.products = this.checkSameProduct({ products: this.products, typedProduct: { name, price, quantity } });
     this.render();
+    clearInput();
   }
 
   disconnectedCallback() {
