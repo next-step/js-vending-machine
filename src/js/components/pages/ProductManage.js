@@ -16,6 +16,7 @@ export default class ProductManage extends HTMLElement {
 		<link rel="stylesheet" href="./src/css/index.css" />
 		<section data-cy="manage-products">
 			<add-product></add-product>
+			<product-list></product-list>
 		</section>`;
     this.shadow.appendChild(this.template.content.cloneNode(true));
   }

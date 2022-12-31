@@ -1,3 +1,6 @@
+/* eslint-disable import/prefer-default-export */
+import Subject from './src/js/utils/Subject.js';
+
 // import App from './src/App.js';
 // import { routeChange } from './src/router.js';
 
@@ -76,3 +79,5 @@ customElements.define(
     }
   },
 );
+
+export const subject = new Subject();

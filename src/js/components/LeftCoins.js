@@ -1,32 +1,57 @@
-export default function LeftCoins({ $target, state, onClick }) {
-  const $div = document.createElement('div');
-  this.onClick = onClick;
-  this.state = state;
-  this.$target = $target;
-  this.$target.appendChild($div);
+import { getItem } from '../utils/Storage.js';
+import { subject } from '../../../index.js';
+import { returnCoin } from '../action.js';
 
-  this.setState = newState => {
-    this.state = newState;
-    this.render();
-  };
+customElements.define(
+  'left-coins',
+  class extends HTMLElement {
+    constructor() {
+      super();
+      this.shadow = this.attachShadow({ mode: 'open' });
+      this.template = document.createElement('template');
+      this.state = getItem('state').returnCoins;
+      subject.subscribe(this);
+    }
 
-  this.render = () => {
-    console.log(this.state);
-    const coinListHTML = Object.entries(this.state)
-      .sort((a, b) => b[0] - a[0])
-      .map(
-        ([coin, amount]) =>
-          `<tr>
-				<td>${coin}원</td>
-				<td data-cy="coins">
-					${amount.toLocaleString('ko-KR')}개
-				</td>
-			</tr>`,
-      )
-      .join('');
+    connectedCallback() {
+      this.init();
+      this.setEvent();
+      this.render();
+    }
 
-    $div.innerHTML = `
-			 <h3>잔돈</h3>
+    setEvent() {
+      this.shadow.addEventListener('click', () => {
+        returnCoin();
+      });
+    }
+
+    setState() {
+      this.state = getItem('state').returnCoins;
+      this.render();
+    }
+
+    render() {
+      const coinListHTML = Object.entries(this.state)
+        .sort((a, b) => b[0] - a[0])
+        .map(
+          ([coin, amount]) =>
+            `<tr>
+			<td>${coin}원</td>
+			<td data-cy="coins">
+				${amount.toLocaleString('ko-KR')}개
+			</td>
+		</tr>`,
+        )
+        .join('');
+
+      const $tbody = this.shadow.querySelector('tbody');
+      $tbody.innerHTML = coinListHTML;
+    }
+
+    init() {
+      this.template.innerHTML = `
+				<link rel="stylesheet" href="./src/css/index.css" />
+				<h3>잔돈</h3>
 				<form>
 					<input type="button" class="btn" id="coin-return-button" value="반환하기"/>
 				</form>
@@ -37,15 +62,10 @@ export default function LeftCoins({ $target, state, onClick }) {
               <th>개수</th>
             </tr>
           </thead>
-          <tbody>
-					${coinListHTML}
-          </tbody>
+          <tbody></tbody>
         </table>`;
 
-    $div.querySelector('form').addEventListener('click', () => {
-      this.onClick();
-    });
-  };
-
-  this.render();
-}
+      this.shadow.appendChild(this.template.content.cloneNode(true));
+    }
+  },
+);

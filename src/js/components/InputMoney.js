@@ -1,19 +1,73 @@
-export default function inputMoney({ $target, state }) {
-  const $div = document.createElement('div');
-  this.$target = $target;
-  this.$target.appendChild($div);
-  this.state = state;
+/* eslint-disable dot-notation */
+/* eslint-disable class-methods-use-this */
+import ERROR_MESSAGES from '../constants/errorMessages.js';
+import { MINIMUM_CHARGING_MONEY } from '../constants/vendingMachine.js';
+import { amountNotDividedZero } from '../validate.js';
+import { getItem } from '../utils/Storage.js';
+import { setInputMoney } from '../action.js';
+import { subject } from '../../../index.js';
 
-  this.setState = newState => {
-    this.state = newState;
-    this.render();
-  };
+customElements.define(
+  'input-money',
+  class extends HTMLElement {
+    constructor() {
+      super();
+      this.shadow = this.attachShadow({ mode: 'open' });
+      this.template = document.createElement('template');
+      this.state = getItem('state').inputMoney;
+      subject.subscribe(this);
+    }
 
-  this.render = () => {
-    $div.innerHTML = `
-			<p>투입한 금액: <span data-cy="input-money">${this.state.toLocaleString('ko-KR')}</span>원</p>
-      <hr />`;
-  };
+    connectedCallback() {
+      this.init();
+      this.setEvent();
+      this.render();
+    }
 
-  this.render();
-}
+    setState() {
+      this.state = getItem('state').inputMoney;
+      this.render();
+    }
+
+    validate(amount) {
+      if (amount < MINIMUM_CHARGING_MONEY) throw new Error(ERROR_MESSAGES.TOO_SMALL_CHARGING_MONEY);
+      if (amountNotDividedZero(amount)) {
+        throw new Error(ERROR_MESSAGES.NOT_DIVISIBLE_CHARGING_MONEY);
+      }
+    }
+
+    setEvent() {
+      this.shadow.querySelector('form').addEventListener('submit', event => {
+        event.preventDefault();
+        const { value: inputAmount } = event.target.elements['amount'];
+        try {
+          this.validate(inputAmount);
+        } catch (error) {
+          alert(error.message);
+          return;
+        }
+        setInputMoney(Number(inputAmount));
+      });
+    }
+
+    render() {
+      const $inputMoney = this.shadow.querySelector('span[data-cy="input-money"]');
+      $inputMoney.innerHTML = this.state.toLocaleString('ko-KR');
+    }
+
+    init() {
+      this.template.innerHTML = `
+				<link rel="stylesheet" href="./src/css/index.css" />
+				<h3>금액 투입</h3>
+          <form class="input-money-form">
+            <input type="number" name="amount" data-cy="charge-input" />
+            <input type="submit" data-cy="charge-button" class="btn" value="투입 하기"/>
+					</form>
+        </div>
+				<p>투입한 금액: <span data-cy="input-money"></span>원</p>
+      	<hr />`;
+
+      this.shadow.appendChild(this.template.content.cloneNode(true));
+    }
+  },
+);

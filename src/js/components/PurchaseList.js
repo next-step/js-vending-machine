@@ -1,30 +1,72 @@
-export default function PurchaseList({ $target, state, onClick }) {
-  const $div = document.createElement('div');
-  this.$target = $target;
-  this.$target.appendChild($div);
-  this.state = state;
-  this.onClick = onClick;
+/* eslint-disable dot-notation */
+/* eslint-disable class-methods-use-this */
+import ERROR_MESSAGES from '../constants/errorMessages.js';
+import { MINIMUM_CHARGING_MONEY } from '../constants/vendingMachine.js';
+import { amountNotDividedZero } from '../validate.js';
+import { getItem } from '../utils/Storage.js';
+import { subject } from '../../../index.js';
+import { buyProduct } from '../action.js';
 
-  this.setState = newState => {
-    this.state = newState;
-    this.render();
-  };
+customElements.define(
+  'purchase-list',
+  class extends HTMLElement {
+    constructor() {
+      super();
+      this.shadow = this.attachShadow({ mode: 'open' });
+      this.template = document.createElement('template');
+      this.state = getItem('state').products;
+      subject.subscribe(this);
+    }
 
-  this.render = () => {
-    const productListHTML = this.state
-      .map(
-        ({ name, price, quantity }) =>
-          `<tr>
-						<td class="name">${name}</td>
-						<td>${price.toLocaleString('ko-KR')}</td>
-						<td>${quantity.toLocaleString('ko-KR')}</td>
-					</tr>`,
-      )
-      .join('');
+    connectedCallback() {
+      this.init();
+      this.setEvent();
+      this.render();
+    }
 
-    $div.innerHTML = `
-			<h3>구매할 수 있는 상품 현황</h3>
-      <table data-cy="purchase-list" class="purchase-list pressed">
+    setState() {
+      this.state = getItem('state').products;
+      this.render();
+    }
+
+    validate(amount) {
+      if (amount < MINIMUM_CHARGING_MONEY) throw new Error(ERROR_MESSAGES.TOO_SMALL_CHARGING_MONEY);
+      if (amountNotDividedZero(amount)) {
+        throw new Error(ERROR_MESSAGES.NOT_DIVISIBLE_CHARGING_MONEY);
+      }
+    }
+
+    setEvent() {
+      this.shadow.addEventListener('click', event => {
+        const selectedName = event.target.closest('tr').querySelector('.name').innerHTML;
+        try {
+          buyProduct(selectedName);
+        } catch (error) {
+          alert(error.message);
+        }
+      });
+    }
+
+    render() {
+      const productListHTML = this.state
+        .map(
+          ({ name, price, quantity }) =>
+            `<tr>
+					<td class="name">${name}</td>
+					<td>${price.toLocaleString('ko-KR')}</td>
+					<td>${quantity.toLocaleString('ko-KR')}</td>
+				</tr>`,
+        )
+        .join('');
+
+      const $tbody = this.shadow.querySelector('tbody');
+      $tbody.innerHTML = productListHTML;
+    }
+
+    init() {
+      this.template.innerHTML = `
+				<link rel="stylesheet" href="./src/css/index.css" />
+				<table data-cy="purchase-list" class="purchase-list pressed">
         <thead>
           <tr>
             <th>상품명</th>
@@ -33,19 +75,10 @@ export default function PurchaseList({ $target, state, onClick }) {
           </tr>
         </thead>
         <tbody>
-					${productListHTML}
 				</tbody>
       </table>`;
-  };
 
-  this.render();
-
-  $div.addEventListener('click', event => {
-    const selectedName = event.target.closest('tr').querySelector('.name').innerHTML;
-    try {
-      this.onClick(selectedName);
-    } catch (error) {
-      alert(error.message);
+      this.shadow.appendChild(this.template.content.cloneNode(true));
     }
-  });
-}
+  },
+);
