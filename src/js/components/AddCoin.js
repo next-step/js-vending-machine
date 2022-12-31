@@ -42,6 +42,7 @@ customElements.define(
           this.validate(inputAmount);
         } catch (error) {
           alert(error.message);
+          return;
         }
         chargingMoney(Number(inputAmount));
       });
