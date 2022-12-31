@@ -1,3 +1,4 @@
+import { ERROR_MESSAGE } from '../../constants/errorMessage.js';
 import { SELECTOR } from '../../constants/selector.js';
 import { PRODUCT_KEY } from '../../constants/storage.js';
 import { $ } from '../../utils/dom.js';
@@ -6,7 +7,7 @@ import { productStorage } from '../../utils/storage.js';
 import { validateProductName, validateProductPrice, validateProductQuantity } from '../../utils/validation.js';
 
 /* eslint-disable class-methods-use-this */
-export default class ProductManageMenu {
+export default class ProductManageMenu extends HTMLElement {
   #state = {
     name: '',
     price: '',
@@ -15,14 +16,14 @@ export default class ProductManageMenu {
   };
 
   get state() {
-    return this.#state;
+    return { ...this.#state };
   }
 
   set state(state) {
     this.#state = state;
   }
 
-  init() {
+  connectedCallback() {
     this.#state = this.#getInitialState();
     this.#render();
     this.#bindEvents();
@@ -35,9 +36,9 @@ export default class ProductManageMenu {
   }
 
   #resetInput() {
-    $(SELECTOR.PRODUCT_NAME_INPUT).value = '';
-    $(SELECTOR.PRODUCT_PRICE_INPUT).value = '';
-    $(SELECTOR.PRODUCT_QUANTITY_INPUT).value = '';
+    $(SELECTOR.PRODUCT.NAME_INPUT).value = '';
+    $(SELECTOR.PRODUCT.PRICE_INPUT).value = '';
+    $(SELECTOR.PRODUCT.QUANTITY_INPUT).value = '';
   }
 
   #addProduct(product) {
@@ -64,9 +65,7 @@ export default class ProductManageMenu {
       const { name, price, quantity } = this.#state;
 
       validateProductName(name);
-
       validateProductPrice(price);
-
       validateProductQuantity(quantity);
 
       const product = { name, price, quantity };
@@ -75,58 +74,61 @@ export default class ProductManageMenu {
       this.#resetInput();
     } catch (error) {
       if (error instanceof CustomError) {
-        alert(error.message);
+        return alert(error.message);
       }
+      alert(ERROR_MESSAGE.COMMON.UNKNOWN);
     }
   }
 
   #bindEvents() {
-    $(SELECTOR.PRODUCT_NAME_INPUT).addEventListener('input', this.#handleChangeName.bind(this));
-    $(SELECTOR.PRODUCT_PRICE_INPUT).addEventListener('input', this.#handleChangePrice.bind(this));
-    $(SELECTOR.PRODUCT_QUANTITY_INPUT).addEventListener('input', this.#handleChangeQuantity.bind(this));
-    $(SELECTOR.PRODUCT_ADD_BUTTON).addEventListener('click', this.#handleProductAddButtonClick.bind(this));
+    $(SELECTOR.PRODUCT.NAME_INPUT).addEventListener('input', this.#handleChangeName.bind(this));
+    $(SELECTOR.PRODUCT.PRICE_INPUT).addEventListener('input', this.#handleChangePrice.bind(this));
+    $(SELECTOR.PRODUCT.QUANTITY_INPUT).addEventListener('input', this.#handleChangeQuantity.bind(this));
+    $(SELECTOR.PRODUCT.ADD_BUTTON).addEventListener('click', this.#handleProductAddButtonClick.bind(this));
   }
 
   #getTemplate() {
     let template = '';
 
     this.#state.products.forEach((product) => {
-      template += `
-          <tr>
-            <th>${product.name}</th>
-            <th>${product.price}</th>
-            <th>${product.quantity}</th>
-          </tr>   
-        `;
+      template += /* HTML */ `
+        <tr>
+          <th>${product.name}</th>
+          <th>${product.price}</th>
+          <th>${product.quantity}</th>
+        </tr>
+      `;
     });
 
-    return `<h3>상품 추가하기</h3>
-    <div class="product-container">
-      <input type="text" id="product-name-input" placeholder="상품명" />
-      <input type="number" id="product-price-input" placeholder="가격" />
-      <input type="number" id="product-quantity-input" placeholder="수량" />
-      <button id="product-add-button">추가하기</button>
-    </div>
-    <table class="product-inventory">
-	    <colgroup>
-        <col style="width: 140px" />
-        <col style="width: 100px" />
-        <col style="width: 100px" />
-      </colgroup>
-      <thead>
-        <tr>
-          <th>상품명</th>
-          <th>가격</th>
-          <th>수량</th>
-        </tr>
-      </thead>
-      <tbody id="product-inventory-container">
-      ${template}
-      </tbody>
-    </table>`;
+    return /* HTML */ `<h3>상품 추가하기</h3>
+      <div class="product-container">
+        <input type="text" id="product-name-input" placeholder="상품명" />
+        <input type="number" id="product-price-input" placeholder="가격" />
+        <input type="number" id="product-quantity-input" placeholder="수량" />
+        <button id="product-add-button">추가하기</button>
+      </div>
+      <table class="product-inventory">
+        <colgroup>
+          <col style="width: 140px" />
+          <col style="width: 100px" />
+          <col style="width: 100px" />
+        </colgroup>
+        <thead>
+          <tr>
+            <th>상품명</th>
+            <th>가격</th>
+            <th>수량</th>
+          </tr>
+        </thead>
+        <tbody id="product-inventory-container">
+          ${template}
+        </tbody>
+      </table>`;
   }
 
   #render() {
-    $(SELECTOR.APP).innerHTML = this.#getTemplate();
+    this.innerHTML = this.#getTemplate();
   }
 }
+
+window.customElements.define('product-manage-menu', ProductManageMenu);

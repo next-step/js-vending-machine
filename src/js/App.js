@@ -1,8 +1,12 @@
 /* eslint-disable class-methods-use-this */
-import ProductManageMenu from './components/ProductManageMenu/index.js';
-import VendingMachineManageMenu from './components/VendingMachineManageMenu/index.js';
 import { SELECTOR } from './constants/selector.js';
 import { $ } from './utils/dom.js';
+
+import './components/ProductManageMenu/index.js';
+import './components/VendingMachineManageMenu/index.js';
+import './components/ProductPurchaseMenu/index.js';
+import { routes } from './route/routes.js';
+import { navigate } from './route/navigate.js';
 
 const CATEGORY = {
   PRODUCT_MANAGE_MENU: 'product-manage-menu',
@@ -10,31 +14,37 @@ const CATEGORY = {
   PRODUCT_PURCHASE_MENU: 'product-purchase-menu',
 };
 
-class App {
+class App extends HTMLElement {
   #state = {
     category: CATEGORY.PRODUCT_MANAGE_MENU,
   };
 
-  #productManageMenu = new ProductManageMenu();
-
-  #vendingMachineManageMenu = new VendingMachineManageMenu();
-
-  init() {
+  connectedCallback() {
     this.#render();
     this.#bindEvents();
+    navigate('/js-vending-machine/product-manage-menu');
+  }
+
+  #route() {
+    const pathnameArray = window.location.pathname.split('/');
+    const pathname = pathnameArray.length <= 1 ? window.location.pathname : pathnameArray[pathnameArray.length - 1];
+
+    const currentRoute = routes.find((route) => {
+      return route.path === pathname;
+    });
+
+    this.innerHTML = currentRoute.element;
   }
 
   #render() {
     if (this.#state.category === CATEGORY.PRODUCT_MANAGE_MENU) {
-      this.#productManageMenu.init();
+      navigate('/js-vending-machine/product-manage-menu');
     }
-
     if (this.#state.category === CATEGORY.VENDING_MACHINE_MANAGE_MENU) {
-      this.#vendingMachineManageMenu.init();
+      navigate('/js-vending-machine/vending-machine-manage-menu');
     }
-
     if (this.#state.category === CATEGORY.PRODUCT_PURCHASE_MENU) {
-      $(SELECTOR.APP).innerHTML = '<div>product-purchase-menu</div>';
+      navigate('/js-vending-machine/product-purchase-menu');
     }
   }
 
@@ -45,11 +55,27 @@ class App {
     this.#render();
   }
 
+  #handleHistoryChange({ detail }) {
+    const { to, isReplace } = detail;
+
+    if (isReplace || to === window.location.pathname) {
+      window.history.replaceState(null, '', to);
+    } else {
+      window.history.pushState(null, '', to);
+    }
+
+    this.#route();
+  }
+
+  #handlePopState() {
+    this.#route();
+  }
+
   #bindEvents() {
-    $(SELECTOR.VENDING_MACHINE_CATEGORIES).addEventListener('click', this.#handleCategoryClick.bind(this));
+    window.addEventListener('historychange', this.#handleHistoryChange.bind(this));
+    window.addEventListener('popstate', this.#handlePopState.bind(this));
+    $(SELECTOR.COMMON.VENDING_MACHINE_CATEGORIES).addEventListener('click', this.#handleCategoryClick.bind(this));
   }
 }
 
-const app = new App();
-
-app.init();
+window.customElements.define('my-app', App);
