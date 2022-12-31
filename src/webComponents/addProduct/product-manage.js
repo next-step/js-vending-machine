@@ -1,6 +1,7 @@
 import './add-product-input.js';
 
-const template = /* html */ `
+const template = document.createElement('template');
+template.innerHTML = /* html */ `
     <link rel="stylesheet" href="/src/css/index.css">
     <div id="appending-product-container" class="contents-container">
       <h3>상품 추가하기</h3>
@@ -27,10 +28,43 @@ class ProductManage extends HTMLElement {
   constructor() {
     super();
     this.root = this.attachShadow({ mode: 'open' });
+    this.products = [];
   }
 
   connectedCallback() {
-    this.root.innerHTML = template;
+    this.root.appendChild(template.content.cloneNode(true));
+    this.$inventoryContainer = this.root.querySelector('#product-inventory-container');
+    this.$inputs = this.root.querySelector('add-product-input');
+
+    this.$inputs.addEventListener('onSubmit', (e) => {
+      this.addProduct(e);
+    });
+
+    this.render();
+  }
+
+  addProduct(e) {
+    const { name, price, quantity } = e.detail;
+    this.products.push({ name, price, quantity });
+    this.render();
+  }
+
+  render() {
+    if (!this.products.length) return;
+
+    this.$inventoryContainer.innerHTML = /* html */ `
+      ${this.products
+        .map(({ name, price, quantity }) => {
+          return `
+          <tr class=".product-inventory-list">
+            <td>${name}</td>
+            <td>${price}</td>
+            <td>${quantity}</td>
+          </tr>
+        `;
+        })
+        .join('')}
+      `;
   }
 }
 
