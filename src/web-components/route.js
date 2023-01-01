@@ -6,6 +6,14 @@ class Route extends HTMLElement {
     this.root = this.attachShadow({ mode: 'open' });
   }
 
+  connectedCallback() {
+    this.renderRootElement();
+
+    window.addEventListener('hashchange', (event) => {
+      this.renderRootElement();
+    });
+  }
+
   #getHashId() {
     const hashLocation = window.location.hash;
 
@@ -28,14 +36,6 @@ class Route extends HTMLElement {
 
     this.root.innerHTML = '';
     this.root.appendChild(slot);
-  }
-
-  connectedCallback() {
-    this.renderRootElement();
-
-    window.addEventListener('hashchange', (event) => {
-      this.renderRootElement();
-    });
   }
 }
 

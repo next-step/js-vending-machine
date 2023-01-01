@@ -12,12 +12,6 @@ export const DEFAULT_CHARGE_COINS = {
 };
 
 export const VENDING_MACHINE_INITIAL_STATE = {
-  //*TODO: remove useless state
-  hashId: 'product-manage-menu',
-  typedProduct: DEFAULT_TYPED_PRODUCT,
-  typedCoin: 0,
-
-  //
   products: [],
   chargedTotal: 0,
   coinMap: DEFAULT_CHARGE_COINS,

@@ -1,5 +1,6 @@
 import { $ELEMENT } from '../../src/constants/element.js';
 import { VENDING_MACHINE_INITIAL_STATE } from '../../src/constants/initialState.js';
+import { ROUTE_ID } from '../../src/constants/route.js';
 import { STORAGE } from '../../src/constants/storage.js';
 
 const MOCK = {
@@ -142,8 +143,8 @@ describe('상품 관리하기', () => {
       cy.getProductInputWithShadow($ELEMENT.ADD_BUTTON).click();
       cy.getProductManageWithShadow($ELEMENT.INVENTORY_CONTAINER).children().should('have.length', 1);
 
-      cy.getHashNavButtonWithShadow('vending-machine-manage-menu').click();
-      cy.getHashNavButtonWithShadow('product-manage-menu').click();
+      cy.getHashNavButtonWithShadow(ROUTE_ID.VENDING_MACHINE_MANANGE_MENU).click();
+      cy.getHashNavButtonWithShadow(ROUTE_ID.PRODUCT_MANGNE_MENU).click();
 
       cy.getProductManageWithShadow($ELEMENT.INVENTORY_CONTAINER).children().should('have.length', 1);
     });
@@ -216,8 +217,8 @@ describe('잔돈 충전하기', () => {
 
         cy.getChargingMoneyWithShadow($ELEMENT.CHARGE_AMOUNT).should('have.text', MOCK.VALID_CHARGE_AMOUNT);
 
-        cy.getHashNavButtonWithShadow('product-manage-menu').click();
-        cy.getHashNavButtonWithShadow('vending-machine-manage-menu').click();
+        cy.getHashNavButtonWithShadow(ROUTE_ID.PRODUCT_MANGNE_MENU).click();
+        cy.getHashNavButtonWithShadow(ROUTE_ID.VENDING_MACHINE_MANANGE_MENU).click();
 
         cy.getChargingMoneyWithShadow($ELEMENT.CHARGE_AMOUNT).should('have.text', MOCK.VALID_CHARGE_AMOUNT);
       });

@@ -6,9 +6,8 @@ class HashNavButton extends HTMLElement {
   }
 
   connectedCallback() {
-    this.root.innerHTML = `
-      <style>
-      </style>
+    this.root.innerHTML = /* html */ `
+      <link rel="stylesheet" href="/src/css/index.css">
       <button class="hash-nav">
         <slot></slot>
       </button>
@@ -21,6 +20,7 @@ class HashNavButton extends HTMLElement {
     window.addEventListener('hashchange', (event) => {
       this.#render();
     });
+
     this.$hashNav.addEventListener('click', (event) => {
       event.preventDefault();
 
@@ -38,31 +38,9 @@ class HashNavButton extends HTMLElement {
 
   #render() {
     if (this.hashId === this.#getHashId()) {
-      this.root.querySelector('style').textContent = `
-        button {
-          all: unset;
-          font-size: 0.825rem;
-          cursor: pointer;
-          border: 1px solid #afafaf;
-          border-radius: 6px;
-          padding: 0.3rem 0.45rem;
-          background-color: black;
-          color: white;
-        }
-      `;
+      this.$hashNav.classList.add('active');
     } else {
-      this.root.querySelector('style').textContent = `
-        button {
-          all: unset;
-          font-size: 0.825rem;
-          cursor: pointer;
-          border: 1px solid #afafaf;
-          border-radius: 6px;
-          padding: 0.3rem 0.45rem;
-          background-color: white;
-          color: black;
-        }
-      `;
+      this.$hashNav.classList.remove('active');
     }
   }
 }
