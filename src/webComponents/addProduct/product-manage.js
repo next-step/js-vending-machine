@@ -1,4 +1,5 @@
 import { ALERT } from '../../constants/alert.js';
+import { $ELEMENT } from '../../constants/element.js';
 import { STORAGE } from '../../constants/storage.js';
 import { VALIDATE } from '../../constants/validate.js';
 import storage from '../../js/utils/storage.js';
@@ -43,7 +44,7 @@ class ProductManage extends HTMLElement {
     }
 
     this.root.appendChild(template.content.cloneNode(true));
-    this.$inventoryContainer = this.root.querySelector('#product-inventory-container');
+    this.$inventoryContainer = this.root.querySelector($ELEMENT.INVENTORY_CONTAINER);
     this.$productInputWrapper = this.root.querySelector('add-product-input');
 
     this.$productInputWrapper.addEventListener('onSubmit', (e) => {

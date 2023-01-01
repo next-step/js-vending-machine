@@ -63,6 +63,7 @@ class ChargingMoney extends HTMLElement {
   connectedCallback() {
     const storedValue = storage.getStorage({ id: STORAGE.KEY });
     const isExistValidKey = storedValue && storedValue.chargedTotal && storedValue.coinMap;
+
     if (isExistValidKey) {
       this.coinMap = storedValue.coinMap;
       this.chargedTotal = storedValue.chargedTotal;
@@ -71,7 +72,7 @@ class ChargingMoney extends HTMLElement {
     this.root.appendChild(template.content.cloneNode(true));
 
     this.$chargingMoneyInput = this.root.querySelector('charging-money-input');
-    this.$chargeAmount = this.root.querySelector('#charge-amount');
+    this.$chargeAmount = this.root.querySelector($ELEMENT.CHARGE_AMOUNT);
     this.$coin500Count = this.root.querySelector($ELEMENT.COIN_500_COUNT);
     this.$coin100Count = this.root.querySelector($ELEMENT.COIN_100_COUNT);
     this.$coin50Count = this.root.querySelector($ELEMENT.COIN_50_COUNT);
@@ -85,6 +86,7 @@ class ChargingMoney extends HTMLElement {
 
   disconnectedCallback() {
     const storedValue = storage.getStorage({ id: STORAGE.KEY });
+
     storage.setStorage({
       id: STORAGE.KEY,
       value: { ...storedValue, coinMap: this.coinMap, chargedTotal: this.chargedTotal },
@@ -160,7 +162,6 @@ class ChargingMoney extends HTMLElement {
   };
 
   render() {
-    this.$chargeAmount = this.root.querySelector('#charge-amount');
     this.renderTotalCoin({ totalAmount: this.chargedTotal });
     this.renderCoinsList({ coinMap: this.coinMap });
   }

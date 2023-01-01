@@ -27,13 +27,37 @@
 import { $ELEMENT } from '../../src/constants/element.js';
 
 Cypress.Commands.add('typeProduct', ({ name, price, quantity }) => {
-  name ? cy.get($ELEMENT.NAME_INPUT).type(name) : cy.get($ELEMENT.NAME_INPUT).clear();
-  cy.get($ELEMENT.PRICE_INPUT).type(price);
-  cy.get($ELEMENT.QUANTITY_INPUT).type(quantity);
+  name
+    ? cy.getProductInputWithShadow($ELEMENT.NAME_INPUT).type(name)
+    : cy.getProductInputWithShadow($ELEMENT.NAME_INPUT).clear();
+  cy.getProductInputWithShadow($ELEMENT.PRICE_INPUT).type(price);
+  cy.getProductInputWithShadow($ELEMENT.QUANTITY_INPUT).type(quantity);
 });
 
 Cypress.Commands.add('checkProduct', ({ name, price, quantity }) => {
   cy.contains('td', name);
   cy.contains('td', price);
   cy.contains('td', quantity);
+});
+
+Cypress.Commands.add('getProductInputWithShadow', (elementName) => {
+  cy.get('vending-machine-app')
+    .shadow()
+    .find('route-wrapper')
+    .shadow()
+    .find('product-manage')
+    .shadow()
+    .find('add-product-input')
+    .shadow()
+    .find(elementName);
+});
+
+Cypress.Commands.add('getProductManageWithShadow', (elementName) => {
+  cy.get('vending-machine-app')
+    .shadow()
+    .find('route-wrapper')
+    .shadow()
+    .find('product-manage')
+    .shadow()
+    .find(elementName);
 });

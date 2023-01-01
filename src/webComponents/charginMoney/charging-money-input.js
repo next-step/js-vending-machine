@@ -1,3 +1,5 @@
+import { $ELEMENT } from '../../constants/element.js';
+
 const template = document.createElement('template');
 template.innerHTML = /* html */ `
 <link rel="stylesheet" href="/src/css/index.css">
@@ -17,7 +19,7 @@ class ChargingMoneyInput extends HTMLElement {
     this.root.appendChild(template.content.cloneNode(true));
 
     this.$form = this.root.querySelector('form');
-    this.$chargeInput = this.root.querySelector('#charge-input');
+    this.$chargeInput = this.root.querySelector($ELEMENT.CHARGE_INPUT);
 
     this.$form.addEventListener('submit', (event) => {
       event.preventDefault();

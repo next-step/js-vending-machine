@@ -1,12 +1,8 @@
 import './addProduct/product-manage.js';
 import './charginMoney/charging-money.js';
+import { HASH_NAV_MAP } from './constants/route.js';
 import './hash-nav-button.js';
 import './route.js';
-
-const HASH_NAV_MAP = [
-  { id: 'product-manage-menu', nameKor: '상품 관리', rootElement: '<product-manage></product-manage>' },
-  { id: 'vending-machine-manage-menu', nameKor: '잔돈 충천', rootElement: '<charging-money></charging-money>' },
-];
 
 class App extends HTMLElement {
   constructor() {
