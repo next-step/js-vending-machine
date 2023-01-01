@@ -51,6 +51,14 @@ class ProductManage extends HTMLElement {
       this.addProduct(e);
     });
 
+    const existingUnload = window.onbeforeunload;
+
+    window.onbeforeunload = () => {
+      if (existingUnload) existingUnload();
+      const storedValue = storage.getStorage({ id: STORAGE.KEY });
+      storage.setStorage({ id: STORAGE.KEY, value: { ...storedValue, products: this.products } });
+    };
+
     this.render();
   }
 
@@ -86,10 +94,10 @@ class ProductManage extends HTMLElement {
     clearInput();
   }
 
-  disconnectedCallback() {
-    const storedValue = storage.getStorage({ id: STORAGE.KEY });
-    storage.setStorage({ id: STORAGE.KEY, value: { ...storedValue, products: this.products } });
-  }
+  // disconnectedCallback() {
+  //   const storedValue = storage.getStorage({ id: STORAGE.KEY });
+  //   storage.setStorage({ id: STORAGE.KEY, value: { ...storedValue, products: this.products } });
+  // }
 
   render() {
     if (!this.products.length) return;

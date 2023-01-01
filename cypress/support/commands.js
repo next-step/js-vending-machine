@@ -89,3 +89,25 @@ Cypress.Commands.add('getProductManageWithShadow', (elementName) => {
 Cypress.Commands.add('getHashNavButtonWithShadow', (hashId) => {
   cy.get('vending-machine-app').shadow().find(`hash-nav-button[hash-id=${hashId}]`);
 });
+
+Cypress.Commands.add('getChargingInputWithShadow', (elementName) => {
+  cy.get('vending-machine-app')
+    .shadow()
+    .find('route-wrapper')
+    .shadow()
+    .find('charging-money')
+    .shadow()
+    .find('charging-money-input')
+    .shadow()
+    .find(elementName);
+});
+
+Cypress.Commands.add('getChargingMoneyWithShadow', (elementName) => {
+  cy.get('vending-machine-app')
+    .shadow()
+    .find('route-wrapper')
+    .shadow()
+    .find('charging-money')
+    .shadow()
+    .find(elementName);
+});

@@ -81,16 +81,18 @@ class ChargingMoney extends HTMLElement {
     this.$chargingMoneyInput.addEventListener('onMoneySubmit', (e) => {
       this.addCharge(e);
     });
+    const existingUnload = window.onbeforeunload;
+    window.onbeforeunload = () => {
+      if (existingUnload) existingUnload();
+      const storedValue = storage.getStorage({ id: STORAGE.KEY });
+
+      storage.setStorage({
+        id: STORAGE.KEY,
+        value: { ...storedValue, coinMap: this.coinMap, chargedTotal: this.chargedTotal },
+      });
+    };
+
     this.render();
-  }
-
-  disconnectedCallback() {
-    const storedValue = storage.getStorage({ id: STORAGE.KEY });
-
-    storage.setStorage({
-      id: STORAGE.KEY,
-      value: { ...storedValue, coinMap: this.coinMap, chargedTotal: this.chargedTotal },
-    });
   }
 
   makeCoinCount = (coins) => {
