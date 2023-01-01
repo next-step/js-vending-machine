@@ -40,6 +40,30 @@ Cypress.Commands.add('checkProduct', ({ name, price, quantity }) => {
   cy.contains('td', quantity);
 });
 
+Cypress.Commands.add('checkProductWithShadowDom', ({ name, price, quantity }) => {
+  cy.get('vending-machine-app')
+    .shadow()
+    .find('route-wrapper')
+    .shadow()
+    .find('product-manage')
+    .shadow()
+    .contains('td', name);
+  cy.get('vending-machine-app')
+    .shadow()
+    .find('route-wrapper')
+    .shadow()
+    .find('product-manage')
+    .shadow()
+    .contains('td', price);
+  cy.get('vending-machine-app')
+    .shadow()
+    .find('route-wrapper')
+    .shadow()
+    .find('product-manage')
+    .shadow()
+    .contains('td', quantity);
+});
+
 Cypress.Commands.add('getProductInputWithShadow', (elementName) => {
   cy.get('vending-machine-app')
     .shadow()
@@ -60,4 +84,8 @@ Cypress.Commands.add('getProductManageWithShadow', (elementName) => {
     .find('product-manage')
     .shadow()
     .find(elementName);
+});
+
+Cypress.Commands.add('getHashNavButtonWithShadow', (hashId) => {
+  cy.get('vending-machine-app').shadow().find(`hash-nav-button[hash-id=${hashId}]`);
 });
