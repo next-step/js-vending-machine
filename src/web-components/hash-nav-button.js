@@ -1,3 +1,5 @@
+import { getHashId } from '../utils/route.js';
+
 class HashNavButton extends HTMLElement {
   constructor() {
     super();
@@ -15,10 +17,10 @@ class HashNavButton extends HTMLElement {
 
     this.$hashNav = this.root.querySelector('.hash-nav');
 
-    this.#render();
+    this.render();
 
     window.addEventListener('hashchange', (event) => {
-      this.#render();
+      this.render();
     });
 
     this.$hashNav.addEventListener('click', (event) => {
@@ -30,14 +32,8 @@ class HashNavButton extends HTMLElement {
     });
   }
 
-  #getHashId() {
-    const hashLocation = window.location.hash;
-
-    return hashLocation.replace('#', '');
-  }
-
-  #render() {
-    if (this.hashId === this.#getHashId()) {
+  render() {
+    if (this.hashId === getHashId()) {
       this.$hashNav.classList.add('active');
     } else {
       this.$hashNav.classList.remove('active');

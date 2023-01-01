@@ -1,4 +1,5 @@
 import { HASH_NAV_MAP } from '../constants/route.js';
+import { getHashId } from '../utils/route.js';
 
 class Route extends HTMLElement {
   constructor() {
@@ -14,15 +15,9 @@ class Route extends HTMLElement {
     });
   }
 
-  #getHashId() {
-    const hashLocation = window.location.hash;
-
-    return hashLocation.replace('#', '');
-  }
-
   renderRootElement() {
     const template = document.createElement('template');
-    const hashId = this.#getHashId();
+    const hashId = getHashId();
     const filteredElement = HASH_NAV_MAP.filter((eachMap) => eachMap.id === hashId);
     const slot = document.createElement('slot');
 
