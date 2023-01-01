@@ -1,4 +1,4 @@
-import { HASH_NAV_MAP } from './constants/route.js';
+import { HASH_NAV_MAP } from '../constants/route.js';
 
 class Route extends HTMLElement {
   constructor() {

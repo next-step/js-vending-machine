@@ -1,6 +1,6 @@
+import { HASH_NAV_MAP } from '../constants/route.js';
 import './addProduct/product-manage.js';
 import './charginMoney/charging-money.js';
-import { HASH_NAV_MAP } from './constants/route.js';
 import './hash-nav-button.js';
 import './route.js';
 

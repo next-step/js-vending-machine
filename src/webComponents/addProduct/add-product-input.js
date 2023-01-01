@@ -64,6 +64,19 @@ class AddProductInputs extends HTMLElement {
     this.validateButton();
   }
 
+  validateButton = () => {
+    const { name, quantity } = this.values;
+    const isDisabled = name.length < VALIDATE.MIN_NAME_LENGTH || quantity <= VALIDATE.MIN_QUANTITY;
+
+    this.renderAddButton({ isDisabled });
+  };
+
+  clearInput() {
+    this.$nameInput.value = '';
+    this.$priceInput.value = '';
+    this.$quantityInput.value = '';
+  }
+
   setName(newName) {
     this.values.name = newName;
     this.renderNameInput();
@@ -76,19 +89,6 @@ class AddProductInputs extends HTMLElement {
   setQuantity(newQuantity) {
     this.values.quantity = newQuantity;
     this.renderQuantityInput();
-  }
-
-  validateButton = () => {
-    const { name, quantity } = this.values;
-    const isDisabled = name.length < VALIDATE.MIN_NAME_LENGTH || quantity <= VALIDATE.MIN_QUANTITY;
-
-    this.renderAddButton({ isDisabled });
-  };
-
-  clearInput() {
-    this.$nameInput.value = '';
-    this.$priceInput.value = '';
-    this.$quantityInput.value = '';
   }
 
   renderAddButton = ({ isDisabled }) => {

@@ -13,6 +13,7 @@ class ChargingMoneyInput extends HTMLElement {
   constructor() {
     super();
     this.root = this.attachShadow({ mode: 'open' });
+    this.typedCoin = 0;
   }
 
   connectedCallback() {
@@ -20,6 +21,10 @@ class ChargingMoneyInput extends HTMLElement {
 
     this.$form = this.root.querySelector('form');
     this.$chargeInput = this.root.querySelector($ELEMENT.CHARGE_INPUT);
+
+    this.$chargeInput.addEventListener('keyup', (event) => {
+      this.setTypedCoin(event.target.value);
+    });
 
     this.$form.addEventListener('submit', (event) => {
       event.preventDefault();
@@ -34,10 +39,21 @@ class ChargingMoneyInput extends HTMLElement {
         })
       );
     });
+
+    this.renderInput();
   }
 
   clearInput() {
-    this.$chargeInput.value = '';
+    this.setTypedCoin(0);
+  }
+
+  setTypedCoin(newCoinValue) {
+    this.typedCoin = Number(newCoinValue);
+    this.renderInput();
+  }
+
+  renderInput() {
+    this.$chargeInput.value = this.typedCoin === 0 ? null : this.typedCoin;
   }
 }
 

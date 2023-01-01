@@ -1,8 +1,8 @@
 import { ALERT } from '../../constants/alert.js';
 import { $ELEMENT } from '../../constants/element.js';
 import { STORAGE } from '../../constants/storage.js';
-import { makeRadonValueWithMax } from '../../js/utils/random.js';
-import storage from '../../js/utils/storage.js';
+import { makeRadonValueWithMax } from '../../utils/random.js';
+import storage from '../../utils/storage.js';
 import './charging-money-input.js';
 
 const template = document.createElement('template');

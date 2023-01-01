@@ -2,7 +2,7 @@ import { ALERT } from '../../constants/alert.js';
 import { $ELEMENT } from '../../constants/element.js';
 import { STORAGE } from '../../constants/storage.js';
 import { VALIDATE } from '../../constants/validate.js';
-import storage from '../../js/utils/storage.js';
+import storage from '../../utils/storage.js';
 import './add-product-input.js';
 
 const template = document.createElement('template');
@@ -38,6 +38,7 @@ class ProductManage extends HTMLElement {
 
   connectedCallback() {
     const stordValue = storage.getStorage({ id: STORAGE.KEY });
+    const existingUnload = window.onbeforeunload;
 
     if (stordValue && stordValue.products) {
       this.products = stordValue.products;
@@ -50,8 +51,6 @@ class ProductManage extends HTMLElement {
     this.$productInputWrapper.addEventListener('onSubmit', (e) => {
       this.addProduct(e);
     });
-
-    const existingUnload = window.onbeforeunload;
 
     window.onbeforeunload = () => {
       if (existingUnload) existingUnload();
@@ -93,11 +92,6 @@ class ProductManage extends HTMLElement {
     this.render();
     clearInput();
   }
-
-  // disconnectedCallback() {
-  //   const storedValue = storage.getStorage({ id: STORAGE.KEY });
-  //   storage.setStorage({ id: STORAGE.KEY, value: { ...storedValue, products: this.products } });
-  // }
 
   render() {
     if (!this.products.length) return;
