@@ -7,6 +7,7 @@ import './route.js';
 class App extends HTMLElement {
   constructor() {
     super();
+
     this.root = this.attachShadow({ mode: 'open' });
   }
 

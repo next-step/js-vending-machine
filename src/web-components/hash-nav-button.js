@@ -19,7 +19,7 @@ class HashNavButton extends HTMLElement {
 
     this.render();
 
-    window.addEventListener('hashchange', (event) => {
+    window.addEventListener('hashchange', () => {
       this.render();
     });
 

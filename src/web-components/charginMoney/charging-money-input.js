@@ -28,7 +28,6 @@ class ChargingMoneyInput extends HTMLElement {
 
     this.$form.addEventListener('submit', (event) => {
       event.preventDefault();
-      //*TODO 에러처리
 
       this.dispatchEvent(
         new CustomEvent('onMoneySubmit', {

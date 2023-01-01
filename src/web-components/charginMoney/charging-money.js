@@ -50,19 +50,21 @@ template.innerHTML = /* html */ `
 class ChargingMoney extends HTMLElement {
   constructor() {
     super();
+
     this.root = this.attachShadow({ mode: 'open' });
+    this.chargedTotal = 0;
     this.coinMap = {
       500: 0,
       100: 0,
       50: 0,
       10: 0,
     };
-    this.chargedTotal = 0;
   }
 
   connectedCallback() {
     const storedValue = storage.getStorage({ id: STORAGE.KEY });
     const isExistValidKey = storedValue && storedValue.chargedTotal && storedValue.coinMap;
+    const existingUnload = window.onbeforeunload;
 
     if (isExistValidKey) {
       this.coinMap = storedValue.coinMap;
@@ -81,7 +83,7 @@ class ChargingMoney extends HTMLElement {
     this.$chargingMoneyInput.addEventListener('onMoneySubmit', (e) => {
       this.addCharge(e);
     });
-    const existingUnload = window.onbeforeunload;
+
     window.onbeforeunload = () => {
       if (existingUnload) existingUnload();
       const storedValue = storage.getStorage({ id: STORAGE.KEY });
@@ -115,9 +117,7 @@ class ChargingMoney extends HTMLElement {
 
   makeRandomCoins = (chargedMoney) => {
     const { coin500, coin100, coin50, coin10 } = this.makeCoinCount(chargedMoney);
-
     const prevMap = this.coinMap;
-
     const newCoinMap = {
       500: prevMap[500] + coin500,
       100: prevMap[100] + coin100,
