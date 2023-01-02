@@ -1,4 +1,6 @@
-export const VENDING_MACHINE_CONSTANT = {
+import { deepFreeze } from '../util/object.js';
+
+export const VENDING_MACHINE_CONSTANT = deepFreeze({
   PRODUCT: {
     MIN_AMOUNT: 1,
     MIN_PRICE: 100,
@@ -11,9 +13,9 @@ export const VENDING_MACHINE_CONSTANT = {
   },
   MONEY_UNIT: '원',
   AMOUNT_POSTFIX: '개',
-};
+});
 
-export const ERROR_MESSAGE = {
+export const ERROR_MESSAGE = deepFreeze({
   VALIDATION: {
     PRODUCT: {
       NAME_BLANK: '상품명에는 공백을 입력할 수 없습니다',
@@ -25,4 +27,4 @@ export const ERROR_MESSAGE = {
   },
   SOLD_OUT: '재고가 소진되었습니다. 관리자에게 문의해 주세요',
   NOT_ENOUGH_SPENDING_MONEY: '잔액이 부족합니다. 잔액 충전 후 상품을 선택해 주세요',
-};
+});
