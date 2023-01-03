@@ -6,48 +6,38 @@ function isObject(something) {
  *
  * @param {Object} object
  */
-function cloneDeepObjectReadOnly(object) {
+function cloneDeepObject(object) {
   const keys = Object.keys(object);
-  return Object.freeze(
-    keys.reduce((result, key) => {
-      const value = object[key];
-      if (Array.isArray(value)) {
-        return { ...result, [key]: [...value] };
-      }
-      if (typeof value === 'object') {
-        return { ...result, [key]: Object.freeze({ ...cloneDeepObjectReadOnly(value) }) };
-      }
-      return { ...result, [key]: value };
-    }, {})
-  );
+  return keys.reduce((result, key) => {
+    const value = object[key];
+    if (Array.isArray(value)) {
+      return { ...result, [key]: [...value] };
+    }
+    if (typeof value === 'object') {
+      return { ...result, [key]: Object.freeze({ ...cloneDeepObject(value) }) };
+    }
+    return { ...result, [key]: value };
+  }, {});
 }
 
 /**
  *
  * @param {[]} array
  */
-function cloneDeepArrayReadOnly(array) {
-  return array.reduce((result, item) => {
-    if (Array.isArray(item)) {
-      return [...result, ...cloneDeepArrayReadOnly(item)];
-    }
-    if (typeof value === 'object') {
-      return [...result, cloneDeepObjectReadOnly(item)];
-    }
-    return [...result, item];
-  }, []);
+function cloneDeepArray(array) {
+  return array.map(cloneDeep);
 }
 
 /**
  *
  * @param {Object|[]} something
  */
-export function cloneDeepReadOnly(something) {
+export function cloneDeep(something) {
   if (Array.isArray(something)) {
-    return cloneDeepArrayReadOnly(something);
+    return cloneDeepArray(something);
   }
   if (isObject(something)) {
-    return cloneDeepObjectReadOnly(something);
+    return cloneDeepObject(something);
   }
   return something;
 }

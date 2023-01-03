@@ -1,4 +1,4 @@
-import { cloneDeepReadOnly } from '../util/object.js';
+import { cloneDeep, deepFreeze } from '../util/object.js';
 import { ERROR_MESSAGE, VENDING_MACHINE_CONSTANT } from './constant.js';
 import ValidationError from './ValidationError.js';
 import { isGreaterThan, isInteger, isMultipleOf } from './validator.js';
@@ -42,7 +42,7 @@ export default class UnitCountMachine {
    * @returns {UnitCountInfo}
    */
   get unitCountInfo() {
-    return cloneDeepReadOnly(this.#unitCountInfo);
+    return deepFreeze(cloneDeep(this.#unitCountInfo));
   }
 
   /**
