@@ -16,6 +16,9 @@ class ChangeChargerModel {
       newState,
     };
   }
+  initialize() {
+    console.log("hello change charger view");
+  }
 }
 
 export default ChangeChargerModel;

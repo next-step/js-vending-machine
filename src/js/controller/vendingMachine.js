@@ -10,16 +10,24 @@ class VendingMachineController {
     this.initialize();
   }
   initialize() {
-    const { state: charger } = new ChangeChargerModel();
-    const { state: manager } = new ProductManagerModel();
-    const { state: purchase } = new ProductPurchaseModel();
+    const managerModel = new ProductManagerModel();
+    const chargerModel = new ChangeChargerModel();
+    const purchaseModel = new ProductPurchaseModel();
+
+    const models = {
+      manager: managerModel,
+      charger: chargerModel,
+      purchase: purchaseModel,
+    };
 
     this.#state = {
       ...this.#state,
-      charger,
-      manager,
-      purchase,
+      charger: chargerModel.state,
+      manager: managerModel.state,
+      purchase: purchaseModel.state,
     };
+
+    models[this.#state.currentView].initialize();
   }
 }
 

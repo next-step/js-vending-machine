@@ -1,7 +1,7 @@
 import VendingMachineController from "./controller/vendingMachine.js";
 
 const INITIAL_STATE = {
-  currentView: "product",
+  currentView: "manager", // manager, purchase, charger
 };
 class VendingMachineApp {
   #state;

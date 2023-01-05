@@ -1,9 +1,13 @@
+import ProductManagerView from "../view/productManager.js";
+
 const PRODUCT_MANAGER_INITIAL_STATE = {};
 class ProductManagerModel {
   #state;
+  #view;
 
   constructor() {
     this.#state = PRODUCT_MANAGER_INITIAL_STATE;
+    this.#view = new ProductManagerView();
   }
 
   get state() {
@@ -15,6 +19,10 @@ class ProductManagerModel {
       ...this.#state,
       newState,
     };
+  }
+
+  initialize() {
+    this.#view.render();
   }
 }
 

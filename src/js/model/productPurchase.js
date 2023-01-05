@@ -16,6 +16,9 @@ class ProductPurchaseModel {
       newState,
     };
   }
+  initialize() {
+    console.log("hello product purchase view");
+  }
 }
 
 export default ProductPurchaseModel;
