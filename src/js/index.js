@@ -18,9 +18,8 @@ import {
   setClickEventListenerWithVendingMachine,
   setEnterEventListener,
 } from './ui/setListener.js';
-import { saveItem } from './util/dataSaver.js';
-import { DATA_STORAGE } from './ui/constant.js';
 import { vendingMachine } from './service/VendingMachine.js';
+import { productStorage } from './ui/dataSaver.js';
 
 Object.keys(SELECTOR_MAP.TAB_BUTTON).forEach((key) => {
   const tabButtonSelector = SELECTOR_MAP.TAB_BUTTON[key];
@@ -50,7 +49,7 @@ setClickEventListenerWithVendingMachine(querySelector(SELECTOR_MAP.BUTTON.PRODUC
   renderProduct(vendingMachine);
   querySelector(SELECTOR_MAP.INPUT.PRODUCT_NAME).focus();
 
-  saveItem(DATA_STORAGE.PRODUCTS, vendingMachine.productManager.products);
+  productStorage.saveItem(vendingMachine.productManager.products);
 });
 
 setClickEventListenerWithVendingMachine(querySelector(SELECTOR_MAP.BUTTON.CHARGE_AMOUNT), (vendingMachine) => {
@@ -59,7 +58,7 @@ setClickEventListenerWithVendingMachine(querySelector(SELECTOR_MAP.BUTTON.CHARGE
   renderChargeAmount(vendingMachine);
   renderTotalChargeAmount(vendingMachine);
 
-  saveItem(DATA_STORAGE.UNIT_COUNTS, vendingMachine.unitCountMachine.unitCountInfo);
+  productStorage.saveItem(vendingMachine.unitCountMachine.unitCountInfo);
 });
 setChangeRemovingSpaceListener(querySelector(SELECTOR_MAP.INPUT.PRODUCT_NAME));
 
@@ -84,6 +83,6 @@ setClickEventListenerWithVendingMachine(querySelector(SELECTOR_MAP.BUTTON.RETURN
   const remainInfo = vendingMachine.returnChanges();
   renderSpendingAmount(vendingMachine);
   renderReturnedChanges(remainInfo);
-  saveItem(DATA_STORAGE.UNIT_COUNTS, vendingMachine.unitCountMachine.unitCountInfo);
+  productStorage.saveItem(vendingMachine.unitCountMachine.unitCountInfo);
 });
 window.addEventListener('load', () => renderProduct(vendingMachine));

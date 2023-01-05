@@ -1,10 +1,9 @@
 import UnitCountMachine from './UnitCountMachine.js';
 import ProductManager from './ProductManager.js';
-import { loadItem } from '../util/dataSaver.js';
-import { DATA_STORAGE } from '../ui/constant.js';
 import { isGreaterThan, isInteger, isMultipleOf } from './validator.js';
 import ValidationError from './ValidationError.js';
 import { ERROR_MESSAGE, VENDING_MACHINE_CONSTANT } from './constant.js';
+import { productStorage, unitCountsStorage } from '../ui/dataSaver.js';
 
 /**
  * @typedef {import('../service/ProductManager').ProductItem} ProductItem
@@ -92,6 +91,6 @@ export class VendingMachine {
     isInteger(amount) && isGreaterThan(amount, MIN_AMOUNT) && isMultipleOf(amount, MULTIPLE);
 }
 
-const savedProducts = loadItem(DATA_STORAGE.PRODUCTS);
-const savedUnitCounts = loadItem(DATA_STORAGE.UNIT_COUNTS);
+const savedProducts = productStorage.loadItem();
+const savedUnitCounts = unitCountsStorage.loadItem();
 export const vendingMachine = new VendingMachine(savedProducts, savedUnitCounts);

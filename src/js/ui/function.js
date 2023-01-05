@@ -1,10 +1,9 @@
 // eslint-disable-next-line no-unused-vars
 import { VENDING_MACHINE_CONSTANT } from '../service/constant.js';
 import UnitCountMachine from '../service/UnitCountMachine.js';
-import { saveItem } from '../util/dataSaver.js';
-import { DATA_STORAGE } from './constant.js';
 import { SELECTOR_MAP, querySelector } from './selector.js';
 import { setClickEventListenerWithVendingMachine } from './setListener.js';
+import { productStorage } from '../ui/dataSaver.js';
 
 const $element = {
   inputName: querySelector(SELECTOR_MAP.INPUT.PRODUCT_NAME),
@@ -150,7 +149,7 @@ export const renderPurchasableProduct = (vendingMachine) => {
       if (result) {
         renderPurchasableProduct(vendingMachine);
         renderSpendingAmount(vendingMachine);
-        saveItem(DATA_STORAGE.PRODUCTS, vendingMachine.productManager.products);
+        productStorage.saveItem(vendingMachine.productManager.products);
       }
     });
   });
