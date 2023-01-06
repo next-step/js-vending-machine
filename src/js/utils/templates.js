@@ -1,4 +1,4 @@
-export const MANAGER_CONTAINER_TEMPLATE = `<div>
+export const PRODUCT_MANAGER_TEMPLATE = `<div id="product-manager-container">
   <section class="mb-10">
     <h2 class="mb-5 text-2xl font-bold">상품 추가하기</h2>
     <form class="flex">
@@ -62,7 +62,7 @@ export const MANAGER_CONTAINER_TEMPLATE = `<div>
   </section>
   </div>`;
 
-export const COIN_CHARGING_TEMPLATE = `<div>
+export const COIN_CHARGING_TEMPLATE = `<div id="coin-charging-container">
   <section class="mb-10">
     <h2 class="mb-5 text-left text-2xl font-bold">
       자판기 동전 충전하기
@@ -126,7 +126,7 @@ export const COIN_CHARGING_TEMPLATE = `<div>
   </section>
 </div>`;
 
-export const PRODUCT_PURCHASE_TEMPLATE = `<div>
+export const PRODUCT_PURCHASE_TEMPLATE = `<div id="product-purchase-container">
   <section>
     <h2 class="text-center text-2xl font-bold">
       상품 준비중입니다...
@@ -134,8 +134,8 @@ export const PRODUCT_PURCHASE_TEMPLATE = `<div>
   </section>
 </div>`;
 
-export const TEMPLATES = {
-  manager: MANAGER_CONTAINER_TEMPLATE,
+export const CONTAINER_TEMPLATES = {
+  manager: PRODUCT_MANAGER_TEMPLATE,
   charger: COIN_CHARGING_TEMPLATE,
   purchase: PRODUCT_PURCHASE_TEMPLATE,
 };
