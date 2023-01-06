@@ -74,7 +74,7 @@ export default class UnitCountMachine {
    * @param {number} amount
    * @returns {UnitCountInfo}
    */
-  redraw(amount) {
+  withdraw(amount) {
     const remain = UnitCountMachine.#getRemainUnit(this.#unitCountInfo, amount);
 
     UnitCountMachine.units.forEach((unit) => {

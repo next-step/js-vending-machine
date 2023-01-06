@@ -51,7 +51,7 @@ export default class ProductManager {
    * @param {number} index
    * @returns {ProductItem|null}
    */
-  redraw(index) {
+  withdraw(index) {
     const product = this.#products[index];
     const { name, price, amount } = product;
     if (!product || amount === 0) return null;

@@ -67,7 +67,7 @@ export class VendingMachine {
     }
 
     this.#insertedMoney -= product.price;
-    this.#productManager.redraw(index);
+    this.#productManager.withdraw(index);
     return product;
   }
 
@@ -82,7 +82,7 @@ export class VendingMachine {
   }
 
   returnChanges() {
-    const { amount, unitInfo } = this.#unitCountMachine.redraw(this.#insertedMoney);
+    const { amount, unitInfo } = this.#unitCountMachine.withdraw(this.#insertedMoney);
     this.#insertedMoney -= amount;
     return { amount, unitInfo };
   }
