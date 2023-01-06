@@ -1,4 +1,7 @@
-import { MENU_SELECTOR } from "../support/selectors.js";
+import {
+  CHANGE_CHARGE_MENU_SELECTOR,
+  MENU_SELECTOR,
+} from "../support/selectors.js";
 
 describe("메뉴 탭 UI 테스트", () => {
   beforeEach(() => {
@@ -23,7 +26,13 @@ describe("메뉴 탭 UI 테스트", () => {
   });
 
   context("각 메뉴 클릭시 해당 메뉴화면이 노출된다.", () => {
-    it("잔돈 충전 메뉴 클릭시 해당 화면이 노출된다.", () => {});
+    it("잔돈 충전 메뉴 클릭시 해당 화면이 노출된다.", () => {
+      cy.get(CHANGE_CHARGE_MENU_SELECTOR)
+        .click()
+        .then(() => {
+          cy.contains("?").should("exist");
+        });
+    });
     it("상품 구매 메뉴 클릭시 해당 화면이 노출된다.", () => {});
     it("상품 관리 메뉴 클릭시 해당 화면이 노출된다.", () => {});
   });

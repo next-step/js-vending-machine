@@ -1,9 +1,13 @@
+import ChangeChargerView from "../view/changeCharger.js";
+
 const CHANGE_CHARGER_INITIAL_STATE = {};
 class ChangeChargerModel {
+  #view;
   #state;
 
   constructor() {
     this.#state = CHANGE_CHARGER_INITIAL_STATE;
+    this.#view = new ChangeChargerView();
   }
 
   get state() {
@@ -16,8 +20,9 @@ class ChangeChargerModel {
       newState,
     };
   }
+
   initialize() {
-    console.log("hello change charger view");
+    this.#view.render();
   }
 }
 

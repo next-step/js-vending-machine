@@ -1,4 +1,4 @@
-export const PRODUCT_CONTAINER_TEMPLATE = `<div>
+export const MANAGER_CONTAINER_TEMPLATE = `<div>
   <section class="mb-10">
     <h2 class="mb-5 text-2xl font-bold">상품 추가하기</h2>
     <form class="flex">
@@ -133,3 +133,15 @@ export const PRODUCT_PURCHASE_TEMPLATE = `<div>
     </h2>
   </section>
 </div>`;
+
+export const TEMPLATES = {
+  manager: MANAGER_CONTAINER_TEMPLATE,
+  charger: COIN_CHARGING_TEMPLATE,
+  purchase: PRODUCT_PURCHASE_TEMPLATE,
+};
+
+export const createTemplateElement = (template) => {
+  const $template = document.createElement("template");
+  $template.innerHTML = template;
+  return $template;
+};
