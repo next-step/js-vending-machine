@@ -8,11 +8,8 @@
     <title>🥤 자판기</title>
     <style type="text/tailwindcss">
       @layer utilities {
-        #app {
-          @apply w-2/5;
-        }
         .button {
-          @apply rounded bg-slate-400	 py-3 px-10 text-sm text-white	duration-300 ease-in-out hover:bg-slate-500 hover:text-slate-50;
+          @apply rounded bg-slate-400	 py-3 px-7 text-sm text-white	duration-300 ease-in-out hover:bg-slate-500 hover:text-slate-50;
         }
         .button.active {
           @apply bg-slate-700 text-slate-50;
@@ -27,8 +24,8 @@
     </style>
   </head>
 
-  <body>
-    <main class="flex flex-col items-center p-5">
+  <body class="flex justify-center">
+    <main class="flex w-96 flex-col items-center p-5">
       <h1 class="text-3xl font-bold">🥤 자판기 🥤</h1>
       <ul id="menu" class="my-10 flex">
         <li>
@@ -46,7 +43,7 @@
         </li>
       </ul>
 
-      <div id="app"></div>
+      <div id="app" class="w-full"></div>
     </main>
     <script src="src/js/app.js" type="module"></script>
   </body>

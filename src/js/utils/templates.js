@@ -64,11 +64,11 @@ export const PRODUCT_CONTAINER_TEMPLATE = `<div>
 
 export const COIN_CHARGING_TEMPLATE = `<div>
   <section class="mb-10">
-    <h2 class="mb-5 text-center text-2xl font-bold">
+    <h2 class="mb-5 text-left text-2xl font-bold">
       자판기 동전 충전하기
     </h2>
     <form class="flex justify-center">
-      <div class="flex shrink">
+      <div class="flex shrink w-full">
         <input
           type="number"
           class="product-input w-full"
@@ -127,8 +127,8 @@ export const COIN_CHARGING_TEMPLATE = `<div>
 </div>`;
 
 export const PRODUCT_PURCHASE_TEMPLATE = `<div>
-  <section class="mb-10">
-    <h2 class="mb-5 text-center text-2xl font-bold">
+  <section>
+    <h2 class="text-center text-2xl font-bold">
       상품 준비중입니다...
     </h2>
   </section>
