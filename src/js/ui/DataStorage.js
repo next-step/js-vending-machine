@@ -1,25 +1,24 @@
 export default class DataStorage {
-  key;
+  #key;
 
   /**
    *
    * @param {string} key
    */
   constructor(key) {
-    this.key = key;
+    this.#key = key;
   }
 
   /**
    *
-   * @param {string} key
    * @param {Object|Object[]} data
    */
-  saveItem(key, data) {
-    localStorage.setItem(key, JSON.stringify(data));
+  saveItem(data) {
+    localStorage.setItem(this.#key, JSON.stringify(data));
   }
 
-  loadItem(key) {
-    const stringified = localStorage.getItem(key);
+  loadItem() {
+    const stringified = localStorage.getItem(this.#key);
     return stringified ? JSON.parse(stringified) : null;
   }
 }
