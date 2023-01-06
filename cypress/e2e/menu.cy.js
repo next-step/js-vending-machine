@@ -1,6 +1,11 @@
 import {
   CHANGE_CHARGE_MENU_SELECTOR,
+  COIN_CHARGING_CONTAINER_SELECTOR,
   MENU_SELECTOR,
+  PRODUCT_MANAGE_MENU_SELECTOR,
+  PRODUCT_MANAGER_CONTAINER_SELECTOR,
+  PRODUCT_PURCHASE_CONTAINER_SELECTOR,
+  PRODUCT_PURCHASE_MENU_SELECTOR,
 } from "../support/selectors.js";
 
 describe("메뉴 탭 UI 테스트", () => {
@@ -30,10 +35,22 @@ describe("메뉴 탭 UI 테스트", () => {
       cy.get(CHANGE_CHARGE_MENU_SELECTOR)
         .click()
         .then(() => {
-          cy.contains("?").should("exist");
+          cy.get(COIN_CHARGING_CONTAINER_SELECTOR).should("exist");
         });
     });
-    it("상품 구매 메뉴 클릭시 해당 화면이 노출된다.", () => {});
-    it("상품 관리 메뉴 클릭시 해당 화면이 노출된다.", () => {});
+    it("상품 구매 메뉴 클릭시 해당 화면이 노출된다.", () => {
+      cy.get(PRODUCT_PURCHASE_MENU_SELECTOR)
+        .click()
+        .then(() => {
+          cy.get(PRODUCT_PURCHASE_CONTAINER_SELECTOR).should("exist");
+        });
+    });
+    it("상품 관리 메뉴 클릭시 해당 화면이 노출된다.", () => {
+      cy.get(PRODUCT_MANAGE_MENU_SELECTOR)
+        .click()
+        .then(() => {
+          cy.get(PRODUCT_MANAGER_CONTAINER_SELECTOR).should("exist");
+        });
+    });
   });
 });
