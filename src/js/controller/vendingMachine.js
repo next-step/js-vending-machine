@@ -1,43 +1,34 @@
 import ProductManagerModel from "../model/productManager.js";
 import ProductPurchaseModel from "../model/productPurchase.js";
 import ChangeChargerModel from "../model/changeCharger.js";
-import MenuModel from "../model/menu.js";
 import { $, $$ } from "../utils/selector.js";
+import { ValidationError } from "../utils/error.js";
+import { ERROR_MESSAGE } from "../utils/constants.js";
 
 class VendingMachineController {
   #models;
-  #state;
 
   constructor() {
-    const menuModel = new MenuModel();
+    this.currentMenu = "manager";
+
     const managerModel = new ProductManagerModel();
     const chargerModel = new ChangeChargerModel();
     const purchaseModel = new ProductPurchaseModel();
 
     this.#models = {
-      menu: menuModel,
       manager: managerModel,
       charger: chargerModel,
       purchase: purchaseModel,
     };
 
-    this.#state = {
-      currentView: menuModel.currentView,
-      charger: chargerModel.state,
-      manager: managerModel.state,
-      purchase: purchaseModel.state,
-    };
-
-    this.#models[this.#state.currentView].initialize();
-
+    this.#models[this.currentMenu].initialize();
     const $menu = $("#menu");
 
     $menu.addEventListener("click", ({ target }) => {
       try {
         this.validateMenu(target);
-
         this.changeMenu(target);
-        this.changeView.call(this, target);
+        this.changeView(target);
       } catch (err) {
         console.error(err);
       }
@@ -49,7 +40,8 @@ class VendingMachineController {
     const isMenuButton = $target.classList.contains("button");
 
     if (!(isMenu && isMenuButton)) {
-      throw new Error("잘못된 메뉴를 클릭했습니다.");
+      alert(ERROR_MESSAGE.INVALID_MENU);
+      throw new ValidationError(ERROR_MESSAGE.INVALID_MENU);
     }
   }
 
@@ -59,12 +51,12 @@ class VendingMachineController {
       button.classList.remove("active");
     });
 
+    this.currentMenu = $target.name;
     $target.classList.add("active");
   }
 
   changeView($target) {
-    this.#models.menu.changeView($target.name);
-    this.#models[this.#models.menu.currentView].initialize();
+    this.#models[$target.name].initialize();
   }
 }
 
