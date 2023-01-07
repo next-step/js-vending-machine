@@ -1,4 +1,4 @@
-import { productManagerViewInitiator } from './views/productManagerView.js';
+import { productManagerViewInitiator } from './views/productManagerView/index.js';
 import { vendingMachineManagerViewInitiator } from './views/vendingMachineManagerView.js';
 
 import { productManagerController, productInventoryContainerController } from './components/productManagerComponent/index.js';

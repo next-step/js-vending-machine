@@ -29,7 +29,7 @@ export function createBinder(view, viewModelCreator) {
 
 function bindViewModelWithView(vm, view) {
   entryObject(vm).forEach(([elementName, elementViewModel]) => {
-    const pairElement = view[elementName];
+    const pairElement = view.elements[elementName];
     entryObject(elementViewModel).forEach(([key, val]) => {
       if (key === 'events') {
         entryObject(val).forEach(([eventType, callback]) => {
