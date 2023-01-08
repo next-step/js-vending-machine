@@ -1,6 +1,6 @@
 import { createVendingMachineController } from "./VendingMachineController.js";
 import { createCashBox } from "./CashBox.js";
-import { getHTMLElementFromHTMLString } from "../common.js";
+import { getHTMLElementFromHTMLString } from '../../utils/elementUtils.js';
 
 export function vendingMachineManagerViewInitiator(rootElement) {
   const $vendingMachineController = createVendingMachineController({

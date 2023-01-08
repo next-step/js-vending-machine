@@ -1,6 +1,6 @@
 import { createProductManagerCustomContainer } from './ProductManagerCustomContainer.js';
 import { createProductInventoryContainer } from './ProductInventoryContainer.js';
-import { getHTMLElementFromHTMLString } from '../common.js';
+import { getHTMLElementFromHTMLString } from '../../utils/elementUtils.js';
 
 export function productManagerViewInitiator(rootElement) {
   const $productManagerCustomContainer = createProductManagerCustomContainer({

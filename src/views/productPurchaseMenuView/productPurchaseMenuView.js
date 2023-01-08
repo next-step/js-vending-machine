@@ -1,4 +1,4 @@
-import { getHTMLElementFromHTMLString } from "../common.js";
+import { getHTMLElementFromHTMLString } from '../../utils/elementUtils.js';
 import { createCoinInputController } from "./coinInputController.js";
 import { createCoinInputDisplay } from "./CoinInputDisplay.js";
 import { createProductList } from "./ProductList.js";
