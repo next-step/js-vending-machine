@@ -59,4 +59,8 @@ export class VendingMachine {
       return coinCount;
     });
   }
+
+  returnTheRestAmountsByCoins() {
+
+  }
 };

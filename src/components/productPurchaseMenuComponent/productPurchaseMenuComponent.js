@@ -1,6 +1,6 @@
 import { render, COIN_INPUT_DISPLAY_BINDER, REST_AMOUNT_FLUSH_DISPLAY_BINDER, PRODUCT_LIST_BINDER } from '../../binders.js';
-import { setLocalStorageItem } from '../../utils/localStorageUtils.js';
-import { products, PRODUCTS_STATE_KEY } from '../../states/productState.js';
+import { products } from '../../states/productState.js';
+import { vendingMachineState } from '../../states/vendingMachineState.js';
 
 import { ProductPurchaseMenuState } from './ProductPurchaseMenuState.js';
 import { createProductRow } from './productPurchseMenuUtils.js';
@@ -62,6 +62,7 @@ export function productListComponent() {
         createProductRow(product, () => {
           if (product.buyProduct(coinInputControllerState)) {
             productListRef.element.innerHTML = '';
+            // TODO: products를 localStorage 동기화하기 (메소드로 제공)
             render(COIN_INPUT_DISPLAY_BINDER);
             render(PRODUCT_LIST_BINDER);
           }
@@ -83,9 +84,10 @@ const restAmountState = {};
 export function restAmountFlushButtonComponent() {
   return {
     rootElement: {
-      events: {click: () =>{
+      events: {click: () => {
         // TODO: 가지고 있던 돈을 자판기 동전 method에 넣어서 반환식을 발동시킨다. 반환받은 동전 갯수들을 state에 적용한다.
         // TODO: 사용자가 넣은 금액들은 모두 초기화 시킨다.
+        vendingMachineState.returnTheRestAmountsByCoins(coinInputControllerState);
         render(REST_AMOUNT_FLUSH_DISPLAY_BINDER);
       }},
     }
