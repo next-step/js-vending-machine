@@ -1,5 +1,5 @@
 import { productManagerViewInitiator } from './views/productManagerView/index.js';
-import { vendingMachineManagerViewInitiator } from './views/vendingMachineManagerView.js';
+import { vendingMachineManagerViewInitiator } from './views/vendingMachineManager/vendingMachineManagerView.js';
 
 import { productManagerController, productInventoryContainerController } from './components/productManagerComponent/index.js';
 import { vendingMachineControllerComponent, cashBoxComponent } from './components/vendingMachineManagerComponent/index.js';
