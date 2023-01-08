@@ -4,6 +4,13 @@ import { productPurchaseMenuInitiator } from './views/productPurchaseMenuView/in
 
 import { productManagerController, productInventoryContainerController } from './components/productManagerComponent/index.js';
 import { vendingMachineControllerComponent, cashBoxComponent } from './components/vendingMachineManagerComponent/index.js';
+import {
+  coinInputControllerComponent,
+  coinInputDisplayComponent,
+  productListComponent,
+  restAmountFlushButtonComponent,
+  restAmountFlushDisplayComponent,
+} from './components/productPurchaseMenuComponent/index.js';
 
 import { binders, createBinder } from './binders.js';
 
@@ -41,9 +48,9 @@ $productPurchaseMenu.addEventListener('click', () => {
     restAmountFlushDisplay,
   } = productPurchaseMenuInitiator($app);
 
-  binders.coinInputControllerBinder = createBinder(coinInputController, () => {});
-  binders.coinInputDisplayBinder = createBinder(coinInputDisplay, () => {});
-  binders.productListBinder = createBinder(productList, () => {});
-  binders.restAmountFlushButtonBinder = createBinder(restAmountFlushButton, () => {});
-  binders.restAmountFlushDisplayBinder = createBinder(restAmountFlushDisplay, () => {});
+  binders.coinInputControllerBinder = createBinder(coinInputController, coinInputControllerComponent);
+  binders.coinInputDisplayBinder = createBinder(coinInputDisplay, coinInputDisplayComponent);
+  binders.productListBinder = createBinder(productList, productListComponent);
+  binders.restAmountFlushButtonBinder = createBinder(restAmountFlushButton, restAmountFlushButtonComponent);
+  binders.restAmountFlushDisplayBinder = createBinder(restAmountFlushDisplay, restAmountFlushDisplayComponent);
 });
