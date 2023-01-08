@@ -1,24 +1,24 @@
 export const PRODUCT_MANAGER_TEMPLATE = `<div id="product-manager-container">
   <section class="mb-10">
     <h2 class="mb-5 text-2xl font-bold">상품 추가하기</h2>
-    <form class="flex">
+    <form id="product-manager-form" class="flex">
       <div class="flex shrink justify-between">
         <input
           type="text"
           class="product-input"
-          name="product-name"
+          name="name"
           placeholder="상품명"
         />
         <input
           type="number"
-          name="product-price"
+          name="price"
           class="product-input"
           placeholder="가격"
           min="0"
         />
         <input
           type="number"
-          name="product-quantity"
+          name="quantity"
           class="product-input"
           placeholder="수량"
           min="0"

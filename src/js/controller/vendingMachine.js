@@ -7,6 +7,7 @@ import { ERROR_MESSAGE } from "../utils/constants.js";
 
 class VendingMachineController {
   #models;
+  #handlers;
 
   constructor() {
     this.currentMenu = "manager";
@@ -21,7 +22,25 @@ class VendingMachineController {
       purchase: purchaseModel,
     };
 
+    this.#handlers = {
+      manager: () => {
+        const $form = $("#product-manager-form");
+        $form.addEventListener("submit", (e) => {
+          e.preventDefault();
+          const $inputs = $$(".product-input");
+          console.log("$inputs", $inputs);
+          // eslint-disable-next-line no-restricted-syntax
+          for (const value of $inputs.values()) {
+            console.log(value.value);
+          }
+        });
+      },
+      charger: () => {},
+      purchase: () => {},
+    };
+
     this.#models[this.currentMenu].initialize();
+    this.#handlers[this.currentMenu]();
     const $menu = $("#menu");
 
     $menu.addEventListener("click", ({ target }) => {
@@ -60,6 +79,7 @@ class VendingMachineController {
 
   changeView($target) {
     this.#models[$target.name].initialize();
+    this.#handlers[$target.name]();
   }
 }
 
