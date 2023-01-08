@@ -1,5 +1,6 @@
 import { productManagerViewInitiator } from './views/productManagerView/index.js';
-import { vendingMachineManagerViewInitiator } from './views/vendingMachineManager/vendingMachineManagerView.js';
+import { vendingMachineManagerViewInitiator } from './views/vendingMachineManager/index.js';
+import { productPurchaseMenuInitiator } from './views/productPurchaseMenuView/index.js';
 
 import { productManagerController, productInventoryContainerController } from './components/productManagerComponent/index.js';
 import { vendingMachineControllerComponent, cashBoxComponent } from './components/vendingMachineManagerComponent/index.js';
@@ -32,5 +33,5 @@ $vendingMachineManageMenu.addEventListener('click', () => {
 });
 
 $productPurchaseMenu.addEventListener('click', () => {
-  // TODO: part2에서 구현 예정
+  productPurchaseMenuInitiator($app);
 });
