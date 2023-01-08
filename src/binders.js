@@ -4,12 +4,22 @@ export const PRODUCT_CONTAINER_BINDER = 'productContainerBinder';
 export const PRODUCT_INVENTORY_CONTAINER_BINDER = 'productInventoryContainerBinder';
 export const VENDING_MACHINE_CONTROLLER_BINDER = 'vendingMachineControllerBinder';
 export const CASH_BOX_BINDER = 'cashBoxBinder';
+export const COIN_INPUT_CONTROLLER_BINDER = 'coinInputControllerBinder';
+export const COIN_INPUT_DISPLAY_BINDER = 'coinInputDisplayBinder';
+export const PRODUCT_LIST_BINDER = 'productListBinder';
+export const REST_AMOUNT_FLUSH_BUTTON_BINDER = 'restAmountFlushButtonBinder';
+export const REST_AMOUNT_FLUSH_DISPLAY_BINDER = 'restAmountFlushDisplayBinder';
 
 export const binders = {
   [PRODUCT_CONTAINER_BINDER]: null,
   [PRODUCT_INVENTORY_CONTAINER_BINDER]: null,
   [VENDING_MACHINE_CONTROLLER_BINDER]: null,
   [CASH_BOX_BINDER]: null,
+  [COIN_INPUT_CONTROLLER_BINDER]: null,
+  [COIN_INPUT_DISPLAY_BINDER]: null,
+  [PRODUCT_LIST_BINDER]: null,
+  [REST_AMOUNT_FLUSH_BUTTON_BINDER]: null,
+  [REST_AMOUNT_FLUSH_DISPLAY_BINDER]: null,
 };
 
 export function render(binderName) {

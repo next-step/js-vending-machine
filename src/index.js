@@ -33,5 +33,17 @@ $vendingMachineManageMenu.addEventListener('click', () => {
 });
 
 $productPurchaseMenu.addEventListener('click', () => {
-  productPurchaseMenuInitiator($app);
+  const {
+    coinInputController,
+    coinInputDisplay,
+    productList,
+    restAmountFlushButton,
+    restAmountFlushDisplay,
+  } = productPurchaseMenuInitiator($app);
+
+  binders.coinInputControllerBinder = createBinder(coinInputController, () => {});
+  binders.coinInputDisplayBinder = createBinder(coinInputDisplay, () => {});
+  binders.productListBinder = createBinder(productList, () => {});
+  binders.restAmountFlushButtonBinder = createBinder(restAmountFlushButton, () => {});
+  binders.restAmountFlushDisplayBinder = createBinder(restAmountFlushDisplay, () => {});
 });
