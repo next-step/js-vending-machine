@@ -56,7 +56,12 @@ function bindViewModelWithView(vm, view) {
       }
 
       if (key === 'children') {
-        pairElement.innerHTML = val;
+        if (typeof val === 'string') {
+          pairElement.innerHTML = val;
+        }
+        if (val instanceof Node) {
+          pairElement.append(val);
+        }
       }
     });
   });
