@@ -1,33 +1,31 @@
-import { render, COIN_INPUT_DISPLAY_BINDER, REST_AMOUNT_FLUSH_DISPLAY_BINDER } from '../../binders.js';
+import { render, COIN_INPUT_DISPLAY_BINDER, REST_AMOUNT_FLUSH_DISPLAY_BINDER, PRODUCT_LIST_BINDER } from '../../binders.js';
 import { setLocalStorageItem } from '../../utils/localStorageUtils.js';
 import { products, PRODUCTS_STATE_KEY } from '../../states/productState.js';
 
 import { ProductPurchaseMenuState } from './ProductPurchaseMenuState.js';
+import { createProductRow } from './productPurchseMenuUtils.js';
 
 import { Ref } from '../common/Ref.js';
 
 // 사용자가 넣은 금액은 전역으로 알 필요가 없다.
-// TODO: 객체로 묶기
 const coinInputControllerInitialState = new ProductPurchaseMenuState({
   input: 0,
   totalAmount: 0,
 });
-// 상품 금액만큼 차감되고 상품의 수량도 차감된다.
-// 수량이 0인상품은 구매할 수 없다.
-// 구매하려는 상품가격이 보유하고 있는 금액보다 높은 경우 상품을 구매할 수 없다.
 
 // 반환하기버튼을 통해 잔돈을 반환받을 수 있다.
+
+let coinInputControllerState = coinInputControllerInitialState;
 
 const coinInputRef = new Ref();
 
 export function coinInputControllerComponent() {
-  let coinInputControllerState = coinInputControllerInitialState;
-
   return {
     coinInput: {
       ref: coinInputRef,
       events: {change: (e) => {
-        coinInputControllerState.syncInput(e.target.value);
+        const element = e.target;
+        coinInputControllerState.syncInput(element.value);
       }},
     },
     coinSubmitButton: {
@@ -54,19 +52,21 @@ export function coinInputDisplayComponent() {
   }
 }
 
+const productListRef = new Ref();
+
 export function productListComponent() {
-  // TODO: 구매하기 버튼에 products를 갱신하고 productList를 다시 그려주는 로직을 심어서 보내준다.
-  // TODO: 갱신시에 products에서 product 재고가 0면 자기를 삭제해주는 자동로직을 넣어준다.
   return {
     rootElement: {
+      ref: productListRef,
       children: Object.values(products).map((product) => (
-        `<tr>
-          <td>${product.name}</td>
-          <td>${product.price}</td>
-          <td>${product.quantity}</td>
-          <td><button>구매하기</button></td>
-        </tr>`
-      )).join(''),
+        createProductRow(product, () => {
+          if (product.buyProduct(coinInputControllerState)) {
+            productListRef.element.innerHTML = '';
+            render(COIN_INPUT_DISPLAY_BINDER);
+            render(PRODUCT_LIST_BINDER);
+          }
+        })
+      )),
     }
   }
 }
