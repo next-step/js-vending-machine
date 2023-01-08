@@ -25,6 +25,10 @@ class VendingMachineController {
     const $menu = $("#menu");
 
     $menu.addEventListener("click", ({ target }) => {
+      const isMenuButton = target.classList.contains("button");
+
+      if (isMenuButton === false) return;
+
       try {
         this.validateMenu(target);
         this.changeMenu(target);
@@ -37,9 +41,8 @@ class VendingMachineController {
 
   validateMenu($target) {
     const isMenu = Object.keys(this.#models).includes($target.name);
-    const isMenuButton = $target.classList.contains("button");
 
-    if (!(isMenu && isMenuButton)) {
+    if (isMenu === false) {
       alert(ERROR_MESSAGE.INVALID_MENU);
       throw new ValidationError(ERROR_MESSAGE.INVALID_MENU);
     }
