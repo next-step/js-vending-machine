@@ -55,7 +55,7 @@ export function productPurchaseMenuInitiator(rootElement) {
     $coinInputController,
     $coinInputDisplay,
     ...getProductPurchaseControllerTitle(),
-    ...getProductPurchaseController(),
+    $productPurchaseController,
     ...getRestAmountFlushControllerTitle(),
     $restAmountFlushButton,
     $restAmountFlushDisplay,
