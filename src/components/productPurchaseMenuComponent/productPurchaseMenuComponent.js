@@ -72,7 +72,7 @@ export function productListComponent() {
   }
 }
 
-const restAmountState = {};
+let restAmountState = [];
 
 // 자판기가 보유한 동전에서 최소 갯수의 동전으로 잔돈을 돌려준다.
 // 잔돈으로 반환할 수 있는 금액만 반환한다. (나머지는 무시한다.)
@@ -85,18 +85,37 @@ export function restAmountFlushButtonComponent() {
   return {
     rootElement: {
       events: {click: () => {
-        // TODO: 가지고 있던 돈을 자판기 동전 method에 넣어서 반환식을 발동시킨다. 반환받은 동전 갯수들을 state에 적용한다.
-        // TODO: 사용자가 넣은 금액들은 모두 초기화 시킨다.
-        vendingMachineState.returnTheRestAmountsByCoins(coinInputControllerState);
+        restAmountState = vendingMachineState.returnTheRestAmountsByCoins(coinInputControllerState);
+        render(COIN_INPUT_DISPLAY_BINDER);
         render(REST_AMOUNT_FLUSH_DISPLAY_BINDER);
       }},
     }
   }
 }
 
-export function restAmountFlushDisplayComponent() {
-  // TODO: 남은 금액들을 받아서 동전별로 구분해서 보여준다.
-  return {
+const coin500Ref = new Ref();
+const coin100Ref = new Ref();
+const coin50Ref = new Ref();
+const coin10Ref = new Ref();
 
+export function restAmountFlushDisplayComponent() {
+  const coinRefList = [coin500Ref, coin100Ref, coin50Ref, coin10Ref];
+  restAmountState.forEach((amount, i) => {
+    coinRefList[i].element.textContent = `${amount}개`;
+  });
+
+  return {
+    coin500: {
+      ref: coin500Ref,
+    },
+    coin100: {
+      ref: coin100Ref,
+    },
+    coin50: {
+      ref: coin50Ref,
+    },
+    coin10: {
+      ref: coin10Ref,
+    },
   }
 }
