@@ -25,6 +25,7 @@ export function vendingMachineControllerComponent() {
       events: {click: () => {
         if (!vendingMachineManagerState.validateAmount()) return;
 
+        // TODO: addAmount는 vendingMachineState를 바꾸는 것 따라서, setLocalStorage는 객체안에서 해줘야한다.
         vendingMachineState.addAmount(vendingMachineManagerState.amount);
         chargeAmountInputRef.element.value = null;
         vendingMachineManagerState = new VendingMachineManagerState({});

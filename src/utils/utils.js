@@ -14,3 +14,14 @@ export function toNumber(target, fallback) {
 
   return numberedTarget;
 }
+
+export function mergeArrayObjectToOneObject(arrayObject) {
+  return arrayObject.reduce((prev, curr) => {
+    for (const key in curr) {
+      const val = curr[key];
+      prev[key] = val;
+    }
+
+    return prev;
+  }, {});
+}

@@ -1,8 +1,16 @@
-import { productManagerViewInitiator } from './views/productManagerView.js';
-import { vendingMachineManagerViewInitiator } from './views/vendingMachineManagerView.js';
+import { productManagerViewInitiator } from './views/productManagerView/index.js';
+import { vendingMachineManagerViewInitiator } from './views/vendingMachineManager/index.js';
+import { productPurchaseMenuInitiator } from './views/productPurchaseMenuView/index.js';
 
 import { productManagerController, productInventoryContainerController } from './components/productManagerComponent/index.js';
 import { vendingMachineControllerComponent, cashBoxComponent } from './components/vendingMachineManagerComponent/index.js';
+import {
+  coinInputControllerComponent,
+  coinInputDisplayComponent,
+  productListComponent,
+  restAmountFlushButtonComponent,
+  restAmountFlushDisplayComponent,
+} from './components/productPurchaseMenuComponent/index.js';
 
 import { binders, createBinder } from './binders.js';
 
@@ -12,6 +20,8 @@ const $vendingMachineManageMenu = document.getElementById('vending-machine-manag
 const $productPurchaseMenu = document.getElementById('product-purchase-menu');
 
 $productManageMenu.addEventListener('click', () => {
+  $app.innerHTML = '';
+
   const {
     productContainerView,
     productInventoryContainerView,
@@ -22,6 +32,7 @@ $productManageMenu.addEventListener('click', () => {
 });
 
 $vendingMachineManageMenu.addEventListener('click', () => {
+  $app.innerHTML = '';
   const {
     vendingMachineControllerView,
     cashBoxView,
@@ -32,5 +43,18 @@ $vendingMachineManageMenu.addEventListener('click', () => {
 });
 
 $productPurchaseMenu.addEventListener('click', () => {
-  // TODO: part2에서 구현 예정
+  $app.innerHTML = '';
+  const {
+    coinInputController,
+    coinInputDisplay,
+    productList,
+    restAmountFlushButton,
+    restAmountFlushDisplay,
+  } = productPurchaseMenuInitiator($app);
+
+  binders.coinInputControllerBinder = createBinder(coinInputController, coinInputControllerComponent);
+  binders.coinInputDisplayBinder = createBinder(coinInputDisplay, coinInputDisplayComponent);
+  binders.productListBinder = createBinder(productList, productListComponent);
+  binders.restAmountFlushButtonBinder = createBinder(restAmountFlushButton, restAmountFlushButtonComponent);
+  binders.restAmountFlushDisplayBinder = createBinder(restAmountFlushDisplay, restAmountFlushDisplayComponent);
 });

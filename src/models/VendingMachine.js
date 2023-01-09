@@ -1,3 +1,5 @@
+import { setVendingMachineStateInLocalStorage } from "../states/vendingMachineState.js";
+
 const COINS = [500, 100, 50, 10];
 
 export class VendingMachine {
@@ -15,7 +17,10 @@ export class VendingMachine {
     this.coin10 = coin10;
   }
 
-  // 이 메소드는 prototype에 공통으로 가져야하기 보다는 정확히 자신의 데이터를 잘 바꿔야한다.
+  #setVendingMachineInLocalStorage() {
+    setVendingMachineStateInLocalStorage(this);
+  }
+
   addAmount = (amount) => {
     this.amount += amount;
     const [
@@ -28,9 +33,10 @@ export class VendingMachine {
     this.coin100 += coin100Count;
     this.coin50 += coin50Count;
     this.coin10 += coin10Count;
+    this.#setVendingMachineInLocalStorage();
   }
 
-  #divideNumberInDivideLevelsRandomly(totalAmount, divideLevels) {
+  #validateDivideLevels(divideLevels) {
     if (divideLevels.some((divideLevel) => typeof divideLevel !== 'number')) {
       throw new Error('divideLevels should be consisted in numbers');
     }
@@ -44,6 +50,10 @@ export class VendingMachine {
     })) {
       throw new Error('divideLevels should be sorted in descending order');
     }
+  }
+
+  #divideNumberInDivideLevelsRandomly(totalAmount, divideLevels) {
+    if (this.#validateDivideLevels(divideLevels)) return;
 
     let currentTotalAmount = totalAmount;
     return divideLevels.map((divideLevel, i) => {
@@ -57,6 +67,38 @@ export class VendingMachine {
       currentTotalAmount -= coinCount * divideLevel;
 
       return coinCount;
+    });
+  }
+
+  returnTheRestAmountsByCoins(coinInputControllerState) {
+    const restAmount = coinInputControllerState.flushTotalAmount();
+
+    const res = this.#divideNumberInDivideLevels(restAmount, COINS);
+    this.#setVendingMachineInLocalStorage();
+
+    return res;
+  }
+
+  #divideNumberInDivideLevels(totalAmount, divideLevels) {
+    if (this.#validateDivideLevels(divideLevels)) return;
+
+    let currentAmount = totalAmount;
+    return divideLevels.map((divideLevel) => {
+      const neededCoinCount = Math.floor(currentAmount / divideLevel);
+      const currentCoinCount = this[`coin${divideLevel}`];
+      if (currentCoinCount < neededCoinCount) {
+        const amountDx = divideLevel * currentCoinCount;
+        this.amount -= amountDx;
+        currentAmount -= amountDx;
+        this[`coin${divideLevel}`] = 0;
+        return currentCoinCount;
+      }
+
+      const amountDx = divideLevel * neededCoinCount;
+      this.amount -= amountDx;
+      currentAmount -= amountDx;
+      this[`coin${divideLevel}`] -= neededCoinCount;
+      return neededCoinCount;
     });
   }
 };

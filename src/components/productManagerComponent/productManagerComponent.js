@@ -44,6 +44,7 @@ export function productManagerController() {
         if (!productControllerState.validatePrice(productPriceInputRef.element)) return;
         if (!productControllerState.validateQuantity(productQuantityInputRef.element)) return;
 
+        // TODO: product를 새로 추가하는 것은 products의 상태를 변화시키는 것이고 동시에 sync해야 하므로, setlocalstate는 객체안에서 동시에 이뤄져야한다.
         products[productControllerState.name] = new Product(productControllerState);
         setLocalStorageItem(PRODUCTS_STATE_KEY, JSON.stringify(products));
 
