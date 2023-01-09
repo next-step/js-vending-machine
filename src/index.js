@@ -20,6 +20,8 @@ const $vendingMachineManageMenu = document.getElementById('vending-machine-manag
 const $productPurchaseMenu = document.getElementById('product-purchase-menu');
 
 $productManageMenu.addEventListener('click', () => {
+  $app.innerHTML = '';
+
   const {
     productContainerView,
     productInventoryContainerView,
@@ -30,6 +32,7 @@ $productManageMenu.addEventListener('click', () => {
 });
 
 $vendingMachineManageMenu.addEventListener('click', () => {
+  $app.innerHTML = '';
   const {
     vendingMachineControllerView,
     cashBoxView,
@@ -40,6 +43,7 @@ $vendingMachineManageMenu.addEventListener('click', () => {
 });
 
 $productPurchaseMenu.addEventListener('click', () => {
+  $app.innerHTML = '';
   const {
     coinInputController,
     coinInputDisplay,

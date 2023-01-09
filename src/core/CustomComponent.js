@@ -15,6 +15,7 @@ export function getCustomElementClass(Element) {
 
     disconnectedCallback() {
       this.elements = {};
+      this.innerHTML = null;
     }
 
     init(children = [], dynamicElementSelectors = {}) {
