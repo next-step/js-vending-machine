@@ -34,4 +34,10 @@ export class ProductPurchaseMenuState extends Validator {
   deductAmount(amount) {
     this.totalAmount -= amount;
   }
+
+  flushTotalAmount() {
+    let temp = this.totalAmount;
+    this.totalAmount = 0;
+    return temp;
+  }
 }

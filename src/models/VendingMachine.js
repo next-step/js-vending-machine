@@ -30,7 +30,7 @@ export class VendingMachine {
     this.coin10 += coin10Count;
   }
 
-  #divideNumberInDivideLevelsRandomly(totalAmount, divideLevels) {
+  #validateDivideLevels(divideLevels) {
     if (divideLevels.some((divideLevel) => typeof divideLevel !== 'number')) {
       throw new Error('divideLevels should be consisted in numbers');
     }
@@ -44,6 +44,10 @@ export class VendingMachine {
     })) {
       throw new Error('divideLevels should be sorted in descending order');
     }
+  }
+
+  #divideNumberInDivideLevelsRandomly(totalAmount, divideLevels) {
+    if (this.#validateDivideLevels(divideLevels)) return;
 
     let currentTotalAmount = totalAmount;
     return divideLevels.map((divideLevel, i) => {
@@ -60,7 +64,27 @@ export class VendingMachine {
     });
   }
 
-  returnTheRestAmountsByCoins() {
+  returnTheRestAmountsByCoins(coinInputControllerState) {
+    const restAmount = coinInputControllerState.flushTotalAmount();
 
+    return this.#divideNumberInDivideLevels(restAmount, COINS);
+  }
+
+  #divideNumberInDivideLevels(totalAmount, divideLevels) {
+    if (this.#validateDivideLevels(divideLevels)) return;
+
+    let currentAmount = totalAmount;
+    return divideLevels.map((divideLevel) => {
+      const neededCoinCount = Math.floor(currentAmount / divideLevel);
+      const currentCoinCount = this[`coin${divideLevel}`];
+      if (currentCoinCount < neededCoinCount) {
+        currentAmount -= divideLevel * currentCoinCount;
+        this[`coin${divideLevel}`] = 0;
+        return currentCoinCount;
+      }
+      currentAmount -= divideLevel * neededCoinCount;
+      this[`coin${divideLevel}`] -= neededCoinCount;
+      return neededCoinCount;
+    });
   }
 };
