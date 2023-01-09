@@ -1,6 +1,7 @@
 import { VendingMachine } from "../models/VendingMachine.js";
 import { getLocalStorageItem } from "../utils/localStorageUtils.js";
 import { toNumber } from "../utils/utils.js";
+import { setLocalStorageItem } from "../utils/localStorageUtils.js";
 
 export const VENDING_MACHINE_MANAGER_STATE_KEY = 'vending-machine-manager';
 
@@ -25,4 +26,8 @@ export const vendingMachineState = getLocalStorageItem(VENDING_MACHINE_MANAGER_S
 
 function changePropertyToNumber(obj, key) {
   obj[key] = toNumber(obj[key]);
+}
+
+export function setVendingMachineStateInLocalStorage(vendingMachineState) {
+  setLocalStorageItem(VENDING_MACHINE_MANAGER_STATE_KEY, JSON.stringify(vendingMachineState));
 }

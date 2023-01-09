@@ -1,5 +1,5 @@
 import { Product } from '../models/Product.js';
-import { getLocalStorageItem } from '../utils/localStorageUtils.js';
+import { getLocalStorageItem, setLocalStorageItem } from '../utils/localStorageUtils.js';
 
 export const PRODUCTS_STATE_KEY = 'products';
 
@@ -14,3 +14,7 @@ export const products = getLocalStorageItem(PRODUCTS_STATE_KEY, (item) => {
   return parsedItem;
 
 }) || productsInitState;
+
+export function setProductStateInLocalStorage(products) {
+  setLocalStorageItem(PRODUCTS_STATE_KEY, JSON.stringify(products));
+}
