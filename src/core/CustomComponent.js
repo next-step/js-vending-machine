@@ -4,6 +4,7 @@ export function getCustomElementClass(Element) {
   class CustomElement extends Element {
     elements = {};
     dynamicElementSelectors = {};
+    events = [];
 
     constructor() {
       super();
@@ -21,6 +22,14 @@ export function getCustomElementClass(Element) {
     init(children = [], dynamicElementSelectors = {}) {
       this.append(...children);
       this.dynamicElementSelectors = dynamicElementSelectors;
+    }
+
+    initEvents() {
+      this.events.forEach(([elementName, eventType, handler]) => this.elements[elementName].removeEventListener(eventType, handler));
+    }
+
+    pushEvent(event) {
+      this.events.push(event);
     }
 
     createElements() {
