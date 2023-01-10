@@ -4,8 +4,10 @@ import ChangeChargerModel from "../model/changeCharger.js";
 import { $, $$ } from "../utils/selector.js";
 import { ValidationError } from "../utils/error.js";
 import { ERROR_MESSAGE } from "../utils/constants.js";
+import { validateManagerInputs } from "../utils/utils.js";
 
 class VendingMachineController {
+  #currentModel;
   #models;
   #handlers;
 
@@ -22,40 +24,59 @@ class VendingMachineController {
       purchase: purchaseModel,
     };
 
+    this.#currentModel = this.#models[this.currentMenu];
+
     this.#handlers = {
       manager: () => {
         const $form = $("#product-manager-form");
-        $form.addEventListener("submit", (e) => {
-          e.preventDefault();
-          const $inputs = $$(".product-input");
-          console.log("$inputs", $inputs);
-          // eslint-disable-next-line no-restricted-syntax
-          for (const value of $inputs.values()) {
-            console.log(value.value);
-          }
-        });
+        $form.addEventListener("submit", this.submitManagerForm.bind(this));
       },
       charger: () => {},
       purchase: () => {},
     };
 
-    this.#models[this.currentMenu].initialize();
+    this.#currentModel.initialize();
     this.#handlers[this.currentMenu]();
     const $menu = $("#menu");
 
-    $menu.addEventListener("click", ({ target }) => {
-      const isMenuButton = target.classList.contains("button");
+    $menu.addEventListener("click", this.menuHandler.bind(this));
+  }
 
-      if (isMenuButton === false) return;
+  submitManagerForm(e) {
+    e.preventDefault();
+    let currentInput;
+    try {
+      const $inputs = $$(".product-input");
+      const newState = {};
+      $inputs.forEach((input) => {
+        currentInput = input;
 
-      try {
-        this.validateMenu(target);
-        this.changeMenu(target);
-        this.changeView(target);
-      } catch (err) {
-        console.error(err);
-      }
-    });
+        const { name, value } = currentInput;
+
+        validateManagerInputs[name](value);
+
+        newState[input.name] = input.value;
+      });
+
+      this.#currentModel.setState("products", newState);
+    } catch (err) {
+      alert(err.message);
+      currentInput.focus();
+    }
+  }
+
+  menuHandler({ target }) {
+    const isMenuButton = target.classList.contains("button");
+
+    if (isMenuButton === false) return;
+
+    try {
+      this.validateMenu(target);
+      this.changeMenu(target);
+      this.changeView(target);
+    } catch (err) {
+      console.error(err);
+    }
   }
 
   validateMenu($target) {
@@ -69,11 +90,16 @@ class VendingMachineController {
 
   changeMenu($target) {
     const buttons = $$("#menu button");
+
     buttons.forEach((button) => {
       button.classList.remove("active");
     });
 
     this.currentMenu = $target.name;
+    this.#currentModel = this.#models[$target.name];
+
+    console.log("current state", this.#currentModel.state);
+
     $target.classList.add("active");
   }
 

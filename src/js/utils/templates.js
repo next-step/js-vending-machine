@@ -8,6 +8,7 @@ export const PRODUCT_MANAGER_TEMPLATE = `<div id="product-manager-container">
           class="product-input"
           name="name"
           placeholder="상품명"
+          required
         />
         <input
           type="number"
@@ -15,6 +16,7 @@ export const PRODUCT_MANAGER_TEMPLATE = `<div id="product-manager-container">
           class="product-input"
           placeholder="가격"
           min="0"
+          required
         />
         <input
           type="number"
@@ -22,6 +24,7 @@ export const PRODUCT_MANAGER_TEMPLATE = `<div id="product-manager-container">
           class="product-input"
           placeholder="수량"
           min="0"
+          required
         />
       </div>
       <button
@@ -46,21 +49,20 @@ export const PRODUCT_MANAGER_TEMPLATE = `<div id="product-manager-container">
           <th class="border-l w-1/3 py-2 font-normal">수량</th>
         </tr>
       </thead>
-      <tbody id="product-inventory-container">
-        <tr class="border-t">
-          <td class="py-2 text-center">1</td>
-          <td class="py-2 border-l text-center">2</td>
-          <td class="py-2 border-l text-center">3</td>
-        </tr>
-        <tr class="border-t">
-          <td class="py-2 text-center">1</td>
-          <td class="py-2 border-l text-center">2</td>
-          <td class="py-2 border-l text-center">3</td>
-        </tr>
-      </tbody>
+      <tbody id="product-inventory-container"></tbody>
     </table>
   </section>
   </div>`;
+
+export const createProductInventoryItem = ({
+  name,
+  price,
+  quantity,
+}) => `<tr class="border-t">
+  <td class="py-2 text-center">${name}</td>
+  <td class="py-2 border-l text-center">${price}</td>
+  <td class="py-2 border-l text-center">${quantity}</td>
+</tr>`;
 
 export const COIN_CHARGING_TEMPLATE = `<div id="coin-charging-container">
   <section class="mb-10">

@@ -1,6 +1,8 @@
 import ProductManagerView from "../view/productManager.js";
 
-const PRODUCT_MANAGER_INITIAL_STATE = {};
+const PRODUCT_MANAGER_INITIAL_STATE = {
+  products: [],
+};
 class ProductManagerModel {
   #state;
   #view;
@@ -14,11 +16,9 @@ class ProductManagerModel {
     return this.#state;
   }
 
-  setState(newState) {
-    this.#state = {
-      ...this.#state,
-      newState,
-    };
+  setState(state, newState) {
+    this.#state[state] = [...this.#state[state], newState];
+    this.#view.update(newState);
   }
 
   initialize() {
