@@ -33,3 +33,6 @@ export const validateManagerInputs = {
   },
   quantity: () => {},
 };
+
+export const isInitialState = (state, initialState) =>
+  JSON.stringify(state) === JSON.stringify(initialState);

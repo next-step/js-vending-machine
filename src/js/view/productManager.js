@@ -1,18 +1,39 @@
 import View from "./view.js";
-import { createProductInventoryItem } from "../utils/templates.js";
-import { $ } from "../utils/selector.js";
+import {
+  createProductInventoryItem,
+  createTemplateElement,
+} from "../utils/templates.js";
+import { $, $$ } from "../utils/selector.js";
 
 class ProductManagerView extends View {
   constructor() {
     super("manager");
   }
-  update(newState) {
+
+  clearForm() {
+    const $inputs = $$(".product-input");
+    $inputs.forEach((input) => {
+      input.value = "";
+    });
+    $inputs[0].focus();
+  }
+
+  renderInventoryContainer(newState) {
     const productTable = $("#product-inventory-container");
 
-    productTable.insertAdjacentHTML(
-      "afterbegin",
-      createProductInventoryItem(newState)
-    );
+    const createProductInventoryItems = newState.reduce((acc, pre) => {
+      acc += createProductInventoryItem(pre);
+      return acc;
+    }, "");
+
+    const { content } = createTemplateElement(createProductInventoryItems);
+
+    productTable.replaceChildren(content);
+  }
+
+  update(newState) {
+    this.renderInventoryContainer(newState);
+    this.clearForm();
   }
 }
 

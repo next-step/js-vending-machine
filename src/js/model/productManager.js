@@ -1,4 +1,5 @@
 import ProductManagerView from "../view/productManager.js";
+import { isInitialState } from "../utils/utils.js";
 
 const PRODUCT_MANAGER_INITIAL_STATE = {
   products: [],
@@ -8,7 +9,7 @@ class ProductManagerModel {
   #view;
 
   constructor() {
-    this.#state = PRODUCT_MANAGER_INITIAL_STATE;
+    this.#state = { ...PRODUCT_MANAGER_INITIAL_STATE };
     this.#view = new ProductManagerView();
   }
 
@@ -17,12 +18,20 @@ class ProductManagerModel {
   }
 
   setState(state, newState) {
-    this.#state[state] = [...this.#state[state], newState];
-    this.#view.update(newState);
+    const removedState = this.#state[state].filter(
+      (item) => item.name !== newState.name
+    );
+
+    this.#state[state] = [...removedState, newState];
+    this.#view.update(this.#state[state]);
   }
 
   initialize() {
     this.#view.render();
+
+    if (isInitialState(this.#state, PRODUCT_MANAGER_INITIAL_STATE) === false) {
+      this.#view.update(this.#state.products);
+    }
   }
 }
 
