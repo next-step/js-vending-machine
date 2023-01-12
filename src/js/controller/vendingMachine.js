@@ -4,7 +4,7 @@ import ChangeChargerModel from "../model/changeCharger.js";
 import { $, $$ } from "../utils/selector.js";
 import { ValidationError } from "../utils/error.js";
 import { ERROR_MESSAGE } from "../utils/constants.js";
-import { validateManagerInputs } from "../utils/utils.js";
+import { validateChargerInput, validateManagerInputs } from "../utils/utils.js";
 
 class VendingMachineController {
   #currentModel;
@@ -45,7 +45,17 @@ class VendingMachineController {
     $menu.addEventListener("click", this.menuHandler.bind(this));
   }
 
-  submitChargerForm() {}
+  submitChargerForm(e) {
+    e.preventDefault();
+    const chargingInput = $(".charger-input");
+    try {
+      validateChargerInput(chargingInput.value);
+      this.#currentModel.setState("totalAmount", Number(chargingInput.value));
+    } catch (err) {
+      alert(err.message);
+      chargingInput.focus();
+    }
+  }
 
   submitManagerForm(e) {
     e.preventDefault();
@@ -58,7 +68,7 @@ class VendingMachineController {
 
         const { name, value } = currentInput;
 
-        validateManagerInputs[name](value);
+        validateManagerInputs[name](Number(value));
 
         newState[input.name] = input.value;
       });
