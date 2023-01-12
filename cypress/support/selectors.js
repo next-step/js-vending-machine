@@ -15,6 +15,12 @@ export const PRODUCT_ADD_BUTTON_SELECTOR = "#product-add-button";
 
 export const CHANGE_CHARGE_MENU_SELECTOR = "#change-charge-menu";
 export const COIN_CHARGING_CONTAINER_SELECTOR = "#coin-charging-container";
+export const COIN_CHARGING_FORM_SELECTOR = "#coin-charging-form";
+export const CHARGER_INPUT_SELECTOR = ".charger-input";
+export const HOLDING_AMOUNT_SELECTOR = "#holding-amount";
+export const COIN_INVENTORY_SELECTOR = "#coin-inventory";
+export const COIN_STANDARD_SELECTOR = ".coin-standard";
+export const COIN_AMOUNT_SELECTOR = ".coin-amount";
 
 export const PRODUCT_PURCHASE_MENU_SELECTOR = "#product-purchase-menu";
 export const PRODUCT_PURCHASE_CONTAINER_SELECTOR =

@@ -12,7 +12,7 @@ class VendingMachineController {
   #handlers;
 
   constructor() {
-    this.currentMenu = "manager";
+    this.currentMenu = "charger";
 
     const managerModel = new ProductManagerModel();
     const chargerModel = new ChangeChargerModel();
@@ -31,7 +31,10 @@ class VendingMachineController {
         const $form = $("#product-manager-form");
         $form.addEventListener("submit", this.submitManagerForm.bind(this));
       },
-      charger: () => {},
+      charger: () => {
+        const $form = $("#coin-charging-form");
+        $form.addEventListener("submit", this.submitChargerForm.bind(this));
+      },
       purchase: () => {},
     };
 
@@ -41,6 +44,8 @@ class VendingMachineController {
 
     $menu.addEventListener("click", this.menuHandler.bind(this));
   }
+
+  submitChargerForm() {}
 
   submitManagerForm(e) {
     e.preventDefault();

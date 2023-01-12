@@ -69,11 +69,11 @@ export const COIN_CHARGING_TEMPLATE = `<div id="coin-charging-container">
     <h2 class="mb-5 text-left text-2xl font-bold">
       자판기 동전 충전하기
     </h2>
-    <form class="flex justify-center">
+    <form id="coin-charging-form" class="flex justify-center">
       <div class="flex shrink w-full">
         <input
           type="number"
-          class="product-input w-full"
+          class="charger-input"
           name="product-quantity"
           placeholder="자판기가 보유할 금액"
           min="0"
@@ -88,41 +88,56 @@ export const COIN_CHARGING_TEMPLATE = `<div id="coin-charging-container">
       </button>
     </form>
     <p
-      id="retention-amount"
       class="mx-auto mt-8 box-border w-8/12 rounded-xl border border-2 border-dashed p-3 text-center"
     >
-      보유 금액: 0원
+      보유 금액: <span id="holding-amount" class="inline-block">0</span>원
     </p>
   </section>
   <section>
     <h2 class="mb-5 text-2xl font-bold">자판기가 보유한 동전</h2>
     <table
-      id="product-inventory"
+      id="coin-inventory"
       class="w-full overflow-hidden rounded-md border bg-slate-100"
     >
       <thead>
-      <tr class="border-slate-100 bg-slate-600 text-white">
-        <th class="w-1/2 py-2 font-normal">동전</th>
-        <th class="w-1/2 border-l py-2 font-normal">개수</th>
-      </tr>
+        <tr class="border-slate-100 bg-slate-600 text-white">
+          <th class="w-1/2 py-2 font-normal">동전</th>
+          <th class="w-1/2 border-l py-2 font-normal">개수</th>
+        </tr>
       </thead>
       <tbody id="product-inventory-container">
-      <tr class="border-t">
-        <td class="py-1 text-center">500원</td>
-        <td class="border-l py-2 text-center">2</td>
-      </tr>
-      <tr class="border-t">
-        <td class="py-2 text-center">100원</td>
-        <td class="border-l py-2 text-center">2</td>
-      </tr>
-      <tr class="border-t">
-        <td class="py-2 text-center">50원</td>
-        <td class="border-l py-2 text-center">2</td>
-      </tr>
-      <tr class="border-t">
-        <td class="py-2 text-center">10원</td>
-        <td class="border-l py-1 text-center">2</td>
-      </tr>
+        <tr class="border-t">
+          <td class="py-1 text-center">
+            <span class="coin-standard">500</span>원
+          </td>
+          <td class="border-l py-2 text-center">
+            <span class="coin-amount">0</span>
+          </td>
+        </tr>
+        <tr class="border-t">
+          <td class="py-2 text-center">
+            <span class="coin-standard">100</span>원
+          </td>
+          <td class="border-l py-2 text-center">
+            <span class="coin-amount">0</span>
+          </td>
+        </tr>
+        <tr class="border-t">
+          <td class="py-2 text-center">
+            <span class="coin-standard">50</span>원
+          </td>
+          <td class="border-l py-2 text-center">
+            <span class="coin-amount">0</span>
+          </td>
+        </tr>
+        <tr class="border-t">
+          <td class="py-2 text-center">
+            <span class="coin-standard">10</span>원
+          </td>
+          <td class="border-l py-1 text-center">
+            <span class="coin-amount">0</span>
+          </td>
+        </tr>
       </tbody>
     </table>
   </section>
