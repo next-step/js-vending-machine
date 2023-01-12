@@ -49,7 +49,7 @@ setClickEventListenerWithVendingMachine(querySelector(SELECTOR_MAP.BUTTON.PRODUC
   renderProduct(vendingMachine);
   querySelector(SELECTOR_MAP.INPUT.PRODUCT_NAME).focus();
 
-  productStorage.saveItem(vendingMachine.productManager.products);
+  productStorage.saveItem(vendingMachine.products);
 });
 
 setClickEventListenerWithVendingMachine(querySelector(SELECTOR_MAP.BUTTON.CHARGE_AMOUNT), (vendingMachine) => {

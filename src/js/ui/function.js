@@ -42,7 +42,7 @@ export const addProduct = (vendingMachine) => {
     $element.inputPrice.value,
     $element.inputAmount.value,
   ];
-  vendingMachine.productManager.add({ name, price, amount });
+  vendingMachine.add({ name, price, amount });
 };
 
 /**
@@ -78,9 +78,7 @@ export const clearSpendingAmountInput = () => {
  * @param {VendingMachine} vendingMachine
  */
 export const renderProduct = (vendingMachine) => {
-  const {
-    productManager: { products },
-  } = vendingMachine;
+  const { products } = vendingMachine;
   querySelector(SELECTOR_MAP.TABLE.VENDING_MACHINE_PRODUCT).tableBodyElement.innerHTML = products
     .map(
       ({ name, price, amount }) => `<tr>
@@ -126,9 +124,7 @@ export const renderReturnedChanges = (unitCountInfo) => {
  * @param {VendingMachine} vendingMachine
  */
 export const renderPurchasableProduct = (vendingMachine) => {
-  const {
-    productManager: { products },
-  } = vendingMachine;
+  const { products } = vendingMachine;
 
   const element = querySelector(SELECTOR_MAP.TABLE.VENDING_MACHINE_PURCHASABLE_PRODUCT).tableBodyElement;
   element.innerHTML = products
@@ -149,7 +145,7 @@ export const renderPurchasableProduct = (vendingMachine) => {
       if (result) {
         renderPurchasableProduct(vendingMachine);
         renderSpendingAmount(vendingMachine);
-        productStorage.saveItem(vendingMachine.productManager.products);
+        productStorage.saveItem(vendingMachine.products);
       }
     });
   });
