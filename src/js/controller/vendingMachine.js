@@ -14,6 +14,7 @@ class VendingMachineController {
   constructor() {
     this.currentMenu = "manager";
 
+    const $menu = $("#menu");
     const managerModel = new ProductManagerModel();
     const chargerModel = new ChangeChargerModel();
     const purchaseModel = new ProductPurchaseModel();
@@ -23,9 +24,7 @@ class VendingMachineController {
       charger: chargerModel,
       purchase: purchaseModel,
     };
-
     this.#currentModel = this.#models[this.currentMenu];
-
     this.#handlers = {
       manager: () => {
         const $form = $("#product-manager-form");
@@ -40,7 +39,6 @@ class VendingMachineController {
 
     this.#currentModel.initialize();
     this.#handlers[this.currentMenu]();
-    const $menu = $("#menu");
 
     $menu.addEventListener("click", this.menuHandler.bind(this));
   }
