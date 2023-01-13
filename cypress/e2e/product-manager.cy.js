@@ -50,7 +50,7 @@ describe("상품관리 테스트", () => {
         action: () => {
           return addProduct({ name: "코카콜라", price: "80", quantity: "1" });
         },
-        message: ERROR_MESSAGE.INVALID_PRODUCT_PRICE_AMOUNT,
+        message: ERROR_MESSAGE.INVALID_AMOUNT,
       });
     });
 
@@ -59,7 +59,7 @@ describe("상품관리 테스트", () => {
         action: () => {
           return addProduct({ name: "코카콜라", price: "101", quantity: "1" });
         },
-        message: ERROR_MESSAGE.INVALID_PRODUCT_PRICE_UNIT,
+        message: ERROR_MESSAGE.INVALID_UNIT,
       });
     });
 

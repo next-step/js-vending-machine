@@ -13,13 +13,13 @@ export const isEmpty = (value) => {
 
 export const isGreaterThanOrEqualToNumber = (value, number) => {
   if (number > value) {
-    throw new ValidationError(ERROR_MESSAGE.INVALID_PRODUCT_PRICE_AMOUNT);
+    throw new ValidationError(ERROR_MESSAGE.INVALID_AMOUNT);
   }
 };
 
 export const isValidPriceUnit = (value, unit) => {
   if (value % unit !== 0) {
-    throw new ValidationError(ERROR_MESSAGE.INVALID_PRODUCT_PRICE_UNIT);
+    throw new ValidationError(ERROR_MESSAGE.INVALID_UNIT);
   }
 };
 
