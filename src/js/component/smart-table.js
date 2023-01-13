@@ -30,6 +30,7 @@ class SmartTable extends HTMLElement {
 
     this._shadowRoot = this.attachShadow({ mode: 'open' });
     this._shadowRoot.appendChild(template.content.cloneNode(true));
+    this._shadowRoot.querySelector('h2').innerHTML = this.getAttribute('title');
   }
 
   static get observedAttributes() {
@@ -38,9 +39,10 @@ class SmartTable extends HTMLElement {
 
   attributeChangedCallback(attrName, /* oldValue */ _, newValue) {
     const attributeProcess = {
-      title: () => {
-        this.shadowRoot.querySelector('h2').innerText = newValue;
-      },
+      // 아래의 속성은 constructor에서 대응
+      // title: () => {
+      //   this.shadowRoot.querySelector('h2').innerText = newValue;
+      // },
       columns: () => {
         const columnNames = (newValue || '').trim().split(',');
         this.shadowRoot.querySelector('tr.columns').innerHTML = columnNames.map((name) => `<th>${name}</th>`).join('');

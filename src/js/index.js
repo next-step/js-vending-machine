@@ -19,7 +19,7 @@ import {
   setEnterEventListener,
 } from './ui/setListener.js';
 import { vendingMachine } from './service/VendingMachine.js';
-import { productStorage } from './ui/dataSaver.js';
+import { productStorage, unitCountsStorage } from './ui/dataSaver.js';
 
 Object.keys(SELECTOR_MAP.TAB_BUTTON).forEach((key) => {
   const tabButtonSelector = SELECTOR_MAP.TAB_BUTTON[key];
@@ -58,7 +58,7 @@ setClickEventListenerWithVendingMachine(querySelector(SELECTOR_MAP.BUTTON.CHARGE
   renderChargeAmount(vendingMachine);
   renderTotalChargeAmount(vendingMachine);
 
-  productStorage.saveItem(vendingMachine.unitCountMachine.unitCountInfo);
+  unitCountsStorage.saveItem(vendingMachine.unitCountMachine.unitCountInfo);
 });
 setChangeRemovingSpaceListener(querySelector(SELECTOR_MAP.INPUT.PRODUCT_NAME));
 
@@ -83,6 +83,6 @@ setClickEventListenerWithVendingMachine(querySelector(SELECTOR_MAP.BUTTON.RETURN
   const remainInfo = vendingMachine.returnChanges();
   renderSpendingAmount(vendingMachine);
   renderReturnedChanges(remainInfo);
-  productStorage.saveItem(vendingMachine.unitCountMachine.unitCountInfo);
+  unitCountsStorage.saveItem(vendingMachine.unitCountMachine.unitCountInfo);
 });
 window.addEventListener('load', () => renderProduct(vendingMachine));

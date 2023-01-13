@@ -9,8 +9,9 @@ import { removeSpace } from '../util/string.js';
  * @returns
  */
 export const setClickEventListenerWithVendingMachine = (element, callback) =>
-  element.addEventListener('click', () => {
+  element.addEventListener('click', (event) => {
     try {
+      event.preventDefault();
       callback(vendingMachine);
     } catch (error) {
       if (error instanceof ValidationError) {
