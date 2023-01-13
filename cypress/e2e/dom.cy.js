@@ -119,7 +119,7 @@ describe('자판기 요구사항을 점검한다', () => {
       SELECTOR_MAP.INPUT.PRODUCT_PRICE,
       SELECTOR_MAP.INPUT.PRODUCT_AMOUNT,
     ];
-    
+
     it('같은 상품명의 데이터를 추가하면 기존의 상품에 해당하는 데이터는 새로운 상품으로 대체된다', () => {
       const productName = '코카콜라제로250ml';
       const oldProduct = [productName, 1250, 10];
@@ -150,7 +150,6 @@ describe('자판기 요구사항을 점검한다', () => {
   });
 
   describe('잔돈 충전 요구사항을 점검한다', () => {
-
     beforeEach(() => {
       cy.get(SELECTOR_MAP.TAB_BUTTON.MANAGING_CHARGE).click();
     });
@@ -228,6 +227,7 @@ describe('자판기 요구사항을 점검한다', () => {
     };
 
     beforeEach(() => {
+      localStorage.clear();
       addItems();
       insertCoins(2260); // [4,2,1,1]
     });

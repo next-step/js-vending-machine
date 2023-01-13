@@ -61,8 +61,8 @@ export class VendingMachine {
    * @returns {Product|null}
    */
   #find({ id, name }) {
-    const find = (key, value) => this.#products.find((product) => product[key] === value);
-    return id ? find('id', id) : find('name', name);
+    const products = this.#products;
+    return isInteger(id) ? products.find((p) => p.id === id) : products.find(({ name: n }) => n === name);
   }
 
   /**
@@ -93,6 +93,7 @@ export class VendingMachine {
    */
   purchase(id) {
     const product = this.#find({ id });
+    console.log(product, id);
     if (!product || this.#insertedMoney < product.price) {
       throw new ValidationError(ERROR_MESSAGE.NOT_ENOUGH_SPENDING_MONEY);
     }
