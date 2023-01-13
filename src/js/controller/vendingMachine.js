@@ -68,7 +68,7 @@ class VendingMachineController {
 
         const { name, value } = currentInput;
 
-        validateManagerInputs[name](Number(value));
+        validateManagerInputs[name](value);
 
         newState[input.name] = input.value;
       });
