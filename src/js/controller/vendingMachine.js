@@ -61,9 +61,9 @@ class VendingMachineController {
     e.preventDefault();
     let currentInput;
     try {
-      const $inputs = $$(".product-input");
+      const $$inputs = $$(".product-input");
       const newState = {};
-      $inputs.forEach((input) => {
+      $$inputs.forEach((input) => {
         currentInput = input;
 
         const { name, value } = currentInput;
@@ -104,9 +104,9 @@ class VendingMachineController {
   }
 
   changeMenu($target) {
-    const buttons = $$("#menu button");
+    const $$buttons = $$("#menu button");
 
-    buttons.forEach((button) => {
+    $$buttons.forEach((button) => {
       button.classList.remove("active");
     });
 

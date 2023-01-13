@@ -11,11 +11,11 @@ class ProductManagerView extends View {
   }
 
   clearForm() {
-    const $inputs = $$(".product-input");
-    $inputs.forEach((input) => {
+    const $$inputs = $$(".product-input");
+    $$inputs.forEach((input) => {
       input.value = "";
     });
-    $inputs[0].focus();
+    $$inputs[0].focus();
   }
 
   renderInventoryContainer(newState) {
