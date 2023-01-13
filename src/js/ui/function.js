@@ -78,7 +78,7 @@ export const clearSpendingAmountInput = () => {
  * @param {VendingMachine} vendingMachine
  */
 export const renderProduct = (vendingMachine) => {
-  const { products } = vendingMachine;
+  const products = vendingMachine.products || [];
   querySelector(SELECTOR_MAP.TABLE.VENDING_MACHINE_PRODUCT).tableBodyElement.innerHTML = products
     .map(
       ({ name, price, amount }) => `<tr>

@@ -30,7 +30,7 @@ export class VendingMachine {
    * @param {?UnitCountInfo} unitCountInfo
    */
   constructor(products, unitCountInfo) {
-    this.#products = products;
+    this.#products = products || [];
     this.#unitCountMachine = new UnitCountMachine(unitCountInfo);
     this.#insertedMoney = 0;
   }
