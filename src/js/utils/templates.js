@@ -81,7 +81,7 @@ export const COIN_CHARGING_TEMPLATE = `<div id="coin-charging-container">
       </div>
       <button
         type="submit"
-        id="product-add-button"
+        id="coin-charge-button"
         class="ml-3 shrink-0 border px-3 py-1"
       >
         충전하기
@@ -105,37 +105,37 @@ export const COIN_CHARGING_TEMPLATE = `<div id="coin-charging-container">
           <th class="w-1/2 border-l py-2 font-normal">개수</th>
         </tr>
       </thead>
-      <tbody id="product-inventory-container">
-        <tr class="border-t">
+      <tbody id="coin-inventory-container">
+        <tr id="coin-500" class="border-t">
           <td class="py-1 text-center">
-            <span class="coin-standard">500</span>원
+            <span class="coin-unit">500</span>원
           </td>
           <td class="border-l py-2 text-center">
-            <span class="coin-amount">0</span>
+            <span class="coin-amount">0개</span>
           </td>
         </tr>
-        <tr class="border-t">
+        <tr id="coin-100" class="border-t">
           <td class="py-2 text-center">
-            <span class="coin-standard">100</span>원
+            <span class="coin-unit">100</span>원
           </td>
           <td class="border-l py-2 text-center">
-            <span class="coin-amount">0</span>
+            <span class="coin-amount">0개</span>
           </td>
         </tr>
-        <tr class="border-t">
+        <tr id="coin-50" class="border-t">
           <td class="py-2 text-center">
-            <span class="coin-standard">50</span>원
+            <span class="coin-unit">50</span>원
           </td>
           <td class="border-l py-2 text-center">
-            <span class="coin-amount">0</span>
+            <span class="coin-amount">0개</span>
           </td>
         </tr>
-        <tr class="border-t">
+        <tr id="coin-10" class="border-t">
           <td class="py-2 text-center">
-            <span class="coin-standard">10</span>원
+            <span class="coin-unit">10</span>원
           </td>
           <td class="border-l py-1 text-center">
-            <span class="coin-amount">0</span>
+            <span class="coin-amount">0개</span>
           </td>
         </tr>
       </tbody>

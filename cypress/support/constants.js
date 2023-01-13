@@ -1,4 +1,7 @@
 export const MINIMUM_PRODUCT_PRICE = 100;
+
+export const MINIMUM_CHARGE_PRICE = 100;
+
 export const PRODUCT_PRICE_UNIT = 10;
 
 export const ERROR_MESSAGE = {

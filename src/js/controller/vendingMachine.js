@@ -12,7 +12,7 @@ class VendingMachineController {
   #handlers;
 
   constructor() {
-    this.currentMenu = "charger";
+    this.currentMenu = "manager";
 
     const managerModel = new ProductManagerModel();
     const chargerModel = new ChangeChargerModel();
@@ -112,8 +112,6 @@ class VendingMachineController {
 
     this.currentMenu = $target.name;
     this.#currentModel = this.#models[$target.name];
-
-    console.log("current state", this.#currentModel.state);
 
     $target.classList.add("active");
   }

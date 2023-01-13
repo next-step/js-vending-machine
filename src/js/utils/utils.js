@@ -1,5 +1,7 @@
 import {
+  CHARGE_PRICE_UNIT,
   ERROR_MESSAGE,
+  MINIMUM_CHARGE_PRICE,
   MINIMUM_PRODUCT_PRICE,
   PRODUCT_PRICE_UNIT,
 } from "./constants.js";
@@ -34,5 +36,23 @@ export const validateManagerInputs = {
   quantity: () => {},
 };
 
+export const validateChargerInput = (value) => {
+  isGreaterThanOrEqualToNumber(Number(value), MINIMUM_CHARGE_PRICE);
+  isValidPriceUnit(Number(value), CHARGE_PRICE_UNIT);
+};
+
 export const isInitialState = (state, initialState) =>
   JSON.stringify(state) === JSON.stringify(initialState);
+
+export const calculateCoinCount = (coin) => {
+  const units = [500, 100, 50, 10];
+  const result = {};
+
+  units.forEach((unit) => {
+    const count = (coin - (coin % unit)) / unit;
+    coin -= unit * count;
+    result[unit] = count;
+  });
+
+  return result;
+};
