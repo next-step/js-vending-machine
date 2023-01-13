@@ -4,7 +4,12 @@ import ChangeChargerModel from "../model/changeCharger.js";
 import { $, $$ } from "../utils/selector.js";
 import { ValidationError } from "../utils/error.js";
 import { ERROR_MESSAGE } from "../utils/constants.js";
-import { validateChargerInput, validateManagerInputs } from "../utils/utils.js";
+import {
+  getLocalStorage,
+  setLocalStorage,
+  validateChargerInput,
+  validateManagerInputs,
+} from "../utils/utils.js";
 
 class VendingMachineController {
   #currentModel;
@@ -12,9 +17,10 @@ class VendingMachineController {
   #handlers;
 
   constructor() {
-    this.currentMenu = "manager";
+    this.currentMenu = getLocalStorage("menu") || "manager";
 
     const $menu = $("#menu");
+    const $menuItem = $(`#menu button[name=${this.currentMenu}]`);
     const managerModel = new ProductManagerModel();
     const chargerModel = new ChangeChargerModel();
     const purchaseModel = new ProductPurchaseModel();
@@ -40,6 +46,7 @@ class VendingMachineController {
     this.#currentModel.initialize();
     this.#handlers[this.currentMenu]();
 
+    $menuItem.classList.add("active");
     $menu.addEventListener("click", this.menuHandler.bind(this));
   }
 
@@ -112,6 +119,7 @@ class VendingMachineController {
     this.#currentModel = this.#models[$target.name];
 
     $target.classList.add("active");
+    setLocalStorage("menu", this.currentMenu);
   }
 
   changeView($target) {
