@@ -1,7 +1,7 @@
 import { COINS, STORAGE_ITEM } from '../constants/constant.js';
 import { getItem, setItem } from '../utils/storage.js';
 
-class VendingMachine {
+export class VendingMachine {
   #state = {
     product: new Map(),
     charge: {
@@ -46,5 +46,3 @@ class VendingMachine {
     return this.#state.charge;
   }
 }
-
-export const vendingMachine = new VendingMachine();

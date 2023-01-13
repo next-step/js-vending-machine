@@ -55,8 +55,6 @@ export const CHARGE = {
   AMOUNT: 'vending-machine-charge-amount',
 };
 
-export const COINT_QUANTITY = (coin) => SELECTOR[`COIN_${coin}_QUANTITY`];
-
 export const STORAGE_ITEM = {
   PRODUCT: 'PRODUCT',
   CHARGE: 'CHARGE',
