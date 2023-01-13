@@ -1,5 +1,10 @@
 import ChangeChargerView from "../view/changeCharger.js";
-import { calculateCoinCount, isInitialState } from "../utils/utils.js";
+import {
+  calculateCoinCount,
+  getLocalStorage,
+  isInitialState,
+  setLocalStorage,
+} from "../utils/utils.js";
 
 const CHANGE_CHARGER_INITIAL_STATE = {
   totalAmount: 0,
@@ -15,7 +20,9 @@ class ChangeChargerModel {
   #state;
 
   constructor() {
-    this.#state = { ...CHANGE_CHARGER_INITIAL_STATE };
+    const initialState =
+      getLocalStorage("charger") || CHANGE_CHARGER_INITIAL_STATE;
+    this.#state = { ...initialState };
     this.#view = new ChangeChargerView();
   }
 
@@ -31,6 +38,9 @@ class ChangeChargerModel {
     Object.keys(this.#state.coinCounts).forEach((key) => {
       this.#state.coinCounts[key] += coinCounts[key];
     });
+
+    setLocalStorage("charger", this.#state);
+
     this.#view.update(this.#state);
   }
 

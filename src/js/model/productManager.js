@@ -1,5 +1,9 @@
 import ProductManagerView from "../view/productManager.js";
-import { isInitialState } from "../utils/utils.js";
+import {
+  getLocalStorage,
+  isInitialState,
+  setLocalStorage,
+} from "../utils/utils.js";
 
 const PRODUCT_MANAGER_INITIAL_STATE = {
   products: [],
@@ -9,7 +13,9 @@ class ProductManagerModel {
   #view;
 
   constructor() {
-    this.#state = { ...PRODUCT_MANAGER_INITIAL_STATE };
+    const initialState =
+      getLocalStorage("manager") || PRODUCT_MANAGER_INITIAL_STATE;
+    this.#state = { ...initialState };
     this.#view = new ProductManagerView();
   }
 
@@ -23,6 +29,8 @@ class ProductManagerModel {
     );
 
     this.#state[state] = [...removedState, newState];
+    setLocalStorage("manager", this.#state);
+
     this.#view.update(this.#state[state]);
   }
 
