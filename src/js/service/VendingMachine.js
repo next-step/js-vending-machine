@@ -110,9 +110,7 @@ export class VendingMachine {
    * @param {number} amount
    */
   insertMoney(amount) {
-    if (!VendingMachine.#isInsertedMoneyValid(amount)) {
-      throw new ValidationError(ERROR_MESSAGE.VALIDATION.SPENDING_MONEY_INPUT);
-    }
+    VendingMachine.#isInsertedMoneyValid(amount);
     this.#insertedMoney += amount;
   }
 
@@ -122,8 +120,11 @@ export class VendingMachine {
     return { amount, unitInfo };
   }
 
-  static #isInsertedMoneyValid = (amount) =>
-    isInteger(amount) && isGreaterThan(amount, MIN_AMOUNT) && isMultipleOf(amount, MULTIPLE);
+  static #isInsertedMoneyValid = (amount) => {
+    if (!isInteger(amount) || !isGreaterThan(amount, MIN_AMOUNT) || !isMultipleOf(amount, MULTIPLE)) {
+      throw new ValidationError(ERROR_MESSAGE.VALIDATION.SPENDING_MONEY_INPUT);
+    }
+  };
 }
 
 const savedProducts = productStorage.loadItem();
