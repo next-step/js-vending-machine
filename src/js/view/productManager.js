@@ -19,7 +19,7 @@ class ProductManagerView extends View {
   }
 
   renderInventoryContainer(newState) {
-    const productTable = $("#product-inventory-container");
+    const $productTable = $("#product-inventory-container");
 
     const createProductInventoryItems = newState.reduce((acc, pre) => {
       acc += createProductInventoryItem(pre);
@@ -28,7 +28,7 @@ class ProductManagerView extends View {
 
     const { content } = createTemplateElement(createProductInventoryItems);
 
-    productTable.replaceChildren(content);
+    $productTable.replaceChildren(content);
   }
 
   update(newState) {
