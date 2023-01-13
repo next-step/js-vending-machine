@@ -28,8 +28,8 @@ export const validateManagerInputs = {
     isEmpty(value);
   },
   price: (value) => {
-    isGreaterThanOrEqualToNumber(value, MINIMUM_PRODUCT_PRICE);
-    isValidPriceUnit(value, PRODUCT_PRICE_UNIT);
+    isGreaterThanOrEqualToNumber(Number(value), MINIMUM_PRODUCT_PRICE);
+    isValidPriceUnit(Number(value), PRODUCT_PRICE_UNIT);
   },
   quantity: () => {},
 };
