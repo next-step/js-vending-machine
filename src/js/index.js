@@ -3,9 +3,13 @@ import {
   addProduct,
   clearChargeAmountInput,
   clearProductInputs,
+  clearSpendingAmountInput,
   insertCoins,
   renderChargeAmount,
   renderProduct,
+  renderPurchasableProduct,
+  renderReturnedChanges,
+  renderSpendingAmount,
   renderTotalChargeAmount,
   showTab,
 } from './ui/function.js';
@@ -14,29 +18,71 @@ import {
   setClickEventListenerWithVendingMachine,
   setEnterEventListener,
 } from './ui/setListener.js';
+import { vendingMachine } from './service/VendingMachine.js';
+import { productStorage, unitCountsStorage } from './ui/dataSaver.js';
 
 Object.keys(SELECTOR_MAP.TAB_BUTTON).forEach((key) => {
   const tabButtonSelector = SELECTOR_MAP.TAB_BUTTON[key];
   const tabSelector = SELECTOR_MAP.TABS[key];
-  querySelector(tabButtonSelector).addEventListener('click', () => showTab(tabSelector));
+
+  const callbackFunction = {
+    [SELECTOR_MAP.TABS.MANAGING_PRODUCT]: () => {
+      renderProduct(vendingMachine);
+    },
+    [SELECTOR_MAP.TABS.MANAGING_CHARGE]: () => {
+      renderChargeAmount(vendingMachine);
+    },
+    [SELECTOR_MAP.TABS.PURCHASING_PRODUCT]: () => {
+      renderPurchasableProduct(vendingMachine);
+    },
+  };
+  querySelector(tabButtonSelector).addEventListener('click', () => {
+    const callback = callbackFunction[tabSelector];
+    typeof callback === 'function' && callback();
+    showTab(tabSelector);
+  });
 });
 
-setClickEventListenerWithVendingMachine(SELECTOR_MAP.BUTTON.PRODUCT_ADD, (vendingMachine) => {
+setClickEventListenerWithVendingMachine(querySelector(SELECTOR_MAP.BUTTON.PRODUCT_ADD), (vendingMachine) => {
   addProduct(vendingMachine);
   clearProductInputs();
   renderProduct(vendingMachine);
   querySelector(SELECTOR_MAP.INPUT.PRODUCT_NAME).focus();
+
+  productStorage.saveItem(vendingMachine.products);
 });
 
-setClickEventListenerWithVendingMachine(SELECTOR_MAP.BUTTON.CHARGE_AMOUNT, (vendingMachine) => {
+setClickEventListenerWithVendingMachine(querySelector(SELECTOR_MAP.BUTTON.CHARGE_AMOUNT), (vendingMachine) => {
   insertCoins(vendingMachine);
   clearChargeAmountInput();
   renderChargeAmount(vendingMachine);
   renderTotalChargeAmount(vendingMachine);
-});
-setChangeRemovingSpaceListener(SELECTOR_MAP.INPUT.PRODUCT_NAME);
 
-setEnterEventListener(SELECTOR_MAP.INPUT.PRODUCT_NAME, () => querySelector(SELECTOR_MAP.INPUT.PRODUCT_PRICE).focus());
-setEnterEventListener(SELECTOR_MAP.INPUT.PRODUCT_PRICE, () => querySelector(SELECTOR_MAP.INPUT.PRODUCT_AMOUNT).focus());
-setEnterEventListener(SELECTOR_MAP.INPUT.PRODUCT_AMOUNT, () => querySelector(SELECTOR_MAP.BUTTON.PRODUCT_ADD).click());
-setEnterEventListener(SELECTOR_MAP.INPUT.CHARGE_AMOUNT, () => querySelector(SELECTOR_MAP.BUTTON.CHARGE_AMOUNT).click());
+  unitCountsStorage.saveItem(vendingMachine.unitCountMachine.unitCountInfo);
+});
+setChangeRemovingSpaceListener(querySelector(SELECTOR_MAP.INPUT.PRODUCT_NAME));
+
+setClickEventListenerWithVendingMachine(querySelector(SELECTOR_MAP.BUTTON.INSERTION_FOR_MONEY), (vendingMachine) => {
+  const amount = querySelector(SELECTOR_MAP.INPUT.SPENDING_MONEY_INPUT).value;
+  vendingMachine.insertMoney(Number(amount));
+  clearSpendingAmountInput();
+  renderSpendingAmount(vendingMachine);
+});
+
+[
+  ([SELECTOR_MAP.INPUT.PRODUCT_NAME, SELECTOR_MAP.INPUT.PRODUCT_PRICE],
+  [SELECTOR_MAP.INPUT.PRODUCT_PRICE, SELECTOR_MAP.INPUT.PRODUCT_AMOUNT],
+  [SELECTOR_MAP.INPUT.PRODUCT_AMOUNT, SELECTOR_MAP.BUTTON.PRODUCT_ADD],
+  [SELECTOR_MAP.INPUT.CHARGE_AMOUNT, SELECTOR_MAP.BUTTON.CHARGE_AMOUNT],
+  [SELECTOR_MAP.INPUT.SPENDING_MONEY_INPUT, SELECTOR_MAP.BUTTON.INSERTION_FOR_MONEY]),
+].forEach(([input, nextInputSelector]) => {
+  setEnterEventListener(querySelector(input), () => querySelector(nextInputSelector).focus());
+});
+
+setClickEventListenerWithVendingMachine(querySelector(SELECTOR_MAP.BUTTON.RETURN_CHANGES_BUTTON), (vendingMachine) => {
+  const remainInfo = vendingMachine.returnChanges();
+  renderSpendingAmount(vendingMachine);
+  renderReturnedChanges(remainInfo);
+  unitCountsStorage.saveItem(vendingMachine.unitCountMachine.unitCountInfo);
+});
+window.addEventListener('load', () => renderProduct(vendingMachine));

@@ -13,7 +13,7 @@
       <h1>🥤자판기🥤</h1>
       <button type="button" id="product-manage-menu">상품 관리</button>
       <button type="button" id="vending-machine-manage-menu">잔돈충전</button>
-      <button type="button" id="product-purchase-menu" disabled>상품 구매</button>
+      <button type="button" id="product-purchasing-menu">상품 구매</button>
     </header>
     <div id="app">
       <section id="section-managing-product" class="section-tab">
@@ -23,21 +23,11 @@
             <input type="text" id="product-name-input" class="input-inline" placeholder="상품명" />
             <input type="number" id="product-price-input" class="input-inline" placeholder="가격" />
             <input type="number" id="product-amount-input" class="input-inline" placeholder="수량" />
-            <button type="button" id="product-add-button">추가하기</button>
+            <button id="product-add-button">추가하기</button>
           </fieldset>
         </form>
         <article>
-          <h2>상품 현황</h2>
-          <table>
-            <thead>
-              <tr>
-                <th class="column-wide">상품명</th>
-                <th>가격</th>
-                <th>수량</th>
-              </tr>
-            </thead>
-            <tbody id="vending-machine-products"></tbody>
-          </table>
+          <smart-table title="상품 현황" id="vending-machine-products" columns="상품명,가격,수량"></smart-table>
         </article>
       </section>
       <section id="section-managing-charge" class="section-tab hidden">
@@ -45,41 +35,40 @@
           <fieldset>
             <h2>자판기 동전 충전하기</h2>
             <input type="number" id="charge-amount-input" class="input-inline" placeholder="자판기가 보유할 금액" />
-            <button type="button" id="vending-machine-charge-button">충전하기</button>
+            <button id="vending-machine-charge-button">충전하기</button>
             <p>보유 금액: <span id="text-charge-amount"></span></p>
           </fieldset>
         </form>
         <article>
-          <h2>자판기가 보유한 동전</h2>
-          <table>
-            <thead>
-              <tr>
-                <th>동전</th>
-                <th>개수</th>
-              </tr>
-            </thead>
-            <tbody id="vending-machine-charge-amount">
-              <tr>
-                <td>500원</td>
-                <td></td>
-              </tr>
-              <tr>
-                <td>100원</td>
-                <td></td>
-              </tr>
-              <tr>
-                <td>50원</td>
-                <td></td>
-              </tr>
-              <tr>
-                <td>10원</td>
-                <td></td>
-              </tr>
-            </tbody>
-          </table>
+          <smart-table
+            title="자판기가 보유한 동전"
+            columns="동전,개수"
+            id="vending-machine-charge-amount"
+          ></smart-table>
+        </article>
+      </section>
+      <section id="section-purchasing-product" class="section-tab hidden">
+        <form>
+          <fieldset>
+            <h2>금액 투입</h2>
+            <input type="number" id="spending-money-input" class="input-inline" placeholder="투입할 금액" />
+            <button id="insertion-for-spending-money-button">투입하기</button>
+            <p>투입한 금액: <span id="text-spending-money"></span></p>
+          </fieldset>
+        </form>
+        <article>
+          <smart-table
+            title="구매할 수 있는 상품 현황"
+            id="vending-machine-purchasable-products"
+            columns="상품명,가격,수량,구매"
+          ></smart-table>
+          <smart-table title="잔돈" id="vending-machine-return-changes" columns="동전,개수">
+            <button id="return-changes-button">반환하기</button>
+          </smart-table>
         </article>
       </section>
     </div>
     <script type="module" src="./src/js/index.js"></script>
+    <script type="module" src="./src/js/component/smart-table.js"></script>
   </body>
 </html>

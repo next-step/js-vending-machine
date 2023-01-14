@@ -1,67 +1,132 @@
-import { ALERT_MESSAGE } from './constant.js';
-import { removeSpace } from '../util/string.js';
-import { isAmountValid, isNameValid, isPriceValid } from './validator.js';
-import ValidationError from './ValidationError.js';
+import Product from './Product.js';
 import UnitCountMachine from './UnitCountMachine.js';
+import ValidationError from './ValidationError.js';
+import { isGreaterThan, isInteger, isMultipleOf } from './validator.js';
+import { ERROR_MESSAGE, VENDING_MACHINE_CONSTANT } from './constant.js';
+import { productStorage, unitCountsStorage } from '../ui/dataSaver.js';
+import { cloneDeep, deepFreeze } from '../util/object.js';
+
+/**
+ * @typedef {import('../service/Product').Product} Product
+ * @typedef {import('./UnitCountMachine.js').UnitCountInfo} UnitCountInfo
+ */
+
+//prettier-ignore
+const {
+  MIN_AMOUNT,
+  MULTIPLE,
+} = VENDING_MACHINE_CONSTANT.PURCHASABLE_MONEY;
 
 export class VendingMachine {
+  /**@type {Product[]} */
   #products;
   /**@type {UnitCountMachine} */
   #unitCountMachine;
+  /**@type {number} */
+  #insertedMoney;
 
-  constructor() {
-    this.reset();
-  }
-
-  reset() {
-    this.#products = [];
-    this.#unitCountMachine = new UnitCountMachine();
+  /**
+   * @param {?Product[]} products
+   * @param {?UnitCountInfo} unitCountInfo
+   */
+  constructor(products, unitCountInfo) {
+    this.#products = products || [];
+    this.#unitCountMachine = new UnitCountMachine(unitCountInfo);
+    this.#insertedMoney = 0;
   }
 
   /**
    *
-   * @returns {VendingMachineItem[]}
+   * @returns {Product[]}
    */
   get products() {
-    return this.#products;
+    return deepFreeze(cloneDeep(this.#products));
   }
 
+  /**
+   *
+   * @param {Product} product
+   */
+  add({ name, price, amount }) {
+    const addedProduct = this.#find({ name });
+    const product = new Product({ id: addedProduct?.id, name, price, amount });
+    this.#products = [...this.#products.filter((product) => product.name !== name), product].sort(
+      (a, b) => a.id - b.id
+    );
+  }
+
+  /**
+   *
+   * @param {number} id
+   * @returns {Product|null}
+   */
+  #find({ id, name }) {
+    const products = this.#products;
+    return isInteger(id) ? products.find((p) => p.id === id) : products.find(({ name: n }) => n === name);
+  }
+
+  /**
+   * @param {number} id
+   * @returns {Product|null}
+   */
+  withdraw(id) {
+    const product = this.#find({ id });
+    if (!product || product.amount === 0) return null;
+    product.amount -= 1;
+    return { ...product };
+  }
+
+  /**
+   * @returns {UnitCountMachine}
+   */
   get unitCountMachine() {
     return this.#unitCountMachine;
   }
 
-  /**
-   *
-   * @param {VendingMachineItem} vendingMachineItem
-   */
-  addItem({ name, price, amount }) {
-    this.#validateProduct({ name, price, amount });
-    this.#products = [
-      ...this.#products.filter((item) => item.name !== name),
-      {
-        index: this.#products,
-        name: removeSpace(name),
-        price,
-        amount,
-      },
-    ].sort((a, b) => a.index - b.index);
+  get insertedMoney() {
+    return this.#insertedMoney;
   }
 
   /**
-   *
-   * @param {VendingMachineItem} vendingMachineItem
+   * @param {number} id
+   * @returns {Product}
    */
-  #validateProduct({ name, price, amount }) {
-    if (!isNameValid(name)) {
-      throw new ValidationError(ALERT_MESSAGE.VALIDATION.PRODUCT.NAME_BLANK);
+  purchase(id) {
+    const product = this.#find({ id });
+    console.log(product, id);
+    if (!product || this.#insertedMoney < product.price) {
+      throw new ValidationError(ERROR_MESSAGE.NOT_ENOUGH_SPENDING_MONEY);
     }
-    if (!isPriceValid(price)) {
-      throw new ValidationError(ALERT_MESSAGE.VALIDATION.PRODUCT.PRICE);
+    if (product.amount === 0) {
+      throw new ValidationError(ERROR_MESSAGE.SOLD_OUT);
     }
-    if (!isAmountValid(amount)) {
-      throw new ValidationError(ALERT_MESSAGE.VALIDATION.PRODUCT.AMOUNT);
-    }
+
+    this.#insertedMoney -= product.price;
+    this.withdraw(id);
+    return product;
   }
+
+  /**
+   * @param {number} amount
+   */
+  insertMoney(amount) {
+    VendingMachine.#isInsertedMoneyValid(amount);
+    this.#insertedMoney += amount;
+  }
+
+  returnChanges() {
+    const { amount, unitInfo } = this.#unitCountMachine.withdraw(this.#insertedMoney);
+    this.#insertedMoney -= amount;
+    return { amount, unitInfo };
+  }
+
+  static #isInsertedMoneyValid = (amount) => {
+    if (!isInteger(amount) || !isGreaterThan(amount, MIN_AMOUNT) || !isMultipleOf(amount, MULTIPLE)) {
+      throw new ValidationError(ERROR_MESSAGE.VALIDATION.SPENDING_MONEY_INPUT);
+    }
+  };
 }
 
-export const vendingMachine = new VendingMachine();
+const savedProducts = productStorage.loadItem();
+const savedUnitCounts = unitCountsStorage.loadItem();
+export const vendingMachine = new VendingMachine(savedProducts, savedUnitCounts);
