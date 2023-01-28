@@ -12,10 +12,9 @@ export const DEFAULT_CHARGE_COINS = {
 };
 
 export const VENDING_MACHINE_INITIAL_STATE = {
-  hashId: 'product-manage-menu',
-  typedProduct: DEFAULT_TYPED_PRODUCT,
   products: [],
-  typedCoin: 0,
   chargedTotal: 0,
   coinMap: DEFAULT_CHARGE_COINS,
 };
+
+export const WEB_COMP_MACHINE_INITIAL_STATE = {};

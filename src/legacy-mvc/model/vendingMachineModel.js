@@ -1,6 +1,6 @@
 import { DEFAULT_TYPED_PRODUCT, VENDING_MACHINE_INITIAL_STATE } from '../../constants/initialState.js';
 import { STORAGE } from '../../constants/storage.js';
-import storage from '../utils/storage.js';
+import storage from '../../utils/storage.js';
 
 class vendingMachineModel {
   state = storage.getStorage({ id: STORAGE.KEY }) || VENDING_MACHINE_INITIAL_STATE;

@@ -1,14 +1,14 @@
-import { $ELEMENT } from '../../constants/element.js'
-import { VENDING_MACHINE_INITIAL_STATE } from '../../constants/initialState.js'
-
+import { $ELEMENT } from '../../constants/element.js';
+import { VENDING_MACHINE_INITIAL_STATE } from '../../constants/initialState.js';
+import { ROUTE_ID } from '../../constants/route.js';
 export default class MenuView {
   $menus = document.querySelectorAll($ELEMENT.MENU);
   $appendingContainer = document.querySelector($ELEMENT.APPENDING_CONTAINER);
   $chargingContainer = document.querySelector($ELEMENT.CHARGING_CONTAINER);
 
   MENU_CONTAINER_MAP = new Map([
-    ['product-manage-menu', this.$appendingContainer],
-    ['vending-machine-manage-menu', this.$chargingContainer],
+    [ROUTE_ID.PRODUCT_MANGNE_MENU, this.$appendingContainer],
+    [ROUTE_ID.VENDING_MACHINE_MANANGE_MENU, this.$chargingContainer],
   ]);
 
   constructor() {

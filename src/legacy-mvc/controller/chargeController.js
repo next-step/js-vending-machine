@@ -1,5 +1,6 @@
 import { ALERT } from '../../constants/alert.js';
-import { makeRadonValueWithMax } from '../utils/random.js';
+import { makeRadonValueWithMax } from '../../utils/random.js';
+
 export default class ChargeController {
   constructor({ model, view }) {
     this.model = model;
