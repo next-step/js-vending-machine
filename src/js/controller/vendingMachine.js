@@ -82,7 +82,7 @@ class VendingMachineController {
     if (isMenuButton === false) return;
 
     try {
-      this.validateMenu(target);
+      this.validateMenu(target.name);
       this.changeMenu(target);
       this.changeView(target);
     } catch (err) {
@@ -90,10 +90,10 @@ class VendingMachineController {
     }
   }
 
-  validateMenu($target) {
-    const isMenu = Object.keys(this.#models).includes($target.name);
+  validateMenu(menuName) {
+    const hasMenu = Object.keys(this.#models).includes(menuName);
 
-    if (isMenu === false) {
+    if (hasMenu === false) {
       alert(ERROR_MESSAGE.INVALID_MENU);
       throw new ValidationError(ERROR_MESSAGE.INVALID_MENU);
     }
