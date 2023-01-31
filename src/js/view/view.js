@@ -4,7 +4,6 @@ import {
 } from "../utils/templates.js";
 
 class View {
-  #pages;
   constructor(name) {
     this.name = name;
     this.$app = document.querySelector("#app");
