@@ -13,7 +13,7 @@ import {
 class VendingMachineController {
   #currentModel;
   #models;
-  #handlers;
+  #submitFormHandlers;
 
   constructor() {
     this.currentMenu = getLocalStorage("menu") || "manager";
@@ -28,7 +28,8 @@ class VendingMachineController {
       purchase: purchaseModel,
     };
     this.#currentModel = this.#models[this.currentMenu];
-    this.#handlers = {
+
+    this.#submitFormHandlers = {
       manager: () => {
         const $form = $("#product-manager-form");
         $form.addEventListener("submit", this.submitManagerForm.bind(this));
@@ -108,11 +109,11 @@ class VendingMachineController {
 
   changeView($target) {
     this.#models[$target.name].initialize();
-    this.#handlers[$target.name]();
+    this.#submitFormHandlers[$target.name]();
   }
 
   bindEventHandlers() {
-    this.#handlers[this.currentMenu]();
+    this.#submitFormHandlers[this.currentMenu]();
     $("#menu").addEventListener("click", this.menuHandler.bind(this));
   }
 
