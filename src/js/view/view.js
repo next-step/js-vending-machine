@@ -2,17 +2,34 @@ import {
   createTemplateElement,
   CONTAINER_TEMPLATES,
 } from "../utils/templates.js";
+import { $, $$ } from "../utils/selector.js";
 
 class View {
   constructor(name) {
     this.name = name;
-    this.$app = document.querySelector("#app");
     this.template = CONTAINER_TEMPLATES[name];
+    this.$app = document.querySelector("#app");
+    this.$menuItem = $(`#menu button[name=${this.name}]`);
+    this.$$buttons = $$("#menu button");
+  }
+
+  renderMenu() {
+    this.$$buttons.forEach((button) => {
+      button.classList.remove("active");
+    });
+
+    this.$menuItem.classList.add("active");
+  }
+
+  renderContent() {
+    const { content } = createTemplateElement(this.template);
+
+    this.$app.replaceChildren(content);
   }
 
   render() {
-    const { content } = createTemplateElement(this.template);
-    this.$app.replaceChildren(content);
+    this.renderContent();
+    this.renderMenu();
   }
 }
 

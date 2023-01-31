@@ -18,8 +18,6 @@ class VendingMachineController {
   constructor() {
     this.currentMenu = getLocalStorage("menu") || "manager";
 
-    const $menu = $("#menu");
-    const $menuItem = $(`#menu button[name=${this.currentMenu}]`);
     const managerModel = new ProductManagerModel();
     const chargerModel = new ChangeChargerModel();
     const purchaseModel = new ProductPurchaseModel();
@@ -41,12 +39,6 @@ class VendingMachineController {
       },
       purchase: () => {},
     };
-
-    this.#currentModel.initialize();
-    this.#handlers[this.currentMenu]();
-
-    $menuItem.classList.add("active");
-    $menu.addEventListener("click", this.menuHandler.bind(this));
   }
 
   submitChargerForm(e) {
@@ -117,6 +109,16 @@ class VendingMachineController {
   changeView($target) {
     this.#models[$target.name].initialize();
     this.#handlers[$target.name]();
+  }
+
+  bindEventHandlers() {
+    this.#handlers[this.currentMenu]();
+    $("#menu").addEventListener("click", this.menuHandler.bind(this));
+  }
+
+  initialize() {
+    this.#currentModel.initialize();
+    this.bindEventHandlers();
   }
 }
 
