@@ -7,38 +7,46 @@ import {
 } from "./constants.js";
 import { ValidationError } from "./error.js";
 
-export const isEmpty = (value) => {
+export const isEmpty = (value, from) => {
   if (value.trim() === "") {
-    throw new ValidationError(ERROR_MESSAGE.EMPTY_VALUE);
+    throw new ValidationError(ERROR_MESSAGE.EMPTY_VALUE, from);
   }
 };
 
-export const isGreaterThanOrEqualToNumber = (value, number) => {
+export const isGreaterThanOrEqualToNumber = ({ value, number, from }) => {
   if (number > value) {
-    throw new ValidationError(ERROR_MESSAGE.INVALID_AMOUNT);
+    throw new ValidationError(ERROR_MESSAGE.INVALID_AMOUNT, from);
   }
 };
 
-export const isValidPriceUnit = (value, unit) => {
+export const isValidUnit = ({ value, unit, from }) => {
   if (value % unit !== 0) {
-    throw new ValidationError(ERROR_MESSAGE.INVALID_UNIT);
+    throw new ValidationError(ERROR_MESSAGE.INVALID_UNIT, from);
   }
+};
+
+export const validateUnit = ({ type, value, from }) => {
+  const number =
+    type === "price" ? MINIMUM_PRODUCT_PRICE : MINIMUM_CHARGE_PRICE;
+  const unit = type === "price" ? PRODUCT_PRICE_UNIT : CHARGE_PRICE_UNIT;
+
+  isGreaterThanOrEqualToNumber({
+    value,
+    number,
+    from,
+  });
+
+  isValidUnit({ value, unit, from });
 };
 
 export const validateManagerInputs = {
-  name: (value) => {
-    isEmpty(value);
+  name: (value, from) => {
+    isEmpty(value, from);
   },
-  price: (value) => {
-    isGreaterThanOrEqualToNumber(Number(value), MINIMUM_PRODUCT_PRICE);
-    isValidPriceUnit(Number(value), PRODUCT_PRICE_UNIT);
+  price: (value, from) => {
+    validateUnit({ type: "price", value: Number(value), from });
   },
   quantity: () => {},
-};
-
-export const validateChargerInput = (value) => {
-  isGreaterThanOrEqualToNumber(Number(value), MINIMUM_CHARGE_PRICE);
-  isValidPriceUnit(Number(value), CHARGE_PRICE_UNIT);
 };
 
 export const isInitialState = (state, initialState) =>

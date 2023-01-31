@@ -44,21 +44,25 @@ class VendingMachineController {
 
   submitChargerForm(e) {
     e.preventDefault();
-    this.#currentModel.setState("totalAmount", e);
+    try {
+      this.#currentModel.setState("totalAmount", e);
+    } catch (err) {
+      if (err.message === ERROR_MESSAGE.INVALID_STATE) return;
+
+      alert(err.message);
+      e.target[err.from].focus();
+    }
   }
 
   submitManagerForm(e) {
     e.preventDefault();
-    let currentInput;
     try {
       const $$inputs = $$(".product-input");
       const newState = {};
       $$inputs.forEach((input) => {
-        currentInput = input;
+        const { name, value } = input;
 
-        const { name, value } = currentInput;
-
-        validateManagerInputs[name](value);
+        validateManagerInputs[name](value, name);
 
         newState[input.name] = input.value;
       });
@@ -66,7 +70,7 @@ class VendingMachineController {
       this.#currentModel.setState("products", newState);
     } catch (err) {
       alert(err.message);
-      currentInput.focus();
+      e.target[err.from].focus();
     }
   }
 
