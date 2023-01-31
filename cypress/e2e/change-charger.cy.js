@@ -41,7 +41,7 @@ describe("잔돈 충전 테스트", () => {
       });
     });
 
-    it("잔돈은 10원 단위로 충전이 가능하다", () => {
+    it("잔돈은 10원 단위로 충전이 가능하며 잘못된 값을 충전시 alert가 뜬다", () => {
       cy.alert({
         action: () => {
           cy.get(CHARGER_INPUT_SELECTOR).type("101");
