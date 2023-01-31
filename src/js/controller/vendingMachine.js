@@ -58,14 +58,16 @@ class VendingMachineController {
     e.preventDefault();
     try {
       const $$inputs = $$(".product-input");
-      const newState = {};
-      $$inputs.forEach((input) => {
+      const newState = Array.from($$inputs).reduce((accState, input) => {
         const { name, value } = input;
 
         validateManagerInputs[name](value, name);
 
-        newState[input.name] = input.value;
-      });
+        return {
+          ...accState,
+          [name]: value,
+        };
+      }, {});
 
       this.#currentModel.setState("products", newState);
     } catch (err) {
