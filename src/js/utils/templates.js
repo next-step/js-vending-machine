@@ -74,7 +74,7 @@ export const COIN_CHARGING_TEMPLATE = `<div id="coin-charging-container">
         <input
           type="number"
           class="charger-input"
-          name="product-quantity"
+          name="charger-input"
           placeholder="자판기가 보유할 금액"
           min="0"
         />

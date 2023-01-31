@@ -4,7 +4,10 @@ import {
   getLocalStorage,
   isInitialState,
   setLocalStorage,
+  validateChargerInput,
 } from "../utils/utils.js";
+import { ERROR_MESSAGE } from "../utils/constants.js";
+import { ValidationError } from "../utils/error.js";
 
 const CHANGE_CHARGER_INITIAL_STATE = {
   totalAmount: 0,
@@ -30,18 +33,44 @@ class ChangeChargerModel {
     return this.#state;
   }
 
-  setState(state, newState) {
-    this.#state[state] += newState;
-
-    const coinCounts = calculateCoinCount(newState);
+  setCoinCounts(inputAmount) {
+    const coinCounts = calculateCoinCount(inputAmount);
 
     Object.keys(this.#state.coinCounts).forEach((key) => {
       this.#state.coinCounts[key] += coinCounts[key];
     });
+  }
 
-    setLocalStorage("charger", this.#state);
+  setTotalAmount(inputAmount) {
+    this.#state.totalAmount += inputAmount;
+  }
 
-    this.#view.update(this.#state);
+  updateTotalAmount(chargerInput) {
+    const inputAmount = Number(chargerInput.value);
+    try {
+      validateChargerInput(inputAmount);
+
+      this.setTotalAmount(inputAmount);
+      this.setCoinCounts(inputAmount);
+      this.#view.update(this.#state);
+
+      setLocalStorage("charger", this.#state);
+    } catch (err) {
+      if (err.message === ERROR_MESSAGE.INVALID_STATE) return;
+
+      alert(err.message);
+      chargerInput.focus();
+    }
+  }
+
+  setState(state, e) {
+    switch (state) {
+      case "totalAmount":
+        this.updateTotalAmount(e.target["charger-input"]);
+        break;
+      default:
+        throw new ValidationError(ERROR_MESSAGE.INVALID_STATE);
+    }
   }
 
   initialize() {

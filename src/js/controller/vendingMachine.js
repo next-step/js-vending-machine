@@ -7,7 +7,6 @@ import { ERROR_MESSAGE } from "../utils/constants.js";
 import {
   getLocalStorage,
   setLocalStorage,
-  validateChargerInput,
   validateManagerInputs,
 } from "../utils/utils.js";
 
@@ -52,14 +51,7 @@ class VendingMachineController {
 
   submitChargerForm(e) {
     e.preventDefault();
-    const chargingInput = $(".charger-input");
-    try {
-      validateChargerInput(chargingInput.value);
-      this.#currentModel.setState("totalAmount", Number(chargingInput.value));
-    } catch (err) {
-      alert(err.message);
-      chargingInput.focus();
-    }
+    this.#currentModel.setState("totalAmount", e);
   }
 
   submitManagerForm(e) {
