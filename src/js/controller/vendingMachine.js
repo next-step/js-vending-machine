@@ -84,7 +84,7 @@ class VendingMachineController {
     try {
       this.validateMenu(target.name);
       this.changeMenu(target);
-      this.changeView(target);
+      this.initializeBasedOnChangedMenu(target.name);
     } catch (err) {
       console.error(err);
     }
@@ -113,9 +113,9 @@ class VendingMachineController {
     setLocalStorage("menu", this.currentMenu);
   }
 
-  changeView($target) {
-    this.#models[$target.name].initialize();
-    this.#submitFormHandlers[$target.name]();
+  initializeBasedOnChangedMenu(menuName) {
+    this.#models[menuName].initialize(); // 컨텐츠 변경
+    this.#submitFormHandlers[menuName](); // 핸들러 초기화
   }
 
   bindEventHandlers() {
