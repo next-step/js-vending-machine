@@ -1,5 +1,6 @@
 import View from "./view.js";
 import { $, $$ } from "../utils/selector.js";
+import { clearForm } from "../utils/utils.js";
 
 class ChangeChargerView extends View {
   constructor() {
@@ -22,16 +23,10 @@ class ChangeChargerView extends View {
     });
   }
 
-  clearForm() {
-    const $chargerInput = $("#coin-charging-form .charger-input");
-    $chargerInput.value = "";
-    $chargerInput.focus();
-  }
-
   update(newState) {
     this.renderHoldingAmount(newState.totalAmount);
     this.renderInventory(newState.coinCounts);
-    this.clearForm();
+    clearForm("#coin-charging-form");
   }
 }
 export default ChangeChargerView;

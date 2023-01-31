@@ -3,19 +3,12 @@ import {
   createProductInventoryItem,
   createTemplateElement,
 } from "../utils/templates.js";
-import { $, $$ } from "../utils/selector.js";
+import { $ } from "../utils/selector.js";
+import { clearForm } from "../utils/utils.js";
 
 class ProductManagerView extends View {
   constructor() {
     super("manager");
-  }
-
-  clearForm() {
-    const $$inputs = $$(".product-input");
-    $$inputs.forEach((input) => {
-      input.value = "";
-    });
-    $$inputs[0].focus();
   }
 
   renderInventoryContainer(newState) {
@@ -33,7 +26,7 @@ class ProductManagerView extends View {
 
   update(newState) {
     this.renderInventoryContainer(newState);
-    this.clearForm();
+    clearForm("#product-manager-form");
   }
 }
 

@@ -6,6 +6,7 @@ import {
   PRODUCT_PRICE_UNIT,
 } from "./constants.js";
 import { ValidationError } from "./error.js";
+import { $ } from "./selector.js";
 
 export const isEmpty = (value, from) => {
   if (value.trim() === "") {
@@ -70,3 +71,8 @@ export const setLocalStorage = (key, data) => {
 };
 
 export const getLocalStorage = (key) => JSON.parse(localStorage.getItem(key));
+
+export const clearForm = (form) => {
+  $(form).reset();
+  $(form)[0].focus();
+};
