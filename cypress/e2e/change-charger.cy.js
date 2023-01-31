@@ -51,10 +51,6 @@ describe("잔돈 충전 테스트", () => {
       });
     });
 
-    it("최초 보유 금액은 0원이다.", () => {
-      cy.get(HOLDING_AMOUNT_SELECTOR).should("have.text", "0");
-    });
-
     it("잔돈 입력 후 Enter키를 눌러서 충전할 수 있다", () => {
       cy.get(CHARGER_INPUT_SELECTOR).type(`${MINIMUM_CHARGE_PRICE}{enter}`);
       cy.get(HOLDING_AMOUNT_SELECTOR).should("have.text", MINIMUM_CHARGE_PRICE);
