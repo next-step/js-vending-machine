@@ -28,5 +28,11 @@ class ChangeChargerView extends View {
     this.renderInventory(newState.coinCounts);
     clearForm("#coin-charging-form");
   }
+
+  render(currentState) {
+    super.render();
+    this.renderHoldingAmount(currentState.totalAmount);
+    this.renderInventory(currentState.coinCounts);
+  }
 }
 export default ChangeChargerView;

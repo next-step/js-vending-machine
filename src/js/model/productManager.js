@@ -1,9 +1,7 @@
 import ProductManagerView from "../view/productManager.js";
-import {
-  getLocalStorage,
-  isInitialState,
-  setLocalStorage,
-} from "../utils/utils.js";
+import { getLocalStorage, setLocalStorage } from "../utils/utils.js";
+import { ValidationError } from "../utils/error.js";
+import { ERROR_MESSAGE } from "../utils/constants.js";
 
 const PRODUCT_MANAGER_INITIAL_STATE = {
   products: [],
@@ -23,23 +21,33 @@ class ProductManagerModel {
     return this.#state;
   }
 
-  setState(state, newState) {
-    const removedState = this.#state[state].filter(
-      (item) => item.name !== newState.name
-    );
+  setProducts(products) {
+    this.#state.products = products;
+  }
 
-    this.#state[state] = [...removedState, newState];
+  updateProducts(currentProducts, inputState) {
+    const newState = currentProducts
+      .filter((item) => item.name !== inputState.name)
+      .concat(inputState);
+
+    this.setProducts(newState);
+    this.#view.update(this.#state);
+
     setLocalStorage("manager", this.#state);
+  }
 
-    this.#view.update(this.#state[state]);
+  setState(state, inputState) {
+    switch (state) {
+      case "products":
+        this.updateProducts(this.#state.products, inputState);
+        break;
+      default:
+        throw new ValidationError(ERROR_MESSAGE.INVALID_STATE);
+    }
   }
 
   initialize() {
-    this.#view.render();
-
-    if (isInitialState(this.#state, PRODUCT_MANAGER_INITIAL_STATE) === false) {
-      this.#view.update(this.#state.products);
-    }
+    this.#view.render(this.#state);
   }
 }
 

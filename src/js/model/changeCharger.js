@@ -2,7 +2,6 @@ import ChangeChargerView from "../view/changeCharger.js";
 import {
   calculateCoinCount,
   getLocalStorage,
-  isInitialState,
   setLocalStorage,
   validateUnit,
 } from "../utils/utils.js";
@@ -73,11 +72,7 @@ class ChangeChargerModel {
   }
 
   initialize() {
-    this.#view.render();
-
-    if (isInitialState(this.#state, CHANGE_CHARGER_INITIAL_STATE) === false) {
-      this.#view.update(this.#state);
-    }
+    this.#view.render(this.#state);
   }
 }
 

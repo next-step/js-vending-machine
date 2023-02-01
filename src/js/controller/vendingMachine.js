@@ -58,7 +58,7 @@ class VendingMachineController {
     e.preventDefault();
     try {
       const $$inputs = $$(".product-input");
-      const newState = Array.from($$inputs).reduce((accState, input) => {
+      const inputState = Array.from($$inputs).reduce((accState, input) => {
         const { name, value } = input;
 
         validateManagerInputs[name](value, name);
@@ -69,7 +69,7 @@ class VendingMachineController {
         };
       }, {});
 
-      this.#currentModel.setState("products", newState);
+      this.#currentModel.setState("products", inputState);
     } catch (err) {
       alert(err.message);
       e.target[err.from].focus();
@@ -113,9 +113,9 @@ class VendingMachineController {
     setLocalStorage("menu", this.currentMenu);
   }
 
-  initializeBasedOnChangedMenu(menuName) {
-    this.#models[menuName].initialize(); // 컨텐츠 변경
-    this.#submitFormHandlers[menuName](); // 핸들러 초기화
+  initializeBasedOnChangedMenu() {
+    this.#currentModel.initialize();
+    this.#submitFormHandlers[this.currentMenu]();
   }
 
   bindEventHandlers() {

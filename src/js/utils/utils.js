@@ -50,9 +50,6 @@ export const validateManagerInputs = {
   quantity: () => {},
 };
 
-export const isInitialState = (state, initialState) =>
-  JSON.stringify(state) === JSON.stringify(initialState);
-
 export const calculateCoinCount = (coin) => {
   const units = [500, 100, 50, 10];
   const result = {};

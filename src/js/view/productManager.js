@@ -11,10 +11,10 @@ class ProductManagerView extends View {
     super("manager");
   }
 
-  renderInventoryContainer(newState) {
+  renderInventoryContainer(state) {
     const $productTable = $("#product-inventory-container");
 
-    const createProductInventoryItems = newState.reduce((acc, pre) => {
+    const createProductInventoryItems = state.products.reduce((acc, pre) => {
       acc += createProductInventoryItem(pre);
       return acc;
     }, "");
@@ -27,6 +27,11 @@ class ProductManagerView extends View {
   update(newState) {
     this.renderInventoryContainer(newState);
     clearForm("#product-manager-form");
+  }
+
+  render(currentState) {
+    super.render();
+    this.renderInventoryContainer(currentState);
   }
 }
 
