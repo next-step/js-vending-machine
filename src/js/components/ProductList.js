@@ -1,5 +1,5 @@
 import { getItem } from '../utils/Storage.js';
-import { subject } from '../../../index.js';
+import subject from '../utils/subject.js';
 
 customElements.define(
   'product-list',

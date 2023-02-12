@@ -3,7 +3,7 @@ import { MINIMUM_CHARGING_MONEY } from '../constants/vendingMachine.js';
 import { amountNotDividedZero } from '../validate.js';
 import { getItem } from '../utils/Storage.js';
 import { chargingMoney } from '../action.js';
-import { subject } from '../../../index.js';
+import subject from '../utils/subject.js';
 import { CustomError } from '../utils/error.js';
 
 customElements.define(

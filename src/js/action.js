@@ -2,7 +2,7 @@
 import ERROR_MESSAGES from './constants/errorMessages.js';
 import { COIN_STANDARD } from './constants/vendingMachine.js';
 import { getItem, setItem } from './utils/Storage.js';
-import { subject } from '../../index.js';
+import subject from './utils/subject.js';
 
 const actionCreator = newState => {
   setItem('state', newState);
