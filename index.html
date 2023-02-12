@@ -1,18 +1,68 @@
 <!DOCTYPE html>
 <html lang="ko">
-	<head>
-		<meta charset="UTF-8" />
-		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
-		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-		<link rel="stylesheet" href="./index.css" />
-		<title>NEXTSTEP JavaScript Vending machine</title>
-	</head>
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <title>🥤 자판기</title>
+    <style type="text/tailwindcss">
+      @layer utilities {
+        .button {
+          @apply rounded bg-slate-400	 py-3 px-7 text-sm text-white	duration-300 ease-in-out hover:bg-slate-500 hover:text-slate-50;
+        }
+        .button.active {
+          @apply bg-slate-700 text-slate-50;
+        }
+        .product-input,
+        .charger-input {
+          @apply w-full border-b py-1 px-2 outline-none;
+        }
+        .product-input:not(:first-child) {
+          @apply ml-4;
+        }
+      }
+    </style>
+  </head>
 
-	<body>
-		<button id="product-manage-menu">상품 관리</button>
-		<button id="vending-machine-manage-menu">잔돈충전</button>
-		<button id="product-purchase-menu">상품 구매</button>
+  <body class="flex justify-center">
+    <main class="flex w-96 flex-col items-center p-5">
+      <h1 class="text-3xl font-bold">🥤 자판기 🥤</h1>
+      <ul id="menu" class="my-10 flex">
+        <li>
+          <button
+            type="button"
+            id="product-manage-menu"
+            name="manager"
+            class="button"
+          >
+            상품 관리
+          </button>
+        </li>
+        <li class="ml-2">
+          <button
+            type="button"
+            id="change-charge-menu"
+            name="charger"
+            class="button"
+          >
+            잔돈 충전
+          </button>
+        </li>
+        <li class="ml-2">
+          <button
+            type="button"
+            id="product-purchase-menu"
+            name="purchase"
+            class="button"
+          >
+            상품 구매
+          </button>
+        </li>
+      </ul>
 
-		<div id="app"></div>
-	</body>
+      <div id="app" class="w-full"></div>
+    </main>
+    <script src="src/js/app.js" type="module"></script>
+  </body>
 </html>
