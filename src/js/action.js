@@ -12,18 +12,10 @@ export const registerProduct = ({ name, price, quantity }) => {
   const state = getItem('state');
   const index = state.products.findIndex($el => $el.name === name);
   const isDuplicated = index > -1;
-  let newState = {};
+  const newState = { ...state };
 
-  if (isDuplicated) {
-    const nextState = { ...state };
-    nextState.products[index] = { name, price, quantity };
-    newState = { ...nextState };
-  } else {
-    newState = {
-      ...state,
-      products: [...state.products, { name, price, quantity }],
-    };
-  }
+  if (isDuplicated) newState.products[index] = { name, price, quantity };
+  else newState.products = [...state.products, { name, price, quantity }];
 
   actionCreator(newState);
 };
