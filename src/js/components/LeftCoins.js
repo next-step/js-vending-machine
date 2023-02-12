@@ -51,9 +51,9 @@ customElements.define(
 				<link rel="stylesheet" href="./src/css/index.css" />
 				<h3>잔돈</h3>
 				<form>
-					<input type="button" class="btn" id="coin-return-button" value="반환하기"/>
+					<input type="button" class="btn" data-cy="coin-return-button" id="coin-return-button" value="반환하기"/>
 				</form>
-        <table class="cashbox-change pressed">
+        <table data-cy="coin-return-table" class="cashbox-change pressed">
           <thead>
             <tr>
               <th>동전</th>

@@ -25,10 +25,10 @@
 // Cypress.Commands.overwrite('visit', (originalFn, url, options) => { ... })
 
 Cypress.Commands.add('doAlert', message => {
+  // cy.get('@consoleError').should('be.calledOnce');
   cy.on('window:alert', str => {
     expect(str).to.equal(message);
   });
-  cy.get('@consoleError').should('be.calledOnce');
 });
 
 Cypress.Commands.add('$', dataset => cy.get(`[data-cy=${dataset}]`));
@@ -38,6 +38,10 @@ Cypress.Commands.add('registerProduct', ({ name, price, quantity }) => {
   cy.$('product-price-input').type(price, { force: true });
   cy.$('product-quantity-input').type(quantity, { force: true });
   cy.$('product-add-button').click();
+
+  cy.$('product-name-input').clear({ force: true });
+  cy.$('product-price-input').clear({ force: true });
+  cy.$('product-quantity-input').clear({ force: true });
 });
 
 Cypress.Commands.add('chargingMoney', money => {

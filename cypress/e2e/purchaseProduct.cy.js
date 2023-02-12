@@ -12,7 +12,7 @@ describe('자판기 어플리케이션 테스트', () => {
   });
 
   describe('상품 구매', () => {
-    describe('투입 금액의 유효성 검사를 한다.', () => {
+    describe('금액을 충전한다.', () => {
       it('금액을 투입할 수 있다.', () => {
         cy.$('input-money').should('exist');
         cy.$('input-money-button').should('exist');
@@ -34,14 +34,72 @@ describe('자판기 어플리케이션 테스트', () => {
       });
     });
 
-    describe('구매할 수 있는 상품 현황을 테스트한다.', () => {
+    const addItems = () => {
+      cy.get('#manage-product-menu').click();
+
+      const items = [
+        { name: '콜라', price: 1800, quantity: 20 },
+        { name: '사이다', price: 1500, quantity: 10 },
+        { name: '1개남은 제품', price: 1000, quantity: 1 },
+      ];
+
+      items.forEach(({ name, price, quantity }) => {
+        cy.registerProduct({ name, price, quantity });
+      });
+    };
+
+    const addMoney = () => {
+      cy.get('#charging-money-menu').click();
+      cy.chargingMoney('1000');
+      cy.chargingMoney('400');
+    };
+
+    describe('상품을 구매한다.', () => {
       beforeEach(() => {
-        cy.inputMoney('1000');
+        addItems();
+        addMoney();
+        cy.get('#product-purchase-menu').click();
       });
 
-      it('상품을 클릭하면 상품 개수가 1씩 줄어든다.', () => {});
-      it('상품을 클릭하면 투입 금액에서 해당 금액만큼 빠져나간다.', () => {});
-      it('상품을 클릭하고 투입 금액보다 적으면 alert을 띄운다.', () => {});
+      it('상품을 구매하면 상품 개수가 1씩 줄어들고 해당 금액만큼 빠져나간다.', () => {
+        cy.$('input-money').type('2000', { force: true });
+        cy.$('input-money-button').click();
+        cy.$('purchase-list').find('td').eq(0).click();
+        cy.$('purchase-list').find('td').eq(2).should('contain', '19');
+      });
+
+      it('구매하려는 상품이 투입 금액보다 적으면 alert을 띄운다.', () => {
+        cy.$('input-money').type('100', { force: true });
+        cy.$('input-money-button').click();
+        cy.doAlert(ERROR_MESSAGES.NOT_ENOUGH_MONEY);
+      });
+    });
+
+    describe('잔돈을 계산한다.', () => {
+      beforeEach(() => {
+        addMoney();
+        cy.get('#product-purchase-menu').click();
+      });
+
+      it('모든 금액에 대해 잔돈을 반환할 수 없는 경우, 잔돈을 반환할 수 있는 만큼만 반환한다.', () => {
+        cy.$('input-money').type('1500', { force: true });
+        cy.$('input-money-button').click();
+
+        cy.$('coin-return-button').click();
+        cy.$('coins').eq(0).should('contain', '2개');
+        cy.$('coins').eq(1).should('contain', '4개');
+
+        cy.$('input-money-value').should('have.text', '100');
+      });
+
+      it('반환한 동전 만큼 사용자가 충전한 금액이 차단된다.', () => {
+        cy.$('input-money').type('1000', { force: true });
+        cy.$('input-money-button').click();
+        cy.$('coin-return-button').click();
+
+        cy.get('#charging-money-menu').click();
+        cy.$('charge-amount').should('have.text', '400');
+      });
     });
   });
 });

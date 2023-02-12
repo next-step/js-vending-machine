@@ -4,7 +4,6 @@ import { amountNotDividedZero } from '../validate.js';
 import { getItem } from '../utils/Storage.js';
 import { chargingMoney } from '../action.js';
 import subject from '../utils/subject.js';
-import { CustomError } from '../utils/error.js';
 
 customElements.define(
   'add-coin',
@@ -42,7 +41,7 @@ customElements.define(
         try {
           this.validate(inputAmount);
         } catch (error) {
-          if (error instanceof CustomError) {
+          if (error instanceof Error) {
             alert(error.message);
             return;
           }

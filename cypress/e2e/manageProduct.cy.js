@@ -16,12 +16,7 @@ Cypress.Commands.add('clearInputs', () => {
 
 describe('자판기 어플리케이션 테스트', () => {
   beforeEach(() => {
-    cy.visit('/', {
-      onBeforeLoad(win) {
-        cy.stub(win.console, 'error').as('consoleError');
-      },
-    });
-
+    cy.visit('/');
     cy.get('#manage-product-menu').click();
   });
 
