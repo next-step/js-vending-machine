@@ -1,11 +1,11 @@
 import ERROR_MESSAGES from '../../src/js/constants/errorMessages';
 
-Cypress.Commands.add('containProduct', (name, price, quantity) => {
-  const printedPrice = Number(price).toLocaleString('ko-KR');
-  const printedQuantity = Number(quantity).toLocaleString('ko-KR');
+Cypress.Commands.add('containProduct', ({ name, price, quantity }) => {
+  const priceWithComma = Number(price).toLocaleString('ko-KR');
+  const quantityWithComma = Number(quantity).toLocaleString('ko-KR');
   cy.$('products-inventory').find('td').eq(0).should('contain', name);
-  cy.$('products-inventory').find('td').eq(1).should('contain', printedPrice);
-  cy.$('products-inventory').find('td').eq(2).should('contain', printedQuantity);
+  cy.$('products-inventory').find('td').eq(1).should('contain', priceWithComma);
+  cy.$('products-inventory').find('td').eq(2).should('contain', quantityWithComma);
 });
 
 Cypress.Commands.add('clearInputs', () => {
@@ -34,63 +34,65 @@ describe('자판기 어플리케이션 테스트', () => {
       });
 
       it('상품명은 공백이면 alert을 띄운다.', () => {
-        cy.registerProduct(' ', '1000', '5');
+        cy.registerProduct({ name: ' ', price: '1000', quantity: '5' });
       });
 
       it('가격은 공백이면 alert을 띄운다.', () => {
-        cy.registerProduct('콜라', ' ', '5');
+        cy.registerProduct({ name: '콜라', price: ' ', quantity: '5' });
         cy.doAlert(ERROR_MESSAGES.PRICE_SHOULD_NOT_EMPTY);
       });
 
       it('수량이 공백이면 alert을 띄운다.', () => {
-        cy.registerProduct('콜라', '1000', ' ');
+        cy.registerProduct({ name: '콜라', price: '1000', quantity: ' ' });
         cy.doAlert(ERROR_MESSAGES.QUANTITY_SHOULD_NOT_EMPTY);
       });
 
       it('최소 가격보다 입력한 가격이 적으면 alert을 띄운다.', () => {
-        cy.registerProduct('콜라', '10', '5');
+        cy.registerProduct({ name: '콜라', price: '10', quantity: '5' });
         cy.doAlert(ERROR_MESSAGES.TOO_SMALL_PRICE);
       });
 
       it('최소 수량보다 입력한 수량이 적으면 alert을 띄운다.', () => {
-        cy.registerProduct('콜라', '1000', '0');
+        cy.registerProduct({ name: '콜라', price: '1000', quantity: '0' });
         cy.doAlert(ERROR_MESSAGES.TOO_SMALL_QUANTITY);
       });
 
       it('상품의 가격이 10으로 나누어떨어지지 않으면 alert을 띄운다.', () => {
-        cy.registerProduct('콜라', '777', '5');
+        cy.registerProduct({ name: '콜라', price: '777', quantity: '5' });
         cy.doAlert(ERROR_MESSAGES.NOT_DIVISIBLE_PRICE);
       });
     });
 
     describe('상품 추가를 테스트한다.', () => {
-      const name = '콜라';
-      const price = '1000';
-      const quantity = 5;
+      const product = {
+        name: '콜라',
+        price: '1000',
+        quantity: 5,
+      };
 
       beforeEach(() => {
-        cy.registerProduct(name, price, quantity);
+        cy.registerProduct(product);
       });
 
       it('올바른 상품을 입력하면 추가된 상품에 입력한 상품이 추가된다.', () => {
-        cy.containProduct(name, price, quantity);
+        cy.containProduct(product);
       });
 
       it('기존의 상품은 새로운 상품으로 대체된다.', () => {
         cy.clearInputs();
         const newPrice = '2000';
         const newQuantity = 10;
-        cy.registerProduct(name, newPrice, newQuantity);
+        cy.registerProduct({ name: '콜라', price: newPrice, quantity: newQuantity });
 
         expect(cy.$('products-inventory').find('td').should('have.length', 3));
-        cy.containProduct(name, newPrice, newQuantity);
+        cy.containProduct({ name: '콜라', price: newPrice, quantity: newQuantity });
       });
 
       it('탭을 이동해도 기존에 입력했던 상품들이 보인다.', () => {
         cy.get('#product-purchase-menu').click();
         cy.get('#manage-product-menu').click();
 
-        cy.containProduct(name, price, quantity);
+        cy.containProduct(product);
       });
     });
   });

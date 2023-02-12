@@ -32,7 +32,7 @@ Cypress.Commands.add('doAlert', message => {
 
 Cypress.Commands.add('$', dataset => cy.get(`[data-cy=${dataset}]`));
 
-Cypress.Commands.add('registerProduct', (name, price, quantity) => {
+Cypress.Commands.add('registerProduct', ({ name, price, quantity }) => {
   cy.$('product-name-input').type(name, { force: true });
   cy.$('product-price-input').type(price, { force: true });
   cy.$('product-quantity-input').type(quantity, { force: true });

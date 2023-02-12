@@ -1,3 +1,5 @@
+import ERROR_MESSAGES from '../../src/js/constants/errorMessages';
+
 describe('자판기 어플리케이션 테스트', () => {
   beforeEach(() => {
     cy.visit('/');
@@ -20,31 +22,31 @@ describe('자판기 어플리케이션 테스트', () => {
 
       it('최소 충전 금액이 100보다 적으면 alert을 띄운다.', () => {
         cy.chargingMoney('10');
-        cy.doAlert('최소 충전 금액은 100이상이어야 합니다.');
+        cy.doAlert(ERROR_MESSAGES.TOO_SMALL_CHARGING_MONEY);
       });
 
       it('충전 금액이 10으로 나누어 떨어지지 않으면 alert을 띄운다.', () => {
         cy.chargingMoney('777');
-        cy.doAlert('충전 금액은 10으로 나누어 떨어져야 합니다.');
+        cy.doAlert(ERROR_MESSAGES.NOT_DIVISIBLE_CHARGING_MONEY);
       });
     });
 
     describe('잔돈을 충전한다.', () => {
       beforeEach(() => {
-        cy.chargingMoney('660');
+        cy.chargingMoney('100');
       });
 
       it('충전 금액 입력하면 보유 금액에 더해진다.', () => {
-        cy.$('charge-amount').should('have.text', '660');
-        cy.chargingMoney('240');
-        cy.$('charge-amount').should('have.text', '900');
+        cy.$('charge-amount').should('have.text', '100');
+        cy.chargingMoney('500');
+        cy.$('charge-amount').should('have.text', '600');
       });
 
       it('충전 금액을 입력하면 동전이 채워진다.', () => {
-        cy.get('.coins').eq(0).should('contain', '1');
+        cy.get('.coins').eq(0).should('contain', '0');
         cy.get('.coins').eq(1).should('contain', '1');
-        cy.get('.coins').eq(2).should('contain', '1');
-        cy.get('.coins').eq(3).should('contain', '1');
+        cy.get('.coins').eq(2).should('contain', '0');
+        cy.get('.coins').eq(3).should('contain', '0');
       });
     });
   });

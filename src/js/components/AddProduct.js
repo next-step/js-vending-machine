@@ -16,7 +16,7 @@ customElements.define(
       this.setEvent();
     }
 
-    validate(name, price, quantity) {
+    validate({ inputName: name, inputPrice: price, inputQuantity: quantity }) {
       if (isEmpty(name)) throw new Error(ERROR_MESSAGES.NAME_SHOULD_NOT_EMPTY);
       if (isEmpty(price)) throw new Error(ERROR_MESSAGES.PRICE_SHOULD_NOT_EMPTY);
       if (isEmpty(quantity)) throw new Error(ERROR_MESSAGES.QUANTITY_SHOULD_NOT_EMPTY);
@@ -35,12 +35,16 @@ customElements.define(
         const { value: inputQuantity } = event.target.elements['quantity'];
 
         try {
-          this.validate(inputName, inputPrice, inputQuantity);
+          this.validate({ inputName, inputPrice, inputQuantity });
         } catch (error) {
           alert(error.message);
           return;
         }
-        registerProduct(inputName, Number(inputPrice), Number(inputQuantity));
+        registerProduct({
+          name: inputName,
+          price: Number(inputPrice),
+          quantity: Number(inputQuantity),
+        });
       });
     }
 

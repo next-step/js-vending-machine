@@ -8,7 +8,7 @@ const actionCreator = newState => {
   subject.notifyAll();
 };
 
-export const registerProduct = (name, price, quantity) => {
+export const registerProduct = ({ name, price, quantity }) => {
   const state = getItem('state');
   const index = state.products.findIndex($el => $el.name === name);
   const isDuplicated = index > -1;
