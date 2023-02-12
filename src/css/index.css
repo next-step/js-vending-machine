@@ -1,4 +1,5 @@
-:root {
+:root,
+:host {
   --inner-shadow: inset 2px 2px 5px #b8b9be, inset -3px -3px 7px #ffffff;
   --outer-shadow: 3px 3px 6px #b8b9be, -3px -3px 6px #ffffff;
 }
@@ -153,15 +154,6 @@ input[data-cy='product-add-button'] {
   box-shadow: var(--inner-shadow);
 }
 
-.not-pressed {
-  box-shadow: var(--outer-shadow);
-}
-
-.pressed {
-  color: #31344b;
-  box-shadow: var(--inner-shadow);
-}
-
 .charging-money-form {
   display: flex;
   justify-content: center;
@@ -191,4 +183,17 @@ purchase-product {
   flex-direction: column;
   justify-content: center;
   align-items: center;
+}
+
+.slot-selected {
+  color: #31344b;
+  background-color: #e6e7ee;
+  border-color: #e6e7ee;
+  box-shadow: inset 2px 2px 5px #b8b9be, inset -3px -3px 7px #ffffff;
+}
+
+.slot-unselected {
+  background-color: #e6e7ee;
+  border-color: #e6e7ee;
+  box-shadow: 3px 3px 6px #b8b9be, -3px -3px 6px #ffffff;
 }

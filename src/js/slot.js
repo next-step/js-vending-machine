@@ -18,8 +18,6 @@ customElements.define(
       $selectedItem.addEventListener('click', () => {
         this.$tabs.forEach($item => {
           this.unSelectedStyle($item);
-          $item.classList.remove('pressed');
-          $item.classList.add('not-pressed');
         });
 
         this.$tabContents.forEach($tabContent => {
@@ -34,16 +32,12 @@ customElements.define(
     }
 
     selectedStyle($item) {
-      $item.style.color = '#31344b';
-      $item.style.backgroundColor = '#e6e7ee';
-      $item.style.borderColor = '#e6e7ee';
-      $item.style.boxShadow = 'inset 2px 2px 5px #b8b9be, inset -3px -3px 7px #ffffff';
+      $item.classList.remove('slot-unselected');
+      $item.classList.add('slot-selected');
     }
 
     unSelectedStyle($item) {
-      $item.style.boxShadow = '3px 3px 6px #b8b9be, -3px -3px 6px #ffffff';
-      $item.style.borderColor = '#e6e7ee';
-      $item.style.backgroundColor = '#e6e7ee';
+      $item.classList.add('slot-unselected');
     }
 
     updateDisplay($tabContent, $selectedItem) {
@@ -53,8 +47,6 @@ customElements.define(
 
       $tabContent.setAttribute('slot', 'selected');
       this.selectedStyle($selectedItem);
-      $selectedItem.classList.add('pressed');
-      $selectedItem.classList.remove('not-pressed');
     }
   },
 );
