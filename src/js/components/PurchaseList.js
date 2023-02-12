@@ -17,7 +17,7 @@ customElements.define(
     }
 
     connectedCallback() {
-      this.init();
+      this.initHtml();
       this.setEvent();
       this.render();
     }
@@ -61,7 +61,7 @@ customElements.define(
       $tbody.innerHTML = productListHTML;
     }
 
-    init() {
+    initHtml() {
       this.template.innerHTML = `
 				<link rel="stylesheet" href="./src/css/index.css" />
 				<table data-cy="purchase-list" class="purchase-list pressed">

@@ -1,6 +1,6 @@
 import { getItem } from '../utils/Storage.js';
 import { subject } from '../../../index.js';
-import { returnCoin } from '../action.js';
+import { setReturnCoins } from '../action.js';
 
 customElements.define(
   'left-coins',
@@ -14,14 +14,14 @@ customElements.define(
     }
 
     connectedCallback() {
-      this.init();
+      this.initHtml();
       this.setEvent();
       this.render();
     }
 
     setEvent() {
       this.shadow.addEventListener('click', () => {
-        returnCoin();
+        setReturnCoins();
       });
     }
 
@@ -46,7 +46,7 @@ customElements.define(
       $tbody.innerHTML = coinListHTML;
     }
 
-    init() {
+    initHtml() {
       this.template.innerHTML = `
 				<link rel="stylesheet" href="./src/css/index.css" />
 				<h3>잔돈</h3>

@@ -17,7 +17,7 @@ customElements.define(
     }
 
     connectedCallback() {
-      this.init();
+      this.initHtml();
       this.setEvent();
       this.render();
     }
@@ -53,7 +53,7 @@ customElements.define(
       $inputMoney.innerHTML = this.state.toLocaleString('ko-KR');
     }
 
-    init() {
+    initHtml() {
       this.template.innerHTML = `
 				<link rel="stylesheet" href="./src/css/index.css" />
 				<h3>금액 투입</h3>

@@ -13,7 +13,7 @@ customElements.define(
     }
 
     connectedCallback() {
-      this.init();
+      this.initHtml();
       this.render();
     }
 
@@ -38,7 +38,7 @@ customElements.define(
       $tbody.innerHTML = productListHTML;
     }
 
-    init() {
+    initHtml() {
       this.template.innerHTML = `
 				<link rel="stylesheet" href="./src/css/index.css" />
         <h3>상품 리스트</h3>

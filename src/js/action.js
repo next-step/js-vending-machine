@@ -1,7 +1,3 @@
-이 부분은 660원을 충전하면 각각의 동전을 1개씩 얻을 수 있어서 사용했으나, 
-생각해보니 좀 더 직관적인 액수로 하는게 더 좋을 것 같군요! 그래서 1000원으로 바꿨습니다.
-
-
 /* eslint-disable no-param-reassign */
 import ERROR_MESSAGES from './constants/errorMessages.js';
 import { COIN_STANDARD } from './constants/vendingMachine.js';
@@ -107,7 +103,7 @@ const getReturnCoin = (chargeMoney, newCoins) => {
   return { coins, chargeMoney, totalMoney, returnCoins };
 };
 
-export const returnCoin = () => {
+export const setReturnCoins = () => {
   const state = getItem('state');
   const { inputMoney, coins } = state;
   const {

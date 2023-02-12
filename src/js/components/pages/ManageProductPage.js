@@ -6,10 +6,10 @@ export default class ManageProductPage extends HTMLElement {
   }
 
   connectedCallback() {
-    this.init();
+    this.initHtml();
   }
 
-  init() {
+  initHtml() {
     this.template.innerHTML = `
 			<link rel="stylesheet" href="./src/css/index.css" />
 			<section data-cy="manage-products">

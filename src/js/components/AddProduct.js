@@ -12,7 +12,7 @@ customElements.define(
     }
 
     connectedCallback() {
-      this.init();
+      this.initHtml();
       this.setEvent();
     }
 
@@ -48,7 +48,7 @@ customElements.define(
       });
     }
 
-    init() {
+    initHtml() {
       this.template.innerHTML = `
 			<link rel="stylesheet" href="./src/css/index.css" />
 			<h3>상품 추가하기</h3>

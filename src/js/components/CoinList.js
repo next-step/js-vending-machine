@@ -16,7 +16,7 @@ customElements.define(
     }
 
     connectedCallback() {
-      this.init();
+      this.initHtml();
       this.render();
     }
 
@@ -48,7 +48,7 @@ customElements.define(
       $tbody.innerHTML = coinListHTML;
     }
 
-    init() {
+    initHtml() {
       this.template.innerHTML = `
 				<link rel="stylesheet" href="./src/css/index.css" />
         <h3>동전 보유 현황</h3>
