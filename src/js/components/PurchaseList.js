@@ -4,6 +4,7 @@ import { amountNotDividedZero } from '../validate.js';
 import { getItem } from '../utils/Storage.js';
 import { subject } from '../../../index.js';
 import { buyProduct } from '../action.js';
+import { CustomError } from '../utils/error.js';
 
 customElements.define(
   'purchase-list',
@@ -40,7 +41,11 @@ customElements.define(
         try {
           buyProduct(selectedName);
         } catch (error) {
-          alert(error.message);
+          if (error instanceof CustomError) {
+            alert(error.message);
+            return;
+          }
+          console.error(error);
         }
       });
     }

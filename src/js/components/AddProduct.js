@@ -1,6 +1,7 @@
 import { isEmpty, isTooSmallQuantity, isTooSmallPrice, priceNotDividedZero } from '../validate.js';
 import ERROR_MESSAGES from '../constants/errorMessages.js';
 import { registerProduct } from '../action.js';
+import { CustomError } from '../utils/error.js';
 
 customElements.define(
   'add-product',
@@ -37,9 +38,13 @@ customElements.define(
         try {
           this.validate({ inputName, inputPrice, inputQuantity });
         } catch (error) {
-          alert(error.message);
-          return;
+          if (error instanceof CustomError) {
+            alert(error.message);
+            return;
+          }
+          console.error(error);
         }
+
         registerProduct({
           name: inputName,
           price: Number(inputPrice),

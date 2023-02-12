@@ -1,3 +1,5 @@
+import { CustomError } from './error.js';
+
 const INITIAL_STATE = {
   products: [],
   totalMoney: 0,
@@ -19,8 +21,10 @@ const INITIAL_STATE = {
 export function setItem(key, value) {
   try {
     localStorage.setItem(key, JSON.stringify(value));
-  } catch (e) {
-    console.log(e.message);
+  } catch (error) {
+    if (error instanceof CustomError) {
+      console.error(error.message);
+    }
   }
 }
 
@@ -28,8 +32,10 @@ export function getItem(key) {
   try {
     const value = localStorage.getItem(key);
     return value ? JSON.parse(value) : INITIAL_STATE;
-  } catch (e) {
-    console.log(e.message);
+  } catch (error) {
+    if (error instanceof CustomError) {
+      console.error(error.message);
+    }
     return [];
   }
 }

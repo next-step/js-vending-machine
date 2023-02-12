@@ -4,6 +4,7 @@ import { amountNotDividedZero } from '../validate.js';
 import { getItem } from '../utils/Storage.js';
 import { setInputMoney } from '../action.js';
 import { subject } from '../../../index.js';
+import { CustomError } from '../utils/error.js';
 
 customElements.define(
   'input-money',
@@ -41,8 +42,11 @@ customElements.define(
         try {
           this.validate(inputAmount);
         } catch (error) {
-          alert(error.message);
-          return;
+          if (error instanceof CustomError) {
+            alert(error.message);
+            return;
+          }
+          console.error(error);
         }
         setInputMoney(Number(inputAmount));
       });

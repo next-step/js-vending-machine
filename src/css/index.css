@@ -154,6 +154,15 @@ input[data-cy='product-add-button'] {
   box-shadow: var(--inner-shadow);
 }
 
+.not-pressed {
+  box-shadow: var(--outer-shadow);
+}
+
+.pressed {
+  color: #31344b;
+  box-shadow: var(--inner-shadow);
+}
+
 .charging-money-form {
   display: flex;
   justify-content: center;
