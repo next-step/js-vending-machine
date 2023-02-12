@@ -1,3 +1,8 @@
+이 부분은 660원을 충전하면 각각의 동전을 1개씩 얻을 수 있어서 사용했으나, 
+생각해보니 좀 더 직관적인 액수로 하는게 더 좋을 것 같군요! 그래서 1000원으로 바꿨습니다.
+
+
+/* eslint-disable no-param-reassign */
 import ERROR_MESSAGES from './constants/errorMessages.js';
 import { COIN_STANDARD } from './constants/vendingMachine.js';
 import { getItem, setItem } from './utils/Storage.js';
@@ -5,6 +10,7 @@ import { subject } from '../../index.js';
 
 const actionCreator = newState => {
   setItem('state', newState);
+  console.log(newState);
   subject.notifyAll();
 };
 
@@ -21,10 +27,9 @@ export const registerProduct = ({ name, price, quantity }) => {
 };
 
 const getMoneyToCoins = total => {
-  let totalMoney = total;
   return COIN_STANDARD.reduce((acc, coin) => {
-    const count = Math.floor(totalMoney / coin);
-    totalMoney -= coin * count;
+    const count = Math.floor(total / coin);
+    total -= coin * count;
     return [...acc, count];
   }, []);
 };
@@ -79,16 +84,16 @@ export const buyProduct = selectedName => {
   actionCreator(newState);
 };
 
-const getReturnCoin = (money, newCoins) => {
+const getReturnCoin = (chargeMoney, newCoins) => {
   let totalMoney = 0;
-  let chargeMoney = money;
   const returnCoins = {};
   const coins = { ...newCoins };
 
   COIN_STANDARD.forEach(coin => {
     const count = Math.floor(chargeMoney / coin);
-    const canBuyProduct = coins[coin] < count;
-    if (canBuyProduct) {
+    const canGetCoin = coins[coin] < count;
+
+    if (canGetCoin) {
       chargeMoney -= coin * coins[coin];
       returnCoins[coin] = coins[coin];
       coins[coin] = 0;
@@ -99,22 +104,27 @@ const getReturnCoin = (money, newCoins) => {
     }
     totalMoney += coin * coins[coin];
   });
-  return [coins, chargeMoney, totalMoney, returnCoins];
+  return { coins, chargeMoney, totalMoney, returnCoins };
 };
 
 export const returnCoin = () => {
   const state = getItem('state');
   const { inputMoney, coins } = state;
-  const [newCoins, newInputMoney, newTotalMoney, newReturnCoins] = getReturnCoin(inputMoney, {
+  const {
+    coins: newCoins,
+    chargeMoney: newInputMoney,
+    totalMoney,
+    returnCoins,
+  } = getReturnCoin(inputMoney, {
     ...coins,
   });
 
   const newState = {
     ...state,
     coins: newCoins,
-    totalMoney: newTotalMoney,
+    totalMoney,
     inputMoney: newInputMoney,
-    returnCoins: newReturnCoins,
+    returnCoins,
   };
 
   actionCreator(newState);
