@@ -28,6 +28,7 @@ Cypress.Commands.add('doAlert', message => {
   cy.on('window:alert', str => {
     expect(str).to.equal(message);
   });
+  cy.get('@consoleError').should('be.calledOnce');
 });
 
 Cypress.Commands.add('$', dataset => cy.get(`[data-cy=${dataset}]`));
