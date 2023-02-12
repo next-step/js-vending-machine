@@ -68,9 +68,9 @@ export const buyProduct = selectedName => {
   const state = getItem('state');
   const index = state.products.findIndex(product => product.name === selectedName);
   const newState = { ...state };
+  const hasEnoughMoney = newState.inputMoney - newState.products[index].price >= 0;
 
-  if (newState.inputMoney - newState.products[index].price < 0)
-    throw new Error(ERROR_MESSAGES.NOT_ENOUGH_MONEY);
+  if (!hasEnoughMoney) throw new Error(ERROR_MESSAGES.NOT_ENOUGH_MONEY);
 
   newState.inputMoney -= newState.products[index].price;
   newState.products[index].quantity -= 1;
