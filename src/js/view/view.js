@@ -27,6 +27,10 @@ class View {
     this.$app.replaceChildren(content);
   }
 
+  update() {
+    console.error("not override update method");
+  }
+
   render() {
     this.renderContent();
     this.renderMenu();

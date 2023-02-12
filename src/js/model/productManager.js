@@ -1,4 +1,3 @@
-import ProductManagerView from "../view/productManager.js";
 import { getLocalStorage, setLocalStorage } from "../utils/utils.js";
 import { ValidationError } from "../utils/error.js";
 import { ERROR_MESSAGE } from "../utils/constants.js";
@@ -10,11 +9,11 @@ class ProductManagerModel {
   #state;
   #view;
 
-  constructor() {
+  constructor(view) {
     const initialState =
       getLocalStorage("manager") || PRODUCT_MANAGER_INITIAL_STATE;
     this.#state = { ...initialState };
-    this.#view = new ProductManagerView();
+    this.#view = view;
   }
 
   get state() {

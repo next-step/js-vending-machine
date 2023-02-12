@@ -9,6 +9,9 @@ import {
   setLocalStorage,
   validateManagerInputs,
 } from "../utils/utils.js";
+import ChangeChargerView from "../view/changeCharger.js";
+import ProductManagerView from "../view/productManager.js";
+import ProductPurchaseView from "../view/productPurchase";
 
 class VendingMachineController {
   #currentModel;
@@ -18,9 +21,9 @@ class VendingMachineController {
   constructor() {
     this.currentMenu = getLocalStorage("menu") || "manager";
 
-    const managerModel = new ProductManagerModel();
-    const chargerModel = new ChangeChargerModel();
-    const purchaseModel = new ProductPurchaseModel();
+    const managerModel = new ProductManagerModel(new ProductManagerView());
+    const chargerModel = new ChangeChargerModel(new ChangeChargerView());
+    const purchaseModel = new ProductPurchaseModel(new ProductPurchaseView());
 
     this.#models = {
       manager: managerModel,

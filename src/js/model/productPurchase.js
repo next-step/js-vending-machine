@@ -1,13 +1,11 @@
-import ProductPurchaseView from "../view/productPurchase.js";
-
 const PRODUCT_PURCHASE_INITIAL_STATE = {};
 class ProductPurchaseModel {
   #view;
   #state;
 
-  constructor() {
+  constructor(view) {
     this.#state = PRODUCT_PURCHASE_INITIAL_STATE;
-    this.#view = new ProductPurchaseView();
+    this.#view = view;
   }
 
   get state() {
