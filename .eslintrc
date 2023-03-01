@@ -1,0 +1,17 @@
+{
+  "env": {
+    "browser": true,
+    "es6": true,
+    "node": true
+  },
+  "extends": ["airbnb", "plugin:prettier/recommended"],
+  "rules": {
+    "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }],
+    "no-restricted-globals": "off",
+    "import/extensions": "off",
+    "no-new": "off",
+    "class-methods-use-this": "off",
+    "dot-notation": "off",
+    "import/prefer-default-export": "off"
+  }
+}

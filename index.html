@@ -1,18 +1,53 @@
 <!DOCTYPE html>
 <html lang="ko">
-	<head>
-		<meta charset="UTF-8" />
-		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
-		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-		<link rel="stylesheet" href="./index.css" />
-		<title>NEXTSTEP JavaScript Vending machine</title>
-	</head>
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script type="module" src="./src/js/components/pages/PurchaseProductPage.js"></script>
+    <script type="module" src="./src/js/components/pages/ManageProductPage.js"></script>
+    <script type="module" src="./src/js/components/pages/ChargingMoneyPage.js"></script>
+    <script type="module" src="./src/js/components/AddProduct.js"></script>
+    <script type="module" src="./src/js/components/ProductList.js"></script>
+    <script type="module" src="./src/js/components/AddCoin.js"></script>
+    <script type="module" src="./src/js/components/CoinList.js"></script>
+    <script type="module" src="./src/js/components/InputMoney.js"></script>
+    <script type="module" src="./src/js/components/PurchaseList.js"></script>
+    <script type="module" src="./src/js/components/LeftCoins.js"></script>
+    <script type="module" src="./index.js"></script>
+    <script type="module" src="./src/js/slot.js"></script>
+    <link rel="stylesheet" href="./src/css/index.css" />
+    <title>NEXTSTEP JavaScript Vending machine</title>
+  </head>
 
-	<body>
-		<button id="product-manage-menu">상품 관리</button>
-		<button id="vending-machine-manage-menu">잔돈충전</button>
-		<button id="product-purchase-menu">상품 구매</button>
+  <body>
+    <tab-menu>
+      <ul class="tabs" slot="tab-list">
+        <li class="btn pressed" id="manage-product-menu">상품 관리</li>
+        <li class="btn" id="charging-money-menu">잔돈 충전</li>
+        <li class="btn" id="product-purchase-menu">상품 구매</li>
+      </ul>
 
-		<div id="app"></div>
-	</body>
+      <div tab-name="manage-product-menu">
+        <manage-product></manage-product>
+      </div>
+      <div tab-name="charging-money-menu">
+        <charge-money></charge-money>
+      </div>
+      <div tab-name="product-purchase-menu">
+        <purchase-product></purchase-product>
+      </div>
+    </tab-menu>
+
+    <template id="tab-menu-template">
+      <article>
+        <div>
+          <slot name="tab-list"></slot>
+        </div>
+        <div>
+          <slot name="selected"></slot>
+        </div>
+      </article>
+    </template>
+  </body>
 </html>
