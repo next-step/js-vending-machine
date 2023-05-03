@@ -1,0 +1,1 @@
+export const $ = (ele) => document.querySelector(ele);
