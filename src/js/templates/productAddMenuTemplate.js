@@ -14,16 +14,16 @@ export const productAddFormTemplate = `
   </div>
 `;
 
-export const createProductTableItemTemplate = (product) => `
+export const createProductTableItemTemplate = (name, price, quantity) => `
   <tr>
-    <td class="${SELECTOR.productManageNameClass}">${product.name}</td>
-    <td class="${SELECTOR.productManagePriceClass}">${product.price}</td>
-    <td class="${SELECTOR.productManageQuantityClass}">${product.count}</td>
+    <td class="${SELECTOR.productManageNameClass}">${name}</td>
+    <td class="${SELECTOR.productManagePriceClass}">${price}</td>
+    <td class="${SELECTOR.productManageQuantityClass}">${quantity}</td>
   </tr>
 `;
 
 export const createProductTableBodyTemplate = (products) => `
-  ${products.map(it => createProductTableItemTemplate(it.productName, it.productPrice, it.productQuantity)).join('')}
+  ${products.map(it => createProductTableItemTemplate(it.name, it.price, it.quantity)).join('')}
 `;
 
 export const productTableTemplate = `
