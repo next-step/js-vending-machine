@@ -41,7 +41,7 @@ export const PRODUCT_PROPERTIES = [
 export const MENU_BUTTONS = [
   {
     text: PRODUCT_MANAGE_MENU,
-    id: SELECTOR.productAddMenuId,
+    id: SELECTOR.productManageMenuId,
   },
   {
     text: VENDING_MACHINE_MANAGE_MENU,
