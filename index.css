@@ -16,7 +16,7 @@
 }
 
 .product-inventory {
-	width: 340px;
+	width: 100%;
 }
 
 .purchase-available {
@@ -85,6 +85,8 @@ section:last-child {
 	flex-direction: column;
 	justify-content: center;
 	align-items: center;
+	width: 500px;
+	margin: 0 auto;
 }
 
 input[type='number'],
