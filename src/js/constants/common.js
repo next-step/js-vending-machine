@@ -20,6 +20,26 @@ export const PRODUCT_MANAGE_MENU = '상품 관리';
 export const VENDING_MACHINE_MANAGE_MENU = '잔돈 충전';
 export const PRODUCT_PURCHASE_MENU = '상품 구매';
 
+export const MENU_BUTTONS = [
+  {
+    text: PRODUCT_MANAGE_MENU,
+    id: SELECTOR.productManageMenuId,
+  },
+  {
+    text: VENDING_MACHINE_MANAGE_MENU,
+    id: SELECTOR.vendingMachineManageMenuId,
+  },
+  {
+    text: PRODUCT_PURCHASE_MENU,
+    id: SELECTOR.productPurchaseMenuId,
+  },
+];
+
+export const BUTTON_NAME = {
+  ADD: '추가하기',
+  CHARGE: '충전하기',
+};
+
 export const PRODUCT_PROPERTIES = [
   {
     text: '상품명',
@@ -38,17 +58,12 @@ export const PRODUCT_PROPERTIES = [
   },
 ];
 
-export const MENU_BUTTONS = [
+export const CHANGE_INPUT_PROPERTIES = [
   {
-    text: PRODUCT_MANAGE_MENU,
-    id: SELECTOR.productManageMenuId,
-  },
-  {
-    text: VENDING_MACHINE_MANAGE_MENU,
-    id: SELECTOR.vendingMachineManageMenuId,
-  },
-  {
-    text: PRODUCT_PURCHASE_MENU,
-    id: SELECTOR.productPurchaseMenuId,
+    text: '동전',
+    id: SELECTOR.vendingMachineChargeInputId,
+    type: 'number',
   },
 ];
+
+export const VENDING_MACHINE_TABLE_LABEL = ['동전', '개수'];
