@@ -1,4 +1,4 @@
-import { PRODUCT_PROPERTIES, TITLE } from '../constants/common.js';
+import { BUTTON_NAME, PRODUCT_PROPERTIES, TITLE } from '../constants/common.js';
 import SELECTOR from '../constants/selector.js';
 import { createTableTh } from './common.js';
 
@@ -10,7 +10,7 @@ export const productAddFormTemplate = `
   <h3>${TITLE.PRODUCT_MANAGE.ADD}</h3>
   <div class="${SELECTOR.productContainer}">
     ${PRODUCT_PROPERTIES.map(it => productAddInput(it.id, it.type, it.text)).join('')}
-    <button id="${SELECTOR.productAddButtonId}">추가하기</button>
+    <button id="${SELECTOR.productAddButtonId}">${BUTTON_NAME.ADD}</button>
   </div>
 `;
 
