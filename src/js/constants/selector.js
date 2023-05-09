@@ -26,6 +26,8 @@ export default Object.freeze({
   vendingMachineChargeInputId: 'vending-machine-charge-input',
   vendingMachineChargeButtonId: 'vending-machine-charge-button',
   vendingMachineChargeAmountId: 'vending-machine-charge-amount',
+  vendingMachineWapper: 'vending-machine-wrapper',
+  cashboxRemaining: 'cashbox-remaining',
   vendingMachineCoin500QuantityId: 'vending-machine-coin-500-quantity',
   vendingMachineCoin100QuantityId: 'vending-machine-coin-100-quantity',
   vendingMachineCoin50QuantityId: 'vending-machine-coin-50-quantity',
