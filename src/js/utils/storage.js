@@ -6,4 +6,12 @@ function setStorageProducts(value) {
   localStorage.setItem('products', JSON.stringify(value));
 }
 
-export { getStorageProducts, setStorageProducts }
+function getStorageCoins() {
+  return JSON.parse(localStorage.getItem('coins')) || {};
+}
+
+function setStorageCoins(value) {
+  localStorage.setItem('coins', JSON.stringify(value));
+}
+
+export { getStorageProducts, setStorageProducts, getStorageCoins, setStorageCoins };
