@@ -1,4 +1,9 @@
-import { TITLE, CHANGE_INPUT_PROPERTIES, VENDING_MACHINE_TABLE_LABEL, BUTTON_NAME } from '../constants/common.js';
+import {
+  TITLE,
+  CHANGE_INPUT_PROPERTIES,
+  VENDING_MACHINE_TABLE_LABEL,
+  BUTTON_NAME,
+} from '../constants/common.js';
 import SELECTOR from '../constants/selector.js';
 import { createTableTh } from './common.js';
 
@@ -9,12 +14,20 @@ export const vendingMachineChargeAddInput = (id, type, text) => `
 export const changeAddFormTemplate = `
   <h3>${TITLE.VENDING_MACHINE_MANAGE.CHARGE}</h3>
   <div class="${SELECTOR.vendingMachineWapper}">
-    ${CHANGE_INPUT_PROPERTIES.map(it => vendingMachineChargeAddInput(it.id, it.type, it.text)).join('')}
-    <button id="${SELECTOR.vendingMachineChargeButtonId}">${BUTTON_NAME.CHARGE}</button>
+    ${CHANGE_INPUT_PROPERTIES.map((it) =>
+      vendingMachineChargeAddInput(it.id, it.type, it.text)
+    ).join('')}
+    <button id="${SELECTOR.vendingMachineChargeButtonId}">${
+  BUTTON_NAME.CHARGE
+}</button>
   </div>
 `;
 
-export const vendingMachingTableTemplate = `
+export const vendingMachineChargeAmount = (amount = 0) => `
+  <p>보유 금액: <span id="${SELECTOR.vendingMachineChargeAmountId}">${amount}원</span></p>
+`;
+
+export const vendingMachineTableTemplate = `
 <h3>${TITLE.VENDING_MACHINE_MANAGE.CONINS}</h3>
 <table class="${SELECTOR.cashboxRemaining}">
   <colgroup>
@@ -23,7 +36,7 @@ export const vendingMachingTableTemplate = `
   </colgroup>
   <thead>
     <tr>
-      ${VENDING_MACHINE_TABLE_LABEL.map(it => createTableTh(it)).join('')}
+      ${VENDING_MACHINE_TABLE_LABEL.map((it) => createTableTh(it)).join('')}
     </tr>
   </thead>
   <tbody>
