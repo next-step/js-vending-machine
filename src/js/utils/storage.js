@@ -14,4 +14,12 @@ function setStorageCoins(value) {
   localStorage.setItem('coins', JSON.stringify(value));
 }
 
-export { getStorageProducts, setStorageProducts, getStorageCoins, setStorageCoins };
+function getStorageCurrentMenu() {
+  return JSON.parse(localStorage.getItem('currentMenu'));
+}
+
+function setStorageCurrentMenu(value) {
+  localStorage.setItem('currentMenu', JSON.stringify(value));
+}
+
+export { getStorageProducts, setStorageProducts, getStorageCoins, setStorageCoins, getStorageCurrentMenu, setStorageCurrentMenu };
