@@ -56,14 +56,15 @@ class ChangeMangeController {
   }
 
   #handleVendingMachineCharge() {
-    const vendingMachineChargeInputData = this.#getVendingMachineChargeInputData();
-    this.#rechargeCoins(vendingMachineChargeInputData);
+    const amount = this.#getVendingMachineChargeInputData();
+    this.#validate(amount);
+    this.#seperateCoins(amount);
     const changeManageModel = new ChangeMangeModel(this.#coins);
 
     this.#setConins(changeManageModel.charge);
     this.#renderVendingMachineChargeAmount();
     this.#renderTableWithCoins();
-    this.#vendingMachineChargeInput();
+    this.#resetVendingMachineChargeInput();
   }
 
   #getVendingMachineChargeInputData() {
@@ -74,7 +75,7 @@ class ChangeMangeController {
     setStorageCoins(charge);
   }
 
-  #rechargeCoins(amount) {
+  #seperateCoins(amount) {
     const coinValues = Object.keys(this.#coins).sort(function (a, b) {
       return b - a;
     });
@@ -96,9 +97,37 @@ class ChangeMangeController {
     }, 0);
   }
 
-  #vendingMachineChargeInput() {
+  #resetVendingMachineChargeInput() {
     this.#chargeInput.value = ``;
     this.#chargeInput.focus();
+  }
+
+  #validate(amount) {
+    this.#validateEmpty(amount);
+    this.#validateCoin(amount);
+  }
+
+  #validateEmpty(amount) {
+    const isEmpty = !amount;
+    if(isEmpty) {
+      alert('충전 금액을 입력해주세요');
+      this.#resetVendingMachineChargeInput();
+      throw Error('충전 금액을 입력해주세요');  
+    }
+  }
+
+  #validateCoin(amount) {    
+    if(amount < 100) {
+      alert('충전금액은 최소 100원부터 가능합니다');
+      this.#resetVendingMachineChargeInput();
+      throw Error('충전금액은 최소 100원부터 가능합니다');
+    };
+
+    if(amount % 10 !== 0) {
+      alert('10원으로 나누어 떨어지는 금액만 충전이 가능합니다');
+      this.#resetVendingMachineChargeInput();
+      throw Error('10원으로 나누어 떨어지는 금액만 충전이 가능합니다');
+    };
   }
 }
 
