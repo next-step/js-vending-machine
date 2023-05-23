@@ -9,20 +9,19 @@ class ProductManageController {
 
   constructor() {
     this.productManageView = new ProductManageView();
-    this.initAddEventListener();
-    this.#renderProductList();
+    this.#initAddEventListener();
   }
 
-  initAddEventListener() {
+  renderProductList() {
+    this.productManageView.render();
+    this.#renderTableWithProducts();
+  }
+
+  #initAddEventListener() {
     $(`#${SELECTOR.tabContentContainerId}`).addEventListener(
       'click',
       (e) => this.#onClickTabContent(e),
     );
-  }
-
-  #renderProductList() {
-    this.productManageView.render();
-    this.#renderTableWithProducts();
   }
 
   #renderTableWithProducts() {

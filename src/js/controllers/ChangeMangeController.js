@@ -15,26 +15,21 @@ class ChangeMangeController {
 
   constructor() {
     this.changeMangeView = new ChangeMangeView();
-
-    this.#renderVendingMachineCharge();
-    this.initAddEventListener();
-    this.#chargeInput = $(`#${SELECTOR.vendingMachineChargeInputId}`);
+    this.#initAddEventListener();
+    this.#chargeInput;
   }
 
-  initAddEventListener() {
-    $(`#${SELECTOR.tabContentContainerId}`).addEventListener('click', (e) =>
-      this.#onClickTabContent(e)
-    );
-    $(`#${SELECTOR.vendingMachineChargeInputId}`).addEventListener('keyup', (e) => {
-      if (e.key !== 'Enter') return;
-      this.#handleVendingMachineCharge();
-    });
-  }
-
-  #renderVendingMachineCharge() {
+  renderVendingMachineCharge() {
     this.changeMangeView.render();
     this.#renderVendingMachineChargeAmount();
     this.#renderTableWithCoins();
+    this.#chargeInput = $(`#${SELECTOR.vendingMachineChargeInputId}`);
+  }
+
+  #initAddEventListener() {
+    $(`#${SELECTOR.tabContentContainerId}`).addEventListener('click', (e) =>
+      this.#onClickTabContent(e)
+    );
   }
 
   #renderVendingMachineChargeAmount() {
