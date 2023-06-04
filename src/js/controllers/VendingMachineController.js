@@ -8,6 +8,7 @@ import { getStorageCurrentMenu, setStorageCurrentMenu } from '../utils/storage.j
 class VendingMachineController {
   constructor() {
     this.vendingMachineView = new VendingMachineView();
+    this.vendingMachineView.render();
     this.productManageController = new ProductManageController();
     this.changeManageController = new ChangeMangeController();
   }
