@@ -5,18 +5,11 @@ import ChangeMangeModel from '../models/ChangeManageModel.js';
 import { getStorageCoins, setStorageCoins } from '../utils/storage.js';
 
 class ChangeMangeController {
-  #coins = {
-    500: 0,
-    100: 0,
-    50: 0,
-    10: 0,
-  };
   #chargeInput;
 
   constructor() {
     this.changeMangeView = new ChangeMangeView();
     this.#initAddEventListener();
-    this.#chargeInput;
   }
 
   renderVendingMachineCharge() {
@@ -53,10 +46,10 @@ class ChangeMangeController {
   #handleVendingMachineCharge() {
     const amount = this.#getVendingMachineChargeInputData();
     this.#validate(amount);
-    this.#seperateCoins(amount);
-    const changeManageModel = new ChangeMangeModel(this.#coins);
 
-    this.#setConins(changeManageModel.charge);
+    const changeManageModel = new ChangeMangeModel(amount);
+    changeManageModel.setConins();
+
     this.#renderVendingMachineChargeAmount();
     this.#renderTableWithCoins();
     this.#resetVendingMachineChargeInput();
@@ -64,25 +57,6 @@ class ChangeMangeController {
 
   #getVendingMachineChargeInputData() {
     return Number(this.#chargeInput.value);
-  }
-
-  #setConins(charge) {
-    setStorageCoins(charge);
-  }
-
-  #seperateCoins(amount) {
-    const coinValues = Object.keys(this.#coins).sort(function (a, b) {
-      return b - a;
-    });
-
-    coinValues.forEach((coinValue) => {
-      let count = Math.floor(amount / coinValue);
-
-      if (count > 0) {
-        this.#coins[coinValue] += count;
-        amount -= coinValue * count;
-      }
-    });
   }
 
   #sumCoins(coins) {
