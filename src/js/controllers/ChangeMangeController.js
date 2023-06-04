@@ -98,31 +98,33 @@ class ChangeMangeController {
   }
 
   #validate(amount) {
-    this.#validateEmpty(amount);
-    this.#validateCoin(amount);
+    try {
+      this.#validateEmpty(amount);
+      this.#validateCoin(amount);
+    } catch (error) {
+      alert(error.message);
+      throw Error(error.message);
+    }
   }
 
   #validateEmpty(amount) {
     const isEmpty = !amount;
-    if(isEmpty) {
-      alert('충전 금액을 입력해주세요');
+    if (isEmpty) {
       this.#resetVendingMachineChargeInput();
-      throw Error('충전 금액을 입력해주세요');  
+      throw Error('충전 금액을 입력해주세요');
     }
   }
 
-  #validateCoin(amount) {    
-    if(amount < 100) {
-      alert('충전금액은 최소 100원부터 가능합니다');
+  #validateCoin(amount) {
+    if (amount < 100) {
       this.#resetVendingMachineChargeInput();
       throw Error('충전금액은 최소 100원부터 가능합니다');
-    };
+    }
 
-    if(amount % 10 !== 0) {
-      alert('10원으로 나누어 떨어지는 금액만 충전이 가능합니다');
+    if (amount % 10 !== 0) {
       this.#resetVendingMachineChargeInput();
       throw Error('10원으로 나누어 떨어지는 금액만 충전이 가능합니다');
-    };
+    }
   }
 }
 

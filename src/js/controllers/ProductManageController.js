@@ -89,40 +89,39 @@ class ProductManageController {
   }
 
   #validate(productInputData) {
-    this.#validateEmpty(productInputData);
-    this.#validateQuantity(productInputData);
-    this.#validatePrice(productInputData);
+    try {
+      this.#validateEmpty(productInputData);
+      this.#validateQuantity(productInputData);
+      this.#validatePrice(productInputData);
+    } catch (error) {
+      alert(error.message);
+      throw Error(error.message);
+    }
   }
 
   #validateEmpty(productInputData) {
     if (!productInputData.name) {
-      alert('상품명을 입력해주세요');
       throw Error('상품명을 입력해주세요');
     }
     if (!productInputData.price) {
-      alert('금액을 입력해주세요');
       throw Error('금액을 입력해주세요');
     }
     if (!productInputData.quantity) {
-      alert('수량을 입력해주세요');
       throw Error('수량을 입력해주세요');
     }
   }
 
   #validatePrice(productInputData) {
     if (productInputData.price < 100) {
-      alert('상품의 최소 가격은 100원입니다.');
       throw Error('상품의 최소 가격은 100원입니다.');
     }
     if (productInputData.price % 10 !== 0) {
-      alert('상품의 가격은 10의 배수만 단위만 가능합니다.');
       throw Error('상품의 가격은 10의 배수만 단위만 가능합니다.');
     }
   }
 
   #validateQuantity(productInputData) {
     if (productInputData.quantity < 1) {
-      alert('상품의 최소 수량은 1개 이상입니다.');
       throw Error('상품의 최소 수량은 1개 이상입니다.');
     }
   }
