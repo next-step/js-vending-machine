@@ -4,6 +4,11 @@ class VendingMachine {
   constructor() {
     this.vendingMachineController = new VendingMachineController();
   }
+
+  run() {
+    this.vendingMachineController.run();
+  }
 }
 
-new VendingMachine();
+const vendingMachine = new VendingMachine();
+vendingMachine.run();
