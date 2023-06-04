@@ -1,1 +1,1 @@
-export const $ = (ele) => document.querySelector(ele);
+export const $ = (selector) => document.querySelector(selector);
