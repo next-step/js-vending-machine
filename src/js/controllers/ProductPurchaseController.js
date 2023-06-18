@@ -1,7 +1,12 @@
 import ProductPurchaseView from '../views/ProductPurchaseView.js';
 import { $ } from '../utils/dom.js';
 import SELECTOR from '../constants/selector.js';
-import { getStorageInsertCoin, getStorageProducts } from '../utils/storage.js';
+import {
+  getStorageInsertCoin,
+  getStorageProducts,
+  setStorageInsertCoin,
+  setStorageProducts,
+} from '../utils/storage.js';
 import ProductPurchaseModel from '../models/ProductPurchaseModel.js';
 
 class ProductPurchaseController {
@@ -13,11 +18,10 @@ class ProductPurchaseController {
 
   renderProductPurchase() {
     const purchaseAvailableProducts = getStorageProducts();
+    const insertedCoin = getStorageInsertCoin();
 
     this.productPurchaseView.render();
-    this.productPurchaseView.renderPurchaseProductInputAmount(
-      getStorageInsertCoin()
-    );
+    this.productPurchaseView.renderPurchaseProductInputAmount(insertedCoin);
     this.productPurchaseView.renderPurchaseProductList(purchaseAvailableProducts);
     this.chargeInputElement = $(`#${SELECTOR.chargeInputId}`);
   }
@@ -29,15 +33,16 @@ class ProductPurchaseController {
   }
 
   #onClickTabContent(e) {
-    const { id } = e.target;
+    const { id, className } = e.target;
     if (id === SELECTOR.chargeButtonId) this.#handleCoinInsertion();
-    if (id === SELECTOR.purchaseButtonClass) this.#purchaseProduct();
+    if (className === SELECTOR.purchaseButtonClass)
+      this.#handleProductPurchase(e.target);
     if (id === SELECTOR.coinReturnButtonId) this.#handleCoinReturn();
   }
 
   #handleCoinInsertion() {
     const coin = this.#getInsertedCoin();
-    this.#validate(coin);
+    this.#validateCoin(coin);
 
     const productPurchaseModel = new ProductPurchaseModel(coin);
     productPurchaseModel.setCoinInsertion();
@@ -60,7 +65,7 @@ class ProductPurchaseController {
     this.chargeInputElement.focus();
   }
 
-  #validate(coin) {
+  #validateCoin(coin) {
     try {
       this.#validationInsertedCoin(coin);
     } catch (error) {
@@ -76,12 +81,56 @@ class ProductPurchaseController {
     }
   }
 
-  #purchaseProduct() {
-    console.log('상품구매');
-    // 충전금액을 바탕으로 상품 구매 가능
-    // - 상품 금액만큼 충전금액에서 차감, 상품 수량도 차감
-    // - 수량이 0인 상품은 구매 불가
-    // - 상품가격이 보유금액보다 높으면 구매 불가
+  #handleProductPurchase(target) {
+    this.#validateAvailablePurchase(target);
+    this.#purchaseProduct(target);
+    this.renderProductPurchase();
+  }
+
+  #validateAvailablePurchase(target) {
+    const product = target.parentElement.parentElement;
+    const price = Number(product.children[1].innerText);
+    const quantity = Number(product.children[2].innerText);
+
+    try {
+      this.#validateQuantity(quantity);
+      this.#validatePrice(price);
+    } catch (error) {
+      alert(error.message);
+      throw Error(error.message);
+    }
+  }
+
+  #validateQuantity(quantity) {
+    if (quantity <= 0) {
+      throw Error('수량이 부족하여 구매할 수 없습니다.');
+    }
+  }
+
+  #validatePrice(price) {
+    const insertedCoin = Number(getStorageInsertCoin());
+    if (price > insertedCoin) {
+      throw Error('금액이 부족합니다.');
+    }
+  }
+
+  #purchaseProduct(target) {
+    let products = getStorageProducts();
+    let insertedCoin = Number(getStorageInsertCoin());
+    const product = target.parentElement.parentElement;
+    const name = product.children[0].innerText;
+
+    products
+      .filter((it) => it.name == name)
+      .map((it) => {
+        it.quantity -= 1;
+        insertedCoin -= Number(it.price);
+
+        return it;
+      });
+
+    setStorageProducts([...products]);
+    setStorageInsertCoin(insertedCoin);
   }
 
   #handleCoinReturn() {
