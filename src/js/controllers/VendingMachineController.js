@@ -4,6 +4,7 @@ import ChangeMangeController from './ChangeMangeController.js';
 import SELECTOR from '../constants/selector.js';
 import { $ } from '../utils/dom.js';
 import { getStorageCurrentMenu, setStorageCurrentMenu } from '../utils/storage.js';
+import ProductPurchaseController from './ProductPurchaseController.js';
 
 class VendingMachineController {
   constructor() {
@@ -11,6 +12,7 @@ class VendingMachineController {
     this.vendingMachineView.render();
     this.productManageController = new ProductManageController();
     this.changeManageController = new ChangeMangeController();
+    this.productPurchaseController = new ProductPurchaseController();
   }
 
   run() {
@@ -33,6 +35,9 @@ class VendingMachineController {
     if (currentMenu === SELECTOR.vendingMachineManageMenuId) {
       this.changeManageController.renderVendingMachineCharge();
     }
+    if (currentMenu === SELECTOR.productPurchaseMenuId) {
+      this.productPurchaseController.renderProductPurchase();
+    }
   }
 
   #onClickTab(e) {
@@ -45,6 +50,10 @@ class VendingMachineController {
     if (id === SELECTOR.vendingMachineManageMenuId) {
       this.#setCurrentMenu(SELECTOR.vendingMachineManageMenuId);
       this.changeManageController.renderVendingMachineCharge();
+    }
+    if (id === SELECTOR.productPurchaseMenuId) {
+      this.#setCurrentMenu(SELECTOR.productPurchaseMenuId);
+      this.productPurchaseController.renderProductPurchase();
     }
   }
 
