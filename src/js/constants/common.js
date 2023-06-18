@@ -4,7 +4,7 @@ export const TITLE = {
   MAIN: '🥤자판기🥤',
   PRODUCT_MANAGE: {
     ADD: '상품 추가하기',
-    STATUS: '상품현황'
+    STATUS: '상품현황',
   },
   VENDING_MACHINE_MANAGE: {
     CHARGE: '자판기 동전 충전하기',
@@ -15,7 +15,7 @@ export const TITLE = {
     STATUS: '구매할 수 있는 상품 현황',
     CHANGES: '잔돈',
   },
-}
+};
 export const PRODUCT_MANAGE_MENU = '상품 관리';
 export const VENDING_MACHINE_MANAGE_MENU = '잔돈 충전';
 export const PRODUCT_PURCHASE_MENU = '상품 구매';
@@ -67,3 +67,13 @@ export const CHANGE_INPUT_PROPERTIES = [
 ];
 
 export const VENDING_MACHINE_TABLE_LABEL = ['동전', '개수'];
+
+export const CHARGE_AMOUNT_BUTTON_NAME = '투입하기';
+
+export const PURCHASE_PRODUCT_TABLE_TH = ['상품명', '가격', '수량', '구매'];
+
+export const CASHBOX_CHANGE_TH = ['동전', '개수'];
+
+export const COIN_RETURN_BUTTON_NAME = '반환하기';
+
+export const PURCHASE_BUTTON_NAME = '구매하기';
