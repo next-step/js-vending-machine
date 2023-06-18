@@ -6,7 +6,7 @@ export default Object.freeze({
   // 탭 메뉴 버튼
   tabButtonContainerId: 'tab-button-container',
   productManageMenuId: 'product-manage-menu', // 상품관리
-  vendingMachineManageMenuId: 'vending-machine-manage-menu',// 잔동충전
+  vendingMachineManageMenuId: 'vending-machine-manage-menu', // 잔동충전
   productPurchaseMenuId: 'product-purchase-menu', // 상품구매
 
   // 상품 관리(추가) 메뉴
@@ -35,6 +35,7 @@ export default Object.freeze({
   vendingMachineCoinTableBody: 'vending-machine-coin-table-body',
 
   // 상품 구매 메뉴
+  purchaseContainer: 'purchase-container',
   chargeInputId: 'charge-input',
   chargeButtonId: 'charge-button',
   chargeAmountId: 'charge-amount',
@@ -43,14 +44,16 @@ export default Object.freeze({
   coin100QuantityId: 'coin-100-quantity',
   coin50QuantityId: 'coin-50-quantity',
   coin10QuantityId: 'coin-10-quantity',
+  purchaseProductTableBodyId: 'purchase-product-table-body',
+  returnCoinTableBodyId: 'return-coin-table-body',
   productPurchaseItemClass: 'product-purchase-item',
   purchaseButtonClass: 'purchase-button',
+  purchaseAvailable: 'purchase-available',
   productPurchaseNameClass: 'product-purchase-name',
   productPurchasePriceClass: 'product-purchase-price',
   productPurchaseQuantityClass: 'product-purchase-quantity',
   productNameDataset: 'data-product-name',
   productPriceDataset: 'data-product-price',
   productQuantityDataset: 'data-product-quantity',
-  purchaseProductTableBodyId: 'purchase-product-table-body',
-  returnCoinTableBodyId: 'return-coin-table-body',
+  cashboxChange: 'cashbox-change',
 });
