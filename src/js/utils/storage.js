@@ -30,6 +30,14 @@ function setStorageInsertCoin(value) {
   localStorage.setItem('insertedCoin', JSON.stringify(value));
 }
 
+function getStorageChanges() {
+  return JSON.parse(localStorage.getItem('changes')) || {};
+}
+
+function setStorageChanges(value) {
+  localStorage.setItem('changes', JSON.stringify(value));
+}
+
 export {
   getStorageProducts,
   setStorageProducts,
@@ -39,4 +47,6 @@ export {
   setStorageCurrentMenu,
   getStorageInsertCoin,
   setStorageInsertCoin,
+  getStorageChanges,
+  setStorageChanges
 };
