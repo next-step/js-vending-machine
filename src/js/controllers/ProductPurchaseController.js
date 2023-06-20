@@ -2,28 +2,44 @@ import ProductPurchaseView from '../views/ProductPurchaseView.js';
 import { $ } from '../utils/dom.js';
 import SELECTOR from '../constants/selector.js';
 import {
+  getStorageChanges,
+  getStorageCoins,
   getStorageInsertCoin,
   getStorageProducts,
+  setStorageChanges,
+  setStorageCoins,
   setStorageInsertCoin,
   setStorageProducts,
 } from '../utils/storage.js';
 import ProductPurchaseModel from '../models/ProductPurchaseModel.js';
 
 class ProductPurchaseController {
+  #returnCoin = {
+    '500': 0,
+    '100': 0,
+    '50': 0,
+    '10': 0,
+  };
+  #productPurchaseModel;
+  #chargeInputElement
+  
   constructor() {
     this.productPurchaseView = new ProductPurchaseView();
+    this.#productPurchaseModel = new ProductPurchaseModel();
     this.#initAddEventListener();
-    this.chargeInputElement;
   }
 
   renderProductPurchase() {
     const purchaseAvailableProducts = getStorageProducts();
-    const insertedCoin = getStorageInsertCoin();
+    const insertedCoin = this.#productPurchaseModel.getCoin();
+    const returnChanges = getStorageChanges();
 
     this.productPurchaseView.render();
     this.productPurchaseView.renderPurchaseProductInputAmount(insertedCoin);
     this.productPurchaseView.renderPurchaseProductList(purchaseAvailableProducts);
-    this.chargeInputElement = $(`#${SELECTOR.chargeInputId}`);
+    this.productPurchaseView.renderCoinsReturned(returnChanges);
+
+    this.#chargeInputElement = $(`#${SELECTOR.chargeInputId}`);
   }
 
   #initAddEventListener() {
@@ -41,41 +57,40 @@ class ProductPurchaseController {
   }
 
   #handleCoinInsertion() {
-    const coin = this.#getInsertedCoin();
-    this.#validateCoin(coin);
+    const insertedCoin = this.#getInsertedCoin();
+    this.#validateCoin(insertedCoin);
 
-    const productPurchaseModel = new ProductPurchaseModel(coin);
-    productPurchaseModel.setCoinInsertion();
+    this.#productPurchaseModel.setCoin(insertedCoin);
 
     this.#renderInsertedCoin();
     this.#resetInsertCoinInputBox();
   }
 
   #getInsertedCoin() {
-    const amount = this.chargeInputElement.value;
+    const amount = this.#chargeInputElement.value;
     return amount;
   }
 
-  #renderInsertedCoin(coin) {
-    $(`#${SELECTOR.chargeAmountId}`).innerText = getStorageInsertCoin();
+  #renderInsertedCoin() {
+    $(`#${SELECTOR.chargeAmountId}`).innerText = this.#productPurchaseModel.getCoin();
   }
 
   #resetInsertCoinInputBox() {
-    this.chargeInputElement.value = ``;
-    this.chargeInputElement.focus();
+    this.#chargeInputElement.value = ``;
+    this.#chargeInputElement.focus();
   }
 
-  #validateCoin(coin) {
+  #validateCoin(insertedCoin) {
     try {
-      this.#validationInsertedCoin(coin);
+      this.#validationInsertedCoin(insertedCoin);
     } catch (error) {
       alert(error.message);
       throw Error(error.message);
     }
   }
 
-  #validationInsertedCoin(coin) {
-    if (Number(coin) < 10) {
+  #validationInsertedCoin(insertedCoin) {
+    if (Number(insertedCoin) < 10) {
       this.#resetInsertCoinInputBox();
       throw Error('최소 충전 금액은 10원입니다.');
     }
@@ -116,7 +131,7 @@ class ProductPurchaseController {
 
   #purchaseProduct(target) {
     let products = getStorageProducts();
-    let insertedCoin = Number(getStorageInsertCoin());
+    let insertedCoin = this.#productPurchaseModel.getCoin();
     const product = target.parentElement.parentElement;
     const name = product.children[0].innerText;
 
@@ -130,11 +145,34 @@ class ProductPurchaseController {
       });
 
     setStorageProducts([...products]);
-    setStorageInsertCoin(insertedCoin);
+    this.#productPurchaseModel.setCoin(insertedCoin);
   }
 
   #handleCoinReturn() {
-    console.log('잔돈반환');
+    const vedingMachineCoin = getStorageCoins();
+    let insertedCoin = this.#productPurchaseModel.getCoin();
+
+    this.#returnChanges(vedingMachineCoin, insertedCoin);
+    setStorageChanges(this.#returnCoin);
+    this.productPurchaseView.renderCoinsReturned(this.#returnCoin);
+  }
+
+  #returnChanges(vedingMachineCoin, insertedCoin) {
+    const coinKeys = Object.keys(vedingMachineCoin).sort((a, b) => b - a);
+
+    coinKeys.forEach((key) => {
+      let count = Math.floor(insertedCoin / key);
+
+      if (count > 0) {
+        vedingMachineCoin[key] -= count;
+        this.#returnCoin[key] += count;
+        insertedCoin -= key * count;
+      }
+    });
+
+    this.productPurchaseView.renderPurchaseProductInputAmount(insertedCoin);
+    this.#productPurchaseModel.setCoin(insertedCoin);
+    setStorageCoins(vedingMachineCoin);
   }
 }
 
