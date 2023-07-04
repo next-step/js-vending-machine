@@ -4,6 +4,7 @@ import {
   purchaseProductItem,
   inputAmountTemplate,
   purchaseProductTabelTemplate,
+  returnCoinTableTemplate,
 } from '../templates/productPurchaseMenuTemplate.js';
 import { $ } from '../utils/dom.js';
 
@@ -23,9 +24,8 @@ class ProductPurchaseView {
   }
 
   renderCoinsReturned(coins) {
-    Object.entries(coins).map(([key, value]) => {
-      $(`#coin-${key}-quantity`).innerText = `${value || 0}개`;
-    });
+    $(`#${SELECTOR.returnCoinTableBodyId}`).innerHTML =
+      returnCoinTableTemplate(coins);
   }
 }
 

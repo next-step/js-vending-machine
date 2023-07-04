@@ -78,3 +78,17 @@ export const purchaseProductItem = (products) => `
     )
     .join('')}
 `;
+
+export const returnCoinTableTemplate = (coins) => `
+  ${Object.entries(coins)
+    .sort((a, b) => b[0] - a[0])
+    .map(
+      ([key, value]) => `
+      <tr>
+        <td>${key}</td>
+        <td>${value}</td>
+      </tr>
+    `
+    )
+    .join('')}
+`;
