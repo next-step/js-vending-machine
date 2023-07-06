@@ -1,25 +1,17 @@
 import { getStorageInsertCoin, setStorageInsertCoin } from '../utils/storage.js';
 
 class ProductPurchaseModel {
-  #coin = 0;
-  #storageData;
-
-  constructor() {
-    this.#storageData = Number(getStorageInsertCoin());
-  }
-
   setCoin(value) {
-    this.#coin = Number(value);
     this.#handleCoinInsertion(Number(value));
   }
 
   getCoin() {
     return getStorageInsertCoin();
   }
-  
+
   #handleCoinInsertion(value) {
-    if (!!this.#storageData) {
-      this.#updateCoin();
+    if (!!this.getCoin()) {
+      this.#updateCoin(value);
     } else {
       this.#saveCoin(value);
     }
@@ -29,13 +21,13 @@ class ProductPurchaseModel {
     setStorageInsertCoin(value);
   }
 
-  #updateCoin() {
-    const coin = this.#sumCoins();
+  #updateCoin(value) {
+    const coin = this.#sumCoins(value);
     setStorageInsertCoin(coin);
   }
 
-  #sumCoins() {
-    return this.#coin + this.#storageData;
+  #sumCoins(value) {
+    return value + this.getCoin();
   }
 }
 
