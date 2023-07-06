@@ -15,17 +15,22 @@ import ProductPurchaseModel from '../models/ProductPurchaseModel.js';
 
 class ProductPurchaseController {
   #returnCoin = {
-    '500': 0,
-    '100': 0,
-    '50': 0,
-    '10': 0,
+    500: 0,
+    100: 0,
+    50: 0,
+    10: 0,
   };
   #productPurchaseModel;
-  #chargeInputElement
-  
+  #chargeInputElement;
+
   constructor() {
     this.productPurchaseView = new ProductPurchaseView();
-    this.#productPurchaseModel = new ProductPurchaseModel();
+
+    const coinStorage = {
+      getCoin: () => Number(getStorageInsertCoin()),
+      insertCoin: (coin) => setStorageInsertCoin(coin),
+    };
+    this.#productPurchaseModel = new ProductPurchaseModel(coinStorage);
     this.#initAddEventListener();
   }
 
@@ -72,7 +77,8 @@ class ProductPurchaseController {
   }
 
   #renderInsertedCoin() {
-    $(`#${SELECTOR.chargeAmountId}`).innerText = this.#productPurchaseModel.getCoin();
+    $(`#${SELECTOR.chargeAmountId}`).innerText =
+      this.#productPurchaseModel.getCoin();
   }
 
   #resetInsertCoinInputBox() {
