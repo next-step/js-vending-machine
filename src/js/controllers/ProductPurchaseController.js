@@ -62,13 +62,18 @@ class ProductPurchaseController {
   }
 
   #handleCoinInsertion() {
-    const insertedCoin = this.#getInsertedCoin();
-    this.#validateCoin(insertedCoin);
+    try {
+      const insertedCoin = this.#getInsertedCoin();
+      this.#validationInsertedCoin(insertedCoin);
 
-    this.#productPurchaseModel.setCoin(insertedCoin);
+      this.#productPurchaseModel.setCoin(insertedCoin);
 
-    this.#renderInsertedCoin();
-    this.#resetInsertCoinInputBox();
+      this.#renderInsertedCoin();
+      this.#resetInsertCoinInputBox();
+    } catch (error) {
+      alert(error.message);
+      throw Error(error.message);
+    }
   }
 
   #getInsertedCoin() {
@@ -84,15 +89,6 @@ class ProductPurchaseController {
   #resetInsertCoinInputBox() {
     this.#chargeInputElement.value = ``;
     this.#chargeInputElement.focus();
-  }
-
-  #validateCoin(insertedCoin) {
-    try {
-      this.#validationInsertedCoin(insertedCoin);
-    } catch (error) {
-      alert(error.message);
-      throw Error(error.message);
-    }
   }
 
   #validationInsertedCoin(insertedCoin) {
