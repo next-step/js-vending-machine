@@ -7,11 +7,11 @@ function setStorageProducts(value) {
 }
 
 function getStorageCoins() {
-  return JSON.parse(localStorage.getItem('coins')) || {};
+  return JSON.parse(localStorage.getItem('vendingMachineCoin')) || {};
 }
 
 function setStorageCoins(value) {
-  localStorage.setItem('coins', JSON.stringify(value));
+  localStorage.setItem('vendingMachineCoin', JSON.stringify(value));
 }
 
 function getStorageCurrentMenu() {
@@ -22,4 +22,31 @@ function setStorageCurrentMenu(value) {
   localStorage.setItem('currentMenu', JSON.stringify(value));
 }
 
-export { getStorageProducts, setStorageProducts, getStorageCoins, setStorageCoins, getStorageCurrentMenu, setStorageCurrentMenu };
+function getStorageInsertCoin() {
+  return JSON.parse(localStorage.getItem('insertedCoin')) || 0;
+}
+
+function setStorageInsertCoin(value) {
+  localStorage.setItem('insertedCoin', JSON.stringify(value));
+}
+
+function getStorageChanges() {
+  return JSON.parse(localStorage.getItem('changes')) || {};
+}
+
+function setStorageChanges(value) {
+  localStorage.setItem('changes', JSON.stringify(value));
+}
+
+export {
+  getStorageProducts,
+  setStorageProducts,
+  getStorageCoins,
+  setStorageCoins,
+  getStorageCurrentMenu,
+  setStorageCurrentMenu,
+  getStorageInsertCoin,
+  setStorageInsertCoin,
+  getStorageChanges,
+  setStorageChanges
+};
